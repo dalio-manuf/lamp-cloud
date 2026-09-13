@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="top.tangyh.lamp.datascope.mapper.DataScopeMapper">
+<mapper namespace="com.dalio.cloud.datascope.mapper.DataScopeMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="DataScopeResultMap" type="top.tangyh.lamp.datascope.entity.DefResourceDataScope">
+    <resultMap id="DataScopeResultMap" type="com.dalio.cloud.datascope.entity.DefResourceDataScope">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
         <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
@@ -18,7 +18,7 @@
     </resultMap>
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="OrgResultMap" type="top.tangyh.lamp.datascope.entity.BaseOrgBO">
+    <resultMap id="OrgResultMap" type="com.dalio.cloud.datascope.entity.BaseOrgBO">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
         <result column="created_by" jdbcType="BIGINT" property="createdBy"/>

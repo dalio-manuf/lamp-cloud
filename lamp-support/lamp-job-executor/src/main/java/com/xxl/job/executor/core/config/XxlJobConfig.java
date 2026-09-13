@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import top.tangyh.basic.boot.config.BaseConfig;
+import com.dalio.basic.boot.config.BaseConfig;
 
 /**
  * xxl-job config

@@ -3,7 +3,7 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>top.tangyh.lamp</groupId>
+        <groupId>com.dalio.cloud</groupId>
         <artifactId>lamp-public</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
@@ -13,7 +13,7 @@
     <artifactId>lamp-model</artifactId>
     <dependencies>
         <dependency>
-            <groupId>top.tangyh.basic</groupId>
+            <groupId>com.dalio.basic</groupId>
             <artifactId>lamp-core</artifactId>
         </dependency>
         <dependency>
@@ -27,7 +27,7 @@
             <resource>
                 <directory>src/main/java</directory>
                 <includes>
-                    <include>top/tangyh/lamp/model/constant/*.java</include>
+                    <include>com/dalio/cloud/model/constant/*.java</include>
                 </includes>
                 <filtering>true</filtering>
             </resource>

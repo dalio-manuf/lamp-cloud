@@ -1,11 +1,11 @@
 lamp:
   generator:
-    outputDir: /Users/tangyh/github/lamp-cloud
-    frontOutputDir: /Users/tangyh/github/lamp-web
-    frontSoyOutputDir: /Users/tangyh/github/lamp-web-pro-soybean
-    frontVben5OutputDir: /Users/tangyh/github/lamp-web-vben-max/apps/web-antd
+    outputDir: /data/projects/lamp-cloud
+    frontOutputDir: /data/projects/lamp-web
+    frontSoyOutputDir: /data/projects/lamp-web-pro-soybean
+    frontVben5OutputDir: /data/projects/lamp-web-vben-max/apps/web-antd
     # 作者
-    author: zuihou
+    author: admin
     # 默认项目
     projectType: BOOT
 

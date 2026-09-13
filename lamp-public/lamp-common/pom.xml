@@ -3,7 +3,7 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>top.tangyh.lamp</groupId>
+        <groupId>com.dalio.cloud</groupId>
         <artifactId>lamp-public</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
@@ -16,11 +16,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>top.tangyh.basic</groupId>
+            <groupId>com.dalio.basic</groupId>
             <artifactId>lamp-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>top.tangyh.basic</groupId>
+            <groupId>com.dalio.basic</groupId>
             <artifactId>lamp-webmvc</artifactId>
         </dependency>
 
@@ -29,7 +29,7 @@
             <artifactId>jakarta.annotation-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-model</artifactId>
             <version>${revision}</version>
         </dependency>

@@ -3,7 +3,7 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>top.tangyh.lamp</groupId>
+        <groupId>com.dalio.cloud</groupId>
         <artifactId>lamp-dependencies-parent</artifactId>
         <version>${revision}</version>
         <relativePath>../lamp-dependencies-parent/pom.xml</relativePath>
@@ -17,7 +17,7 @@
 
     <modules>
         <module>lamp-gateway-biz</module>
-        <!-- 基于 spring-cloud-starter-gateway 的网关，主要是解决《灯灯》【后台】接口请求和URI鉴权 -->
+        <!-- 基于 spring-cloud-starter-gateway 的网关，主要是解决微服务【后台】接口请求和URI鉴权 -->
         <module>lamp-gateway-server</module>
     </modules>
 </project>

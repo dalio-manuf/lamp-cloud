@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="top.tangyh.lamp.base.mapper.user.BaseEmployeeMapper">
+<mapper namespace="com.dalio.cloud.base.mapper.user.BaseEmployeeMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="ResultVOResultMap" type="top.tangyh.lamp.base.vo.result.user.BaseEmployeeResultVO"
-               extends="top.tangyh.lamp.base.mapper.user.BaseEmployeeMapper.BaseResultMap">
+    <resultMap id="ResultVOResultMap" type="com.dalio.cloud.base.vo.result.user.BaseEmployeeResultVO"
+               extends="com.dalio.cloud.base.mapper.user.BaseEmployeeMapper.BaseResultMap">
 
 
         <collection property="orgIdList"
-                    select="top.tangyh.lamp.base.mapper.user.BaseEmployeeOrgRelMapper.selectOrgByEmployeeId"
+                    select="com.dalio.cloud.base.mapper.user.BaseEmployeeOrgRelMapper.selectOrgByEmployeeId"
                     ofType="long"
                     column="{employeeId=id}"/>
     </resultMap>
@@ -59,7 +59,7 @@
         SELECT
         <include refid="Uar_Column_List"/>
         FROM base_employee utr
-        where utr.user_id = ${userId}
+        where utr.user_id = #{userId}
         order by utr.state desc, utr.is_default desc
     </select>
 </mapper>

@@ -2,6 +2,7 @@
 logs
 #*.gitignore
 rebel.xml
+.flattened-pom.xml
 target/
 !.mvn/wrapper/maven-wrapper.jar
 log.path_IS_UNDEFINED
@@ -38,4 +39,4 @@ third-party/nacos/derby.log
 third-party/nacos/data/
 third-party/nacos/work/
 
-01-docs/分享/
+doc/分享/

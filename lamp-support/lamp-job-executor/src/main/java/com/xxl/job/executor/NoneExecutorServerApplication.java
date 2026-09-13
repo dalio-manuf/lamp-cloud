@@ -3,10 +3,10 @@ package com.xxl.job.executor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import top.tangyh.basic.validator.annotation.EnableFormValidator;
+import com.dalio.basic.validator.annotation.EnableFormValidator;
 
-import static top.tangyh.lamp.common.constant.BizConstant.BUSINESS_PACKAGE;
-import static top.tangyh.lamp.common.constant.BizConstant.UTIL_PACKAGE;
+import static com.dalio.cloud.common.constant.BizConstant.BUSINESS_PACKAGE;
+import static com.dalio.cloud.common.constant.BizConstant.UTIL_PACKAGE;
 
 /**
  * @author xuxueli 2018-10-28 00:38:13

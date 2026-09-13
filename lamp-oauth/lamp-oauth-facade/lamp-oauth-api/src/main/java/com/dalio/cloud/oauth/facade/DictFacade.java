@@ -1,0 +1,26 @@
+package com.dalio.cloud.oauth.facade;
+
+import com.dalio.basic.interfaces.echo.LoadService;
+
+import java.io.Serializable;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * 数据字典回显
+ *
+ * @author admin
+ * @date 2019/07/26
+ */
+public interface DictFacade extends LoadService {
+
+    /**
+     * 根据id查询实体
+     *
+     * @param ids 唯一键（可能不是主键ID)
+     * @return
+     */
+    @Override
+    Map<Serializable, Object> findByIds(Set<Serializable> ids);
+
+}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="top.tangyh.lamp.system.mapper.application.DefApplicationMapper">
+<mapper namespace="com.dalio.cloud.system.mapper.application.DefApplicationMapper">
     <sql id="A_Column_List">
         a
         .
@@ -10,7 +10,7 @@
     </sql>
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="ResultVOMap" type="top.tangyh.lamp.system.vo.result.application.DefApplicationResultVO"
+    <resultMap id="ResultVOMap" type="com.dalio.cloud.system.vo.result.application.DefApplicationResultVO"
                extends="BaseResultMap">
         <result column="expiration_time" jdbcType="TIMESTAMP" property="expirationTime"/>
     </resultMap>

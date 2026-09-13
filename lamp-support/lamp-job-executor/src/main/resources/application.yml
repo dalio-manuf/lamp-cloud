@@ -60,14 +60,14 @@ lamp:
     enabled: false
     requestBodyEnabled: false
   swagger:
-    license: Powered By zuihou
-    licenseUrl: https://github.com/zuihou
-    termsOfServiceUrl: https://github.com/zuihou
+    license: Apache 2.0
+    licenseUrl: ''
+    termsOfServiceUrl: ''
     version: @project.version@
     contact: # 联系人信息
-      url: https://github.com/zuihou
-      name: zuiou
-      email: 306479353@qq.com
+      url: ''
+      name: admin
+      email: admin@example.com
     global-operation-parameters: # 全局参数
       - name: Token
         description: 用户信息
@@ -212,8 +212,8 @@ mybatis-plus:
   mapper-locations:
     - classpath*:mapper_**/**/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: top.tangyh.lamp.*.entity;top.tangyh.basic.database.mybatis.typehandler
-  typeEnumsPackage: top.tangyh.lamp.*.enumeration
+  typeAliasesPackage: com.dalio.cloud.*.entity;com.dalio.basic.database.mybatis.typehandler
+  typeEnumsPackage: com.dalio.cloud.*.enumeration
   global-config:
     db-config:
       id-type: INPUT
@@ -227,16 +227,7 @@ mybatis-plus:
     #配置JdbcTypeForNull, oracle数据库必须配置
     jdbc-type-for-null: 'null'
 
-# knife4j 文档通用配置 详情看: Knife4jProperties
-knife4j:
-  enable: true
-  setting:
-    enableReloadCacheParameter: true
-    enableVersion: true
-    enableDynamicParameter: true
-    enableFooter: false
-    enableFooterCustom: true
-    footerCustomContent: Apache License 2.0 | Copyright  2020 [lamp-cloud](https://github.com/zuihou)
+
 
 
 
@@ -252,7 +243,8 @@ logging:
     com.alibaba.nacos.common.remote.client: error
     com.ulisesbocchio: error
     # 开发、调试需要的日志
-    top.tangyh: info
+    com.dalio.basic: info
+    com.dalio.cloud: info
     org.springframework: info
   pattern:
     dateformat: yyyy-MM-dd HH:mm:ss.SSS

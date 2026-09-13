@@ -3,7 +3,7 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>top.tangyh.lamp</groupId>
+        <groupId>com.dalio.cloud</groupId>
         <artifactId>lamp-dependencies-parent</artifactId>
         <version>${revision}</version>
         <relativePath>./lamp-dependencies-parent/pom.xml</relativePath>
@@ -15,13 +15,6 @@
 
     <name>${project.artifactId}</name>
     <description>lamp-none</description>
-    <url>https://github.com/dromara/lamp-cloud</url>
-    <developers>
-        <developer>
-            <name>zuihou</name>
-            <email>306479353@qq.com</email>
-        </developer>
-    </developers>
 
     <modules>
         <!-- @lamp.generator auto insert root.pom.xml -->

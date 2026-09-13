@@ -1,11 +1,11 @@
 lamp:
   generator:
-    outputDir: /Users/tangyh/gitlab/lamp-cloud
-    frontOutputDir: /Users/tangyh/gitlab/lamp-web
-    frontSoyOutputDir: /Users/tangyh/gitlab/lamp-web-pro-soybean
-    frontVben5OutputDir: /Users/tangyh/gitlab/lamp-web-vben-max/apps/web-antd
+    outputDir: /data/projects/lamp-cloud
+    frontOutputDir: /data/projects/lamp-web
+    frontSoyOutputDir: /data/projects/lamp-web-pro-soybean
+    frontVben5OutputDir: /data/projects/lamp-web-vben-max/apps/web-antd
     # 作者
-    author: zuihou
+    author: admin
     # 默认项目
     projectType: CLOUD
     #  # 去除表前缀
@@ -24,8 +24,8 @@ lamp:
     genType: GEN
     packageInfoConfig: # 其他配置建议保持PackageInfoConfig中的默认值
       # 生成代码位于 src/main/java 下的基础包
-      parent: 'top.tangyh.lamp'
-      utilParent: 'top.tangyh.basic'
+      parent: 'com.dalio.cloud'
+      utilParent: 'com.dalio.basic'
     entity-config:
       # 时间类型对应策略  ONLY_DATE: java.util  SQL_PACK:java.sql  TIME_PACK: java.time
       dateType: TIME_PACK
@@ -91,21 +91,21 @@ lamp:
     constantsPackage:
       # 业务服务 后台手动改动过的枚举
       FieldFill: com.baomidou.mybatisplus.annotation.FieldFill
-      SuperClassEnum: top.tangyh.lamp.generator.enumeration.SuperClassEnum
-      EntitySuperClassEnum: top.tangyh.lamp.generator.enumeration.EntitySuperClassEnum
+      SuperClassEnum: com.dalio.cloud.generator.enumeration.SuperClassEnum
+      EntitySuperClassEnum: com.dalio.cloud.generator.enumeration.EntitySuperClassEnum
       # common 常量
-      EchoDictType: top.tangyh.lamp.model.constant.EchoDictType
-      EchoApi: top.tangyh.lamp.model.constant.EchoApi
+      EchoDictType: com.dalio.cloud.model.constant.EchoDictType
+      EchoApi: com.dalio.cloud.model.constant.EchoApi
       # common 公共枚举
-      HttpMethod: top.tangyh.lamp.model.enumeration.HttpMethod
-      BooleanEnum: top.tangyh.lamp.model.enumeration.BooleanEnum
-      StateEnum: top.tangyh.lamp.model.enumeration.StateEnum
-      UserStatusEnum: top.tangyh.lamp.model.enumeration.base.UserStatusEnum
-      RoleCategoryEnum: top.tangyh.lamp.model.enumeration.base.RoleCategoryEnum
-      ActiveStatusEnum: top.tangyh.lamp.model.enumeration.base.ActiveStatusEnum
-      OrgTypeEnum: top.tangyh.lamp.model.enumeration.base.OrgTypeEnum
-      FileType: top.tangyh.lamp.model.enumeration.base.FileType
-      DateType: top.tangyh.lamp.model.enumeration.base.DateType
-      DictClassifyEnum: top.tangyh.lamp.model.enumeration.system.DictClassifyEnum
-      DataTypeEnum: top.tangyh.lamp.model.enumeration.system.DataTypeEnum
+      HttpMethod: com.dalio.cloud.model.enumeration.HttpMethod
+      BooleanEnum: com.dalio.cloud.model.enumeration.BooleanEnum
+      StateEnum: com.dalio.cloud.model.enumeration.StateEnum
+      UserStatusEnum: com.dalio.cloud.model.enumeration.base.UserStatusEnum
+      RoleCategoryEnum: com.dalio.cloud.model.enumeration.base.RoleCategoryEnum
+      ActiveStatusEnum: com.dalio.cloud.model.enumeration.base.ActiveStatusEnum
+      OrgTypeEnum: com.dalio.cloud.model.enumeration.base.OrgTypeEnum
+      FileType: com.dalio.cloud.model.enumeration.base.FileType
+      DateType: com.dalio.cloud.model.enumeration.base.DateType
+      DictClassifyEnum: com.dalio.cloud.model.enumeration.system.DictClassifyEnum
+      DataTypeEnum: com.dalio.cloud.model.enumeration.system.DataTypeEnum
 

@@ -2,79 +2,122 @@
 pipeline {
     agent any
 
+    // =========================================================================
+    // lamp-cloud 微服务持续集成与自动化部署流水线
+    // 依赖 Jenkins 参数化构建配置:
+    //   - branch / BRANCH        : Git 构建分支 (默认: master / main)
+    //   - SERVER_NAME            : 微服务模块名 (如: lamp-gateway, lamp-oauth, lamp-system, lamp-base, lamp-generator)
+    //   - SERVER_SSH_HOST        : 目标部署主机标识 (格式: 主机名_环境名, 例如 host_dev, host_prod)
+    //   - MAVEN_COMMAND          : Maven 打包命令 (package / install / none, none 表示跳过编译直接复用已有构建)
+    //   - IS_PUSH_JAR            : 是否分发 JAR 包至目标主机 (true / false)
+    //   - ACTION                 : 目标部署主机执行动作 (restart / start / stop / status / none)
+    // =========================================================================
+
     environment {
-        // jenkins 上动态配置的参数：
-        // SERVER_SSH_HOST: 推送到那台服务器
-//       MAVEN_COMMAND：  在jenkins服务器编译代码 (package install deploy表示maven的编译命令，none 表示不编译源码，使用上次编译的jar)
-//       IS_PUSH_JAR： 是否将jenkins服务器的编译后的jar，推送到部署服务器
-//       ACTION：   在部署服务器执行(停止、启动、重启等)动作  （none表示不执行动作）
-//       SERVER_NAME： "lamp-authority"
-
-        // 根据项目或部署服务器 可能需要更改一次的变量
-
-        // 以下变量基本不变
-        // 推送到服务器端的文件夹路径
+        // 目标服务器临时接收构建产物的目录
         remoteDirectory = "./temp_jar/"
 
+        // 对应微服务启动模块 JAR 名称规范
         JAR_NAME = "${SERVER_NAME}-server"
-        // 推送时需要忽略的项目前缀
+
+        // 推送时需裁剪的项目路径前缀
         removePrefix = "${SERVER_NAME}/${JAR_NAME}/target/"
 
-        // 需要推送到服务器端的文件(jar)
+        // 编译输出的可执行 JAR 路径
         sourceFiles = "${SERVER_NAME}/${JAR_NAME}/target/${JAR_NAME}.jar"
     }
 
     stages {
-        stage('替换环境参数') {
+        stage('解析运行环境与参数') {
             steps {
                 script {
-                    // SERVER_SSH_HOST一定要包含_ 如：ip_dev ip_prod 等格式
-                    PROFILES_ARR = "${SERVER_SSH_HOST}".split('_')
-                    PROFILES = PROFILES_ARR[1]
+                    // 解析环境标识 (从 SERVER_SSH_HOST 中提取，例如 host_prod -> prod)
+                    def hostParts = "${SERVER_SSH_HOST}".tokenize('_')
+                    PROFILES = hostParts.size() > 1 ? hostParts[1] : "prod"
 
-                    // 工作空间
+                    // 服务端部署工作空间
                     WORKSPACE_HOME = "/data_${PROFILES}"
 
-                    // 服务端执行的脚本
-                    EXEC_COMMAND = "bash -x -s < ${WORKSPACE_HOME}/bin/server_run.sh ${JAR_NAME} ${PROFILES} ${ACTION}"
-                    echo "您选择了如下参数："
-                    echo "拉取分支： ${branch}, 打包命令：${MAVEN_COMMAND}，是否推送jar：${IS_PUSH_JAR}, 将${SERVER_NAME} 推送至：${SERVER_SSH_HOST}, 运行环境参数：${PROFILES}，启动动作：${ACTION}"
+                    // 服务端远程运维管理命令
+                    EXEC_COMMAND = "bash ${WORKSPACE_HOME}/bin/server_run.sh ${JAR_NAME} ${PROFILES} ${ACTION}"
+
+                    def buildBranch = params.branch ?: params.BRANCH ?: env.BRANCH_NAME ?: "main"
+
+                    echo "========== [CI/CD 构建参数走查] =========="
+                    echo "代码分支: ${buildBranch}"
+                    echo "服务模块: ${SERVER_NAME} (${JAR_NAME})"
+                    echo "部署目标: ${SERVER_SSH_HOST} (环境: ${PROFILES})"
+                    echo "构建指令: ${MAVEN_COMMAND}"
+                    echo "分发产物: ${IS_PUSH_JAR}"
+                    echo "执行动作: ${ACTION}"
+                    echo "远程指令: ${EXEC_COMMAND}"
+                    echo "=========================================="
                 }
             }
         }
 
-        stage('maven编译代码') {
+        stage('Maven 编译打包') {
             steps {
                 script {
                     if ("${MAVEN_COMMAND}" != "none") {
-                        sh "mvn clean ${MAVEN_COMMAND} -T2 -Dmaven.compile.fork=true -Dmaven.test.skip=true -P ${PROFILES}"
+                        echo "开始执行 Maven 构建: clean ${MAVEN_COMMAND} -P ${PROFILES}..."
+                        sh "mvn clean ${MAVEN_COMMAND} -T2 -Dmaven.compile.fork=true -DskipTests -P ${PROFILES}"
                     } else {
-                        echo "无需编译项目 (适用于代码没有改动的场景)"
+                        echo "跳过 Maven 构建流程 (复用上一次编译构建产物)。"
                     }
                 }
             }
         }
 
-        stage('推送jar&执行动作') {
+        stage('分发产物与服务治理') {
             steps {
                 script {
+                    def filesToPush = "${sourceFiles}"
                     if ("${IS_PUSH_JAR}" == "false") {
-                        echo "无需推送jar到服务器：【${IS_PUSH_JAR}】"
-                        sourceFiles = ""
+                        echo "无需分发 JAR 包至目标主机。"
+                        filesToPush = ""
                     }
 
                     if ("${ACTION}" == "none") {
-                        echo "无需执行重启等动作"
+                        echo "执行动作指定为 none，目标主机无需重启或变更服务。"
                     }
 
-                    echo "${EXEC_COMMAND}"
-                    sshPublisher(publishers: [sshPublisherDesc(configName: "${SERVER_SSH_HOST}", transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: "${EXEC_COMMAND}", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: "${remoteDirectory}", remoteDirectorySDF: false, removePrefix: "${removePrefix}", sourceFiles: "${sourceFiles}")], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                    echo "正在通过 SSH 推送构建产物并调用服务端脚本..."
+                    sshPublisher(publishers: [
+                        sshPublisherDesc(
+                            configName: "${SERVER_SSH_HOST}",
+                            transfers: [
+                                sshTransfer(
+                                    cleanRemote: false,
+                                    excludes: '',
+                                    execCommand: "${EXEC_COMMAND}",
+                                    execTimeout: 120000,
+                                    flatten: false,
+                                    makeEmptyDirs: false,
+                                    noDefaultExcludes: false,
+                                    patternSeparator: '[, ]+',
+                                    remoteDirectory: "${remoteDirectory}",
+                                    remoteDirectorySDF: false,
+                                    removePrefix: "${removePrefix}",
+                                    sourceFiles: filesToPush
+                                )
+                            ],
+                            usePromotionTimestamp: false,
+                            useWorkspaceInPromotion: false,
+                            verbose: false
+                        )
+                    ])
                 }
-
             }
         }
     }
 
+    post {
+        success {
+            echo "服务 [${SERVER_NAME}] 持续集成与部署流程执行完毕！"
+        }
+        failure {
+            echo "服务 [${SERVER_NAME}] 持续集成与部署流程执行失败，请检查构建或主机日志！"
+        }
+    }
 }
-
-

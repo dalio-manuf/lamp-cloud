@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>lamp-gateway</artifactId>
-        <groupId>top.tangyh.lamp</groupId>
+        <groupId>com.dalio.cloud</groupId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -17,7 +17,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-oauth-biz</artifactId>
             <version>${revision}</version>
             <exclusions>
@@ -27,35 +27,35 @@
                 </exclusion>
                 <exclusion>
                     <artifactId>lamp-validator-starter</artifactId>
-                    <groupId>top.tangyh.basic</groupId>
+                    <groupId>com.dalio.basic</groupId>
                 </exclusion>
                 <exclusion>
                     <artifactId>sa-token-spring-boot3-starter</artifactId>
                     <groupId>cn.dev33</groupId>
                 </exclusion>
                 <exclusion>
-                    <groupId>top.tangyh.basic</groupId>
+                    <groupId>com.dalio.basic</groupId>
                     <artifactId>lamp-mvc</artifactId>
                 </exclusion>
                 <exclusion>
                     <artifactId>lamp-mq-starter</artifactId>
-                    <groupId>top.tangyh.basic</groupId>
+                    <groupId>com.dalio.basic</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
 
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-model</artifactId>
             <version>${revision}</version>
         </dependency>
 
         <dependency>
-            <groupId>top.tangyh.basic</groupId>
+            <groupId>com.dalio.basic</groupId>
             <artifactId>lamp-cache-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>top.tangyh.basic</groupId>
+            <groupId>com.dalio.basic</groupId>
             <artifactId>lamp-cloud-starter</artifactId>
             <exclusions>
                 <exclusion>

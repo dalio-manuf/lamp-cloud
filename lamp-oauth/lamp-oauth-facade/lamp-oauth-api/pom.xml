@@ -3,7 +3,7 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>top.tangyh.lamp</groupId>
+        <groupId>com.dalio.cloud</groupId>
         <artifactId>lamp-oauth-facade</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
@@ -16,7 +16,7 @@
     <description>认证服务-api模块</description>
     <dependencies>
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-oauth-entity</artifactId>
             <version>${revision}</version>
         </dependency>

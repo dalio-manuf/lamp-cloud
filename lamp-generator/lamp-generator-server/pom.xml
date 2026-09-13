@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>lamp-generator</artifactId>
-        <groupId>top.tangyh.lamp</groupId>
+        <groupId>com.dalio.cloud</groupId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -16,36 +16,36 @@
 
     <dependencies>
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-common-config</artifactId>
             <version>${revision}</version>
         </dependency>
 
 
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-login-user-cloud-impl</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-generator-controller</artifactId>
             <version>${revision}</version>
         </dependency>
 
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-oauth-api</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-oauth-cloud-impl</artifactId>
             <version>${revision}</version>
         </dependency>
 
         <dependency>
-            <groupId>top.tangyh.basic</groupId>
+            <groupId>com.dalio.basic</groupId>
             <artifactId>lamp-all-cloud</artifactId>
         </dependency>
         <dependency>

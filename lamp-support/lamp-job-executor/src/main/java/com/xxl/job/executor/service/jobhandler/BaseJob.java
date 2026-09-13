@@ -6,10 +6,10 @@ import com.xxl.job.core.handler.annotation.XxlJob;
 import groovy.util.logging.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import top.tangyh.basic.jackson.JsonUtil;
-import top.tangyh.basic.utils.ArgumentAssert;
-import top.tangyh.lamp.msg.biz.MsgBiz;
-import top.tangyh.lamp.msg.service.ExtendMsgService;
+import com.dalio.basic.jackson.JsonUtil;
+import com.dalio.basic.utils.ArgumentAssert;
+import com.dalio.cloud.msg.biz.MsgBiz;
+import com.dalio.cloud.msg.service.ExtendMsgService;
 
 import java.util.Map;
 

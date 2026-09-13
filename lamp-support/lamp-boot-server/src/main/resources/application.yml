@@ -4,7 +4,7 @@ lamp:
     job-server: http://127.0.0.1:8767
   scan:
     enabled: true
-    basePackage: top.tangyh
+    basePackage: com.dalio.cloud
   system:
     # 登录时否验证密码有效性 （常用于开发环境快速登录）
     verifyPassword: true
@@ -16,16 +16,16 @@ lamp:
     maxPasswordErrorNum: 10
     # 密码错误锁定用户时间  除了0表示锁定到今天结束，还支持m、h、d、w、M、y等单位
     passwordErrorLockUserTime: '0'
-    # log记录 top.tangyh.lamp.controller/service/biz包下 参数
+    # log记录 com.dalio.cloud.controller/service/biz包下 参数
     recordLamp: false
-    # log记录 top.tangyh.lamp.controller/service/biz包下 所有方法的参数
+    # log记录 com.dalio.cloud.controller/service/biz包下 所有方法的参数
     recordLampArgs: true
-    # log记录 top.tangyh.lamp.controller/service/biz包下 所有方法的返回值
+    # log记录 com.dalio.cloud.controller/service/biz包下 所有方法的返回值
     recordLampResult: true
     # 缓存Key前缀
     cachePrefix: lb
     # oauth 服务扫描枚举类的包路径
-    enumPackage: "top.tangyh"
+    enumPackage: "com.dalio.cloud"
     # 演示环境启用
     notAllowWrite: false
     notAllowWriteList:
@@ -109,10 +109,10 @@ lamp:
     type: DB
     ipv4:
       enabled: true
-      xdbPath: file:./01-docs/ip2region_v4.xdb
+      xdbPath: file:./doc/ip2region_v4.xdb
     ipv6:
       enabled: true
-      xdbPath: file:./01-docs/ip2region_v6.xdb
+      xdbPath: file:./doc/ip2region_v6.xdb
   xss:
     # 是否开启 xss 过滤器  详情看：XssProperties
     enabled: true
@@ -131,12 +131,12 @@ lamp:
     keepAliveSeconds: 300
     threadNamePrefix: 'lamp-async-executor-'
   generator:
-    outputDir: /Users/tangyh/github/lamp-cloud
-    frontOutputDir: /Users/tangyh/github/lamp-web
-    frontSoyOutputDir: /Users/tangyh/github/lamp-web-pro-soybean
-    frontVben5OutputDir: /Users/tangyh/github/lamp-web-vben-max/apps/web-antd
+    outputDir: /data/projects/lamp-cloud
+    frontOutputDir: /data/projects/lamp-web
+    frontSoyOutputDir: /data/projects/lamp-web-pro-soybean
+    frontVben5OutputDir: /data/projects/lamp-web-vben-max/apps/web-antd
     # 作者
-    author: zuihou
+    author: admin
     # 默认项目
     projectType: BOOT
     #  # 去除表前缀
@@ -155,8 +155,8 @@ lamp:
     genType: GEN
     packageInfoConfig: # 其他配置建议保持PackageInfoConfig中的默认值
       # 生成代码位于 src/main/java 下的基础包
-      parent: 'top.tangyh.lamp'
-      utilParent: 'top.tangyh.basic'
+      parent: 'com.dalio.cloud'
+      utilParent: 'com.dalio.basic'
     entity-config:
       # 时间类型对应策略  ONLY_DATE: java.util  SQL_PACK:java.sql  TIME_PACK: java.time
       dateType: TIME_PACK
@@ -220,25 +220,25 @@ lamp:
     constantsPackage:
       # 业务服务 后台手动改动过的枚举
       FieldFill: com.baomidou.mybatisplus.annotation.FieldFill
-      SuperClassEnum: top.tangyh.lamp.generator.enumeration.SuperClassEnum
-      EntitySuperClassEnum: top.tangyh.lamp.generator.enumeration.EntitySuperClassEnum
+      SuperClassEnum: com.dalio.cloud.generator.enumeration.SuperClassEnum
+      EntitySuperClassEnum: com.dalio.cloud.generator.enumeration.EntitySuperClassEnum
       # common 常量
-      EchoDictType: top.tangyh.lamp.model.constant.EchoDictType
-      EchoApi: top.tangyh.lamp.model.constant.EchoApi
+      EchoDictType: com.dalio.cloud.model.constant.EchoDictType
+      EchoApi: com.dalio.cloud.model.constant.EchoApi
       # common 公共枚举
-      HttpMethod: top.tangyh.lamp.model.enumeration.HttpMethod
-      BooleanEnum: top.tangyh.lamp.model.enumeration.BooleanEnum
-      StateEnum: top.tangyh.lamp.model.enumeration.StateEnum
-      UserStatusEnum: top.tangyh.lamp.model.enumeration.base.UserStatusEnum
-      RoleCategoryEnum: top.tangyh.lamp.model.enumeration.base.RoleCategoryEnum
-      ActiveStatusEnum: top.tangyh.lamp.model.enumeration.base.ActiveStatusEnum
-      OrgTypeEnum: top.tangyh.lamp.model.enumeration.base.OrgTypeEnum
-      FileType: top.tangyh.lamp.model.enumeration.base.FileType
-      DateType: top.tangyh.lamp.model.enumeration.base.DateType
-      DictClassifyEnum: top.tangyh.lamp.model.enumeration.system.DictClassifyEnum
-      DefTenantStatusEnum: top.tangyh.lamp.model.enumeration.system.DefTenantStatusEnum
-      DataTypeEnum: top.tangyh.lamp.model.enumeration.system.DataTypeEnum
-      TenantConnectTypeEnum: top.tangyh.lamp.model.enumeration.system.TenantConnectTypeEnum
+      HttpMethod: com.dalio.cloud.model.enumeration.HttpMethod
+      BooleanEnum: com.dalio.cloud.model.enumeration.BooleanEnum
+      StateEnum: com.dalio.cloud.model.enumeration.StateEnum
+      UserStatusEnum: com.dalio.cloud.model.enumeration.base.UserStatusEnum
+      RoleCategoryEnum: com.dalio.cloud.model.enumeration.base.RoleCategoryEnum
+      ActiveStatusEnum: com.dalio.cloud.model.enumeration.base.ActiveStatusEnum
+      OrgTypeEnum: com.dalio.cloud.model.enumeration.base.OrgTypeEnum
+      FileType: com.dalio.cloud.model.enumeration.base.FileType
+      DateType: com.dalio.cloud.model.enumeration.base.DateType
+      DictClassifyEnum: com.dalio.cloud.model.enumeration.system.DictClassifyEnum
+      DefTenantStatusEnum: com.dalio.cloud.model.enumeration.system.DefTenantStatusEnum
+      DataTypeEnum: com.dalio.cloud.model.enumeration.system.DataTypeEnum
+      TenantConnectTypeEnum: com.dalio.cloud.model.enumeration.system.TenantConnectTypeEnum
 
 spring:
   config:
@@ -307,7 +307,8 @@ logging:
     com.alibaba.nacos.common.remote.client: error
     com.ulisesbocchio: error
     # 开发、调试需要的日志
-    top.tangyh: info
+    com.dalio.basic: info
+    com.dalio.cloud: info
     org.springframework: info
   pattern:
     dateformat: yyyy-MM-dd HH:mm:ss.SSS

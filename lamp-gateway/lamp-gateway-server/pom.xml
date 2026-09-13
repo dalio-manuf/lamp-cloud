@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>lamp-gateway</artifactId>
-        <groupId>top.tangyh.lamp</groupId>
+        <groupId>com.dalio.cloud</groupId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -16,7 +16,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-gateway-biz</artifactId>
             <version>${revision}</version>
             <exclusions>
@@ -27,32 +27,12 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-system-api</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-base-cloud-impl</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>top.tangyh.lamp</groupId>
-            <artifactId>lamp-system-cloud-impl</artifactId>
-            <version>${revision}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>lamp-validator-starter</artifactId>
-                    <groupId>top.tangyh.basic</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-webmvc</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-common-config</artifactId>
             <version>${revision}</version>
             <exclusions>
@@ -62,23 +42,23 @@
                 </exclusion>
                 <exclusion>
                     <artifactId>lamp-validator-starter</artifactId>
-                    <groupId>top.tangyh.basic</groupId>
+                    <groupId>com.dalio.basic</groupId>
                 </exclusion>
                 <exclusion>
                     <artifactId>lamp-mvc</artifactId>
-                    <groupId>top.tangyh.basic</groupId>
+                    <groupId>com.dalio.basic</groupId>
                 </exclusion>
                 <exclusion>
                     <artifactId>lamp-swagger2-starter</artifactId>
-                    <groupId>top.tangyh.basic</groupId>
+                    <groupId>com.dalio.basic</groupId>
                 </exclusion>
                 <exclusion>
                     <artifactId>lamp-sa-token-ext</artifactId>
-                    <groupId>top.tangyh.lamp</groupId>
+                    <groupId>com.dalio.cloud</groupId>
                 </exclusion>
                 <exclusion>
                     <artifactId>lamp-all-boot</artifactId>
-                    <groupId>top.tangyh.basic</groupId>
+                    <groupId>com.dalio.basic</groupId>
                 </exclusion>
                 <exclusion>
                     <artifactId>spring-boot-starter-security</artifactId>
@@ -88,12 +68,12 @@
         </dependency>
 
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-model</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
-            <groupId>top.tangyh.basic</groupId>
+            <groupId>com.dalio.basic</groupId>
             <artifactId>lamp-cloud-starter</artifactId>
             <exclusions>
                 <exclusion>
@@ -104,7 +84,7 @@
         </dependency>
 
         <dependency>
-            <groupId>top.tangyh.basic</groupId>
+            <groupId>com.dalio.basic</groupId>
             <artifactId>lamp-log-starter</artifactId>
             <exclusions>
                 <exclusion>
@@ -135,8 +115,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-openapi3-ui</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
         </dependency>
 
         <dependency>

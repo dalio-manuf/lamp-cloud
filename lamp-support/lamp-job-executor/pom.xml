@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>lamp-support</artifactId>
-        <groupId>top.tangyh.lamp</groupId>
+        <groupId>com.dalio.cloud</groupId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -14,63 +14,62 @@
 
     <name>${project.artifactId}</name>
     <description>lamp-none 单体版定时任务执行器</description>
-    <url>https://github.com/zuihou</url>
 
     <dependencies>
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-system-biz</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-base-biz</artifactId>
             <version>${revision}</version>
         </dependency>
 
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-common-config</artifactId>
             <version>${revision}</version>
         </dependency>
 
         <!-- boot 版本使用此实现 -->
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-system-boot-impl</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
-            <groupId>top.tangyh.lamp</groupId>
+            <groupId>com.dalio.cloud</groupId>
             <artifactId>lamp-base-boot-impl</artifactId>
             <version>${revision}</version>
         </dependency>
         <!-- cloud 版本使用此实现 -->
         <!--        <dependency>-->
-        <!--            <groupId>top.tangyh.lamp</groupId>-->
+        <!--            <groupId>com.dalio.cloud</groupId>-->
         <!--            <artifactId>lamp-system-cloud-impl</artifactId>-->
         <!--            <version>${revision}</version>-->
         <!--        </dependency>-->
         <!--        <dependency>-->
-        <!--            <groupId>top.tangyh.lamp</groupId>-->
+        <!--            <groupId>com.dalio.cloud</groupId>-->
         <!--            <artifactId>lamp-base-cloud-impl</artifactId>-->
         <!--            <version>${revision}</version>-->
         <!--        </dependency>-->
 
 
         <dependency>
-            <groupId>top.tangyh.basic</groupId>
+            <groupId>com.dalio.basic</groupId>
             <artifactId>lamp-webmvc</artifactId>
             <version>${lamp-util.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>top.tangyh.basic</groupId>
+            <groupId>com.dalio.basic</groupId>
             <artifactId>lamp-log-starter</artifactId>
             <version>${lamp-util.version}</version>
         </dependency>
         <dependency>
-            <groupId>top.tangyh.basic</groupId>
+            <groupId>com.dalio.basic</groupId>
             <artifactId>lamp-databases</artifactId>
             <version>${lamp-util.version}</version>
             <exclusions>
@@ -148,7 +147,7 @@
 
         <!-- xxl-job-core -->
         <dependency>
-            <groupId>top.tangyh.basic</groupId>
+            <groupId>com.dalio.basic</groupId>
             <artifactId>xxl-job-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

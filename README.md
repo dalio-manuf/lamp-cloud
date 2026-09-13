@@ -1,237 +1,388 @@
-# lamp 快速开发平台
-
-[![Language](https://img.shields.io/badge/语言-Java17%20%7C%20SpringCloud%20%7C%20Vue3%20%7C%20...-red?style=flat-square&color=42b883)](https://github.com/dromara/lamp-cloud)
-[![License](https://img.shields.io/github/license/dromara/lamp-cloud?color=42b883&style=flat-square)](https://github.com/dromara/lamp-cloud/blob/master/LICENSE)
-[![Author](https://img.shields.io/badge/作者-zuihou-orange.svg)](https://github.com/zuihou)
-[![Star](https://img.shields.io/github/stars/dromara/lamp-cloud?color=42b883&logo=github&style=flat-square)](https://github.com/dromara/lamp-cloud/stargazers)
-[![Fork](https://img.shields.io/github/forks/dromara/lamp-cloud?color=42b883&logo=github&style=flat-square)](https://github.com/dromara/lamp-cloud/network/members)
-[![Star](https://gitee.com/dromara/lamp-cloud/badge/star.svg?theme=gray)](https://gitee.com/dromara/lamp-cloud/stargazers)
-[![Fork](https://gitee.com/dromara/lamp-cloud/badge/fork.svg?theme=gray)](https://gitee.com/dromara/lamp-cloud/members)
-![star](https://gitcode.com/dromara/lamp-cloud/star/badge.svg)
-
-# 官网
-
-[https://tangyh.top](https://tangyh.top)
-
-# lamp 项目名字由来
-
-在一个夜黑风高的晚上，小孩吵着要出去玩，于是和`程序员老婆`一起带小孩出去放风，路上顺便讨论起项目要换个什么名字，在各自想出的名字都被对方一一否决后，大家陷入了沉思。
-走着走着，在一盏路灯下，小孩指着前方的路灯打破宁静，喊出：灯灯～
-我和媳妇相视一笑，然后一起说：哈哈，就用这个名字！！！
-
-`灯灯`(简称灯， 英文名：lamp)，她是一个项目集，由"工具集"、"后端"、"前端"组成，为满足高内聚低耦合设计原则，将一个**大项目**
-拆解为以下几个子项目：
-
-[点我了解项目详细介绍](https://tangyh.top)
-
-## 小程序免费看文档
-![小程序免费看文档](01-docs/灯灯快速开发小程序.jpg)
-
-
-## 工具集
-
-| 项目        | gitee                                              | github                                           | gitcode                                           | 备注       |
-|-----------|----------------------------------------------------|--------------------------------------------------|---------------------------------------------------|----------|
-| lamp-util | [lamp-util](https://gitee.com/zuihou111/lamp-util) | [lamp-util](https://github.com/zuihou/lamp-util) | [lamp-util](https://gitcode.com/zuihou/lamp-util) | 核心工具集    |
-| lamp-job  | [lamp-job](https://gitee.com/zuihou111/lamp-job)   | [lamp-job](https://github.com/zuihou/lamp-job)   | [lamp-job](https://gitcode.com/zuihou/lamp-job)   | 分布式定时调度器 |
-
-## 后端
-
-| 项目         | gitee                                              | github                                              | gitcode                                             | 备注          |
-|------------|----------------------------------------------------|-----------------------------------------------------|-----------------------------------------------------|-------------|
-| lamp-cloud | [lamp-cloud](https://gitee.com/dromara/lamp-cloud) | [lamp-cloud](https://github.com/dromara/lamp-cloud) | [lamp-cloud](https://gitcode.com/zuihou/lamp-cloud) | 微服务和单体模式融合版 |
-
-## 前端
-
-| 项目       | gitee                                            | github                                         | gitcode                                         | 备注            | 演示地址                    |
-|----------|--------------------------------------------------|------------------------------------------------|-------------------------------------------------|---------------|-------------------------|
-| lamp-web | [lamp-web](https://gitee.com/zuihou111/lamp-web) | [lamp-web](https://github.com/zuihou/lamp-web) | [lamp-web](https://gitcode.com/zuihou/lamp-web) | 基于 vben-admin | https://none.tangyh.top |
-
-## 注意：
-
-- lamp-cloud 依赖 lamp-util
-- lamp-job 依赖 lamp-util
-
-所以，项目的编译顺序是：lamp-util -> lamp-cloud -> lamp-job
-
-# 分支说明
-
-新用户请直接学习和使用 java17/5.x 分支，其他分支已不在维护
-
-| 分支        | java8/3.x     | java17/3.x    | java17/4.x                                                                   | java17/5.x                                                                   |
-|-----------|---------------|---------------|------------------------------------------------------------------------------|------------------------------------------------------------------------------|
-| 源码版本      | 3.x           | 3.x           | 4.x                                                                          | 5.x                                                                          |
-| JDK版本     | jdk8          | jdk17         | jdk17、jdk21                                                                  | jdk17、jdk21                                                                  |
-| 是否继续升级新功能 | 不开发新功能,仅修复bug | 不开发新功能,仅修复bug | 不开发新功能,仅修复bug                                                                | 持续开发新功能和bug修复                                                                |
-| 是否支持数据源模式 | 是(赞助版支持)      | 是(赞助版支持)      | 否([赞助版](https://tangyh.top/vip/%E5%A6%82%E4%BD%95%E8%B5%9E%E5%8A%A9.html)支持) | 否([赞助版](https://tangyh.top/vip/%E5%A6%82%E4%BD%95%E8%B5%9E%E5%8A%A9.html)支持) |
-| 是否支持字段模式  | 是(开源版赞助版均支持)  | 是(开源版赞助版均支持)  | 否([赞助版](https://tangyh.top/vip/%E5%A6%82%E4%BD%95%E8%B5%9E%E5%8A%A9.html)支持) | 否([赞助版](https://tangyh.top/vip/%E5%A6%82%E4%BD%95%E8%B5%9E%E5%8A%A9.html)支持) |
-| 是否支持非租户模式 | 是(开源版赞助版均支持)  | 是(开源版赞助版均支持)  | 是(开源版支持)                                                                     | 是(开源版支持)                                                                     |
-
-
-# lamp-cloud 简介
-
-`lamp-cloud`是基于`java`+ `SpringCloudAlibaba` +`SpringCloud`+`SpringBoot`
-开发的微服务中后台快速开发平台，专注于多租户 (SaaS架构) 解决方案，亦可作为普通项目（非SaaS架构）的基础开发框架使用，目前已实现
-**大租户嵌套小租户隔离**、**数据库隔离**、**字段隔离**、 **无租户隔离** 等几种模式。
-
-她拥有自研RBAC（基于租户应用的角色权限控制体系）、网关统一鉴权、数据权限、优雅缓存解决方案、防缓存击穿、前后端统一表单校验、字典数据自动回显、可视化前后端代码生成器、支持多种文件存储、支持多种短信邮件发送接口、灰度发布、防XSS攻击、防SQL注入、分布式事务、分布式定时任务等功能；
-支持多业务系统并行开发， 支持多服务并行开发，是中后台系统开发脚手架的最佳选择。
-
-lamp-cloud 代码简洁，注释齐全，架构清晰，非常适合个人学习以及中小企业作为基础框架使用。采用Spring Cloud
-Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、SkyWalking等主要框架和中间件。 本项目旨在实现基础框架能力，不涉及具体业务。
-
-![架构图.png](A极其重要/01-docs/image/架构图/lamp-cloud架构图.png)
-
-# 演示地址
-
-- 官网
-    - [https://tangyh.top](https://tangyh.top)
-- 文档
-    - [https://tangyh.top/doc/%E7%AE%80%E4%BB%8B.html](https://tangyh.top/doc/%E7%AE%80%E4%BB%8B.html)
-- 演示地址 
-    - 数据源模式（vben5版）：演示地址：   [https://max-datasource.tangyh.top](https://max-datasource.tangyh.top)
-    - 数据源模式（vben2版）：演示地址：   [https://datasource.tangyh.top](https://datasource.tangyh.top)
-    - 字段模式（vben5版）：演示地址：   [https://max-column.tangyh.top](https://max-column.tangyh.top)
-    - 字段模式（vben2版）：演示地址：   [https://column.tangyh.top](https://column.tangyh.top)
-    - 非租户模式：演示地址：   [https://none.tangyh.top](https://none.tangyh.top)
-
-# 作者参与过或PR过的项目
-
-- [vue-vben-admin](https://github.com/vbenjs/vue-vben-admin) : vue3 + ant design vue 前端框架
-- [soybean-admin](https://github.com/honghuangdc/soybean-admin) : vue3 + Naive UI 前端框架
-- [electron-egg](https://github.com/wallace5303/electron-egg) : electron 桌面软件框架
-- [knife4j](https://gitee.com/xiaoym/knife4j) : Swagger 在线文档
-- [x-easypdf](https://gitee.com/dromara/x-easypdf) : pdf 工具
-- [J2Cache](https://gitee.com/ld/J2Cache) : 2级缓存
-
-# 优秀案例
-- 主数据平台： [mddata](https://gitee.com/henhen6/mddata)。 专注于单点登录中心、开放平台、基础管理平台解决方案
-- 即时通讯系统： [HuLa-Server](https://github.com/HuLaSpark/HuLa-Server)
-
-# 项目截图：
-
-| 预览                                                   | 预览                                            |
-|------------------------------------------------------|-----------------------------------------------|
-| ![预览.png](A极其重要/01-docs/image/架构图/lamp-cloud架构图.png) | ![预览.png](A极其重要/01-docs/image/业务/swagger.png) |
-| ![预览.png](A极其重要/01-docs/image/业务/nacos.jpg)          | ![预览.png](A极其重要/01-docs/image/业务/工作流.png)     |
-| ![预览.png](A极其重要/01-docs/image/业务/基础平台.png)           | ![预览.png](A极其重要/01-docs/image/业务/开发运营系统.png)  |
-| ![预览.png](A极其重要/01-docs/image/监控/sw拓扑图.png)          | ![预览.png](A极其重要/01-docs/image/监控/sw追踪列表.png)  |
-| ![预览.png](A极其重要/01-docs/image/1000star.png)          | ![预览.png](A极其重要/01-docs/image/灯灯软著证书.png)     |
-
-# 推广
-
-- 【阿里云】超品周津贴: [点我进入](https://www.aliyun.com/minisite/goods?taskPkg=1212cpz&pkgSid=183200&userCode=uk5ga6sq)
-- 【阿里云】服务器折扣场：[点我进入](https://www.aliyun.com/minisite/goods?userCode=uk5ga6sq)
-- 【阿里云】服务器优惠券：[点我领取](https://www.aliyun.com/daily-act/ecs/activity_selection?userCode=uk5ga6sq)
-  -【腾讯云】境外1核2G服务器低至2折，半价续费券限量免费领取！：[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1068&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
-  -【腾讯云】DNSPod解析套餐全面升配降价，更高的套餐配置规格，更优的价格方案，全面提升可用性及响应率，专业版限时99元/年！[点我进入](https://cloud.tencent.com/act/cps/redirect?redirect=1542&cps_key=970c3dc91a95510c5a474f54eac73ac7&from=console)
--
-通过以上链接任意购买金额大于等于50元的商品，联系作者可赠送 [看云文档](https://www.kancloud.cn/zuihou/zuihou-admin-cloud)
-一份。
-
-# Dromara 成员项目
+# lamp-cloud 企业级微服务开发基座
 
 <p align="center">
-<a href="https://gitee.com/dromara/TLog" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/tlog2.png" title="一个轻量级的分布式日志标记追踪神器，10分钟即可接入，自动对日志打标签完成微服务的链路追踪" width="15%">
-</a>
-<a href="https://gitee.com/dromara/liteFlow" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/liteflow.png" title="轻量，快速，稳定，可编排的组件式流程引擎" width="15%">
-</a>
-<a href="https://hutool.cn/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/hutool.jpg" title="小而全的Java工具类库，使Java拥有函数式语言般的优雅，让Java语言也可以“甜甜的”。" width="15%">
-</a>
-<a href="https://sa-token.dev33.cn/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/sa-token.png" title="一个轻量级 java 权限认证框架，让鉴权变得简单、优雅！" width="15%">
-</a>
-<a href="https://gitee.com/dromara/hmily" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/hmily.png" title="高性能一站式分布式事务解决方案。" width="15%">
-</a>
-<a href="https://gitee.com/dromara/Raincat" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/raincat.png" title="强一致性分布式事务解决方案。" width="15%">
-</a>
-</p>
-<p align="center">
-<a href="https://gitee.com/dromara/myth" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/myth.png" title="可靠消息分布式事务解决方案。" width="15%">
-</a>
-<a href="https://cubic.jiagoujishu.com/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/cubic.png" title="一站式问题定位平台，以agent的方式无侵入接入应用，完整集成arthas功能模块，致力于应用级监控，帮助开发人员快速定位问题" width="15%">
-</a>
-<a href="https://maxkey.top/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/maxkey.png" title="业界领先的身份管理和认证产品" width="15%">
-</a>
-<a href="http://forest.dtflyx.com/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/forest-logo.png" title="Forest能够帮助您使用更简单的方式编写Java的HTTP客户端" width="15%">
-</a>
-<a href="https://jpom.io/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/jpom.png" title="一款简而轻的低侵入式在线构建、自动部署、日常运维、项目监控软件" width="15%">
-</a>
-<a href="https://su.usthe.com/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/sureness.png" title="面向 REST API 的高性能认证鉴权框架" width="15%">
-</a>
-</p>
-<p align="center">
-<a href="https://easy-es.cn/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/easy-es2.png" title="傻瓜级ElasticSearch搜索引擎ORM框架" width="15%">
-</a>
-<a href="https://gitee.com/dromara/northstar" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/northstar_logo.png" title="Northstar盈富量化交易平台" width="15%">
-</a>
-<a href="https://hertzbeat.com/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/hertzbeat_brand.jpg" title="易用友好的云监控系统" width="15%">
-</a>
-<a href="https://plugins.sheng90.wang/fast-request/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/fast-request.gif" title="Idea 版 Postman，为简化调试API而生" width="15%">
-</a>
-<a href="https://www.jeesuite.com/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/mendmix.png" title="开源分布式云原生架构一站式解决方案" width="15%">
-</a>
-<a href="https://gitee.com/dromara/koalas-rpc" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/koalas-rpc2.png" title="企业生产级百亿日PV高可用可拓展的RPC框架。" width="15%">
-</a>
-</p>
-<p align="center">
-<a href="https://async.sizegang.cn/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/gobrs-async.png" title="配置极简功能强大的异步任务动态编排框架" width="15%">
-</a>
-<a href="https://dynamictp.cn/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/dynamic-tp.png" title="基于配置中心的轻量级动态可监控线程池" width="15%">
-</a>
-<a href="https://www.x-easypdf.cn" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/x-easypdf.png" title="一个用搭积木的方式构建pdf的框架（基于pdfbox）" width="15%">
-</a>
-<a href="http://dromara.gitee.io/image-combiner" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/image-combiner.png" title="一个专门用于图片合成的工具，没有很复杂的功能，简单实用，却不失强大" width="15%">
-</a>
-<a href="https://www.herodotus.cn/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/dante-cloud2.png" title="Dante-Cloud 是一款企业级微服务架构和服务能力开发平台。" width="15%">
-</a>
-<a href="https://dromara.org/zh/projects/" target="_blank">
-<img src="https://oss.dev33.cn/sa-token/link/dromara.png" title="让每一位开源爱好者，体会到开源的快乐。" width="15%">
-</a>
-</p>
-<p align="center">
-为往圣继绝学，一个人或许能走的更快，但一群人会走的更远。
+  <img src="https://img.shields.io/badge/Spring%20Boot-3.2+-brightgreen.svg" alt="Spring Boot 3.2+">
+  <img src="https://img.shields.io/badge/Spring%20Cloud-2023+-blue.svg" alt="Spring Cloud 2023+">
+  <img src="https://img.shields.io/badge/Spring%20Cloud%20Alibaba-2023+-orange.svg" alt="Spring Cloud Alibaba">
+  <img src="https://img.shields.io/badge/JDK-17%20%7C%2021-red.svg" alt="JDK 17/21">
+  <img src="https://img.shields.io/badge/Sa--Token-1.37+-brightgreen.svg" alt="Sa-Token">
+  <img src="https://img.shields.io/badge/MyBatis--Plus-3.5+-blue.svg" alt="MyBatis-Plus">
+  <img src="https://img.shields.io/badge/Nacos-2.x-yellow.svg" alt="Nacos 2.x">
+  <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License">
 </p>
 
-# 赞助版
+本项目基于 **Spring Boot 3.x**、**Spring Cloud 2023** 与 **Spring Cloud Alibaba** 体系构建，致力于提供一套高内聚、低耦合、开箱即用的企业级微服务中后台快速开发基座与多租户 SaaS 解决方案。
 
-本项目分为开源版、企业商用版，github和gitee上能搜索到的为开源版本，遵循Apache协议。 赞助版源码在私有gitlab托管，购买后开通账号。
+---
 
-开源版是因为热爱，赞助版是妥协于生活。
+## 目录
 
-开源版和赞助版区别请看：[赞助版](https://tangyh.top/vip/%E5%8A%9F%E8%83%BD%E5%AF%B9%E6%AF%94.html)
+- [平台简介](#平台简介)
+- [核心特性](#核心特性)
+- [系统架构](#系统架构)
+- [技术选型](#技术选型)
+- [模块划分与端口矩阵](#模块划分与端口矩阵)
+- [环境依赖](#环境依赖)
+- [快速开始](#快速开始)
+  - [1. 编译基础依赖 lamp-util](#1-编译基础依赖-lamp-util)
+  - [2. 中间件一键拉起](#2-中间件一键拉起)
+  - [3. 数据库与 Nacos 配置初始化](#3-数据库与-nacos-配置初始化)
+  - [4. 工程打包编译](#4-工程打包编译)
+  - [5. 微服务启动与推荐顺序](#5-微服务启动与推荐顺序)
+  - [6. 服务验证与默认访问信息](#6-服务验证与默认访问信息)
+- [生产运维与高可用](#生产运维与高可用)
+- [工程文档中心导航](#工程文档中心导航)
+- [开源协议与鸣谢](#开源协议与鸣谢)
 
-# 开源协议
+---
 
-Apache Licence 2.0 Licence是著名的非盈利开源组织Apache采用的协议。该协议和BSD类似，同样鼓励代码共享和尊重原作者的著作权，同样允许代码修改，再发布（作为开源或商业软件）。
-需要满足的条件如下：
+## 平台简介
 
-- 需要给代码的用户一份Apache Licence
-- 如果你修改了代码，需要在被修改的文件中说明。
-- 在延伸的代码中（修改和有源代码衍生的代码中）需要带有原来代码中的协议，商标，专利声明和其他原来作者规定需要包含的说明。
-- 如果再发布的产品中包含一个Notice文件，则在Notice文件中需要带有Apache Licence。你可以在Notice中增加自己的许可，但不可以表现为对Apache
-  Licence构成更改。 Apache Licence也是对商业应用友好的许可。使用者也可以在需要的时候修改代码来满足需要并作为开源或商业产品发布/销售。
--
-若你借鉴或学习了本项目的源码，请你在你的项目源码和说明文档中显著的表明引用于本项目，并附上本项目的github访问地址。（https://github.com/dromara/lamp-cloud）
+`lamp-cloud` 专注于解决企业数字化转型与大型中后台系统的架构底座难题，具备成熟完善的**多租户体系**设计，支持从简单的单体化无租户模式平滑过渡到复杂的字段级隔离与独立多库隔离。
+
+平台不仅集成了统一网关路由、基于 **Sa-Token** 的细粒度权限鉴权、动态行级/列级数据权限过滤、分布式缓存与幂等防重，还提供了覆盖前后端全栈的可视化代码生成工具（全面兼容 **Vben 5**、**Soybean Admin** 等主流前端体系），能够大幅缩减业务 CRUD 模块开发周期，确保团队代码风格的高度一致性。
+
+---
+
+## 核心特性
+
+### 1. 现代化微服务体系
+- 全面适配 **Java 17 / 21** LTS 长期支持版本，基于 **Spring Boot 3.x** 与 **Spring Cloud 2023** 架构。
+- 基于 **Spring Cloud Alibaba** 体系，无缝集成 **Nacos**（服务注册与动态配置中心）、**Sentinel**（高并发流量防护与熔断降级）、**Seata**（分布式事务协调）。
+
+### 2. 灵活的多租户隔离架构
+- **无租户模式（NONE）**：针对独立部署、私有化单企业交付场景，架构清晰无冗余。
+- **字段级隔离（COLUMN）**：共享数据库实例与表结构，通过租户 ID（`tenant_id`）实现行级数据自动隔离，资源利用率高。
+- **数据源隔离（SCHEMA）**：每个租户拥有独立 Schema/数据库实例，满足对数据安全性、合规性要求极高的大型客户需求。
+
+### 3. 统一认证鉴权与细粒度权限（Sa-Token）
+- 采用轻量高性能的安全框架 **Sa-Token**，与 API 网关紧密配合，实现全局无状态 Token 校验。
+- 标准 **RBAC** 权限模型：支持“用户 - 角色 - 资源（菜单、按钮、数据接口）”多对多分配。
+- 支持单点登录（SSO）、多终端并发控制、账号互斥挤下线、黑白名单控制与密码安全策略。
+
+### 4. 动态行级/列级数据权限（lamp-data-scope-sdk）
+- 内置数据权限过滤引擎，通过注解与 AOP 自动解析当前登录人的组织架构范围。
+- 支持多种数据范围规则：**全部数据**、**本级机构**、**本级及所有下级机构**、**仅限本人**以及**自定义组织部门**，在 MyBatis-Plus 底层动态拦截并自动拼接 SQL `WHERE` 条件，对业务代码无侵入。
+
+### 5. 全栈可视化代码生成（lamp-generator）
+- 支持从 MySQL、达梦等数据表中快速逆向导入表结构与元数据信息。
+- 一键生成包含 Entity、DTO、VO、Mapper、Service、Controller、OpenFeign Facade 及菜单 SQL 的后端完整五层代码。
+- 前端模板深度适配主流管理系统框架：支持 **Vben 5**（Ant Design Vue 4 + Vite）、**Soybean Admin**、经典 Vue 3 等多种模板。
+
+### 6. 自动化关联回显与字典回填（lamp-echo-starter）
+- 提供基于注解的自动翻译回显能力（`Echo` 机制），无需编写繁杂的连表 SQL（JOIN）。
+- 仅需在 VO/DTO 字段上标注相应注解，接口序列化前即可自动并行批量加载字典文本、用户姓名、机构名称等关联属性，兼具极高开发效率与优异性能。
+
+### 7. 统一对象存储与在线文件预览（lamp-file-sdk）
+- 提供跨厂商的文件存储抽象，支持 **MinIO**（私有化主流）、**本地磁盘**、**FastDFS** 等多种存储方案的无缝切换。
+- 内置集成 **kkFileView** 容器化服务，原生支持 PDF、Word、Excel、PPT、各类图片及压缩包的在线快速预览。
+
+### 8. 多数据库方言开箱即用
+- 系统持久层与初始化脚本同时支持主流及信创数据库：**MySQL 8.0 / 5.7**、**达梦数据库 (DM8)**、**Oracle (12c/19c)**、**SQL Server (2016+)**。
+
+---
+
+## 系统架构
+
+### 架构示意图
+
+```mermaid
+flowchart TD
+    Client["Web 端 (Vben 5 / Soybean) / 移动端 App"]
+    
+    subgraph EdgeLayer["边界入口与网络分发"]
+        Nginx["Nginx 反向代理 / SSL 卸载"]
+        Gateway["lamp-gateway-server (API 网关 :8760)<br/>全局鉴权 / 动态路由 / 限流熔断 / 跨域 / 灰度"]
+    end
+
+    subgraph ServiceLayer["微服务核心业务集群"]
+        OAuth["lamp-oauth-server (:8764)<br/>认证中心 / Token 签发 / 登录鉴权"]
+        System["lamp-system-server (:8766)<br/>用户 / 角色 / 菜单 / 组织 / 岗位 / 租户"]
+        Base["lamp-base-server (:8768)<br/>字典 / 消息 / 文件存储 / 地区数据"]
+        Generator["lamp-generator-server (:8770)<br/>数据建模 / 在线代码生成"]
+        Support["lamp-support 支撑套件<br/>monitor (:8762) / job-executor / boot-server"]
+    end
+
+    subgraph MiddlewareLayer["中间件与基础设施"]
+        Nacos["Nacos 2.x<br/>注册中心 & 配置中心"]
+        Redis["Redis 7.x<br/>分布式缓存 / 会话 / 锁"]
+        MySQL["MySQL 8.x / 达梦 / Oracle<br/>关系型主备数据库"]
+        RabbitMQ["RabbitMQ 3.x<br/>异步消息总线 / 削峰填谷"]
+        MinIO["MinIO / kkFileView<br/>对象存储 & 文件在线预览"]
+        Sentinel["Sentinel<br/>服务保护与流控看板"]
+    end
+
+    Client --> Nginx --> Gateway
+    Gateway --> OAuth
+    Gateway --> System
+    Gateway --> Base
+    Gateway --> Generator
+    Gateway --> Support
+
+    ServiceLayer -. 服务发现 & 动态配置 .-> Nacos
+    ServiceLayer -. 缓存 & 分布式 Session .-> Redis
+    ServiceLayer -. 业务持久化存储 .-> MySQL
+    ServiceLayer -. 异步解耦通信 .-> RabbitMQ
+    ServiceLayer -. 附件存取与预览 .-> MinIO
+    ServiceLayer -. 流量统计与熔断 .-> Sentinel
+```
+
+> [!TIP]
+> 更多架构设计图、依赖关系图与监控拓扑，请参阅目录：[`doc/image/架构图/`](doc/image/架构图/)。
+
+---
+
+## 技术选型
+
+| 维度 | 关键技术 | 选型说明与版本 |
+| :--- | :--- | :--- |
+| **基础语言与环境** | **Java** | 推荐使用 JDK 17 LTS 或 JDK 21 LTS |
+| **构建管理** | **Maven** | Maven 3.8+ / 3.9+ |
+| **基础核心框架** | **Spring Boot** | 3.2.x 核心底座 |
+| **微服务治理套件** | **Spring Cloud** | 2023.x (Spring Cloud Alibaba 2023.x) |
+| **微服务注册与配置** | **Nacos** | 2.x+ 注册中心与集中配置管控 |
+| **服务网关** | **Spring Cloud Gateway** | 响应式 Reactive API 路由与全局过滤器 |
+| **服务通信** | **OpenFeign** | 声明式 HTTP 服务间客户端远程调用 |
+| **安全与认证鉴权** | **Sa-Token** | 1.37+ 轻量级安全框架（网关路由鉴权、Session、踢人） |
+| **持久层 ORM** | **MyBatis-Plus** | 3.5.x+ 丰富 CRUD 增强与多租户/数据权限拦截器插件 |
+| **数据库连接池** | **HikariCP / Druid** | 高性能企业级数据库连接池 |
+| **分布式缓存** | **Redis** | 6.x / 7.x 分布式缓存、Token 与热点数据管理 |
+| **分布式消息队列** | **RabbitMQ** | 3.12+ 异步事件通信、数据同步与削峰填谷 |
+| **分布式事务** | **Seata** | 2.x AT 模式无侵入分布式事务协同 |
+| **服务熔断与限流** | **Sentinel** | 流量防卫兵、实时监控看板与集群降级 |
+| **API 文档与契约** | **SpringDoc** | 2.3.x (OpenAPI 3 / Swagger-UI / Knife4j) 接口文档 |
+| **对象存储** | **MinIO / FastDFS** | 高性能云原生 S3 兼容对象存储 |
+| **文件在线预览** | **kkFileView** | 支持 Office、PDF、图片等多格式在线渲染预览 |
+| **分布式任务调度** | **XXL-JOB** | 分布式定时任务调度平台（支持集群执行） |
+| **前端推荐方案** | **Vben 5 / Soybean** | Vue 3 + TypeScript + Vite + Ant Design Vue / Naive UI |
+
+---
+
+## 模块划分与端口矩阵
+
+### 1. 服务模块与端口对照表
+
+| 模块名称 | 默认端口 | 职责定位 | 核心包路径 / 启动类 |
+| :--- | :--- | :--- | :--- |
+| **`lamp-dependencies-parent`** | - | 全局统一依赖与第三方库版本管理 POM | 父级构建依赖 |
+| **`lamp-public`** | - | 公共模型、通用 SDK 集合与底层核心基类 | `com.dalio.cloud.*` |
+| **`lamp-gateway-server`** | `8760` | 统一微服务 API 网关，路由转发、鉴权与流控 | `GatewayServerApplication` |
+| **`lamp-oauth-server`** | `8764` | 认证授权服务，Token 签发、登录注销、第三方鉴权 | `OauthServerApplication` |
+| **`lamp-system-server`** | `8766` | 核心系统服务，用户/角色/资源/组织/岗位/租户管理 | `SystemServerApplication` |
+| **`lamp-base-server`** | `8768` | 基础业务服务，字典/通用参数/地区/站内消息/文件 | `BaseServerApplication` |
+| **`lamp-generator-server`** | `8770` | 可视化代码生成服务，支持多前端模板生成与导出 | `GeneratorServerApplication` |
+| **`lamp-monitor`** | `8762` | 微服务健康状态治理、监控大屏与系统运行指标 | `MonitorApplication` |
+| **`lamp-job-executor`** | `8776` | XXL-JOB 任务调度执行器客户端节点 | `JobExecutorApplication` |
+| **`lamp-boot-server`** | `18760` | 聚合单体模式支撑服务（按需适配非微服务模式） | `BootServerApplication` |
+
+### 2. 标准五层工程架构设计
+
+每个独立业务微服务（如 `lamp-system`、`lamp-base`、`lamp-oauth`）均严格遵循标准化高内聚设计规范，解耦为 5 个子工程：
+
+```text
+lamp-[module]
+├── lamp-[module]-entity       # 基础实体层：包含 Entity、DTO、VO、入参校验规则与枚举
+├── lamp-[module]-biz          # 核心业务层：DAO/Mapper、Service 业务逻辑实现、缓存与数据权限处理
+├── lamp-[module]-controller   # 接口暴露层：RESTful 控制器、Swagger/OpenAPI 描述与参数转换
+├── lamp-[module]-facade       # 服务间契约：OpenFeign 客户端声明、传输模型与 Fallback 熔断降级
+└── lamp-[module]-server       # 独立可运行服务：Spring Boot 启动类、环境配置文件与 Dockerfile
+```
+
+---
+
+## 环境依赖
+
+在开始本地构建与部署前，请确保您的工作机或服务器已安装并配置好以下基础软件：
+
+- **JDK**：`17+` 或 `21+`（推荐 Eclipse Temurin 或 Alibaba Dragonwell）
+- **Maven**：`3.8.0+`（配置国内镜像源如阿里云以获得更流畅的拉取速度）
+- **MySQL**：`8.0+`（亦可选择 5.7 或达梦 DM8）
+- **Redis**：`6.0+` 或 `7.0+`
+- **Nacos**：`2.2+`（推荐开启鉴权）
+- **Docker & Docker Compose**（推荐）：`Docker 24.0+` / `Compose 2.20+`
+- **Node.js**（仅运行前端工程时需要）：`18.x+` / `20.x+` 与 `pnpm`
+
+---
+
+## 快速开始
+
+### 1. 编译基础依赖 lamp-util
+
+> [!IMPORTANT]
+> `lamp-cloud` 依赖统一底层公共工具库 **`lamp-util`**（版本为 `5.10.0`）。  
+> 若您是初次获取源码，必须**首先编译并安装 `lamp-util` 到本地 Maven 仓库**：
+
+```bash
+# 进入 lamp-util 源码目录并执行安装
+cd /path/to/lamp-util
+mvn clean install -DskipTests
+```
+
+---
+
+### 2. 中间件一键拉起
+
+推荐直接使用项目提供的 Docker Compose 快速初始化本地/测试环境的基础中间件（包含 MySQL 8、Redis 7、Nacos 2.x、RabbitMQ 3 与 MinIO）：
+
+```bash
+cd doc/dockerfile
+
+# 1. 复制环境变量模板文件
+cp .env.example .env
+
+# 2. 按需修改 .env 中的密码与端口（若使用默认值可跳过）
+
+# 3. 后台一键拉起所有依赖容器
+docker compose up -d
+```
+
+---
+
+### 3. 数据库与 Nacos 配置初始化
+
+#### 3.1 导入数据库初始化脚本
+参考 [`doc/sql/注意.md`](doc/sql/注意.md) 导入对应数据库方言的脚本（以 MySQL 8.0 为例）：
+
+1. **创建基础库**：在 MySQL 客户端中优先执行 [`doc/sql/mysql/1.先执行我,创建数据库.sql`](doc/sql/mysql/1.先执行我,创建数据库.sql)
+   - 创建业务数据库：`lamp_none`
+   - 创建 Nacos 配置数据库：`lamp_nacos`
+2. **导入核心业务表**：连接至新建的 `lamp_none` 数据库，完整执行业务表结构及基础数据脚本 [`doc/sql/mysql/lamp_none.sql`](doc/sql/mysql/lamp_none.sql)。
+
+#### 3.2 导入 Nacos 微服务配置包
+1. 访问 Nacos 控制台（本地默认地址：`http://127.0.0.1:8848/nacos`，初始账号/密码：`nacos / nacos`）。
+2. 在“配置管理” -> “配置列表”页面，点击“导入配置”按钮。
+3. 上传导入预置压缩包：[`doc/third-party/nacos/nacos_config_export_*.zip`](doc/third-party/nacos/)。
+4. 检查公共配置文件（如 `common.yml`、`mysql.yml`、`redis.yml`、`rabbitmq.yml`），确认数据库连接、Redis 与 RabbitMQ 的 IP、端口与密码与真实环境完全一致。
+
+---
+
+### 4. 工程打包编译
+
+在项目根目录下执行全量 Maven 编译打包命令：
+
+```bash
+# 清理并完成所有子工程构建与 JAR 打包
+mvn clean package -DskipTests
+```
+
+构建成功后，各个 `*-server` 模块下的 `target/` 目录将分别生成对应的微服务可执行 JAR 包。
+
+---
+
+### 5. 微服务启动与推荐顺序
+
+微服务之间存在上下文依赖与网关路由探测，**推荐严格按照以下顺序启动**：
+
+```text
+[Step 1] lamp-gateway-server    (API 统一网关，负责接收并路由所有前端流量)
+   ↓
+[Step 2] lamp-oauth-server      (认证授权中心，提供 Token 签发与权限校验上下文)
+   ↓
+[Step 3] lamp-system-server     (系统管理核心，提供用户、角色、租户与机构数据)
+   ↓
+[Step 4] lamp-base-server       (基础数据服务，提供数据字典、文件存取与系统通知)
+   ↓
+[Step 5] lamp-generator-server  (代码生成器服务，业务功能快速逆向输出，按需启动)
+   ↓
+[Step 6] lamp-monitor           (服务健康度大屏与 Spring Boot Admin 监控面板，可选)
+```
+
+#### 启动方式选择：
+- **方式 A：IDE 本地调试**  
+  在 IntelliJ IDEA 或 VSCode 中，按上述顺序分别运行各模块的主启动类（`*Application.java`）。
+- **方式 B：Shell / Bat 脚本启动**  
+  - Linux 环境：使用项目提供的运维脚本体系 [`doc/shells/linux/start-all.sh`](doc/shells/linux/start-all.sh) 一键按序全量拉起。
+  - Windows 环境：使用 [`doc/shells/window/`](doc/shells/window/) 目录下的批处理脚本。
+- **方式 C：Docker 容器化镜像构建**  
+  各微服务均内置标准 Dockerfile，可参阅 [`doc/docker/03.docker运行项目.md`](doc/docker/03.docker运行项目.md) 编译镜像并启动容器。
+
+---
+
+### 6. 服务验证与默认访问信息
+
+启动完毕后，在浏览器中访问相应端点进行系统连通性验证：
+
+| 服务/组件 | 访问地址 | 默认账号 / 密码 / 凭证 | 备注说明 |
+| :--- | :--- | :--- | :--- |
+| **API 统一网关** | `http://127.0.0.1:8760` | - | 客户端/前端请求统一入口地址 |
+| **OpenAPI / 接口文档** | `http://127.0.0.1:8760/doc.html`<br/>或各服务 `/swagger-ui.html` | - | 基于 SpringDoc 聚合的微服务 API 契约看板 |
+| **Nacos 配置与注册中心** | `http://127.0.0.1:8848/nacos` | `nacos / nacos` | 服务列表需全部显示为健康状态（`UP`） |
+| **RabbitMQ 控制台** | `http://127.0.0.1:15672` | `lamp / lamp` | 消息队列状态与队列路由监控 |
+| **MinIO 对象存储看板** | `http://127.0.0.1:9001` | `lamp / lamp123456` | 附件云存储桶与文件管理后台 |
+| **系统内置超级管理员** | 业务前端登录界面 | `admin / 123456` *(或工程预设密码)* | 拥有全部管理权限，**生产环境务必第一时间修改** |
+
+> [!NOTE]
+> **API 调试全局请求头（Header）规范**：
+> - `Token`: 登录成功后换取的业务身份凭证（Sa-Token 自动管理）。
+> - `Authorization`: 客户端凭证（默认格式为 Basic Auth，预设值为 `bGFtcF93ZWI6bGFtcF93ZWJfc2VjcmV0`）。
+> - `ApplicationId`: 应用标识（默认填 `1`）。
+
+---
+
+## 生产运维与高可用
+
+### 1. JVM 生产推荐调优参数
+针对核心业务容器与裸机实例，推荐采用现代化 **G1GC** 垃圾回收器，基线参数参考如下：
+
+```bash
+-server -Xms2048m -Xmx4096m -Xss512k -XX:MetaspaceSize=256M -XX:MaxMetaspaceSize=512M \
+-XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+HeapDumpOnOutOfMemoryError \
+-XX:HeapDumpPath=/data/logs/dump.hprof -Dfile.encoding=UTF-8
+```
+
+### 2. 优雅停机与进程治理
+通过标准运维脚本 [`doc/shells/linux/run.sh`](doc/shells/linux/run.sh)，系统支持微服务生产环境的安全优雅注销：
+```bash
+# 语法: sh run.sh {start|stop|restart|status} <服务名> [Profile]
+sh run.sh restart lamp-system-server prod
+```
+脚本内置循环状态探测机制（`kill -15` 优雅通知 -> 等待请求处理完成 -> 10 秒超时强制 `kill -9` 兜底），确保正在执行中的业务事务不受影响。
+
+### 3. 限流与容错机制
+关于微服务调用链超时计算（`Gateway -> Feign -> Ribbon/Sentinel`）及线程池隔离、降级配置的深度解析，请深入阅读 [`doc/hystrix配置详解.md`](doc/hystrix配置详解.md)。
+
+---
+
+## 工程文档中心导航
+
+项目 `doc/` 目录下汇集了系统详尽的运维脚本、初始化脚本及各维度最佳实践手册：
+
+```text
+doc/
+├── README.md                          # 运维与工程文档中心总览与索引导航
+├── sql/                               # 多数据库方言初始化脚本
+│   ├── mysql/                         # MySQL 8.0 / 5.7 建库与业务表结构
+│   ├── dameng/                        # 达梦数据库 (DM8) 初始化脚本
+│   ├── oracle/                        # Oracle 12c+ 用户创建与授权脚本
+│   ├── sqlserver/                     # SQL Server 初始化脚本
+│   └── 注意.md                        # 数据库初始化操作规范与注意事项
+├── docker/                            # Docker 容器化运维专题指南
+│   ├── 01.环境初始化(可选).md          # Linux 宿主机基础配置调优
+│   ├── 02.docker安装.md               # 现代化 Docker CE 与 Compose 官方安装指引
+│   └── 03.docker运行项目.md           # 微服务打包、镜像构建与容器运行全流程
+├── dockerfile/                        # 中间件容器化配置文件与编排
+│   ├── docker-compose.yml             # 基础中间件一键编排 (MySQL, Redis, Nacos, RabbitMQ, MinIO)
+│   ├── .env.example                   # 环境变量配置模板
+│   ├── nacos/ & redis/ & rabbitmq/    # 各基础中间件专用配置与容器启动脚本
+│   └── MinIo/ & nginx/ & xxFileView/  # 对象存储、反向代理与在线文件预览配置
+├── shells/                            # 本地与服务器启停运维脚本
+│   ├── linux/                         # Linux 环境 Shell 启停脚本 (run.sh, start-all.sh 等)
+│   └── window/                        # Windows 本地快速调试批处理脚本 (*.bat)
+├── third-party/                       # 第三方中间件预置数据 (Nacos 配置导出包)
+├── image/                             # 系统架构图、依赖图与监控拓扑
+└── hystrix配置详解.md                  # 微服务超时联动计算与容错熔断调优手册
+```
+
+- 数据库使用注意事项：[`doc/sql/注意.md`](doc/sql/注意.md)
+- Docker 完整部署手册：[`doc/docker/03.docker运行项目.md`](doc/docker/03.docker运行项目.md)
+- 中间件编排指南：[`doc/dockerfile/docker-compose.yml`](doc/dockerfile/docker-compose.yml)
+- 运维启停脚本体系：[`doc/shells/linux/run.sh`](doc/shells/linux/run.sh)
+- 熔断降级与超时配置：[`doc/hystrix配置详解.md`](doc/hystrix配置详解.md)
+
+---
+
+## 开源协议与鸣谢
+
+- 本项目基于开源项目 [lamp-cloud](https://github.com/dromara/lamp-cloud) 进行深入定制与二次改造。
+- 代码遵循 [Apache-2.0](LICENSE) 开源许可证，并附带 [NOTICE](NOTICE) 归属说明。
+- 感谢 **Spring Cloud**、**Alibaba Cloud**、**Sa-Token**、**MyBatis-Plus** 等开源社区提供的优秀基础设施！

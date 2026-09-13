@@ -4,17 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <!--
-            这个依赖爆红，怀疑代码没给全？
-            拜托你能不能先看文档，了解清楚项目的依赖关系！别一来就折腾代码。
-            这个依赖在独立的 lamp-util 项目，请先下载lamp-util并将其编译至本地maven仓库后，本项目才能编译成功。
+            本工程依赖底层的 lamp-util 基础组件库。
+            在初次构建前，请确保 lamp-util (5.10.0) 已编译并安装至本地或私有 Maven 仓库。
         -->
-        <groupId>top.tangyh.basic</groupId>
+        <groupId>com.dalio.basic</groupId>
         <artifactId>lamp-parent</artifactId>
         <version>5.10.0</version>
         <relativePath/>
     </parent>
 
-    <groupId>top.tangyh.lamp</groupId>
+    <groupId>com.dalio.cloud</groupId>
     <artifactId>lamp-dependencies-parent</artifactId>
     <version>${revision}</version>
 
@@ -22,110 +21,115 @@
     <modelVersion>4.0.0</modelVersion>
     <name>${project.artifactId}</name>
     <description>lamp项目业务父pom</description>
-    <url>https://github.com/dromara/lamp-cloud</url>
     <properties>
         <!-- 本项目的版本 -->
         <revision>5.10.0</revision>
         <!-- lamp-util基础库的版本 -->
         <lamp-util.version>5.10.0</lamp-util.version>
-        <docker.image.prefix>zuihou</docker.image.prefix>
+        <docker.image.prefix>cloud</docker.image.prefix>
+        <springdoc.version>2.3.0</springdoc.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-all-cloud</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-all-boot</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-annotation</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-webmvc</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-cache-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-cloud-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-core</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-databases</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-echo-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-log-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-captcha-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-mq-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-mvc</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-scan-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-swagger2-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-uid</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-validator-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-xss-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
             <dependency>
-                <groupId>top.tangyh.basic</groupId>
+                <groupId>com.dalio.basic</groupId>
                 <artifactId>fastdfs-client</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="top.tangyh.lamp.generator.mapper.DefGenTableColumnMapper">
+<mapper namespace="com.dalio.cloud.generator.mapper.DefGenTableColumnMapper">
     <!-- 代码生成器 by 2022-03-24 13:27:50 -->
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="top.tangyh.lamp.generator.entity.DefGenTableColumn">
+    <resultMap id="BaseResultMap" type="com.dalio.cloud.generator.entity.DefGenTableColumn">
         <id column="id" property="id"/>
         <result column="table_id" property="tableId"/>
         <result column="name" property="name"/>

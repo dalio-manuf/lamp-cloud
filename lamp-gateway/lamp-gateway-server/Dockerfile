@@ -1,7 +1,7 @@
-FROM openjdk:8-jre
-MAINTAINER zuihou 306479353@qq.com
+FROM eclipse-temurin:17-jre-alpine
+LABEL maintainer="admin@example.com"
 
-RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+RUN apk add --no-cache tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone
 
 ARG JAR_FILE

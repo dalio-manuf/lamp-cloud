@@ -1,0 +1,118 @@
+# ==============================================================================
+# lamp-cloud 基础中间件一键编排 (Docker Compose)
+# 快速启动命令: docker compose up -d
+# 停止运行命令: docker compose down
+# ==============================================================================
+
+networks:
+  lamp-network:
+    name: lamp-network
+    driver: bridge
+
+services:
+  # ----------------------------------------------------------------------------
+  # 1. MySQL 数据库服务
+  # ----------------------------------------------------------------------------
+  lamp-mysql:
+    image: mysql:${MYSQL_VERSION:-8.0.36}
+    container_name: lamp-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      TZ: ${TZ:-Asia/Shanghai}
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - ${DATA_PATH:-/data/docker-data}/mysql-data:/var/lib/mysql
+      - ./mysql8/conf:/etc/mysql/conf.d
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --lower_case_table_names=1
+      --max_connections=1000
+    networks:
+      - lamp-network
+
+  # ----------------------------------------------------------------------------
+  # 2. Redis 缓存服务
+  # ----------------------------------------------------------------------------
+  lamp-redis:
+    image: redis:${REDIS_VERSION:-7.2-alpine}
+    container_name: lamp-redis
+    restart: always
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - ${DATA_PATH:-/data/docker-data}/redis-data:/data
+    command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD:-}"
+    networks:
+      - lamp-network
+
+  # ----------------------------------------------------------------------------
+  # 3. Nacos 注册中心与配置中心 (Standalone 模式)
+  # ----------------------------------------------------------------------------
+  lamp-nacos:
+    image: nacos/nacos-server:${NACOS_VERSION:-v2.3.2}
+    container_name: lamp-nacos
+    restart: always
+    environment:
+      MODE: ${NACOS_MODE:-standalone}
+      PREFER_HOST_MODE: hostname
+      JVM_XMS: 512m
+      JVM_XMX: 512m
+      JVM_XMN: 256m
+      NACOS_AUTH_ENABLE: "false"
+      TZ: ${TZ:-Asia/Shanghai}
+    ports:
+      - "${NACOS_PORT:-8848}:8848"
+      - "9848:9848"
+      - "9849:9849"
+    volumes:
+      - ./nacos/logs:/home/nacos/logs
+      - ./nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties
+    depends_on:
+      - lamp-mysql
+    networks:
+      - lamp-network
+
+  # ----------------------------------------------------------------------------
+  # 4. RabbitMQ 消息队列
+  # ----------------------------------------------------------------------------
+  lamp-rabbitmq:
+    image: rabbitmq:${RABBITMQ_VERSION:-3.12-management}
+    container_name: lamp-rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER:-admin}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS:-admin123}
+      TZ: ${TZ:-Asia/Shanghai}
+    ports:
+      - "${RABBITMQ_PORT:-5672}:5672"
+      - "${RABBITMQ_MGMT_PORT:-15672}:15672"
+    volumes:
+      - ${DATA_PATH:-/data/docker-data}/rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - lamp-network
+
+  # ----------------------------------------------------------------------------
+  # 5. MinIO 分布式对象存储
+  # ----------------------------------------------------------------------------
+  lamp-minio:
+    image: minio/minio:latest
+    container_name: lamp-minio
+    restart: always
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      TZ: ${TZ:-Asia/Shanghai}
+    ports:
+      - "${MINIO_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - ${DATA_PATH:-/data/docker-data}/minio-data:/data
+    command: server /data --console-address ":9001"
+    networks:
+      - lamp-network

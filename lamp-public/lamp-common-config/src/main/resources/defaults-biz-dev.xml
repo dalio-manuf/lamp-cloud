@@ -4,45 +4,45 @@
     <!-- logback/defaults-dev.xml 文件位于lamp-util/lamp-log-starter/src/main/resources -->
     <include resource="logback/defaults-dev.xml"/>
 
-    <logger name="top.tangyh.lamp.system.controller" additivity="true" level="${log.level.controller}">
+    <logger name="com.dalio.cloud.system.controller" additivity="true" level="${log.level.controller}">
         <appender-ref ref="CONTROLLER_APPENDER"/>
     </logger>
-    <logger name="top.tangyh.lamp.system.service" additivity="true" level="${log.level.service}">
+    <logger name="com.dalio.cloud.system.service" additivity="true" level="${log.level.service}">
         <appender-ref ref="SERVICE_APPENDER"/>
     </logger>
 
-    <logger name="top.tangyh.lamp.base.controller" additivity="true" level="${log.level.controller}">
+    <logger name="com.dalio.cloud.base.controller" additivity="true" level="${log.level.controller}">
         <appender-ref ref="CONTROLLER_APPENDER"/>
     </logger>
-    <logger name="top.tangyh.lamp.base.service" additivity="true" level="${log.level.service}">
+    <logger name="com.dalio.cloud.base.service" additivity="true" level="${log.level.service}">
         <appender-ref ref="SERVICE_APPENDER"/>
     </logger>
 
-    <logger name="top.tangyh.lamp.oauth.controller" additivity="true" level="${log.level.controller}">
+    <logger name="com.dalio.cloud.oauth.controller" additivity="true" level="${log.level.controller}">
         <appender-ref ref="CONTROLLER_APPENDER"/>
     </logger>
-    <logger name="top.tangyh.lamp.oauth.service" additivity="true" level="${log.level.service}">
+    <logger name="com.dalio.cloud.oauth.service" additivity="true" level="${log.level.service}">
         <appender-ref ref="SERVICE_APPENDER"/>
     </logger>
 
-    <logger name="top.tangyh.lamp.file.controller" additivity="true" level="${log.level.controller}">
+    <logger name="com.dalio.cloud.file.controller" additivity="true" level="${log.level.controller}">
         <appender-ref ref="CONTROLLER_APPENDER"/>
     </logger>
-    <logger name="top.tangyh.lamp.file.service" additivity="true" level="${log.level.service}">
+    <logger name="com.dalio.cloud.file.service" additivity="true" level="${log.level.service}">
         <appender-ref ref="SERVICE_APPENDER"/>
     </logger>
 
 
-    <logger name="top.tangyh.lamp.msg.controller" additivity="true" level="${log.level.controller}">
+    <logger name="com.dalio.cloud.msg.controller" additivity="true" level="${log.level.controller}">
         <appender-ref ref="CONTROLLER_APPENDER"/>
     </logger>
-    <logger name="top.tangyh.lamp.msg.service" additivity="true" level="${log.level.service}">
+    <logger name="com.dalio.cloud.msg.service" additivity="true" level="${log.level.service}">
         <appender-ref ref="SERVICE_APPENDER"/>
     </logger>
-    <logger name="top.tangyh.lamp.sms.controller" additivity="true" level="${log.level.controller}">
+    <logger name="com.dalio.cloud.sms.controller" additivity="true" level="${log.level.controller}">
         <appender-ref ref="CONTROLLER_APPENDER"/>
     </logger>
-    <logger name="top.tangyh.lamp.sms.service" additivity="true" level="${log.level.service}">
+    <logger name="com.dalio.cloud.sms.service" additivity="true" level="${log.level.service}">
         <appender-ref ref="SERVICE_APPENDER"/>
     </logger>
 </included>

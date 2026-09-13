@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="top.tangyh.lamp.test.mapper.DefGenTestSimpleMapper">
+<mapper namespace="com.dalio.cloud.test.mapper.DefGenTestSimpleMapper">
     <!--
         代码生成器 by 2022-04-15 15:36:45
         自定义sql建议在base文件夹同级新建ext文件夹，并新建同名且同namespace的xml进行编写。方便修改字段时，重新生成此文件。
     -->
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="top.tangyh.lamp.test.entity.DefGenTestSimple">
+    <resultMap id="BaseResultMap" type="com.dalio.cloud.test.entity.DefGenTestSimple">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="stock" property="stock"/>

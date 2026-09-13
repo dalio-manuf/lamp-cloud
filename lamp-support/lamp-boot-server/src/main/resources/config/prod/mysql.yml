@@ -13,8 +13,8 @@ lamp:
     filters: stat,wall
     db-type: mysql
     validation-query: SELECT 'x'
-    username: 'root'
-    password: 'ZHadmin123.'
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:ZHadmin123.}
     # 生产使用原生驱动，开发使用p6spy驱动打印日志
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3218/lamp_none?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&nullCatalogMeansCurrent=true
@@ -112,8 +112,8 @@ mybatis-plus:
   mapper-locations:
     - classpath*:mapper_**/**/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: top.tangyh.lamp.*.entity;top.tangyh.basic.database.mybatis.typehandler
-  typeEnumsPackage: top.tangyh.lamp.*.enumeration
+  typeAliasesPackage: com.dalio.cloud.*.entity;com.dalio.basic.database.mybatis.typehandler
+  typeEnumsPackage: com.dalio.cloud.*.enumeration
   global-config:
     db-config:
       id-type: INPUT
@@ -126,4 +126,4 @@ mybatis-plus:
     cache-enabled: false
     #配置JdbcTypeForNull, oracle数据库必须配置
     jdbc-type-for-null: 'null'
-    default-enum-type-handler: top.tangyh.basic.database.mybatis.handlers.MybatisEnumTypeHandler
+    default-enum-type-handler: com.dalio.basic.database.mybatis.handlers.MybatisEnumTypeHandler

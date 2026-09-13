@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="top.tangyh.lamp.msg.mapper.ExtendInterfaceLogMapper">
+<mapper namespace="com.dalio.cloud.msg.mapper.ExtendInterfaceLogMapper">
     <update id="incrSuccessCount">
         update extend_interface_log
         set success_count  = success_count + 1,
