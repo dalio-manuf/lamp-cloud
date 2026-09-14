@@ -33,10 +33,20 @@ public class BaseOperationLogManagerImpl extends SuperManagerImpl<BaseOperationL
 
     @Override
     public Long clearLog(LocalDateTime clearBeforeTime, Integer clearBeforeNum) {
+        if (clearBeforeTime == null && (clearBeforeNum == null || clearBeforeNum <= 0)) {
+            // 安全防御：避免无条件全表误删
+            return 0L;
+        }
         List<Long> idList = Collections.emptyList();
-        if (clearBeforeNum != null) {
-            Page<BaseOperationLog> page = super.page(new Page<>(0, clearBeforeNum), Wraps.<BaseOperationLog>lbQ().select(BaseOperationLog::getId).orderByDesc(BaseOperationLog::getCreatedTime));
+        if (clearBeforeNum != null && clearBeforeNum > 0) {
+            Page<BaseOperationLog> page = super.page(new Page<>(1, clearBeforeNum), Wraps.<BaseOperationLog>lbQ().select(BaseOperationLog::getId).orderByDesc(BaseOperationLog::getCreatedTime));
             idList = page.getRecords().stream().map(BaseOperationLog::getId).toList();
+            if (clearBeforeTime == null && idList.isEmpty()) {
+                return 0L;
+            }
+        }
+        if (clearBeforeTime == null && idList.isEmpty()) {
+            return 0L;
         }
         baseOperationLogExtMapper.clearLog(clearBeforeTime, idList);
         return baseMapper.clearLog(clearBeforeTime, idList);

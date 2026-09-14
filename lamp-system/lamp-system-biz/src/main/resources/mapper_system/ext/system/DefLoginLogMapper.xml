@@ -8,11 +8,17 @@
             <if test="clearBeforeTime != null">
                 AND created_time <![CDATA[ <= ]]> #{clearBeforeTime}
             </if>
+            <if test="cutoffId != null">
+                AND id <![CDATA[ < ]]> #{cutoffId}
+            </if>
             <if test="idList != null and idList.size() > 0">
                 AND id NOT in
                 <foreach close=")" collection="idList" item="id" open="(" separator=",">
                     #{id}
                 </foreach>
+            </if>
+            <if test="clearBeforeTime == null and cutoffId == null and (idList == null or idList.size() == 0)">
+                AND 1 = 2
             </if>
         </trim>
     </delete>

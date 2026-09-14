@@ -17,8 +17,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.dalio.cloud.system.enumeration.system.LoginStatusEnum;
 
 import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 /**
  * 登录状态DTO
@@ -125,18 +123,4 @@ public class LoginStatusDTO implements Serializable {
         this.requestIp = tempIp;
         return this;
     }
-
-    /**
-     * 判断是否为本地IP地址的方法
-     */
-    private boolean isLocalHostIp(String ipAddress) {
-        try {
-            InetAddress inetAddress = InetAddress.getByName(ipAddress);
-            return inetAddress.isLoopbackAddress();
-        } catch (UnknownHostException e) {
-            // 处理异常情况，如果无法解析IP地址，则不视为本地地址
-            return false;
-        }
-    }
-
 }

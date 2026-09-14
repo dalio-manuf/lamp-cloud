@@ -1,6 +1,5 @@
 package com.dalio.cloud.gateway.config;
 
-
 import cn.hutool.core.util.StrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +29,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author admin
+ * 网关全局 JSON 异常处理器
+ *
+ * @author dalio
  * @date 2021/10/29 14:08
  */
 public class JsonExceptionHandler implements ErrorWebExceptionHandler {
@@ -55,7 +56,7 @@ public class JsonExceptionHandler implements ErrorWebExceptionHandler {
     private static final String EXCEPTION_HANDLER_RESULT_ATTR = "lamp.gateway.exceptionHandlerResult";
 
     /**
-     * 参考AbstractErrorWebExceptionHandler
+     * 参考 AbstractErrorWebExceptionHandler
      */
     public void setMessageReaders(List<HttpMessageReader<?>> messageReaders) {
         Assert.notNull(messageReaders, "'messageReaders' must not be null");
@@ -63,14 +64,14 @@ public class JsonExceptionHandler implements ErrorWebExceptionHandler {
     }
 
     /**
-     * 参考AbstractErrorWebExceptionHandler
+     * 参考 AbstractErrorWebExceptionHandler
      */
     public void setViewResolvers(List<ViewResolver> viewResolvers) {
         this.viewResolvers = viewResolvers;
     }
 
     /**
-     * 参考AbstractErrorWebExceptionHandler
+     * 参考 AbstractErrorWebExceptionHandler
      */
     public void setMessageWriters(List<HttpMessageWriter<?>> messageWriters) {
         Assert.notNull(messageWriters, "'messageWriters' must not be null");
@@ -92,16 +93,17 @@ public class JsonExceptionHandler implements ErrorWebExceptionHandler {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             body = StrUtil.isNotEmpty(ex.getMessage()) ? ex.getMessage() : "Internal Server Error";
         }
-        //封装响应体,此body可修改为自己的jsonBody
-        Map<String, Object> result = new HashMap<>(2, 1);
+        // 封装响应体
+        Map<String, Object> result = new HashMap<>(4);
         result.put("httpStatus", httpStatus);
 
         ServerHttpRequest request = exchange.getRequest();
         String msg = R.result(httpStatus.value(), null, body, body).setPath(request.getPath().toString()).toString();
         result.put("body", msg);
-        //错误记录
-        log.error("[全局异常处理]异常请求路径:{},记录异常信息:{}", request.getPath(), ex.getMessage());
-        //参考AbstractErrorWebExceptionHandler
+
+        // 记录完整错误堆栈日志
+        log.error("[全局异常处理] 异常请求路径: {}, 异常信息: ", request.getPath(), ex);
+
         if (exchange.getResponse().isCommitted()) {
             return Mono.error(ex);
         }
@@ -109,18 +111,17 @@ public class JsonExceptionHandler implements ErrorWebExceptionHandler {
         ServerRequest newRequest = ServerRequest.create(exchange, this.messageReaders);
         return RouterFunctions.route(RequestPredicates.all(), this::renderErrorResponse).route(newRequest)
                 .switchIfEmpty(Mono.error(ex))
-                .flatMap((handler) -> handler.handle(newRequest))
-                .flatMap((response) -> write(exchange, response));
-
+                .flatMap(handler -> handler.handle(newRequest))
+                .flatMap(response -> write(exchange, response));
     }
 
     /**
-     * 参考DefaultErrorWebExceptionHandler
+     * 参考 DefaultErrorWebExceptionHandler
      */
     protected Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
         @SuppressWarnings("unchecked")
         Map<String, Object> result = (Map<String, Object>) request.attribute(EXCEPTION_HANDLER_RESULT_ATTR).orElse(Collections.emptyMap());
-        HttpStatus status = result.get("httpStatus") instanceof HttpStatus httpStatus ? httpStatus : HttpStatus.INTERNAL_SERVER_ERROR;
+        HttpStatusCode status = result.get("httpStatus") instanceof HttpStatusCode statusCode ? statusCode : HttpStatus.INTERNAL_SERVER_ERROR;
         String body = result.get("body") != null ? result.get("body").toString() : "Internal Server Error";
         return ServerResponse.status(status)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -128,7 +129,7 @@ public class JsonExceptionHandler implements ErrorWebExceptionHandler {
     }
 
     /**
-     * 参考AbstractErrorWebExceptionHandler
+     * 参考 AbstractErrorWebExceptionHandler
      */
     private Mono<? extends Void> write(ServerWebExchange exchange,
                                        ServerResponse response) {
@@ -138,7 +139,7 @@ public class JsonExceptionHandler implements ErrorWebExceptionHandler {
     }
 
     /**
-     * 参考AbstractErrorWebExceptionHandler
+     * 参考 AbstractErrorWebExceptionHandler
      */
     private class ResponseContext implements ServerResponse.Context {
 
@@ -153,3 +154,4 @@ public class JsonExceptionHandler implements ErrorWebExceptionHandler {
         }
     }
 }
+

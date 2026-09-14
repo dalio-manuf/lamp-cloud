@@ -56,7 +56,7 @@ public class DefResourceApi extends Entity<Long> {
     /**
      * 请求类型
      */
-    @TableField(value = "request_method", condition = LIKE)
+    @TableField(value = "request_method")
     private String requestMethod;
 
     /**

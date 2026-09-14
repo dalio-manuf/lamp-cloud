@@ -83,8 +83,8 @@ public class AppendixSaveVO implements Serializable {
     }
 
     public AppendixSaveVO setTypeFiles(TypeFile... typeFiles) {
-        if (typeFiles.length > 0) {
-            this.setTypeFiles(Arrays.stream(typeFiles).toList());
+        if (typeFiles != null && typeFiles.length > 0) {
+            this.setTypeFiles(Arrays.asList(typeFiles));
         }
         return this;
     }

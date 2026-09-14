@@ -1,9 +1,7 @@
 package com.dalio.cloud.file.strategy;
 
-import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -13,9 +11,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author admin
  * @date 2019-06-14
  */
-@Component
 public final class FileLock {
-    private static final Map<String, Lock> LOCKS = new HashMap<>(16);
+    private static final Map<String, Lock> LOCKS = new ConcurrentHashMap<>(16);
 
     private FileLock() {
     }
@@ -28,14 +25,8 @@ public final class FileLock {
      * @author admin
      * @date 2019-06-14 11:30
      */
-    public static synchronized Lock getLock(String key) {
-        if (LOCKS.containsKey(key)) {
-            return LOCKS.get(key);
-        } else {
-            Lock one = new ReentrantLock();
-            LOCKS.put(key, one);
-            return one;
-        }
+    public static Lock getLock(String key) {
+        return LOCKS.computeIfAbsent(key, k -> new ReentrantLock());
     }
 
     /**
@@ -43,7 +34,7 @@ public final class FileLock {
      *
      * @param key keu
      */
-    public static synchronized void removeLock(String key) {
+    public static void removeLock(String key) {
         LOCKS.remove(key);
     }
 }

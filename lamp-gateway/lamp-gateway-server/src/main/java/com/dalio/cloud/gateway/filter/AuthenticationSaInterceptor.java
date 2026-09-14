@@ -30,13 +30,15 @@ import com.dalio.cloud.common.properties.IgnoreProperties;
 import com.dalio.cloud.model.vo.result.ResourceApiVO;
 import com.dalio.cloud.system.facade.DefResourceFacade;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 /**
- *注册 Sa-Token全局过滤器
- * @author admin
+ * Sa-Token 全局认证与鉴权过滤器
+ *
+ * @author dalio
  * @since 2024/8/6 16:33
  */
 @Component
@@ -53,29 +55,18 @@ public class AuthenticationSaInterceptor implements WebFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-
-        // 写入WebFilterChain对象
+        // 写入 WebFilterChain 对象
         exchange.getAttributes().put(SaReactorHolder.EXCHANGE_KEY, chain);
-//        if (true) {
-//            return chain.filter(exchange).contextWrite(ctx -> {
-//                ctx = ctx.put(SaReactorHolder.EXCHANGE_KEY, exchange);
-//                return ctx;
-//            }).doFinally(r -> {
-//                SaReactorSyncHolder.clearContext();
-//            });
-//        }
 
-        // ---------- 全局认证处理
+        // ---------- 全局认证与鉴权处理
         try {
             // 写入全局上下文 (同步)
             SaReactorSyncHolder.setContext(exchange);
 
-            // 执行全局过滤器
-
             Map<String, Set<String>> anyUser = ignoreProperties.buildAnyUser();
-            // 验证token 排除掉需要租户ID，但不需要登录
+            // 验证登录状态：排除配置了无需登录的白名单接口
             SaRouter
-                    .match("/**")    // 拦截的 path 列表，可以写多个 */
+                    .match("/**")
                     .notMatch(r -> {
                         String path = SaHolder.getRequest().getRequestPath();
                         String method = SaHolder.getRequest().getMethod();
@@ -84,11 +75,7 @@ public class AuthenticationSaInterceptor implements WebFilter, Ordered {
                             Set<String> value = map.getValue();
                             if (StrUtil.equalsAny(key, method, SaHttpMethod.ALL.name())) {
                                 for (String ignore : value) {
-                                    if (StrUtil.equals(ignore, path)) {
-                                        return true;
-                                    }
-
-                                    if (SaPathPatternParserUtil.match(ignore, path)) {
+                                    if (StrUtil.equals(ignore, path) || SaPathPatternParserUtil.match(ignore, path)) {
                                         return true;
                                     }
                                 }
@@ -98,118 +85,98 @@ public class AuthenticationSaInterceptor implements WebFilter, Ordered {
                     })
                     .check(r -> StpUtil.checkLogin());
 
-            // 无需校验权限
-            if (!ignoreProperties.getAuthEnabled()) {
-                return chain.filter(exchange).contextWrite(ctx -> {
-                    ctx = ctx.put(SaReactorHolder.EXCHANGE_KEY, exchange);
-                    return ctx;
-                }).doFinally(r -> {
-                    SaReactorSyncHolder.clearContext();
-                });
-            }
+            // 接口鉴权逻辑（若开启了鉴权）
+            if (Boolean.TRUE.equals(ignoreProperties.getAuthEnabled())) {
+                Map<String, Set<String>> anyone = ignoreProperties.buildAnyone();
+                Map<String, Set<String>> allApi = defResourceFacade.listAllApi();
 
-            // 接口权限
-            Map<String, Set<String>> anyone = ignoreProperties.buildAnyone();
-            Map<String, Set<String>> allApi = defResourceFacade.listAllApi();
-
-            allApi.forEach((api, auth) -> {
-                List<String> list = StrUtil.split(api, "###");
-                String uri = list.get(0);
-                String requestMethod = list.get(1);
-                SaRouter.match(uri).matchMethod(requestMethod)
-                        .notMatch(r -> {
-                            String path = SaHolder.getRequest().getRequestPath();
-                            String method = SaHolder.getRequest().getMethod();
-                            for (Map.Entry<String, Set<String>> map : anyone.entrySet()) {
-                                String key = map.getKey();
-                                Set<String> value = map.getValue();
-                                if (StrUtil.equalsAny(key, method, SaHttpMethod.ALL.name())) {
-                                    for (String ignore : value) {
-                                        if (StrUtil.equals(ignore, path)) {
-                                            return true;
-                                        }
-
-                                        if (SaPathPatternParserUtil.match(ignore, path)) {
-                                            return true;
+                allApi.forEach((api, auth) -> {
+                    List<String> list = StrUtil.split(api, "###");
+                    if (list.size() < 2) {
+                        return;
+                    }
+                    String uri = list.get(0);
+                    String requestMethod = list.get(1);
+                    SaRouter.match(uri).matchMethod(requestMethod)
+                            .notMatch(r -> {
+                                String path = SaHolder.getRequest().getRequestPath();
+                                String method = SaHolder.getRequest().getMethod();
+                                for (Map.Entry<String, Set<String>> map : anyone.entrySet()) {
+                                    String key = map.getKey();
+                                    Set<String> value = map.getValue();
+                                    if (StrUtil.equalsAny(key, method, SaHttpMethod.ALL.name())) {
+                                        for (String ignore : value) {
+                                            if (StrUtil.equals(ignore, path) || SaPathPatternParserUtil.match(ignore, path)) {
+                                                return true;
+                                            }
                                         }
                                     }
                                 }
+                                return false;
+                            })
+                            .check(r -> StpUtil.checkPermissionOr(auth.toArray(String[]::new)));
+                });
+
+                if (!ignoreProperties.getNotConfigUriAllow()) {
+                    String path = SaHolder.getRequest().getRequestPath();
+                    String method = SaHolder.getRequest().getMethod();
+                    ResourceApiVO resourceApi = new ResourceApiVO();
+                    resourceApi.setUri(path);
+                    resourceApi.setRequestMethod(method);
+
+                    if (!ignoreProperties.isIgnoreAnyone(method, path)) {
+                        boolean flag = false;
+                        for (Map.Entry<String, Set<String>> map : allApi.entrySet()) {
+                            List<String> list = StrUtil.split(map.getKey(), "###");
+                            if (list.size() < 2) {
+                                continue;
                             }
-                            return false;
-                        })
-                        .check(r -> StpUtil.checkPermissionOr(auth.toArray(String[]::new)));
-            });
+                            String uri = list.get(0);
+                            String requestMethod = list.get(1);
 
-
-            if (!ignoreProperties.getNotConfigUriAllow()) {
-                String path = SaHolder.getRequest().getRequestPath();
-                String method = SaHolder.getRequest().getMethod();
-                ResourceApiVO resourceApi = new ResourceApiVO();
-                resourceApi.setUri(path);
-                resourceApi.setRequestMethod(method);
-
-
-                if (!ignoreProperties.isIgnoreAnyone(method, path)) {
-                    boolean flag = false;
-                    for (Map.Entry<String, Set<String>> map : allApi.entrySet()) {
-                        List<String> list = StrUtil.split(map.getKey(), "###");
-                        String uri = list.get(0);
-                        String requestMethod = list.get(1);
-
-                        if (StrUtil.equalsAny(requestMethod, method, SaHttpMethod.ALL.name())) {
-                            if (StrUtil.equals(uri, path) || SaPathPatternParserUtil.match(uri, path)) {
-                                flag = true;
+                            if (StrUtil.equalsAny(requestMethod, method, SaHttpMethod.ALL.name())) {
+                                if (StrUtil.equals(uri, path) || SaPathPatternParserUtil.match(uri, path)) {
+                                    flag = true;
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    if (!flag) {
-                        throw new NotPermissionException(resourceApi.getUri(), StpUtil.TYPE).setCode(SaErrorCode.CODE_11051);
+                        if (!flag) {
+                            throw new NotPermissionException(resourceApi.getUri(), StpUtil.TYPE).setCode(SaErrorCode.CODE_11051);
+                        }
                     }
                 }
             }
 
         } catch (StopMatchException e) {
-            log.error(e.getMessage(), e);
-            // StopMatchException 异常代表：停止匹配，进入Controller
-
+            // StopMatchException 异常代表：匹配终止，正常放行进入后续环节
+            log.debug("Sa-Token 匹配流程终止: {}", e.getMessage());
         } catch (SaTokenException e) {
             String result = e.getMessage();
-            log.error(e.getMessage(), e);
+            log.warn("[AuthenticationSaInterceptor] Sa-Token 鉴权失败: code={}, msg={}", e.getCode(), result);
             ServerHttpResponse response = exchange.getResponse();
-            R tokenError = R.fail(e.getCode(), result);
-            response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-//            response.setStatusCode(HttpStatus.BAD_REQUEST);
-            DataBuffer dataBuffer = response.bufferFactory().wrap(tokenError.toString().getBytes());
+            R<?> tokenError = R.fail(e.getCode(), result);
+            response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+            DataBuffer dataBuffer = response.bufferFactory().wrap(cn.hutool.json.JSONUtil.toJsonStr(tokenError).getBytes(StandardCharsets.UTF_8));
             return response.writeWith(Mono.just(dataBuffer));
         } catch (Throwable e) {
-            log.error(e.getMessage(), e);
-            // 1. 获取异常处理策略结果
+            log.error("[AuthenticationSaInterceptor] 鉴权处理异常: ", e);
             String result = e.getMessage();
             ServerHttpResponse response = exchange.getResponse();
-            R tokenError = R.fail(result);
-            response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+            R<?> tokenError = R.fail(result);
+            response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
             response.setStatusCode(HttpStatus.BAD_REQUEST);
-            DataBuffer dataBuffer = response.bufferFactory().wrap(tokenError.toString().getBytes());
+            DataBuffer dataBuffer = response.bufferFactory().wrap(cn.hutool.json.JSONUtil.toJsonStr(tokenError).getBytes(StandardCharsets.UTF_8));
             return response.writeWith(Mono.just(dataBuffer));
         } finally {
-            // 清除上下文
+            // 清除同步上下文
             SaReactorSyncHolder.clearContext();
         }
 
-        // ---------- 执行
-
-        // 写入全局上下文 (同步)
+        // ---------- 写入全局上下文并继续执行响应式链
         SaReactorSyncHolder.setContext(exchange);
-
-        // 执行
-        return chain.filter(exchange).contextWrite(ctx -> {
-            // 写入全局上下文 (异步)
-            ctx = ctx.put(SaReactorHolder.EXCHANGE_KEY, exchange);
-            return ctx;
-        }).doFinally(r -> {
-            // 清除上下文
-            SaReactorSyncHolder.clearContext();
-        });
+        return chain.filter(exchange).contextWrite(ctx -> ctx.put(SaReactorHolder.EXCHANGE_KEY, exchange))
+                .doFinally(r -> SaReactorSyncHolder.clearContext());
     }
 }

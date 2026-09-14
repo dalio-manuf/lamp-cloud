@@ -18,17 +18,16 @@ import com.dalio.cloud.gateway.rule.GrayscaleLoadBalancer;
 import java.net.URI;
 
 /**
- * 灰度过滤器
+ * 灰度响应式负载均衡客户端过滤器
  *
- * @author admin
+ * @author dalio
  * @date 2021年07月13日08:38:14
  */
 @Slf4j
 public class GrayscaleReactiveLoadBalancerClientFilter extends ReactiveLoadBalancerClientFilter {
     private static final String LB = "lb";
-    private GatewayLoadBalancerProperties properties;
-
-    private GrayscaleLoadBalancer grayLoadBalancer;
+    private final GatewayLoadBalancerProperties properties;
+    private final GrayscaleLoadBalancer grayLoadBalancer;
 
     public GrayscaleReactiveLoadBalancerClientFilter(GatewayLoadBalancerProperties properties, GrayscaleLoadBalancer grayLoadBalancer) {
         super(null, properties);
@@ -45,7 +44,6 @@ public class GrayscaleReactiveLoadBalancerClientFilter extends ReactiveLoadBalan
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         URI url = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR);
         String schemePrefix = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_SCHEME_PREFIX_ATTR);
-//        StrUtil.equalsAny(LB, url.getScheme(), schemePrefix)
         if (url == null || (!LB.equals(url.getScheme()) && !LB.equals(schemePrefix))) {
             return chain.filter(exchange);
         }
@@ -54,9 +52,10 @@ public class GrayscaleReactiveLoadBalancerClientFilter extends ReactiveLoadBalan
         ServerWebExchangeUtils.addOriginalRequestUrl(exchange, url);
 
         if (log.isTraceEnabled()) {
-            log.trace(ReactiveLoadBalancerClientFilter.class.getSimpleName() + " url before: " + url);
+            log.trace("{} url before: {}", ReactiveLoadBalancerClientFilter.class.getSimpleName(), url);
         }
-        // 这里呢会进行调用真正的负载均衡
+
+        // 调用灰度负载均衡规则选择实例
         return choose(exchange).doOnNext(response -> {
             if (!response.hasServer()) {
                 throw NotFoundException.create(properties.isUse404(),
@@ -65,8 +64,6 @@ public class GrayscaleReactiveLoadBalancerClientFilter extends ReactiveLoadBalan
 
             URI uri = exchange.getRequest().getURI();
 
-            // if the `lb:<scheme>` mechanism was used, use `<scheme>` as the default,
-            // if the loadbalancer doesn't provide one.
             String overrideScheme = null;
             if (schemePrefix != null) {
                 overrideScheme = url.getScheme();
@@ -78,7 +75,7 @@ public class GrayscaleReactiveLoadBalancerClientFilter extends ReactiveLoadBalan
             URI requestUrl = LoadBalancerUriTools.reconstructURI(serviceInstance, uri);
 
             if (log.isTraceEnabled()) {
-                log.trace("LoadBalancerClientFilter url chosen: " + requestUrl);
+                log.trace("LoadBalancerClientFilter url chosen: {}", requestUrl);
             }
             exchange.getAttributes().put(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR, requestUrl);
         }).then(chain.filter(exchange));
@@ -86,7 +83,9 @@ public class GrayscaleReactiveLoadBalancerClientFilter extends ReactiveLoadBalan
 
     private Mono<Response<ServiceInstance>> choose(ServerWebExchange exchange) {
         URI uri = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR);
-        ServiceInstance serviceInstance = grayLoadBalancer.choose(uri.getHost(), exchange.getRequest());
+        String host = uri != null ? uri.getHost() : null;
+        ServiceInstance serviceInstance = grayLoadBalancer.choose(host, exchange.getRequest());
         return Mono.just(new DefaultResponse(serviceInstance));
     }
 }
+

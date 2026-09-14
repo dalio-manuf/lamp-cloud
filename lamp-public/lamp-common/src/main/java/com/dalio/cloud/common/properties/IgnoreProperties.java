@@ -2,6 +2,7 @@ package com.dalio.cloud.common.properties;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.server.PathContainer;
@@ -12,6 +13,7 @@ import com.dalio.cloud.model.enumeration.HttpMethod;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.dalio.basic.utils.CollHelper.putAll;
 
@@ -145,59 +147,88 @@ public class IgnoreProperties {
     /**
      * 是否忽略uri权限认证
      *
+     * @param method 请求方式
      * @param path 相对路径
-     * @return
+     * @return 是否忽略
      */
     public boolean isIgnoreAnyone(String method, String path) {
-        Map<String, Set<String>> all = putAll(getBaseUri(), this.getAnyTenant(), this.getAnyUser(), this.getAnyone());
-
-        return isIgnore(method, path, all);
+        if (path == null) {
+            return false;
+        }
+        PathContainer pathContainer = PathContainer.parsePath(path);
+        return isIgnore(method, pathContainer, getBaseUri())
+                || isIgnore(method, pathContainer, getAnyTenant())
+                || isIgnore(method, pathContainer, getAnyUser())
+                || isIgnore(method, pathContainer, getAnyone());
     }
 
     /**
      * 是否忽略登录
      *
+     * @param method 请求方式
      * @param path 相对路径
-     * @return
+     * @return 是否忽略
      */
     public boolean isIgnoreUser(String method, String path) {
-        Map<String, Set<String>> all = putAll(getBaseUri(), this.getAnyTenant(), this.getAnyUser());
-        return isIgnore(method, path, all);
+        if (path == null) {
+            return false;
+        }
+        PathContainer pathContainer = PathContainer.parsePath(path);
+        return isIgnore(method, pathContainer, getBaseUri())
+                || isIgnore(method, pathContainer, getAnyTenant())
+                || isIgnore(method, pathContainer, getAnyUser());
     }
 
     /**
      * 是否忽略租户信息
      *
+     * @param method 请求方式
      * @param path 相对路径
-     * @return
+     * @return 是否忽略
      */
     public boolean isIgnoreTenant(String method, String path) {
-        Map<String, Set<String>> all = putAll(getBaseUri(), this.getAnyTenant());
-        return isIgnore(method, path, all);
+        if (path == null) {
+            return false;
+        }
+        PathContainer pathContainer = PathContainer.parsePath(path);
+        return isIgnore(method, pathContainer, getBaseUri())
+                || isIgnore(method, pathContainer, getAnyTenant());
     }
 
-    private boolean isIgnore(String method, String path, Map<String, Set<String>> all) {
-        for (Map.Entry<String, Set<String>> entry : all.entrySet()) {
+    public boolean isIgnore(String method, String path, Map<String, Set<String>> all) {
+        if (path == null) {
+            return false;
+        }
+        return isIgnore(method, PathContainer.parsePath(path), all);
+    }
+
+    private boolean isIgnore(String method, PathContainer pathContainer, Map<String, Set<String>> map) {
+        if (pathContainer == null || CollUtil.isEmpty(map)) {
+            return false;
+        }
+        for (Map.Entry<String, Set<String>> entry : map.entrySet()) {
             String m = entry.getKey();
-            Set<String> paths = entry.getValue();
-            if (HttpMethod.ALL.name().equalsIgnoreCase(m)) {
-                return paths.stream().anyMatch(url -> match(url, path));
-            } else {
-                return m.equalsIgnoreCase(method) && paths.stream().anyMatch(url -> match(url, path));
+            if (HttpMethod.ALL.name().equalsIgnoreCase(m) || (method != null && m.equalsIgnoreCase(method))) {
+                Set<String> paths = entry.getValue();
+                if (CollUtil.isNotEmpty(paths)) {
+                    for (String pattern : paths) {
+                        if (matchPattern(pattern, pathContainer)) {
+                            return true;
+                        }
+                    }
+                }
             }
         }
         return false;
     }
 
-    /**
-     * 判断：指定路由匹配符是否可以匹配成功指定路径
-     * @param pattern 路由匹配符
-     * @param path 要匹配的路径
-     * @return 是否匹配成功
-     */
-    private static boolean match(String pattern, String path) {
-        PathPattern pathPattern = PathPatternParser.defaultInstance.parse(pattern);
-        PathContainer pathContainer = PathContainer.parsePath(path);
+    private static final ConcurrentHashMap<String, PathPattern> PATTERN_CACHE = new ConcurrentHashMap<>();
+
+    private static boolean matchPattern(String pattern, PathContainer pathContainer) {
+        if (StrUtil.isBlank(pattern) || pathContainer == null) {
+            return false;
+        }
+        PathPattern pathPattern = PATTERN_CACHE.computeIfAbsent(pattern, PathPatternParser.defaultInstance::parse);
         return pathPattern.matches(pathContainer);
     }
 

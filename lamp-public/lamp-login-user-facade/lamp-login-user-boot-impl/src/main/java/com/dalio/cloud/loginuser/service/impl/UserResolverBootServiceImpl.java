@@ -41,7 +41,7 @@ public class UserResolverBootServiceImpl implements UserResolverService {
     private final ResourceBiz resourceBiz;
 
     private boolean notEmpty(Long val) {
-        return val != null && !Long.valueOf(0).equals(val);
+        return val != null && val != 0L;
     }
 
     @Override
@@ -53,12 +53,13 @@ public class UserResolverBootServiceImpl implements UserResolverService {
         }
         SysUser sysUser = BeanUtil.toBean(defUser, SysUser.class);
         boolean notEmptyEmployee = notEmpty(query.getEmployeeId());
-        boolean queryEmployee = query.getFull() || query.getEmployee();
-        boolean queryOrg = query.getFull() || query.getOrg();
-        boolean queryCurrentOrg = query.getFull() || query.getCurrentOrg();
-        boolean queryPosition = query.getFull() || query.getPosition();
-        boolean queryResource = query.getFull() || query.getResource();
-        boolean queryRoles = query.getFull() || query.getRoles();
+        boolean isFull = Boolean.TRUE.equals(query.getFull());
+        boolean queryEmployee = isFull || Boolean.TRUE.equals(query.getEmployee());
+        boolean queryOrg = isFull || Boolean.TRUE.equals(query.getOrg());
+        boolean queryCurrentOrg = isFull || Boolean.TRUE.equals(query.getCurrentOrg());
+        boolean queryPosition = isFull || Boolean.TRUE.equals(query.getPosition());
+        boolean queryResource = isFull || Boolean.TRUE.equals(query.getResource());
+        boolean queryRoles = isFull || Boolean.TRUE.equals(query.getRoles());
         boolean anyQuery = queryEmployee || queryOrg || queryCurrentOrg || queryPosition || queryResource || queryRoles;
         if (notEmptyEmployee && anyQuery) {
             BaseEmployee baseEmployee = baseEmployeeService.getByIdCache(query.getEmployeeId());

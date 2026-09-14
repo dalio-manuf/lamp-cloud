@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import com.dalio.cloud.datascope.model.DataFieldProperty;
 import com.dalio.cloud.datascope.provider.DataScopeProvider;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,7 +20,7 @@ import java.util.List;
 public class TestDataScopeProviderImpl implements DataScopeProvider {
     @Override
     public List<DataFieldProperty> findDataFieldProperty(List<DataFieldProperty> fsp) {
-        List<Long> orgIdList = Arrays.asList(1L, 2L);
+        List<Long> orgIdList = List.of(1L, 2L);
         // and {别名1}.biz_id in (1, 2) [and {别名N}.biz_id in (1, 2)...]
         fsp.forEach(item -> {
             item.setField("biz_id");

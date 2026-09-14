@@ -76,7 +76,9 @@ public class DefResourceController extends SuperController<DefResourceService, L
 
 
     @Parameters({
-            @Parameter(name = "path", description = "编码", schema = @Schema(type = DATA_TYPE_STRING), in = ParameterIn.QUERY),
+            @Parameter(name = "id", description = "ID", schema = @Schema(type = DATA_TYPE_LONG), in = ParameterIn.QUERY),
+            @Parameter(name = "applicationId", description = "应用ID", schema = @Schema(type = DATA_TYPE_LONG), in = ParameterIn.QUERY),
+            @Parameter(name = "path", description = "地址栏路径", schema = @Schema(type = DATA_TYPE_STRING), in = ParameterIn.QUERY),
     })
     @Operation(summary = "检测资源路径是否可用", description = "检测资源路径是否可用")
     @GetMapping("/checkPath")
@@ -85,7 +87,9 @@ public class DefResourceController extends SuperController<DefResourceService, L
     }
 
     @Parameters({
-            @Parameter(name = "name", description = "编码", schema = @Schema(type = DATA_TYPE_STRING), in = ParameterIn.QUERY),
+            @Parameter(name = "id", description = "ID", schema = @Schema(type = DATA_TYPE_LONG), in = ParameterIn.QUERY),
+            @Parameter(name = "applicationId", description = "应用ID", schema = @Schema(type = DATA_TYPE_LONG), in = ParameterIn.QUERY),
+            @Parameter(name = "name", description = "名称", schema = @Schema(type = DATA_TYPE_STRING), in = ParameterIn.QUERY),
     })
     @Operation(summary = "检测资源名称是否可用", description = "检测资源名称是否可用")
     @GetMapping("/checkName")

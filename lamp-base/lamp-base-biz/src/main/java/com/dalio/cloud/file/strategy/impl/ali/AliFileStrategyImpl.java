@@ -49,32 +49,34 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
         if (StrUtil.isEmpty(bucket)) {
             bucket = ali.getBucket();
         }
-        if (!ossClient.doesBucketExist(bucket)) {
-            ossClient.createBucket(bucket);
+        try {
+            if (!ossClient.doesBucketExist(bucket)) {
+                ossClient.createBucket(bucket);
+            }
+
+            //生成文件名
+            String uniqueFileName = getUniqueFileName(file);
+
+            // 企业id/功能点/年/月/日/file
+            String path = getPath(file.getBizType(), uniqueFileName);
+
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentDisposition("attachment;fileName=" + URLUtil.encode(file.getOriginalFileName()));
+            metadata.setContentType(file.getContentType());
+            PutObjectRequest request = new PutObjectRequest(bucket, path, multipartFile.getInputStream(), metadata);
+            PutObjectResult result = ossClient.putObject(request);
+
+            log.info("result={}", JsonUtil.toJson(result));
+            // 仅当 Bucket ACL 权限支持 公共读 时，该url地址才能访问，私有权限时，需要通过 findUrl 接口获取临时访问地址
+            String url = ali.getUrlPrefix() + path;
+            file.setUrl(url);
+            file.setUniqueFileName(uniqueFileName);
+            file.setBucket(bucket);
+            file.setPath(path);
+            file.setStorageType(FileStorageType.ALI_OSS);
+        } finally {
+            ossClient.shutdown();
         }
-
-        //生成文件名
-        String uniqueFileName = getUniqueFileName(file);
-
-        // 企业id/功能点/年/月/日/file
-        String path = getPath(file.getBizType(), uniqueFileName);
-
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentDisposition("attachment;fileName=" + URLUtil.encode(file.getOriginalFileName()));
-        metadata.setContentType(file.getContentType());
-        PutObjectRequest request = new PutObjectRequest(bucket, path, multipartFile.getInputStream(), metadata);
-        PutObjectResult result = ossClient.putObject(request);
-
-        log.info("result={}", JsonUtil.toJson(result));
-        // 仅当 Bucket ACL 权限支持 公共读 时，该url地址才能访问，私有权限时，需要通过 findUrl 接口获取临时访问地址
-        String url = ali.getUrlPrefix() + path;
-        file.setUrl(url);
-        file.setUniqueFileName(uniqueFileName);
-        file.setBucket(bucket);
-        file.setPath(path);
-        file.setStorageType(FileStorageType.ALI_OSS);
-
-        ossClient.shutdown();
     }
 
     @Override
@@ -82,8 +84,11 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
         FileServerProperties.Ali ali = fileProperties.getAli();
         String bucketName = StrUtil.isEmpty(file.getBucket()) ? ali.getBucket() : file.getBucket();
         OSS ossClient = new OSSClientBuilder().build(ali.getEndpoint(), ali.getAccessKeyId(), ali.getAccessKeySecret());
-        ossClient.deleteObject(bucketName, file.getPath());
-        ossClient.shutdown();
+        try {
+            ossClient.deleteObject(bucketName, file.getPath());
+        } finally {
+            ossClient.shutdown();
+        }
         return true;
     }
 
@@ -94,25 +99,27 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
         FileServerProperties.Ali ali = fileProperties.getAli();
         Map<String, String> map = new LinkedHashMap<>(CollHelper.initialCapacity(fileGets.size()));
 
-
-        for (FileGetUrlBO fileGet : fileGets) {
-            String bucket = StrUtil.isEmpty(fileGet.getBucket()) ? ali.getBucket() : fileGet.getBucket();
-            try {
-                if (CollUtil.isNotEmpty(publicBucket) && publicBucket.contains(bucket)) {
-                    String url = ali.getUrlPrefix() +
-                                 fileGet.getBucket() +
-                                 StrPool.SLASH +
-                                 fileGet.getPath();
-                    map.put(fileGet.getPath(), url);
-                } else {
-                    map.put(fileGet.getPath(), generatePresignedUrl(bucket, fileGet.getPath()));
+        try {
+            for (FileGetUrlBO fileGet : fileGets) {
+                String bucket = StrUtil.isEmpty(fileGet.getBucket()) ? ali.getBucket() : fileGet.getBucket();
+                try {
+                    if (CollUtil.isNotEmpty(publicBucket) && publicBucket.contains(bucket)) {
+                        String url = ali.getUrlPrefix() +
+                                     bucket +
+                                     StrPool.SLASH +
+                                     fileGet.getPath();
+                        map.put(fileGet.getPath(), url);
+                    } else {
+                        map.put(fileGet.getPath(), generatePresignedUrl(ossClient, bucket, fileGet.getPath()));
+                    }
+                } catch (Exception e) {
+                    log.warn("加载文件url地址失败，请确保yml中第三方存储参数配置正确. bucket={}, 文件名={} path={}", bucket, fileGet.getOriginalFileName(), fileGet.getPath(), e);
+                    map.put(fileGet.getPath(), StrPool.EMPTY);
                 }
-            } catch (Exception e) {
-                log.warn("加载文件url地址失败，请确保yml中第三方存储参数配置正确. bucket={}, , 文件名={} path={}", bucket, fileGet.getOriginalFileName(), fileGet.getPath(), e);
-                map.put(fileGet.getPath(), StrPool.EMPTY);
             }
+        } finally {
+            ossClient.shutdown();
         }
-        ossClient.shutdown();
         return map;
     }
 
@@ -132,15 +139,15 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
     /**
      * 获取有访问权限的路径地址
      *
+     * @param ossClient  OSS客户端
      * @param bucketName 桶名称
      * @param path       文件路径
      * @return 访问地址
      */
-    private String generatePresignedUrl(String bucketName, String path) {
+    private String generatePresignedUrl(OSS ossClient, String bucketName, String path) {
         FileServerProperties.Ali ali = fileProperties.getAli();
-        OSS oss = createOss();
-        Date date = new Date(System.currentTimeMillis() + ali.getExpiry() * 1000);
-        URL url = oss.generatePresignedUrl(bucketName, path, date);
+        Date date = new Date(System.currentTimeMillis() + (long) ali.getExpiry() * 1000);
+        URL url = ossClient.generatePresignedUrl(bucketName, path, date);
         return url.toString();
     }
 }

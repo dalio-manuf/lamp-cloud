@@ -11,7 +11,6 @@ import com.dalio.basic.database.mybatis.conditions.Wraps;
 import com.dalio.basic.model.cache.CacheHashKey;
 import com.dalio.basic.utils.ArgumentAssert;
 import com.dalio.cloud.common.cache.tenant.base.DictCacheKeyBuilder;
-import com.dalio.cloud.model.enumeration.system.DictClassifyEnum;
 import com.dalio.cloud.system.entity.system.DefDict;
 import com.dalio.cloud.system.manager.system.DefDictManager;
 import com.dalio.cloud.system.service.system.DefDictItemService;
@@ -59,7 +58,6 @@ public class DefDictItemServiceImpl extends SuperServiceImpl<DefDictManager, Lon
         model.setDictGroup(parent.getDictGroup());
         model.setDataType(parent.getDataType());
         model.setClassify(parent.getClassify());
-        model.setClassify(DictClassifyEnum.SYSTEM.getCode());
         superManager.save(model);
         CacheHashKey hashKey = DictCacheKeyBuilder.builder(model.getParentKey(), model.getKey());
         cachePlusOps.hSet(hashKey, model);

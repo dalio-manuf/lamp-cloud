@@ -39,8 +39,10 @@ public class BaseOperationLogServiceImpl extends SuperServiceImpl<BaseOperationL
         BaseOperationLog operationLog = superManager.getById(id);
         BaseOperationLogExt ext = baseOperationLogExtMapper.selectById(id);
 
-        BaseOperationLogResultVO result = BeanUtil.toBean(ext, BaseOperationLogResultVO.class);
-        BeanUtil.copyProperties(operationLog, result);
+        BaseOperationLogResultVO result = ext != null ? BeanUtil.toBean(ext, BaseOperationLogResultVO.class) : new BaseOperationLogResultVO();
+        if (operationLog != null) {
+            BeanUtil.copyProperties(operationLog, result);
+        }
         return result;
     }
 
@@ -51,6 +53,7 @@ public class BaseOperationLogServiceImpl extends SuperServiceImpl<BaseOperationL
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public <SaveVO> BaseOperationLog save(SaveVO saveVO) {
         BaseOperationLogSaveVO logSaveVO = (BaseOperationLogSaveVO) saveVO;
         BaseOperationLogExt baseOperationLogExt = BeanUtil.toBean(saveVO, BaseOperationLogExt.class);

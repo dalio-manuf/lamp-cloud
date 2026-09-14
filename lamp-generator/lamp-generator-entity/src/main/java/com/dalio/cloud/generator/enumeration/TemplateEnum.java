@@ -45,7 +45,7 @@ public enum TemplateEnum implements BaseEnum {
      * 根据当前枚举的name匹配
      */
     public static TemplateEnum match(String val, TemplateEnum def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        return Stream.of(values()).filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static TemplateEnum get(String val) {
@@ -53,7 +53,7 @@ public enum TemplateEnum implements BaseEnum {
     }
 
     public boolean eq(TemplateEnum val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

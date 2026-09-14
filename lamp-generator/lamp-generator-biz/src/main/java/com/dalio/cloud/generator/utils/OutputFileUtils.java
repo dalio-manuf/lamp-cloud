@@ -46,11 +46,11 @@ public class OutputFileUtils {
      * @create [2022/4/8 12:45 PM ] [admin] [初始创建]
      */
     public static String getZipOutputFile(GeneratorConfig generatorConfig, DefGenTable genTable, DefGenTable subTable, String templatePath, String enumName, TemplateEnum template) {
-        if (TemplateEnum.BACKEND.eq(template)) {
+        if (TemplateEnum.BACKEND == template) {
             return getOutputFile(generatorConfig, genTable, templatePath, false, enumName);
-        } else if (TemplateEnum.WEB_SOYBEAN.eq(template)) {
+        } else if (TemplateEnum.WEB_SOYBEAN == template) {
             return getSoybeanOutputFile(genTable, subTable, templatePath, false);
-        } else if (TemplateEnum.WEB_VBEN5.eq(template)) {
+        } else if (TemplateEnum.WEB_VBEN5 == template) {
             return getVben5OutputFile(genTable, subTable, templatePath, false);
         } else {
             return getFrontOutputFile(genTable, subTable, templatePath, false);
@@ -72,11 +72,11 @@ public class OutputFileUtils {
      * @create [2022/4/8 12:45 PM ] [admin] [初始创建]
      */
     public static String getOutputFile(GeneratorConfig generatorConfig, DefGenTable genTable, DefGenTable subTable, String templatePath, String enumName, TemplateEnum template) {
-        if (TemplateEnum.BACKEND.eq(template)) {
+        if (TemplateEnum.BACKEND == template) {
             return getOutputFile(generatorConfig, genTable, templatePath, true, enumName);
-        } else if (TemplateEnum.WEB_SOYBEAN.eq(template)) {
+        } else if (TemplateEnum.WEB_SOYBEAN == template) {
             return getSoybeanOutputFile(genTable, subTable, templatePath, true);
-        } else if (TemplateEnum.WEB_VBEN5.eq(template)) {
+        } else if (TemplateEnum.WEB_VBEN5 == template) {
             return getVben5OutputFile(genTable, subTable, templatePath, true);
         } else {
             return getFrontOutputFile(genTable, subTable, templatePath, true);
@@ -163,10 +163,8 @@ public class OutputFileUtils {
         } else if (
                 StrUtil.equalsAny(templatePath, GenCodeConstant.TEMPLATE_WEB_VBEN5_MAIN_SUB_INDEX)
         ) {
-            String subEntityName = StrUtil.lowerFirst(subTable.getEntityName());
             frontOutputFile = StrUtil.format("src/views/{}/{}/{}/modules/index.vue", plusApplicationName, plusModuleName, entityName);
         } else if (templatePath.equals(GenCodeConstant.TEMPLATE_WEB_VBEN5_MAIN_SUB_DATA)) {
-            String subEntityName = StrUtil.lowerFirst(subTable.getEntityName());
             frontOutputFile = StrUtil.format("src/views/{}/{}/{}/data/slave.tsx", plusApplicationName, plusModuleName, entityName);
         } else if (templatePath.equals(GenCodeConstant.TEMPLATE_WEB_VBEN5_TREE_TREE)) {
             frontOutputFile = StrUtil.format("src/views/{}/{}/{}/modules/tree.vue", plusApplicationName, plusModuleName, entityName);
@@ -215,10 +213,10 @@ public class OutputFileUtils {
         } else if (
                 StrUtil.equalsAny(templatePath, GenCodeConstant.TEMPLATE_WEB_PRO_MAIN_SUB_INDEX)
         ) {
-            String subEntityName = StrUtil.lowerFirst(subTable.getEntityName());
+            String subEntityName = subTable != null ? StrUtil.lowerFirst(subTable.getEntityName()) : StrPool.EMPTY;
             frontOutputFile = StrUtil.format("src/views/{}/{}/{}/{}/index.vue", plusApplicationName, plusModuleName, entityName, subEntityName);
         } else if (templatePath.equals(GenCodeConstant.TEMPLATE_WEB_PRO_MAIN_SUB_DATA)) {
-            String subEntityName = StrUtil.lowerFirst(subTable.getEntityName());
+            String subEntityName = subTable != null ? StrUtil.lowerFirst(subTable.getEntityName()) : StrPool.EMPTY;
             frontOutputFile = StrUtil.format("src/views/{}/{}/{}/{}/{}.data.tsx", plusApplicationName, plusModuleName, entityName, subEntityName, subEntityName);
         } else if (templatePath.equals(GenCodeConstant.TEMPLATE_WEB_PRO_TREE_TREE)) {
             frontOutputFile = StrUtil.format("src/views/{}/{}/{}/Tree.vue", plusApplicationName, plusModuleName, entityName);

@@ -9,10 +9,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="User_Column_List">
-        u
-        .
-        id
-        ,u.created_by,u.created_time,u.updated_by,u.updated_time, u.nation, u.education,
+        u.id, u.created_by, u.created_time, u.updated_by, u.updated_time, u.nation, u.education,
         u.username, u.nick_name, u.email, u.mobile, u.id_card, u.wx_open_id, u.dd_open_id, u.readonly, u.sex, u.state, u.work_describe,
         u.last_login_time
     </sql>
@@ -20,7 +17,7 @@
     <select id="pageUser" resultMap="ResultVOResultMap">
         SELECT
         <include refid="User_Column_List"/>
-        FROM def_user u LEFT JOIN base_employee ut on u.id = ut.user_id
+        FROM def_user u
         <where>
 
             <if test="param.username != null and param.username != ''">

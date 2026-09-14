@@ -1,7 +1,6 @@
 package com.dalio.cloud.oauth.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.map.MapUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.dalio.cloud.oauth.service.ParamService;
@@ -9,7 +8,6 @@ import com.dalio.cloud.system.manager.system.DefParameterManager;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,10 +35,7 @@ public class ParamServiceImpl implements ParamService {
         }
         // 查询不在base的参数
         Map<String, String> defMap = defParameterManager.findParamMapByKey(paramsKeys);
-
-        Map<String, String> map = MapUtil.newHashMap();
-        map.putAll(defMap);
-        return map;
+        return defMap != null ? defMap : Collections.emptyMap();
     }
 
 
@@ -52,10 +47,6 @@ public class ParamServiceImpl implements ParamService {
 
         // 查询不在base的参数
         Map<Serializable, Object> defMap = defParameterManager.findByIds(paramKeys);
-
-        HashMap<Serializable, Object> map = MapUtil.newHashMap();
-        map.putAll(defMap);
-
-        return map;
+        return defMap != null ? defMap : Collections.emptyMap();
     }
 }

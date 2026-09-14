@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.dalio.basic.interfaces.BaseEnum;
 
-import java.util.stream.Stream;
-
 /**
  * <p>
  * 实体注释中生成的类型枚举
@@ -25,27 +23,29 @@ public enum GrantType implements BaseEnum {
     /**
      * 验证码登录
      */
-    CAPTCHA,
+    CAPTCHA("验证码登录"),
     /**
      * 账号(身份证,邮箱,用户名)密码登录
      */
-    PASSWORD,
+    PASSWORD("账号密码登录"),
     /**
      * 手机登录
      */
-    MOBILE;
+    MOBILE("手机登录");
 
     @Schema(description = "描述")
-    private int val;
-
     private String desc;
-
 
     /**
      * 根据当前枚举的name匹配
      */
     public static GrantType match(String val, GrantType def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        for (GrantType item : values()) {
+            if (item.name().equalsIgnoreCase(val)) {
+                return item;
+            }
+        }
+        return def;
     }
 
     public static GrantType get(String val) {
@@ -53,19 +53,17 @@ public enum GrantType implements BaseEnum {
     }
 
     public boolean eq(GrantType val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override
-    @Schema(description = "编码")
+    @Schema(description = "编码", allowableValues = "CAPTCHA,PASSWORD,MOBILE", example = "CAPTCHA")
     public String getCode() {
         return this.name();
     }
 
     @Override
     public String getDesc() {
-        return this.name();
+        return this.desc != null ? this.desc : this.name();
     }
-
-
 }

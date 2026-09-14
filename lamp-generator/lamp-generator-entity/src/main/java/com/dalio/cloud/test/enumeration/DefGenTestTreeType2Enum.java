@@ -41,7 +41,7 @@ public enum DefGenTestTreeType2Enum implements BaseEnum {
      * 根据当前枚举的name匹配
      */
     public static DefGenTestTreeType2Enum match(String val, DefGenTestTreeType2Enum def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        return Stream.of(values()).filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static DefGenTestTreeType2Enum get(String val) {
@@ -49,7 +49,7 @@ public enum DefGenTestTreeType2Enum implements BaseEnum {
     }
 
     public boolean eq(DefGenTestTreeType2Enum val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

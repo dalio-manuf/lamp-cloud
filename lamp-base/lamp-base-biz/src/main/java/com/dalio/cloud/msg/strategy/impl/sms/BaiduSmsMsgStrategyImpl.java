@@ -81,7 +81,7 @@ public class BaiduSmsMsgStrategyImpl implements MsgStrategy {
 
     @Override
     public boolean isSuccess(MsgResult result) {
-        SendMessageV3Response sendResult = (SendMessageV3Response) result.getResult();
-        return "1000".equals(sendResult.getCode());
+        return result != null && result.getResult() instanceof SendMessageV3Response sendResult
+                && "1000".equals(sendResult.getCode());
     }
 }

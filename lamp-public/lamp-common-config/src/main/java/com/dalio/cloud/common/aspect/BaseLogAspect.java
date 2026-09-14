@@ -4,6 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 /**
  * @author admin
  * @version v1.0
@@ -16,19 +19,12 @@ public abstract class BaseLogAspect {
     protected String getParamTypes(ProceedingJoinPoint joinPoint) {
         if (joinPoint.getSignature() instanceof MethodSignature ms) {
             Class<?>[] parameterTypes = ms.getParameterTypes();
-            if (parameterTypes == null) {
+            if (parameterTypes == null || parameterTypes.length == 0) {
                 return "";
-            } else {
-                StringBuilder sb = new StringBuilder();
-                for (Class<?> cls : parameterTypes) {
-                    if (sb.length() > 0) {
-                        sb.append(", ").append(cls.getSimpleName());
-                    } else {
-                        sb.append(cls.getSimpleName());
-                    }
-                }
-                return sb.toString();
             }
+            return Arrays.stream(parameterTypes)
+                    .map(Class::getSimpleName)
+                    .collect(Collectors.joining(", "));
         }
         return "";
     }

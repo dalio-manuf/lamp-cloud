@@ -1,7 +1,7 @@
 package com.dalio.cloud.file.facade.impl;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,14 +18,14 @@ import com.dalio.cloud.file.vo.result.FileResultVO;
  * @since 2024年09月20日10:45:54
  */
 @Service
+@RequiredArgsConstructor(onConstructor_ = @Lazy)
 public class FileFacadeImpl implements FileFacade {
-    @Autowired
-    @Lazy
-    private FileApi fileApi;
+
+    private final FileApi fileApi;
 
     @Override
     public FileResultVO upload(MultipartFile file, String bizType, String bucket, FileStorageType storageType) {
         R<FileResultVO> result = fileApi.upload(file, bizType, bucket, storageType);
-        return result.getData();
+        return result != null && result.getIsSuccess() ? result.getData() : null;
     }
 }

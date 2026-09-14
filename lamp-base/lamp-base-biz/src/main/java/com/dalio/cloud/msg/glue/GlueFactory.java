@@ -1,5 +1,6 @@
 package com.dalio.cloud.msg.glue;
 
+import cn.hutool.crypto.digest.DigestUtil;
 import groovy.lang.Binding;
 import groovy.lang.GroovyClassLoader;
 import org.codehaus.groovy.runtime.InvokerHelper;
@@ -9,9 +10,6 @@ import com.dalio.basic.exception.BizException;
 import com.dalio.cloud.msg.glue.impl.SpringGlueFactory;
 import com.dalio.cloud.msg.strategy.MsgStrategy;
 
-import javax.xml.bind.DatatypeConverter;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -104,12 +102,9 @@ public class GlueFactory {
      *
      * @param input 输入字符串
      * @return {@link String} SHA256哈希值（Hex格式）
-     * @throws Exception
      */
-    private static String sha256Hex(String input) throws Exception {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        byte[] digest = md.digest(input.getBytes(StandardCharsets.UTF_8));
-        return DatatypeConverter.printHexBinary(digest).toLowerCase();
+    private static String sha256Hex(String input) {
+        return DigestUtil.sha256Hex(input);
     }
 
     /**

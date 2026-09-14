@@ -33,7 +33,9 @@ public class TokenGranterBuilder {
          *
          * 还不懂？ 问度娘：spring 注入原理解析
          */
-        this.granterPool.putAll(granterPool);
+        if (granterPool != null) {
+            this.granterPool.putAll(granterPool);
+        }
     }
 
     /**

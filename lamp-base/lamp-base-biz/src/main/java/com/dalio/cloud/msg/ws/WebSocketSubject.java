@@ -62,13 +62,7 @@ public class WebSocketSubject extends Observable {
 
         public static WebSocketSubject getSubject(Object principal) {
             ArgumentAssert.notNull(principal, "principal 不能为空");
-            if (SUBJECTS.containsKey(principal.toString())) {
-                return SUBJECTS.get(principal.toString());
-            }
-
-            WebSocketSubject subject = new WebSocketSubject(principal.toString());
-            SUBJECTS.put(principal.toString(), subject);
-            return subject;
+            return SUBJECTS.computeIfAbsent(principal.toString(), WebSocketSubject::new);
         }
     }
 

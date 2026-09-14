@@ -75,7 +75,7 @@ public class BaseRoleManagerImpl extends SuperCacheManagerImpl<BaseRoleMapper, B
 
         List<BaseRole> roleList = findRoleByEmployeeId(employeeId);
         List<Long> roleIdList = roleList.stream().map(BaseRole::getId).toList();
-        log.debug("roleIdList={}", roleIdList.size());
+        log.debug("roleIdList=" + roleIdList.size());
 
         if (CollUtil.isEmpty(roleIdList)) {
             return roleIdList;

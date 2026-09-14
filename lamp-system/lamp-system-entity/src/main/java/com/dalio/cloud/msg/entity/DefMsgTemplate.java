@@ -41,7 +41,7 @@ public class DefMsgTemplate extends Entity<Long> {
      *
      * @Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.MSG_TEMPLATE_TYPE)
      */
-    @TableField(value = "type", condition = LIKE)
+    @TableField(value = "type")
     private String type;
     /** 状态 */
     @TableField(value = "state")
@@ -52,7 +52,7 @@ public class DefMsgTemplate extends Entity<Long> {
     /**
      * 模板标识
      */
-    @TableField(value = "code", condition = LIKE)
+    @TableField(value = "code")
     private String code;
     /**
      * 模板名称

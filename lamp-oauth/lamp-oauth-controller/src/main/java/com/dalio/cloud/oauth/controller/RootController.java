@@ -4,7 +4,7 @@ import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.dalio.basic.base.R;
-import com.dalio.basic.exception.BizException;
 import com.dalio.cloud.oauth.enumeration.GrantType;
 import com.dalio.cloud.oauth.granter.RefreshTokenGranter;
 import com.dalio.cloud.oauth.granter.TokenGranterBuilder;
@@ -36,7 +35,7 @@ import com.dalio.cloud.system.vo.query.tenant.ForgetPasswordDto;
 @Slf4j
 @RestController
 @RequestMapping
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Tag(name = "登录-退出-注册")
 public class RootController {
 
@@ -73,13 +72,13 @@ public class RootController {
      */
     @Operation(summary = "登录接口", description = "登录或者清空缓存时调用")
     @PostMapping(value = "/anyTenant/login")
-    public R<LoginResultVO> login(@Validated @RequestBody LoginParamVO login) throws BizException {
+    public R<LoginResultVO> login(@Validated @RequestBody LoginParamVO login) {
         return tokenGranterBuilder.getGranter(login.getGrantType()).login(login);
     }
 
     @Operation(summary = "刷新token[前端 vben5版本 有效]", description = "token过期时，刷新token使用")
     @PostMapping(value = "/anyTenant/refresh")
-    public R<LoginResultVO> refresh(@RequestParam String refreshToken) throws BizException {
+    public R<LoginResultVO> refresh(@RequestParam String refreshToken) {
         return R.success(refreshTokenGranter.refresh(refreshToken));
     }
 
@@ -101,7 +100,7 @@ public class RootController {
      */
     @Operation(summary = "验证token是否正确", description = "验证token")
     @GetMapping(value = "/anyTenant/verify")
-    public R<SaSession> verify(@RequestParam(value = "token") String token) throws BizException {
+    public R<SaSession> verify(@RequestParam(value = "token") String token) {
         return R.success(StpUtil.getTokenSessionByToken(token));
     }
 
@@ -110,13 +109,13 @@ public class RootController {
      */
     @Operation(summary = "根据手机号注册", description = "根据手机号注册")
     @PostMapping(value = "/anyTenant/registerByMobile")
-    public R<String> register(@Validated @RequestBody RegisterByMobileVO register) throws BizException {
+    public R<String> register(@Validated @RequestBody RegisterByMobileVO register) {
         return R.success(userInfoService.registerByMobile(register));
     }
 
     @Operation(summary = "根据邮箱注册", description = "根据邮箱注册")
     @PostMapping(value = "/anyTenant/registerByEmail")
-    public R<String> register(@Validated @RequestBody RegisterByEmailVO register) throws BizException {
+    public R<String> register(@Validated @RequestBody RegisterByEmailVO register) {
         return R.success(userInfoService.registerByEmail(register));
     }
 
@@ -128,7 +127,7 @@ public class RootController {
 
     @Operation(summary = "忘记密码", description = "忘记密码")
     @PostMapping(value = "/anyTenant/forgetPassword")
-    public R<Boolean> forgetPassword(@Validated @RequestBody ForgetPasswordDto dto) throws BizException {
+    public R<Boolean> forgetPassword(@Validated @RequestBody ForgetPasswordDto dto) {
         return defUserService.forgetPassword(dto);
     }
 

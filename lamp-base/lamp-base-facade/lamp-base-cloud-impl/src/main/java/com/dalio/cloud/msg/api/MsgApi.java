@@ -7,15 +7,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.dalio.basic.base.R;
 import com.dalio.basic.constant.Constants;
+import com.dalio.cloud.msg.api.fallback.MsgApiFallback;
 import com.dalio.cloud.msg.vo.update.ExtendMsgSendVO;
 
 /**
- * 文件接口
+ * 消息接口
  *
  * @author admin
  * @date 2019/06/21
  */
-@FeignClient(name = "${" + Constants.PROJECT_PREFIX + ".feign.base-server:lamp-base-server}")
+@FeignClient(name = "${" + Constants.PROJECT_PREFIX + ".feign.base-server:lamp-base-server}", fallback = MsgApiFallback.class)
 public interface MsgApi {
 
     /**

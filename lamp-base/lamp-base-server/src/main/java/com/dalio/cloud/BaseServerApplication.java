@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import com.dalio.basic.validator.annotation.EnableFormValidator;
 import com.dalio.cloud.common.ServerApplication;
@@ -23,7 +22,6 @@ import static com.dalio.cloud.common.constant.BizConstant.UTIL_PACKAGE;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@Configuration
 @ComponentScan({
         UTIL_PACKAGE, BUSINESS_PACKAGE
 })

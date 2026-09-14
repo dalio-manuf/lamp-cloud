@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.dalio.basic.base.R;
-import com.dalio.basic.exception.BizException;
 import com.dalio.cloud.oauth.service.UserInfoService;
 
 import java.util.Map;
@@ -27,7 +26,7 @@ public class DemoSiteController {
 
     @Operation(summary = "注册临时管理员账号密码", description = "注册临时管理员账号密码")
     @PostMapping(value = "/anyTenant/registerTempAdmin")
-    public R<Map<String, Object>> registerTempAdmin(@RequestParam String type) throws BizException {
+    public R<Map<String, Object>> registerTempAdmin(@RequestParam String type) {
         return R.success(userInfoService.registerTempAdmin(type));
     }
 }

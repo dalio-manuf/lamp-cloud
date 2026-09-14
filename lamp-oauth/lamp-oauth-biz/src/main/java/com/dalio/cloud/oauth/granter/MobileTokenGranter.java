@@ -42,7 +42,7 @@ import static com.dalio.cloud.oauth.granter.MobileTokenGranter.GRANT_TYPE;
  */
 @Component(GRANT_TYPE)
 @RequiredArgsConstructor
-public class MobileTokenGranter extends AbstractTokenGranter implements TokenGranter {
+public class MobileTokenGranter extends AbstractTokenGranter {
 
     public static final String GRANT_TYPE = "MOBILE";
     private final CaptchaService captchaService;
@@ -60,12 +60,12 @@ public class MobileTokenGranter extends AbstractTokenGranter implements TokenGra
 
     @Override
     protected R<LoginResultVO> checkCaptcha(LoginParamVO loginParam) {
-        if (systemProperties.getVerifyCaptcha()) {
+        if (Boolean.TRUE.equals(systemProperties.getVerifyCaptcha())) {
             R<Boolean> check = captchaService.checkCaptcha(loginParam.getMobile(), MsgTemplateCodeEnum.MOBILE_LOGIN.getCode(), loginParam.getCode());
-            if (!check.getIsSuccess()) {
-                String msg = check.getMsg();
+            if (check == null || !check.getIsSuccess()) {
+                String msg = check != null ? check.getMsg() : "短信验证码错误";
                 SpringUtils.publishEvent(new LoginEvent(LoginStatusDTO.smsCodeError(loginParam.getMobile(), LoginStatusEnum.SMS_CODE_ERROR, msg)));
-                throw BizException.validFail(check.getMsg());
+                throw BizException.validFail(msg);
             }
         }
         return R.success(null);

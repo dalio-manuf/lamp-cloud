@@ -38,7 +38,7 @@ public class DefInterface extends Entity<Long> {
     /**
      * 接口编码
      */
-    @TableField(value = "code", condition = LIKE)
+    @TableField(value = "code")
     private String code;
     /**
      * 接口名称
@@ -51,7 +51,7 @@ public class DefInterface extends Entity<Long> {
      * @Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.INTERFACE_EXEC_MODE)
      * [01-实现类 02-脚本]
      */
-    @TableField(value = "exec_mode", condition = LIKE)
+    @TableField(value = "exec_mode")
     private String execMode;
     /**
      * 实现脚本

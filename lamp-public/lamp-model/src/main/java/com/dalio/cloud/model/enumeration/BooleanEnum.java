@@ -34,24 +34,28 @@ public enum BooleanEnum implements BaseEnum {
     }
 
 
+    public boolean eq(BooleanEnum val) {
+        return this == val;
+    }
+
     public boolean eq(Integer val) {
         if (val == null) {
-            return FALSE.getBool();
+            return false;
         }
-        return val.equals(this.getInteger());
+        return val == this.integer;
     }
 
     public boolean eq(String val) {
         if (val == null) {
-            return FALSE.getBool();
+            return false;
         }
-        return val.equals(this.getStr());
+        return this.str.equals(val);
     }
 
     public boolean eq(Boolean val) {
         if (val == null) {
-            return FALSE.getBool();
+            return false;
         }
-        return val.equals(this.getBool());
+        return this.bool.equals(val);
     }
 }

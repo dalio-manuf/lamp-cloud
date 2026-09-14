@@ -19,9 +19,9 @@ import com.dalio.cloud.msg.strategy.domain.MsgParam;
 import com.dalio.cloud.msg.strategy.domain.MsgResult;
 import com.dalio.cloud.msg.strategy.domain.sms.AliSmsProperty;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service("aliSmsMsgStrategyImpl")
 public class AliSmsMsgStrategyImpl implements MsgStrategy {
-    private static final Map<String, com.aliyun.dysmsapi20170525.Client> CACHE = new HashMap<>();
+    private static final Map<String, com.aliyun.dysmsapi20170525.Client> CACHE = new ConcurrentHashMap<>();
 
     /**
      * 使用AK&SK初始化账号Client
@@ -46,8 +46,9 @@ public class AliSmsMsgStrategyImpl implements MsgStrategy {
         String key = StrUtil.format("{}:{}:{}:{}", property.getAccessKeyId(), property.getAccessKeySecret(),
                 property.getRegionId(), property.getEndpoint());
 
-        if (CACHE.containsKey(key)) {
-            return CACHE.get(key);
+        com.aliyun.dysmsapi20170525.Client cachedClient = CACHE.get(key);
+        if (cachedClient != null) {
+            return cachedClient;
         }
 
         Config config = new Config()
@@ -117,8 +118,8 @@ public class AliSmsMsgStrategyImpl implements MsgStrategy {
 
     @Override
     public boolean isSuccess(MsgResult result) {
-        SendSmsResponse sendResult = (SendSmsResponse) result.getResult();
-        return sendResult.getBody() != null && "OK".equals(sendResult.getBody().getCode());
+        return result != null && result.getResult() instanceof SendSmsResponse sendResult
+                && sendResult.getBody() != null && "OK".equals(sendResult.getBody().getCode());
     }
 
 }

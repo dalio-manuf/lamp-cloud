@@ -3,7 +3,7 @@ package com.dalio.cloud.oauth.controller;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,7 @@ import java.util.Set;
  */
 @Slf4j
 @RestController
-@AllArgsConstructor()
+@RequiredArgsConstructor
 @RequestMapping("/echo")
 @IgnoreResponseBodyAdvice
 @Tag(name = "数据注入查询接口， 不建议前端调用")

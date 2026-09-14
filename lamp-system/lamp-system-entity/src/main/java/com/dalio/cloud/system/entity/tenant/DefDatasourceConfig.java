@@ -44,13 +44,13 @@ public class DefDatasourceConfig extends Entity<Long> {
     /**
      * 用户名
      */
-    @TableField(value = "username", condition = LIKE)
+    @TableField(value = "username")
     private String username;
 
     /**
      * 密码
      */
-    @TableField(value = "password", condition = LIKE)
+    @TableField(value = "password")
     private String password;
 
     /**

@@ -63,7 +63,7 @@ public class DefResourceDataScope extends Entity<Long> {
     /**
      * 是否默认
      */
-    @TableField(value = "is_def", condition = LIKE)
+    @TableField(value = "is_def")
     private Boolean isDef;
 
 

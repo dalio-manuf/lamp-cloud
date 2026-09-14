@@ -38,13 +38,13 @@ public class DefClient extends Entity<Long> {
     /**
      * 客户端ID
      */
-    @TableField(value = "client_id", condition = LIKE)
+    @TableField(value = "client_id")
     private String clientId;
 
     /**
      * 客户端密码
      */
-    @TableField(value = "client_secret", condition = LIKE)
+    @TableField(value = "client_secret")
     private String clientSecret;
 
     /**
@@ -56,7 +56,7 @@ public class DefClient extends Entity<Long> {
     /**
      * 类型;[10-WEB网站;15-移动端应用;20-手机H5网页;25-内部服务; 30-第三方应用]	@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.System.CLIENT_TYPE)
      */
-    @TableField(value = "type", condition = LIKE)
+    @TableField(value = "type")
     private String type;
 
     /**

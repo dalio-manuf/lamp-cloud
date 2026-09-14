@@ -25,8 +25,9 @@ public interface DefLoginLogMapper extends SuperMapper<DefLoginLog> {
      * 清理日志
      *
      * @param clearBeforeTime 多久之前的
-     * @param idList          待删除
+     * @param cutoffId        截断保留点ID（小于该ID的被清理）
+     * @param idList          待保留排除的ID列表
      * @return 是否成功
      */
-    Long clearLog(@Param("clearBeforeTime") LocalDateTime clearBeforeTime, @Param("idList") List<Long> idList);
+    Long clearLog(@Param("clearBeforeTime") LocalDateTime clearBeforeTime, @Param("cutoffId") Long cutoffId, @Param("idList") List<Long> idList);
 }

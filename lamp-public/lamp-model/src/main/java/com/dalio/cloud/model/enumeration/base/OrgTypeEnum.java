@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.dalio.basic.interfaces.BaseEnum;
 
-import java.util.stream.Stream;
-
 /**
  * <p>
  * 实体注释中生成的类型枚举
@@ -40,7 +38,12 @@ public enum OrgTypeEnum implements BaseEnum {
      * 根据当前枚举的name匹配
      */
     public static OrgTypeEnum match(String val, OrgTypeEnum def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        for (OrgTypeEnum item : values()) {
+            if (item.name().equalsIgnoreCase(val) || item.code.equalsIgnoreCase(val)) {
+                return item;
+            }
+        }
+        return def;
     }
 
     public static OrgTypeEnum get(String val) {
@@ -48,7 +51,7 @@ public enum OrgTypeEnum implements BaseEnum {
     }
 
     public boolean eq(OrgTypeEnum val) {
-        return val != null && eq(val.getCode());
+        return this == val;
     }
 
     @Override

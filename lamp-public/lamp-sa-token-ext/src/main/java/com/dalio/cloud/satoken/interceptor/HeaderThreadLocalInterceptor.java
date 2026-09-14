@@ -46,8 +46,12 @@ public class HeaderThreadLocalInterceptor implements AsyncHandlerInterceptor {
 
         String userId = WebUtils.getHeader(request, ContextConstants.JWT_KEY_USER_ID);
         String employeeId = WebUtils.getHeader(request, ContextConstants.EMPLOYEE_ID_HEADER);
-        MDC.put(ContextConstants.USER_ID_HEADER, userId);
-        MDC.put(ContextConstants.EMPLOYEE_ID_HEADER, employeeId);
+        if (userId != null) {
+            MDC.put(ContextConstants.USER_ID_HEADER, userId);
+        }
+        if (employeeId != null) {
+            MDC.put(ContextConstants.EMPLOYEE_ID_HEADER, employeeId);
+        }
         ContextUtil.setUserId(userId);
         ContextUtil.setEmployeeId(employeeId);
         ContextUtil.setCurrentTopCompanyId(WebUtils.getHeader(request, ContextConstants.CURRENT_TOP_COMPANY_ID_HEADER));
@@ -55,7 +59,13 @@ public class HeaderThreadLocalInterceptor implements AsyncHandlerInterceptor {
         ContextUtil.setCurrentDeptId(WebUtils.getHeader(request, ContextConstants.CURRENT_DEPT_ID_HEADER));
 
         Map<String, String> localMap = ContextUtil.getLocalMap();
-        localMap.forEach(MDC::put);
+        if (localMap != null) {
+            localMap.forEach((k, v) -> {
+                if (k != null && v != null) {
+                    MDC.put(k, v);
+                }
+            });
+        }
         log.debug("HeaderThreadLocalInterceptor url={}, method={}", request.getRequestURI(), request.getMethod());
         return true;
     }

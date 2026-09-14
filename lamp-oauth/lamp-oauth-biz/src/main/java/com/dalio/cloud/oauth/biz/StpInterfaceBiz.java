@@ -2,6 +2,7 @@ package com.dalio.cloud.oauth.biz;
 
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.convert.Convert;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -31,8 +32,23 @@ public class StpInterfaceBiz {
     private final BaseRoleService baseRoleService;
 
     public List<String> getPermissionList() {
-        SaSession tokenSession = StpUtil.getTokenSession();
-        long employeeId = tokenSession.getLong(JWT_KEY_EMPLOYEE_ID);
+        if (!StpUtil.isLogin()) {
+            return Collections.emptyList();
+        }
+        SaSession tokenSession;
+        try {
+            tokenSession = StpUtil.getTokenSession();
+        } catch (Exception e) {
+            log.debug("获取 TokenSession 失败", e);
+            return Collections.emptyList();
+        }
+        if (tokenSession == null) {
+            return Collections.emptyList();
+        }
+        Long employeeId = Convert.toLong(tokenSession.get(JWT_KEY_EMPLOYEE_ID));
+        if (employeeId == null || employeeId <= 0) {
+            return Collections.emptyList();
+        }
         // 超管 返回 *
 
         List<DefResource> list;
@@ -53,8 +69,23 @@ public class StpInterfaceBiz {
     }
 
     public List<String> getRoleList() {
-        SaSession tokenSession = StpUtil.getTokenSession();
-        long employeeId = tokenSession.getLong(JWT_KEY_EMPLOYEE_ID);
+        if (!StpUtil.isLogin()) {
+            return Collections.emptyList();
+        }
+        SaSession tokenSession;
+        try {
+            tokenSession = StpUtil.getTokenSession();
+        } catch (Exception e) {
+            log.debug("获取 TokenSession 失败", e);
+            return Collections.emptyList();
+        }
+        if (tokenSession == null) {
+            return Collections.emptyList();
+        }
+        Long employeeId = Convert.toLong(tokenSession.get(JWT_KEY_EMPLOYEE_ID));
+        if (employeeId == null || employeeId <= 0) {
+            return Collections.emptyList();
+        }
         boolean isAdmin = baseRoleService.checkRole(employeeId, RoleConstant.TENANT_ADMIN);
         if (isAdmin) {
             return List.of("*");

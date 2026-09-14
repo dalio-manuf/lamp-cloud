@@ -34,7 +34,7 @@ public enum StateEnum implements BaseEnum {
     }
 
     public static StateEnum match(String val, StateEnum... defs) {
-        StateEnum def = defs.length > 0 ? defs[0] : DISABLE;
+        StateEnum def = defs != null && defs.length > 0 ? defs[0] : DISABLE;
         if (val == null) {
             return def;
         }
@@ -47,24 +47,28 @@ public enum StateEnum implements BaseEnum {
         return def;
     }
 
+    public boolean eq(StateEnum val) {
+        return this == val;
+    }
+
     public boolean eq(Integer val) {
         if (val == null) {
-            return DISABLE.getBool();
+            return false;
         }
-        return val.equals(this.getInteger());
+        return val == this.integer;
     }
 
     public boolean eq(String val) {
         if (val == null) {
-            return DISABLE.getBool();
+            return false;
         }
-        return val.equals(this.getStr());
+        return this.str.equals(val);
     }
 
     public boolean eq(Boolean val) {
         if (val == null) {
-            return DISABLE.getBool();
+            return false;
         }
-        return val.equals(this.getBool());
+        return this.bool.equals(val);
     }
 }

@@ -167,7 +167,7 @@ public class DefUserServiceImpl extends SuperCacheServiceImpl<DefUserManager, Lo
     @Transactional(rollbackFor = Exception.class)
     @Override
     public String registerByEmail(DefUser defUser) {
-        ArgumentAssert.isFalse(checkMobile(defUser.getEmail(), null), "邮箱：{}已经存在", defUser.getMobile());
+        ArgumentAssert.isFalse(checkEmail(defUser.getEmail(), null), "邮箱：{}已经存在", defUser.getEmail());
         setDefUser(defUser);
         defUser.setNickName(defUser.getEmail());
 
@@ -188,7 +188,7 @@ public class DefUserServiceImpl extends SuperCacheServiceImpl<DefUserManager, Lo
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean resetPassword(DefUserPasswordResetVO data) {
-        if (data.getIsUseSystemPassword()) {
+        if (Boolean.TRUE.equals(data.getIsUseSystemPassword())) {
             data.setPassword(systemProperties.getDefPwd());
         } else {
             ArgumentAssert.notEmpty(data.getConfirmPassword(), "请输入确认密码");
@@ -237,11 +237,15 @@ public class DefUserServiceImpl extends SuperCacheServiceImpl<DefUserManager, Lo
         Long id = ContextUtil.getUserId();
         DefUser user = superManager.getById(id);
         ArgumentAssert.notNull(user, "用户不存在");
+        String oldMobile = user.getMobile();
         user.setMobile(data.getMobile());
         superManager.updateById(user);
 
-        // 淘汰旧手机缓存
-        cacheOps.del(DefUserMobileCacheKeyBuilder.builder(user.getMobile()));
+        // 淘汰旧手机缓存与用户主缓存
+        if (StrUtil.isNotEmpty(oldMobile)) {
+            cacheOps.del(DefUserMobileCacheKeyBuilder.builder(oldMobile));
+        }
+        superManager.delCache(id);
         return true;
     }
 
@@ -251,9 +255,15 @@ public class DefUserServiceImpl extends SuperCacheServiceImpl<DefUserManager, Lo
         Long id = ContextUtil.getUserId();
         DefUser user = superManager.getById(id);
         ArgumentAssert.notNull(user, "用户不存在");
+        String oldEmail = user.getEmail();
         user.setEmail(data.getEmail());
         superManager.updateById(user);
-        cacheOps.del(DefUserEmailCacheKeyBuilder.builder(user.getEmail()));
+
+        // 淘汰旧邮箱缓存与用户主缓存
+        if (StrUtil.isNotEmpty(oldEmail)) {
+            cacheOps.del(DefUserEmailCacheKeyBuilder.builder(oldEmail));
+        }
+        superManager.delCache(id);
         return true;
     }
 
@@ -286,9 +296,10 @@ public class DefUserServiceImpl extends SuperCacheServiceImpl<DefUserManager, Lo
         }
 
         boolean flag = superManager.updateById(defUser);
-        if (StrUtil.isAllNotEmpty(data.getIdCard(), old.getIdCard()) && !StrUtil.equals(old.getIdCard(), data.getIdCard())) {
+        if (old != null && StrUtil.isAllNotEmpty(data.getIdCard(), old.getIdCard()) && !StrUtil.equals(old.getIdCard(), data.getIdCard())) {
             cacheOps.del(DefUserIdCardCacheKeyBuilder.builder(old.getIdCard()));
         }
+        superManager.delCache(data.getId());
         return flag;
     }
 
@@ -347,7 +358,7 @@ public class DefUserServiceImpl extends SuperCacheServiceImpl<DefUserManager, Lo
     public R<Boolean> forgetPassword(ForgetPasswordDto dto) {
         CacheKey cacheKey = CaptchaCacheKeyBuilder.build(dto.getMobile(), MsgTemplateCodeEnum.FORGET_PASSWORD.name());
         CacheResult<String> result = cacheOps.get(cacheKey);
-        ArgumentAssert.equals(result.getValue(), dto.getCode(), "验证码错误");
+        ArgumentAssert.isFalse(result == null || StrUtil.isEmpty(result.getValue()) || !result.getValue().equals(dto.getCode()), "验证码错误");
 
         DefUser oldUser = getUserByUsername(dto.getUsername());
         ArgumentAssert.notNull(oldUser, "用户名不存在");

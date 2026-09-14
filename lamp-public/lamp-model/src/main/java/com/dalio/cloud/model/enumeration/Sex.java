@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.dalio.basic.interfaces.BaseEnum;
 
-import java.util.stream.Stream;
-
 /**
  * <p>
  * 实体注释中生成的类型枚举
@@ -40,7 +38,12 @@ public enum Sex implements BaseEnum {
      * 根据当前枚举的name匹配
      */
     public static Sex match(String val, Sex def) {
-        return Stream.of(values()).parallel().filter(item -> item.getCode().equalsIgnoreCase(val)).findAny().orElse(def);
+        for (Sex item : values()) {
+            if (item.getCode().equalsIgnoreCase(val)) {
+                return item;
+            }
+        }
+        return def;
     }
 
     public static Sex get(String val) {
@@ -48,8 +51,6 @@ public enum Sex implements BaseEnum {
     }
 
     public boolean eq(Sex val) {
-        return val != null && eq(val.getCode());
+        return this == val;
     }
-
-
 }

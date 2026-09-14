@@ -17,8 +17,8 @@ import com.dalio.cloud.generator.mapper.GenDefDatasourceConfigMapper;
 import com.dalio.cloud.system.entity.tenant.DefDatasourceConfig;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * <p>
@@ -37,8 +37,8 @@ public class DefGenTableManagerImpl extends SuperManagerImpl<DefGenTableMapper, 
 
     private final GenDefDatasourceConfigMapper defDatasourceConfigManager;
     private final DataSource dataSource;
-    private final Map<String, DataSource> dsMap = new HashMap<>();
-    @Value("${spring.datasource.druid.validation-query}")
+    private final Map<String, DataSource> dsMap = new ConcurrentHashMap<>();
+    @Value("${spring.datasource.druid.validation-query:SELECT 1}")
     private String validationQuery;
 
     @Override
@@ -52,11 +52,11 @@ public class DefGenTableManagerImpl extends SuperManagerImpl<DefGenTableMapper, 
         DefDatasourceConfig defDatasourceConfig = defDatasourceConfigManager.selectById(dsId);
         ArgumentAssert.notNull(defDatasourceConfig, "请先配置数据源:{}", dsId);
 
-        String key = defDatasourceConfig.getUrl() + defDatasourceConfig.getDriverClassName() + defDatasourceConfig.getUsername() + defDatasourceConfig.getPassword();
-        if (dsMap.containsKey(key)) {
-            return dsMap.get(key);
-        }
+        String key = dsId + "#" + defDatasourceConfig.getUrl() + "#" + defDatasourceConfig.getUsername();
+        return dsMap.computeIfAbsent(key, k -> createDataSource(defDatasourceConfig));
+    }
 
+    private DataSource createDataSource(DefDatasourceConfig defDatasourceConfig) {
         String group = defDatasourceConfig.getName();
         Setting setting = Setting.create()
                 .setByGroup("url", group, defDatasourceConfig.getUrl())
@@ -73,9 +73,7 @@ public class DefGenTableManagerImpl extends SuperManagerImpl<DefGenTableMapper, 
                 .setByGroup("useInformationSchema", group, "true")
                 .setByGroup("remarks", group, "true");
         DSFactory dsFactory = DSFactory.create(setting);
-        DataSource ds = dsFactory.getDataSource(group);
-        dsMap.put(key, ds);
-        return ds;
+        return dsFactory.getDataSource(group);
     }
 
 }

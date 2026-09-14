@@ -56,6 +56,9 @@ public class Cpu {
     }
 
     public double getSys() {
+        if (total <= 0) {
+            return 0.0;
+        }
         return ArithUtil.round(ArithUtil.mul(sys / total, 100), 2);
     }
 
@@ -64,6 +67,9 @@ public class Cpu {
     }
 
     public double getUsed() {
+        if (total <= 0) {
+            return 0.0;
+        }
         return ArithUtil.round(ArithUtil.mul(used / total, 100), 2);
     }
 
@@ -72,6 +78,9 @@ public class Cpu {
     }
 
     public double getWait() {
+        if (total <= 0) {
+            return 0.0;
+        }
         return ArithUtil.round(ArithUtil.mul(wait / total, 100), 2);
     }
 
@@ -80,6 +89,9 @@ public class Cpu {
     }
 
     public double getFree() {
+        if (total <= 0) {
+            return 0.0;
+        }
         return ArithUtil.round(ArithUtil.mul(free / total, 100), 2);
     }
 

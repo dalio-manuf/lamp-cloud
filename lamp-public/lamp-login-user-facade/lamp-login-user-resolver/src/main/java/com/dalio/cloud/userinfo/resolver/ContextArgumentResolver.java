@@ -25,7 +25,7 @@ import com.dalio.cloud.userinfo.service.UserResolverService;
 @Slf4j
 public class ContextArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private UserResolverService userResolverService;
+    private volatile UserResolverService userResolverService;
 
     /**
      * 入参筛选
@@ -39,12 +39,15 @@ public class ContextArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     private UserResolverService get() {
-        UserResolverService urService;
-        if (userResolverService == null) {
-            urService = SpringUtils.getBean(UserResolverService.class);
-            userResolverService = urService;
-        } else {
-            urService = userResolverService;
+        UserResolverService urService = userResolverService;
+        if (urService == null) {
+            synchronized (this) {
+                urService = userResolverService;
+                if (urService == null) {
+                    urService = SpringUtils.getBean(UserResolverService.class);
+                    userResolverService = urService;
+                }
+            }
         }
         return urService;
     }

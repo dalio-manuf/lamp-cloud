@@ -2,19 +2,18 @@ package com.dalio.cloud.gateway.service;
 
 import cn.dev33.satoken.stp.StpInterface;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import com.dalio.cloud.oauth.biz.StpInterfaceBiz;
 
 import java.util.List;
 
 /**
- * sa-token 权限网关实现
- * @author admin
+ * Sa-Token 权限网关实现（委托至 StpInterfaceBiz）
+ *
+ * @author dalio
  * @since 2024/8/6 21:46
  */
 @Component
-@Slf4j
 @RequiredArgsConstructor
 public class StpInterfaceServiceImpl implements StpInterface {
     private final StpInterfaceBiz stpInterfaceBiz;
@@ -29,3 +28,4 @@ public class StpInterfaceServiceImpl implements StpInterface {
         return stpInterfaceBiz.getRoleList();
     }
 }
+

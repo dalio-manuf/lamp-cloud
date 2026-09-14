@@ -55,7 +55,7 @@ public class ResourceBiz {
 
         // hidden： true - 视图   false - 菜单  null - 菜单
 
-        return children.stream().allMatch(item -> item.getIsHidden() != null && item.getIsHidden());
+        return children.stream().allMatch(item -> Boolean.TRUE.equals(item.getIsHidden()));
     }
 
     /**
@@ -102,11 +102,15 @@ public class ResourceBiz {
                 list = defResourceService.findByIdsAndType(resourceIdList, menuCodes);
             }
 
+            if (CollUtil.isEmpty(list)) {
+                continue;
+            }
+
             if (StrUtil.isNotEmpty(subGroup)) {
                 list = list.stream().filter(item -> subGroup.equals(item.getSubGroup())).toList();
             }
 
-            if (list.isEmpty()) {
+            if (CollUtil.isEmpty(list)) {
                 continue;
             }
 
@@ -181,6 +185,10 @@ public class ResourceBiz {
             list = defResourceService.findByIdsAndType(resourceIdList, menuCodes);
         }
 
+        if (CollUtil.isEmpty(list)) {
+            return Collections.emptyList();
+        }
+
         if (StrUtil.isNotEmpty(subGroup)) {
             list = list.stream().filter(item -> subGroup.equals(item.getSubGroup())).toList();
         }
@@ -231,18 +239,21 @@ public class ResourceBiz {
 
 
             // 视图需要隐藏
-            meta.setHideMenu(item.getIsHidden() != null ? item.getIsHidden() : false);
+            meta.setHideMenu(Boolean.TRUE.equals(item.getIsHidden()));
+
+            boolean hasChildren = CollUtil.isNotEmpty(item.getChildren());
+            boolean allView = hasChildren && hideChildrenInMenu(item.getChildren());
 
             // 是否所有的子都是视图
-            meta.setHideChildrenInMenu(hideChildrenInMenu(item.getChildren()));
+            meta.setHideChildrenInMenu(allView);
             item.setMeta(meta);
 
             // 若当前菜单的 子菜单至少有一个菜单，将它设置为 LAYOUT
-            if (CollUtil.isNotEmpty(item.getChildren()) && !hideChildrenInMenu(item.getChildren())) {
+            if (hasChildren && !allView) {
                 item.setComponent(BizConstant.LAYOUT);
             }
 
-            if (CollUtil.isNotEmpty(item.getChildren())) {
+            if (hasChildren) {
                 forEachTree(item.getChildren(), level + 1);
             }
         }
@@ -280,25 +291,26 @@ public class ResourceBiz {
             }
 
             // 视图需要隐藏
-            meta.setHideInMenu(item.getIsHidden() != null ? item.getIsHidden() : false);
+            meta.setHideInMenu(Boolean.TRUE.equals(item.getIsHidden()));
 
             if (StrUtil.isNotEmpty(meta.getCurrentActiveMenu())) {
                 meta.setActivePath(meta.getCurrentActiveMenu());
             } else {
-                if (meta.getHideInMenu() && StrUtil.isEmpty(meta.getActivePath()) && parent != null) {
+                if (Boolean.TRUE.equals(meta.getHideInMenu()) && StrUtil.isEmpty(meta.getActivePath()) && parent != null) {
                     meta.setActivePath(parent.getPath());
                 }
             }
 
+            boolean hasChildren = CollUtil.isNotEmpty(item.getChildren());
+            boolean allView = hasChildren && hideChildrenInMenu(item.getChildren());
+
             // 是否所有的子都是视图
-            meta.setHideChildrenInMenu(hideChildrenInMenu(item.getChildren()));
+            meta.setHideChildrenInMenu(allView);
             item.setMeta(meta);
 
-            if (CollUtil.isNotEmpty(item.getChildren())) {
+            if (hasChildren) {
                 String component = item.getComponent();
                 List<VueRouter> childrenList = item.getChildren();
-                // 是否所有的子都是视图
-                boolean allView = hideChildrenInMenu(item.getChildren());
                 item.setComponent(BizConstant.LAYOUT);
                 if (allView) {
                     VueRouter first = new VueRouter();
@@ -314,14 +326,7 @@ public class ResourceBiz {
                     childrenList.add(0, first);
                     item.setChildren(childrenList);
                 }
-            }
 
-            // 若当前菜单的 子菜单至少有一个菜单，将它设置为 null
-            if (CollUtil.isNotEmpty(item.getChildren()) && !hideChildrenInMenu(item.getChildren())) {
-                item.setComponent(BizConstant.LAYOUT);
-            }
-
-            if (CollUtil.isNotEmpty(item.getChildren())) {
                 forEachTreeByVben5(item.getChildren(), level + 1, item);
             }
         }
@@ -352,9 +357,9 @@ public class ResourceBiz {
                 meta.setIcon(item.getIcon());
 
                 // 视图需要隐藏
-                meta.setHideInMenu(item.getIsHidden() != null ? item.getIsHidden() : false);
+                meta.setHideInMenu(Boolean.TRUE.equals(item.getIsHidden()));
 
-                if (meta.getHideInMenu() && StrUtil.isEmpty(meta.getActiveMenu()) && parent != null) {
+                if (Boolean.TRUE.equals(meta.getHideInMenu()) && StrUtil.isEmpty(meta.getActiveMenu()) && parent != null) {
                     meta.setActiveMenu(parent.getName());
                 }
 

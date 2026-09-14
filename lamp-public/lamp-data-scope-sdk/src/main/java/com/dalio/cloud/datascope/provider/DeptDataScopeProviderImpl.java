@@ -2,7 +2,6 @@ package com.dalio.cloud.datascope.provider;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.dalio.basic.base.entity.SuperEntity;
 import com.dalio.basic.context.ContextUtil;
@@ -22,8 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Component("DATA_SCOPE_05")
 public class DeptDataScopeProviderImpl implements DataScopeProvider {
-    @Autowired
-    private OrgHelperService orgHelperService;
+    private final OrgHelperService orgHelperService;
 
     @Override
     public List<DataFieldProperty> findDataFieldProperty(List<DataFieldProperty> fsp) {

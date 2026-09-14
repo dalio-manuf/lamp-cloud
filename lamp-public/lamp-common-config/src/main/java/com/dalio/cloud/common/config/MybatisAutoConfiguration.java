@@ -42,7 +42,7 @@ public class MybatisAutoConfiguration extends BaseMybatisConfiguration {
         List<InnerInterceptor> list = super.getPaginationBeforeInnerInterceptor();
 
         Boolean isDataScope = databaseProperties.getIsDataScope();
-        if (isDataScope) {
+        if (Boolean.TRUE.equals(isDataScope)) {
             list.add(getDataScopeInnerInterceptor());
         }
         return list;

@@ -1,15 +1,13 @@
 package com.dalio.cloud.file.manager;
 
 
+import cn.hutool.crypto.digest.DigestUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import com.dalio.cloud.file.dto.chunk.FileUploadDTO;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * 分片上传工具类
@@ -125,18 +123,9 @@ public class WebUploader {
      * @return md5
      */
     private String md5(String content) {
-        StringBuilder sb = new StringBuilder();
         try {
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
-            md5.update(content.getBytes(StandardCharsets.UTF_8));
-            byte[] tmpFolder = md5.digest();
-
-            for (byte b : tmpFolder) {
-                sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
-            }
-
-            return sb.toString();
-        } catch (NoSuchAlgorithmException ex) {
+            return DigestUtil.md5Hex(content);
+        } catch (Exception ex) {
             log.error("无法生成文件的MD5签名", ex);
             this.setErrorMsg("无法生成文件的MD5签名");
             return null;

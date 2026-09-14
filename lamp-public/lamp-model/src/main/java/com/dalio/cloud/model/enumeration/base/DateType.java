@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.dalio.basic.interfaces.BaseEnum;
 
-import java.util.stream.Stream;
-
 /**
  * 日期类型
  *
@@ -42,7 +40,12 @@ public enum DateType implements BaseEnum {
     private String desc;
 
     public static DateType match(String val, DateType def) {
-        return Stream.of(values()).parallel().filter((item) -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        for (DateType item : values()) {
+            if (item.name().equalsIgnoreCase(val)) {
+                return item;
+            }
+        }
+        return def;
     }
 
     public static DateType get(String val) {
@@ -50,7 +53,7 @@ public enum DateType implements BaseEnum {
     }
 
     public boolean eq(DateType val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

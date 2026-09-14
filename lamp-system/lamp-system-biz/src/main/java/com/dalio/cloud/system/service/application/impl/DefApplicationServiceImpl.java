@@ -149,7 +149,7 @@ public class DefApplicationServiceImpl extends SuperCacheServiceImpl<DefApplicat
                 DefResourceResultVO::getApplicationId, resource -> resource);
 
         return list.stream().map(item -> {
-            Collection<DefResourceResultVO> resources = resourceMap.containsKey(item.getId()) ? resourceMap.get(item.getId()) : Collections.emptyList();
+            Collection<DefResourceResultVO> resources = resourceMap.get(item.getId());
             return ApplicationResourceResultVO.builder()
                     .defApplication(item)
                     .resourceList(TreeUtil.buildTree(resources))
@@ -168,8 +168,8 @@ public class DefApplicationServiceImpl extends SuperCacheServiceImpl<DefApplicat
             List<DefResource> dataScopeList = defResourceManager.findResourceListByApplicationId(applicationIdList, Collections.singletonList(ResourceTypeEnum.DATA.getCode()));
 
             // 将id和treePath截取后 合并成list，其中treePath存放的是该节点的所有父节点ID
-            Stream<Long> dataScopeIdStream = dataScopeList.parallelStream().map(DefResource::getId);
-            Stream<Long> parentIdStream = dataScopeList.parallelStream()
+            Stream<Long> dataScopeIdStream = dataScopeList.stream().map(DefResource::getId);
+            Stream<Long> parentIdStream = dataScopeList.stream()
                     // 将父节点路径截取为父ID数组
                     .map(item -> StrUtil.splitToArray(item.getTreePath(), DefValConstants.TREE_PATH_SPLIT))
                     // 数组流 转 字符串流

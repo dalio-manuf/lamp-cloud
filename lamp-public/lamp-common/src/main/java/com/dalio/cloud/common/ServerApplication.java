@@ -6,7 +6,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 /**
  * 服务启动工具类
@@ -16,9 +15,19 @@ import java.net.UnknownHostException;
 @Slf4j
 public class ServerApplication {
 
-    protected static void start(Class<?> primarySource, String[] args) throws UnknownHostException {
+    protected ServerApplication() {
+    }
+
+    public static void start(Class<?> primarySource, String[] args) {
         ConfigurableApplicationContext application = SpringApplication.run(primarySource, args);
         Environment env = application.getEnvironment();
+        String hostAddress = "127.0.0.1";
+        try {
+            hostAddress = InetAddress.getLocalHost().getHostAddress();
+        } catch (Exception e) {
+            log.warn("未能获取本机IP地址，使用 127.0.0.1 替代: {}", e.getMessage());
+        }
+        String port = env.getProperty("server.port", "8080");
         String msg = """
                 
                 ----------------------------------------------------------
@@ -32,11 +41,11 @@ public class ServerApplication {
         log.info(msg,
                 env.getProperty("spring.application.name"),
                 env.getProperty("java.version"),
-                InetAddress.getLocalHost().getHostAddress(),
-                env.getProperty("server.port"),
+                hostAddress,
+                port,
                 env.getProperty("server.servlet.context-path", ""),
                 "127.0.0.1",
-                env.getProperty("server.port"),
+                port,
                 env.getProperty("spring.profiles.active"), env.getProperty("LOG_PATH")
         );
     }

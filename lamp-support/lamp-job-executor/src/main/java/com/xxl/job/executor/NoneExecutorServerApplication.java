@@ -1,25 +1,31 @@
 package com.xxl.job.executor;
 
-import org.springframework.boot.SpringApplication;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import com.dalio.basic.validator.annotation.EnableFormValidator;
+import com.dalio.cloud.common.ServerApplication;
+
+import java.net.UnknownHostException;
 
 import static com.dalio.cloud.common.constant.BizConstant.BUSINESS_PACKAGE;
 import static com.dalio.cloud.common.constant.BizConstant.UTIL_PACKAGE;
 
 /**
- * @author xuxueli 2018-10-28 00:38:13
+ * XXL-JOB 执行器启动类（单体/开发环境版）
+ *
+ * @author dalio
  */
 @SpringBootApplication
 @ComponentScan({
         UTIL_PACKAGE, BUSINESS_PACKAGE, "com.xxl.job.executor"
 })
 @EnableFormValidator
-public class NoneExecutorServerApplication {
+@Slf4j
+public class NoneExecutorServerApplication extends ServerApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(NoneExecutorServerApplication.class, args);
+    public static void main(String[] args) throws UnknownHostException {
+        start(NoneExecutorServerApplication.class, args);
     }
 
 }

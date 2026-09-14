@@ -25,6 +25,7 @@ public class LogFacadeImpl implements LogFacade {
      * @param data 操作日志
      * @return 操作日志
      */
+    @Override
     public void save(OptLogDTO data) {
         BaseOperationLogSaveVO bean = BeanPlusUtil.toBean(data, BaseOperationLogSaveVO.class);
         baseOperationLogService.save(bean);

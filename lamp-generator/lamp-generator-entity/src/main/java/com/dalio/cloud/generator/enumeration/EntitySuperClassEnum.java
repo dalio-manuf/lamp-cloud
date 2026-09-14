@@ -69,10 +69,7 @@ public enum EntitySuperClassEnum implements BaseEnum {
     }
 
     public boolean eq(EntitySuperClassEnum val) {
-        if (val == null) {
-            return false;
-        }
-        return eq(val.name());
+        return this == val;
     }
 
 

@@ -13,6 +13,9 @@
                     #{id}
                 </foreach>
             </if>
+            <if test="clearBeforeTime == null and (idList == null or idList.size() == 0)">
+                AND 1 = 2
+            </if>
         </trim>
     </delete>
 

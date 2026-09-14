@@ -21,7 +21,7 @@ import java.util.Set;
  * @author admin
  * @date 2019/07/02
  */
-@FeignClient(name = "${" + Constants.PROJECT_PREFIX + ".feign.tenant-server:lamp-system-server}", fallback = DefUserApiFallback.class)
+@FeignClient(name = "${" + Constants.PROJECT_PREFIX + ".feign.system-server:${" + Constants.PROJECT_PREFIX + ".feign.tenant-server:lamp-system-server}}", fallback = DefUserApiFallback.class)
 public interface DefUserApi {
     /**
      * 查询所有的用户id

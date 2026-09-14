@@ -54,8 +54,10 @@ public class OauthUserBiz {
         resultVO.setEmployeeId(employeeId);
 
         //查 租户库
-        BaseEmployee employee = baseEmployeeService.getById(employeeId);
-        resultVO.setBaseEmployee(BeanUtil.toBean(employee, BaseEmployeeResultVO.class));
+        if (employeeId != null && employeeId > 0) {
+            BaseEmployee employee = baseEmployeeService.getByIdCache(employeeId);
+            resultVO.setBaseEmployee(BeanUtil.toBean(employee, BaseEmployeeResultVO.class));
+        }
 
         DefApplication defApplication = defApplicationService.getDefApp(id);
         resultVO.setDefApplication(BeanUtil.toBean(defApplication, DefApplicationResultVO.class));

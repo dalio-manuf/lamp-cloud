@@ -45,7 +45,7 @@ public class BasePositionServiceImpl extends SuperServiceImpl<BasePositionManage
     @Override
     public boolean check(String name, Long orgId, Long id) {
         ArgumentAssert.notEmpty(name, "请填写名称");
-        LbQueryWrap<BasePosition> wrap = Wraps.<BasePosition>lbQ().eq(BasePosition::getName, name).eq(BasePosition::getOrgId, orgId).ne(BasePosition::getId, id);
+        LbQueryWrap<BasePosition> wrap = Wraps.<BasePosition>lbQ().eq(BasePosition::getName, name).eq(BasePosition::getOrgId, orgId).ne(id != null, BasePosition::getId, id);
         return superManager.count(wrap) > 0;
     }
 

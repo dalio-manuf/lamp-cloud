@@ -32,7 +32,7 @@ public class TypeConverts {
      * @return 返回选择器
      */
     static Selector<String, ColumnType> use(String param) {
-        return new Selector<>(param.toLowerCase());
+        return new Selector<>(param == null ? "" : param.toLowerCase());
     }
 
     /**

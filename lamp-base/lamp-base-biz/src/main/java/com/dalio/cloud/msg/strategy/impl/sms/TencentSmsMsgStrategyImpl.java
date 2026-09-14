@@ -114,7 +114,7 @@ public class TencentSmsMsgStrategyImpl implements MsgStrategy {
             paramList.add(kv.getValue());
         }
         /* 模板参数: 模板参数的个数需要与 TemplateId 对应模板的变量个数保持一致，若无模板参数，则设置为空 */
-        req.setTemplateParamSet(paramList.stream().toArray(String[]::new));
+        req.setTemplateParamSet(paramList.toArray(String[]::new));
 
         /* 下发手机号码，采用 E.164 标准，+[国家或地区码][手机号]
          * 示例如：+8613711112222， 其中前面有一个+号 ，86为国家码，13711112222为手机号，最多不要超过200个手机号 */
@@ -131,7 +131,7 @@ public class TencentSmsMsgStrategyImpl implements MsgStrategy {
 
     @Override
     public boolean isSuccess(MsgResult result) {
-        SendSmsResponse sendResult = (SendSmsResponse) result.getResult();
-        return ArrayUtil.isNotEmpty(sendResult.getSendStatusSet()) && "Ok".equals(sendResult.getSendStatusSet()[0].getCode());
+        return result != null && result.getResult() instanceof SendSmsResponse sendResult
+                && ArrayUtil.isNotEmpty(sendResult.getSendStatusSet()) && "Ok".equals(sendResult.getSendStatusSet()[0].getCode());
     }
 }

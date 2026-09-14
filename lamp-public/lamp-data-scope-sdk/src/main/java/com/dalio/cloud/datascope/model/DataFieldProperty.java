@@ -20,9 +20,9 @@ import java.util.List;
 @Builder
 public class DataFieldProperty {
     public static final List<DataFieldProperty> EMPTY_INSTANCE = Collections.emptyList();
-    String alias;
+    private String alias;
 
-    String field;
+    private String field;
 
     private List<Long> values;
 

@@ -30,13 +30,13 @@ public class NotAllowWriteInterceptor implements AsyncHandlerInterceptor {
         }
 
         // 禁用该拦截器
-        if (!systemProperties.getNotAllowWrite()) {
+        if (!Boolean.TRUE.equals(systemProperties.getNotAllowWrite()) || systemProperties.getNotAllowWriteList() == null) {
             return true;
         }
 
         String method = request.getMethod();
         String path = request.getRequestURI();
-        List<String> list = systemProperties.getNotAllowWriteList().get(method);
+        List<String> list = systemProperties.getNotAllowWriteList().get(method != null ? method.toUpperCase() : null);
         if (CollUtil.isNotEmpty(list)) {
 
             for (String url : list) {

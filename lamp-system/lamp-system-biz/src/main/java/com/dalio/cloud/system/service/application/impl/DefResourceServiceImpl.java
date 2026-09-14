@@ -219,6 +219,9 @@ public class DefResourceServiceImpl extends SuperCacheServiceImpl<DefResourceMan
         List<Long> allIdList = childrenList.stream().map(DefResource::getId).collect(Collectors.toList());
         allIdList.add(current.getId());
         superManager.delCache(allIdList);
+        if (current.getApplicationId() != null) {
+            cacheOps.del(ApplicationResourceCacheKeyBuilder.build(current.getApplicationId()));
+        }
     }
 
     private void recursiveFill(List<DefResource> tree, DefResource parent) {
@@ -268,9 +271,12 @@ public class DefResourceServiceImpl extends SuperCacheServiceImpl<DefResourceMan
         superManager.save(resource);
         saveResourceApi(resource.getId(), data.getResourceApiList());
 
-        // 淘汰资源下绑定的接口
+        // 淘汰资源下绑定的接口与应用资源树
         cacheOps.del(ResourceResourceApiCacheKeyBuilder.builder(resource.getId()));
         cacheOps.del(AllResourceApiCacheKeyBuilder.builder());
+        if (resource.getApplicationId() != null) {
+            cacheOps.del(ApplicationResourceCacheKeyBuilder.build(resource.getApplicationId()));
+        }
         return resource;
     }
 
@@ -306,9 +312,12 @@ public class DefResourceServiceImpl extends SuperCacheServiceImpl<DefResourceMan
         defResourceApiManager.removeByResourceId(Collections.singletonList(resource.getId()));
         saveResourceApi(resource.getId(), data.getResourceApiList());
 
-        // 淘汰资源下绑定的接口
+        // 淘汰资源下绑定的接口与应用资源树
         cacheOps.del(ResourceResourceApiCacheKeyBuilder.builder(resource.getId()));
         cacheOps.del(AllResourceApiCacheKeyBuilder.builder());
+        if (resource.getApplicationId() != null) {
+            cacheOps.del(ApplicationResourceCacheKeyBuilder.build(resource.getApplicationId()));
+        }
         return resource;
     }
 

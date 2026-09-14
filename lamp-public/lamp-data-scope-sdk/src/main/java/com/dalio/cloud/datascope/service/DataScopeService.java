@@ -10,7 +10,9 @@ import com.dalio.cloud.datascope.entity.DefResourceDataScope;
 import com.dalio.cloud.datascope.mapper.DataScopeMapper;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author admin
@@ -63,13 +65,17 @@ public class DataScopeService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public List<Long> selectDataScopeIdByEmployeeId(Long employeeId, String category) {
-        List<Long> list = new ArrayList<>();
+        Set<Long> idSet = new LinkedHashSet<>();
         // 员工 -> 角色 -> 资源
         List<Long> ids1 = dataScopeMapper.selectDataScopeIdFromRoleByEmployeeId(employeeId, category);
+        if (CollUtil.isNotEmpty(ids1)) {
+            idSet.addAll(ids1);
+        }
         // 员工 -> 机构 -> 角色 -> 资源
         List<Long> ids2 = dataScopeMapper.selectDataScopeIdFromOrgByEmployeeId(employeeId, category);
-        list.addAll(ids1);
-        list.addAll(ids2);
-        return list;
+        if (CollUtil.isNotEmpty(ids2)) {
+            idSet.addAll(ids2);
+        }
+        return new ArrayList<>(idSet);
     }
 }

@@ -39,6 +39,6 @@ public enum ProjectTypeEnum implements BaseEnum {
     }
 
     public boolean eq(ProjectTypeEnum val) {
-        return val != null && this.getCode().equalsIgnoreCase(val.getCode());
+        return this == val;
     }
 }

@@ -13,7 +13,6 @@ import com.obs.services.model.TemporarySignatureRequest;
 import com.obs.services.model.TemporarySignatureResponse;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.Request;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import com.dalio.basic.utils.CollHelper;
@@ -36,20 +35,11 @@ import java.util.Set;
  * @date 2020/11/22 5:00 下午
  */
 @Slf4j
-
 @Component("HUAWEI_OSS")
 public class HuaweiFileStrategyImpl extends AbstractFileStrategy {
 
     public HuaweiFileStrategyImpl(FileServerProperties fileProperties, FileMapper fileMapper) {
         super(fileProperties, fileMapper);
-    }
-
-    private static Request.Builder getBuilder(TemporarySignatureResponse res) {
-        Request.Builder builder = new Request.Builder();
-        for (Map.Entry<String, String> entry : res.getActualSignedRequestHeaders().entrySet()) {
-            builder.header(entry.getKey(), entry.getValue());
-        }
-        return builder.url(res.getSignedUrl());
     }
 
     @Override
@@ -115,20 +105,20 @@ public class HuaweiFileStrategyImpl extends AbstractFileStrategy {
                 try {
                     if (CollUtil.isNotEmpty(publicBucket) && publicBucket.contains(bucket)) {
                         StringBuilder url = new StringBuilder(huawei.getUrlPrefix())
-                                .append(fileGet.getBucket())
+                                .append(bucket)
                                 .append(StrPool.SLASH)
                                 .append(fileGet.getPath());
                         map.put(fileGet.getPath(), url.toString());
                     } else {
                         TemporarySignatureRequest req = new TemporarySignatureRequest(HttpMethodEnum.GET, 300);
-                        req.setBucketName(fileGet.getBucket());
+                        req.setBucketName(bucket);
                         req.setObjectKey(fileGet.getPath());
                         req.setExpires(huawei.getExpiry());
                         TemporarySignatureResponse res = obsClient.createTemporarySignature(req);
                         map.put(fileGet.getPath(), res.getSignedUrl());
                     }
                 } catch (Exception e) {
-                    log.warn("加载文件url地址失败，请确保yml中第三方存储参数配置正确. bucket={}, , 文件名={} path={}", bucket, fileGet.getOriginalFileName(), fileGet.getPath(), e);
+                    log.warn("加载文件url地址失败，请确保yml中第三方存储参数配置正确. bucket={}, 文件名={} path={}", bucket, fileGet.getOriginalFileName(), fileGet.getPath(), e);
                     map.put(fileGet.getPath(), StrPool.EMPTY);
                 }
             }

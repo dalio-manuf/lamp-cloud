@@ -1,5 +1,6 @@
 package com.dalio.cloud.gateway.filter;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.headers.HttpHeadersFilter;
 import org.springframework.core.Ordered;
@@ -15,10 +16,10 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.G
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR;
 
 /**
- * 1, spring.cloud.gateway.x-forwarded.prefixEnabled: false ， 仅供官方 XForwardedHeadersFilter 的部分功能
- * 2，重写 XForwardedHeadersFilter 禁用掉的部分功能
+ * Swagger 转发 Header 增强过滤器
+ * 重写并补充 XForwardedHeadersFilter 所需的 contextPath 前缀配置
  *
- * @author admin
+ * @author dalio
  * @date 2019/08/13
  */
 @Component
@@ -39,29 +40,21 @@ public class MySwaggerXForwardedHeadersFilter implements HttpHeadersFilter, Orde
 
     @Override
     public HttpHeaders filter(HttpHeaders input, ServerWebExchange exchange) {
-        HttpHeaders original = input;
         HttpHeaders updated = new HttpHeaders();
-
-        original.entrySet().stream()
-                .forEach(entry -> updated.addAll(entry.getKey(), entry.getValue()));
+        updated.addAll(input);
 
         LinkedHashSet<URI> originalUris = exchange.getAttribute(GATEWAY_ORIGINAL_REQUEST_URL_ATTR);
         URI requestUri = exchange.getAttribute(GATEWAY_REQUEST_URL_ATTR);
 
         if (originalUris != null && requestUri != null) {
-
-            originalUris.stream().forEach(originalUri -> {
+            originalUris.forEach(originalUri -> {
                 if (originalUri != null && originalUri.getPath() != null) {
-                    String prefix = originalUri.getPath();
-
                     String originalUriPath = stripTrailingSlash(originalUri);
                     String requestUriPath = stripTrailingSlash(requestUri);
 
-                    if (requestUriPath != null && (originalUriPath.endsWith(requestUriPath))) {
-                        prefix = originalUriPath.replace(requestUriPath, "");
-                        if (prefix != null && prefix.length() > 0 &&
-                            prefix.length() <= originalUri.getPath().length()) {
-                            // 就是这里跟官方的XForwardedHeadersFilter 不同，多了：contextPath
+                    if (StrUtil.isNotEmpty(requestUriPath) && originalUriPath.endsWith(requestUriPath)) {
+                        String prefix = originalUriPath.substring(0, originalUriPath.length() - requestUriPath.length());
+                        if (StrUtil.isNotEmpty(prefix)) {
                             updated.set(X_FORWARDED_PREFIX_HEADER, contextPath + prefix);
                         }
                     }
@@ -73,10 +66,14 @@ public class MySwaggerXForwardedHeadersFilter implements HttpHeadersFilter, Orde
     }
 
     private String stripTrailingSlash(URI uri) {
-        if (uri.getPath().endsWith("/")) {
-            return uri.getPath().substring(0, uri.getPath().length() - 1);
-        } else {
-            return uri.getPath();
+        if (uri == null || uri.getPath() == null) {
+            return "";
         }
+        String path = uri.getPath();
+        if (path.endsWith("/")) {
+            return path.substring(0, path.length() - 1);
+        }
+        return path;
     }
 }
+

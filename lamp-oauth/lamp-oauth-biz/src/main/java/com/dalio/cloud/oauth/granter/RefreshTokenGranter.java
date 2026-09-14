@@ -24,7 +24,6 @@ import cn.dev33.satoken.temp.SaTempUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.dalio.basic.exception.BizException;
 import com.dalio.cloud.oauth.vo.result.LoginResultVO;
@@ -44,21 +43,24 @@ import static com.dalio.basic.context.ContextConstants.JWT_KEY_USER_ID;
  */
 @Component
 @Slf4j
+@lombok.RequiredArgsConstructor
 public class RefreshTokenGranter {
 
-    @Autowired
-    protected SaTokenConfig saTokenConfig;
+    private final SaTokenConfig saTokenConfig;
 
     public LoginResultVO refresh(String refreshToken) {
         // 1、验证
         Object str = SaTempUtil.parseToken(refreshToken);
+        if (str == null) {
+            throw new BizException("会话过期，请重新登录");
+        }
 
         JSONObject obj = JSONUtil.parseObj(str);
         Long userId = obj.getLong(JWT_KEY_USER_ID);
         log.info("token={},obj={}", refreshToken, obj);
         if (userId == null) {
             // 刷新token过期，重新登录
-            throw new BizException("回话过期，请重新登陆");
+            throw new BizException("会话过期，请重新登录");
         }
 
         Long topCompanyId = obj.getLong(JWT_KEY_TOP_COMPANY_ID);

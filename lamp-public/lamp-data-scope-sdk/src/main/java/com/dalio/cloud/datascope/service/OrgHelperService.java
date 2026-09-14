@@ -15,8 +15,10 @@ import com.dalio.cloud.datascope.entity.BaseOrgBO;
 import com.dalio.cloud.datascope.mapper.DataScopeMapper;
 import com.dalio.cloud.model.enumeration.base.OrgTypeEnum;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author admin
@@ -31,16 +33,22 @@ import java.util.List;
 public class OrgHelperService {
     private final DataScopeMapper dataScopeMapper;
 
-    private static BaseOrgBO getMainCompany(ImmutableMap<Long, BaseOrgBO> map, Long parentId) {
-        BaseOrgBO parent = map.get(parentId);
-        if (parent == null) {
-            return null;
+    private static BaseOrgBO getMainCompany(Map<Long, BaseOrgBO> map, Long parentId) {
+        Long currentParentId = parentId;
+        while (currentParentId != null) {
+            BaseOrgBO parent = map.get(currentParentId);
+            if (parent == null) {
+                return null;
+            }
+            if (OrgTypeEnum.COMPANY.eq(parent.getType())) {
+                return parent;
+            }
+            if (currentParentId.equals(parent.getParentId())) {
+                break;
+            }
+            currentParentId = parent.getParentId();
         }
-        if (OrgTypeEnum.COMPANY.eq(parent.getType())) {
-            return parent;
-        }
-
-        return getMainCompany(map, parent.getParentId());
+        return null;
     }
 
     /**
@@ -52,7 +60,6 @@ public class OrgHelperService {
      * @date 2022/4/12 12:33 PM
      * @create [2022/4/12 12:33 PM ] [admin] [初始创建]
      */
-
     public Long getMainDeptIdByEmployeeId(Long employeeId) {
         BaseOrgBO baseOrg = dataScopeMapper.getMainDeptIdByEmployeeId(employeeId);
         return baseOrg != null ? baseOrg.getId() : null;
@@ -69,14 +76,14 @@ public class OrgHelperService {
      * @date 2022/4/12 12:34 PM
      * @create [2022/4/12 12:34 PM ] [admin] [初始创建]
      */
-
     public List<Long> findDeptAndChildrenIdByEmployeeId(Long employeeId) {
         BaseOrgBO baseOrg = dataScopeMapper.getMainDeptIdByEmployeeId(employeeId);
         if (baseOrg == null) {
             return Collections.emptyList();
         }
         String parentIdStr = DefValConstants.TREE_PATH_SPLIT + baseOrg.getId() + DefValConstants.TREE_PATH_SPLIT;
-        List<BaseOrgBO> list = dataScopeMapper.selectList(Wraps.<BaseOrgBO>lbQ().like(BaseOrgBO::getTreePath, parentIdStr));
+        List<BaseOrgBO> selected = dataScopeMapper.selectList(Wraps.<BaseOrgBO>lbQ().like(BaseOrgBO::getTreePath, parentIdStr));
+        List<BaseOrgBO> list = selected != null ? new ArrayList<>(selected) : new ArrayList<>();
         list.add(baseOrg);
         return list.stream().map(BaseOrgBO::getId).toList();
     }
@@ -90,7 +97,6 @@ public class OrgHelperService {
      * @date 2022/4/12 12:34 PM
      * @create [2022/4/12 12:34 PM ] [admin] [初始创建]
      */
-
     public Long getMainCompanyIdByEmployeeId(Long employeeId) {
         BaseOrgBO mainCompany = getMainCompanyByEmployeeId(employeeId);
         return mainCompany != null ? mainCompany.getId() : null;
@@ -105,14 +111,14 @@ public class OrgHelperService {
      * @date 2022/4/12 12:53 PM
      * @create [2022/4/12 12:53 PM ] [admin] [初始创建]
      */
-
     public List<Long> findCompanyAndChildrenIdByEmployeeId(Long employeeId) {
         BaseOrgBO mainCompany = getMainCompanyByEmployeeId(employeeId);
         if (mainCompany == null) {
             return Collections.emptyList();
         }
         String parentIdStr = DefValConstants.TREE_PATH_SPLIT + mainCompany.getId() + DefValConstants.TREE_PATH_SPLIT;
-        List<BaseOrgBO> list = dataScopeMapper.selectList(Wraps.<BaseOrgBO>lbQ().like(BaseOrgBO::getTreePath, parentIdStr));
+        List<BaseOrgBO> selected = dataScopeMapper.selectList(Wraps.<BaseOrgBO>lbQ().like(BaseOrgBO::getTreePath, parentIdStr));
+        List<BaseOrgBO> list = selected != null ? new ArrayList<>(selected) : new ArrayList<>();
         list.add(mainCompany);
         return list.stream().map(BaseOrgBO::getId).toList();
     }

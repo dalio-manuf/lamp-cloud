@@ -49,7 +49,7 @@ public class DefGenTableColumnController extends SuperController<DefGenTableColu
     @Operation(summary = "同步字段结构", description = "同步字段结构")
     @PostMapping(value = "/syncField")
     @WebLog(value = "同步字段结构")
-    public R<Boolean> syncField(@RequestParam Long tableId, @RequestParam Long id) {
+    public R<Boolean> syncField(@RequestParam("tableId") Long tableId, @RequestParam("id") Long id) {
         return R.success(superService.syncField(tableId, id));
     }
 }

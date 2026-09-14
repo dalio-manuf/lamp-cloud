@@ -3,7 +3,6 @@ package com.dalio.cloud.generator.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.db.meta.Column;
@@ -266,10 +265,14 @@ public class DefGenTableServiceImpl extends SuperServiceImpl<DefGenTableManager,
             }
             columnNameList.add(column.getName());
         }
-        defGenTableColumnManager.saveBatch(insertList);
+        if (CollUtil.isNotEmpty(insertList)) {
+            defGenTableColumnManager.saveBatch(insertList);
+        }
 
         List<DefGenTableColumn> delColumns = fieldList.stream().filter(field -> !columnNameList.contains(field.getName())).toList();
-        defGenTableColumnManager.removeByIds(delColumns.stream().map(DefGenTableColumn::getId).toList());
+        if (CollUtil.isNotEmpty(delColumns)) {
+            defGenTableColumnManager.removeByIds(delColumns.stream().map(DefGenTableColumn::getId).toList());
+        }
     }
 
     @Override
@@ -295,7 +298,9 @@ public class DefGenTableServiceImpl extends SuperServiceImpl<DefGenTableManager,
                         columnList.add(tableColumn);
                     }
                 }
-                defGenTableColumnManager.saveBatch(columnList);
+                if (CollUtil.isNotEmpty(columnList)) {
+                    defGenTableColumnManager.saveBatch(columnList);
+                }
             }
         });
         return true;
@@ -426,19 +431,22 @@ public class DefGenTableServiceImpl extends SuperServiceImpl<DefGenTableManager,
     @Override
     public DownloadVO downloadZip(List<Long> ids, TemplateEnum template) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ZipOutputStream zip = new ZipOutputStream(outputStream);
-
         StringBuilder name = new StringBuilder();
-        for (int i = 0; i < ids.size(); i++) {
-            DefGenTable defGenTable = downloadSimple(ids.get(i), template, zip);
-            name.append(defGenTable.getName());
-            if (i != ids.size() - 1) {
-                name.append("|");
+        try (ZipOutputStream zip = new ZipOutputStream(outputStream)) {
+            for (int i = 0; i < ids.size(); i++) {
+                DefGenTable defGenTable = downloadSimple(ids.get(i), template, zip);
+                name.append(defGenTable.getName());
+                if (i != ids.size() - 1) {
+                    name.append("|");
+                }
             }
+            zip.finish();
+        } catch (IOException e) {
+            log.error("生成zip压缩包失败", e);
+            throw BizException.wrap("生成zip压缩包失败");
         }
         String zipName = Constants.PROJECT_PREFIX + "_" + template.getDesc() + "代码(" + name + ").zip";
 
-        IoUtil.close(zip);
         return DownloadVO.builder()
                 .data(outputStream.toByteArray()).fileName(zipName).build();
     }
@@ -519,45 +527,52 @@ public class DefGenTableServiceImpl extends SuperServiceImpl<DefGenTableManager,
     }
 
     private void writeZip(Class<?> clazz, Map<String, String> map, ZipOutputStream zip) {
+        if (CollUtil.isEmpty(map)) {
+            return;
+        }
+        boolean entryOpened = false;
         try {
-            if (CollUtil.isEmpty(map)) {
-                return;
-            }
-
             String filePath = getPath(StrPool.EMPTY, clazz.getName());
             String zipOutputFile = getLocalPath(StrPool.EMPTY, clazz.getName());
             log.info("filePath={}, zipOutputFile={}", filePath, zipOutputFile);
             String content = FileInsertUtil.of(filePath, map).replaceAll();
             zip.putNextEntry(new ZipEntry(zipOutputFile));
+            entryOpened = true;
             IOUtils.write(content, zip, StrPool.UTF8);
         } catch (IOException e) {
             log.info("代码生成异常, 出错原因可能是的表结构没有按照规范编写，导致模板解析出错！", e);
         } finally {
-            try {
-                zip.flush();
-                zip.closeEntry();
-            } catch (IOException ee) {
-                log.error("ee=", ee);
+            if (entryOpened) {
+                try {
+                    zip.flush();
+                    zip.closeEntry();
+                } catch (IOException ee) {
+                    log.error("ee=", ee);
+                }
             }
         }
     }
 
     private void writeZip(String templatePath, Map<String, Object> objectMap, DefGenTable genTable, DefGenTable subTable, ZipOutputStream zip, String enumName, TemplateEnum template) {
+        boolean entryOpened = false;
         try (StringWriter sw = new StringWriter()) {
             Template tpl = TemplateUtils.getTemplate(templatePath);
             tpl.process(objectMap, sw);
             String zipOutputFile = OutputFileUtils.getZipOutputFile(generatorConfig, genTable, subTable, templatePath, enumName, template);
             log.info("zipOutputFile={}", zipOutputFile);
             zip.putNextEntry(new ZipEntry(zipOutputFile));
+            entryOpened = true;
             IOUtils.write(sw.toString(), zip, StrPool.UTF8);
         } catch (TemplateException | IOException e) {
             log.info("代码生成异常, 出错原因可能是的表结构没有按照规范编写，导致模板解析出错！", e);
         } finally {
-            try {
-                zip.flush();
-                zip.closeEntry();
-            } catch (IOException ee) {
-                log.error("ee=", ee);
+            if (entryOpened) {
+                try {
+                    zip.flush();
+                    zip.closeEntry();
+                } catch (IOException ee) {
+                    log.error("ee=", ee);
+                }
             }
         }
     }
@@ -704,8 +719,10 @@ public class DefGenTableServiceImpl extends SuperServiceImpl<DefGenTableManager,
                 }
 
                 Template tpl = TemplateUtils.getTemplate(templatePath);
-                try (FileOutputStream fileOutputStream = new FileOutputStream(outputFile)) {
-                    tpl.process(objectMap, new OutputStreamWriter(fileOutputStream, GenCodeConstant.UTF8));
+                try (FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
+                     OutputStreamWriter writer = new OutputStreamWriter(fileOutputStream, GenCodeConstant.UTF8)) {
+                    tpl.process(objectMap, writer);
+                    writer.flush();
                     log.info("成功生成={}", outputFile);
                 }
             } else {
@@ -737,7 +754,7 @@ public class DefGenTableServiceImpl extends SuperServiceImpl<DefGenTableManager,
     @Transactional(rollbackFor = Exception.class)
     public <UpdateVO> DefGenTable updateById(UpdateVO updateVO) {
         DefGenTableUpdateVO defGenTableUpdateVO = (DefGenTableUpdateVO) updateVO;
-        if (defGenTableUpdateVO.getIsDs() == null && CollUtil.isEmpty(defGenTableUpdateVO.getTableIdList())) {
+        if (defGenTableUpdateVO.getId() == null && CollUtil.isEmpty(defGenTableUpdateVO.getTableIdList())) {
             throw new ArgumentException("ID不能为空");
         }
         if (CollUtil.isNotEmpty(defGenTableUpdateVO.getTableIdList())) {

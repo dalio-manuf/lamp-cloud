@@ -1,7 +1,6 @@
 package com.dalio.cloud.generator.utils;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.StrUtil;
@@ -39,6 +38,7 @@ import java.io.StringWriter;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +95,7 @@ public class ProjectUtils {
     private static final List<String> FACADE_MODULE = CollUtil.newArrayList(
             API_SERVICE_SUFFIX, BOOT_IMPL_SERVICE_SUFFIX, CLOUD_IMPL_SERVICE_SUFFIX
     );
-    private static final Map<ProjectTypeEnum, List<String>> TYPE_MODULE_MAP = new HashMap();
+    private static final Map<ProjectTypeEnum, List<String>> TYPE_MODULE_MAP = new EnumMap<>(ProjectTypeEnum.class);
 
     static {
         TYPE_MODULE_MAP.put(ProjectTypeEnum.CLOUD, CLOUD_MODULE);
@@ -191,7 +191,7 @@ public class ProjectUtils {
             writePom(objectMap, StrUtil.format(POM_FORMAT, moduleName), modulePath);
         }
 
-        if (ProjectTypeEnum.CLOUD.eq(type.getCode())) {
+        if (ProjectTypeEnum.CLOUD == type) {
             // facade层
             String facadeModule = service + StrUtil.DASHED + FACADE_SERVICE_SUFFIX;
             String facadeModulePath = Paths.get(outputDir, service, facadeModule).toString();
@@ -218,7 +218,7 @@ public class ProjectUtils {
         writer(objectMap, StrUtil.format(POM_FORMAT, ROOT), Paths.get(outputDir, service, POM_NAME).toString());
 
         // server java + yml
-        if (ProjectTypeEnum.CLOUD.eq(type.getCode())) {
+        if (ProjectTypeEnum.CLOUD == type) {
             String module = service + StrUtil.DASHED + SERVER_SERVICE_SUFFIX;
             String modulePath = Paths.get(outputDir, service, module).toString();
             String javaPath = Paths.get(modulePath, SRC_MAIN_JAVA).toString();
@@ -344,8 +344,10 @@ public class ProjectUtils {
             file.getParentFile().mkdirs();
         }
         Template template = TemplateUtils.getTemplate(templatePath);
-        try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
-            template.process(objectMap, new OutputStreamWriter(fileOutputStream, GenCodeConstant.UTF8));
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+             OutputStreamWriter writer = new OutputStreamWriter(fileOutputStream, GenCodeConstant.UTF8)) {
+            template.process(objectMap, writer);
+            writer.flush();
             log.info("成功生成={}", outputFile);
         }
     }
@@ -353,7 +355,6 @@ public class ProjectUtils {
     @SneakyThrows
     public static DownloadVO download(ProjectGeneratorVO vo, DatabaseProperties databaseProperties) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ZipOutputStream zip = new ZipOutputStream(outputStream);
 
         String serviceName = vo.getServiceName();
         String serviceNameUpper = StrUtil.upperFirst(NamingCase.toCamelCase(serviceName, '-'));
@@ -370,37 +371,12 @@ public class ProjectUtils {
         // 服务 lamp-base
         String service = projectPrefix + StrUtil.DASHED + serviceName;
 
-        List<String> moduleList = TYPE_MODULE_MAP.get(type);
-        for (String moduleName : moduleList) {
-            // lamp-base-entity
-            String module = service + StrUtil.DASHED + moduleName;
-            String modulePath = Paths.get(outputDir, service, module).toString();
-
-            // 创建 maven 结构
-            for (String maven : MAVEN_PATH) {
-                String mavenPath = Paths.get(modulePath, maven).toString();
-                writeDir(zip, mavenPath);
-            }
-
-            // 创建 基础包
-            String basePackage = Paths.get(modulePath, SRC_MAIN_JAVA, StrUtil.replace(parent, StrUtil.DOT, File.separator)).toString();
-            writeDir(zip, basePackage);
-
-            // 生成 pom.xml
-            writeZip(objectMap, zip, StrUtil.format(POM_FORMAT, moduleName), Paths.get(outputDir, modulePath, POM_NAME).toString());
-        }
-
-        // facade层
-        if (ProjectTypeEnum.CLOUD.eq(type.getCode())) {
-            String facadeModule = service + StrUtil.DASHED + FACADE_SERVICE_SUFFIX;
-            String facadeModulePath = Paths.get(outputDir, service, facadeModule).toString();
-            writeDir(zip, facadeModulePath);
-            // 生成 pom.xml
-            writeZip(objectMap, zip, StrUtil.format(POM_FORMAT, FACADE_SERVICE_SUFFIX), Paths.get(facadeModulePath, POM_NAME).toString());
-            for (String moduleName : FACADE_MODULE) {
+        try (ZipOutputStream zip = new ZipOutputStream(outputStream)) {
+            List<String> moduleList = TYPE_MODULE_MAP.get(type);
+            for (String moduleName : moduleList) {
                 // lamp-base-entity
                 String module = service + StrUtil.DASHED + moduleName;
-                String modulePath = Paths.get(outputDir, service, facadeModule, module).toString();
+                String modulePath = Paths.get(outputDir, service, module).toString();
 
                 // 创建 maven 结构
                 for (String maven : MAVEN_PATH) {
@@ -413,89 +389,113 @@ public class ProjectUtils {
                 writeDir(zip, basePackage);
 
                 // 生成 pom.xml
-                writeZip(objectMap, zip, StrUtil.format(POM_FORMAT, moduleName), Paths.get(modulePath, POM_NAME).toString());
+                writeZip(objectMap, zip, StrUtil.format(POM_FORMAT, moduleName), Paths.get(outputDir, modulePath, POM_NAME).toString());
             }
-        }
 
-        // 服务根 pom
-        writeZip(objectMap, zip, StrUtil.format(POM_FORMAT, ROOT), Paths.get(outputDir, service, POM_NAME).toString());
+            // facade层
+            if (ProjectTypeEnum.CLOUD == type) {
+                String facadeModule = service + StrUtil.DASHED + FACADE_SERVICE_SUFFIX;
+                String facadeModulePath = Paths.get(outputDir, service, facadeModule).toString();
+                writeDir(zip, facadeModulePath);
+                // 生成 pom.xml
+                writeZip(objectMap, zip, StrUtil.format(POM_FORMAT, FACADE_SERVICE_SUFFIX), Paths.get(facadeModulePath, POM_NAME).toString());
+                for (String moduleName : FACADE_MODULE) {
+                    // lamp-base-entity
+                    String module = service + StrUtil.DASHED + moduleName;
+                    String modulePath = Paths.get(outputDir, service, facadeModule, module).toString();
 
-        StringBuffer tips = new StringBuffer();
-        tips.append("0. 请自行将下载并解压后的文件夹复制到项目中 \n");
-        // server java + yml
-        if (ProjectTypeEnum.CLOUD.eq(type.getCode())) {
-            String module = service + StrUtil.DASHED + SERVER_SERVICE_SUFFIX;
-            String modulePath = Paths.get(outputDir, service, module).toString();
-            String javaPath = Paths.get(modulePath, SRC_MAIN_JAVA).toString();
-            String resourcePath = Paths.get(modulePath, SRC_MAIN_RESOURCE).toString();
-            String javaParentPath = Paths.get(javaPath, parentPath).toString();
+                    // 创建 maven 结构
+                    for (String maven : MAVEN_PATH) {
+                        String mavenPath = Paths.get(modulePath, maven).toString();
+                        writeDir(zip, mavenPath);
+                    }
 
-            // java
-            writeZip(objectMap, zip, StrUtil.format(JAVA_FORMAT, RUN_APPLICATION_SUFFIX), Paths.get(javaParentPath, serviceNameUpper + RUN_APPLICATION_SUFFIX).toString());
-            String configPath = Paths.get(javaParentPath, vo.getModuleName(), "config").toString();
-            writeZip(objectMap, zip, StrUtil.format(JAVA_FORMAT, WEB_CONFIGURATION_SUFFIX), Paths.get(configPath, serviceNameUpper + WEB_CONFIGURATION_SUFFIX).toString());
-            writeZip(objectMap, zip, StrUtil.format(JAVA_FORMAT, EXCEPTION_CONFIGURATION_SUFFIX), Paths.get(configPath, serviceNameUpper + EXCEPTION_CONFIGURATION_SUFFIX).toString());
+                    // 创建 基础包
+                    String basePackage = Paths.get(modulePath, SRC_MAIN_JAVA, StrUtil.replace(parent, StrUtil.DOT, File.separator)).toString();
+                    writeDir(zip, basePackage);
 
-            // resources
-//            writeZip(objectMap, zip, StrUtil.format(RESOURCE_YML_FORMAT, BOOTSTRAP_SUFFIX), Paths.get(resourcePath, BOOTSTRAP_SUFFIX).toString());
-//            writeZip(objectMap, zip, StrUtil.format(RESOURCE_YML_FORMAT, BOOTSTRAP_DEV_SUFFIX), Paths.get(resourcePath, BOOTSTRAP_DEV_SUFFIX).toString());
-            writeZip(objectMap, zip, StrUtil.format(RESOURCE_YML_FORMAT, APPLICATION_SUFFIX), Paths.get(resourcePath, APPLICATION_SUFFIX).toString());
-//            writeZip(objectMap, zip, StrUtil.format(RESOURCE_XML_FORMAT, LOGBACK_SPRING_SUFFIX), Paths.get(resourcePath, LOGBACK_SPRING_SUFFIX).toString());
-//            writeZip(objectMap, zip, StrUtil.format(RESOURCE_XML_FORMAT, LOGBACK_SPRING_DEV_SUFFIX), Paths.get(resourcePath, LOGBACK_SPRING_DEV_SUFFIX).toString());
-            String gateway = vo.getProjectPrefix() + StrPool.DASH + GATEWAY_SERVER_SUFFIX;
-            writeZip(objectMap, zip, StrUtil.format(RESOURCE_YML_FORMAT, GATEWAY_SERVER_SUFFIX), Paths.get(resourcePath, gateway).toString());
-        } else {
-            // 增量追加 server pom文件
-
-            String dependencyStr = StrUtil.format(
-                    """
-                                    <dependency>
-                                        <groupId>{}</groupId>
-                                        <artifactId>{}-{}-controller</artifactId>
-                                        <version>${revision}</version>
-                                    </dependency>
-                            """, vo.getGroupId(), projectPrefix, vo.getServiceName());
-
-            tips.append("1. 请在 lamp-boot-server/pom.xml 中加入以下代码：\n");
-            tips.append(dependencyStr);
-
-            // 增量追加 application.yml 文件
-            String swaggerStr = StrUtil.format(
-                    """
-                                - group: '{}'
-                                  displayName: '{}'
-                                  paths-to-match: '/**'
-                                  packages-to-scan:
-                                    - {}
-                            """, serviceName, vo.getDescription(), vo.getParent() + StrPool.DOT + vo.getModuleName());
-            tips.append("\n 2. 请在 doc.yml 中加入以下代码：\n");
-            tips.append(swaggerStr);
-
-        }
-
-        // 增量追加 根pom文件
-        String moduleStr = StrUtil.format("<module>{}-{}</module>", projectPrefix, serviceName);
-        tips.append("\n 3. 请在 pom.xml 中加入以下代码：\n");
-        tips.append(moduleStr);
-
-        tips.append("\n 4. 若不知道如何执行上面步骤，请本地启动后直接生成，程序可以直接覆盖文件。无需任何手动操作\n");
-
-        try (StringWriter sw = new StringWriter()) {
-            sw.append(tips);
-            zip.putNextEntry(new ZipEntry("友情提示.md"));
-            IOUtils.write(sw.toString(), zip, StrPool.UTF8);
-        } catch (IOException e) {
-            log.info("代码生成异常, 出错原因可能是的表结构没有按照规范编写，导致模板解析出错！", e);
-        } finally {
-            try {
-                zip.flush();
-                zip.closeEntry();
-            } catch (IOException ee) {
-                log.error("ee=", ee);
+                    // 生成 pom.xml
+                    writeZip(objectMap, zip, StrUtil.format(POM_FORMAT, moduleName), Paths.get(modulePath, POM_NAME).toString());
+                }
             }
-        }
 
-        IoUtil.close(zip);
+            // 服务根 pom
+            writeZip(objectMap, zip, StrUtil.format(POM_FORMAT, ROOT), Paths.get(outputDir, service, POM_NAME).toString());
+
+            StringBuilder tips = new StringBuilder();
+            tips.append("0. 请自行将下载并解压后的文件夹复制到项目中 \n");
+            // server java + yml
+            if (ProjectTypeEnum.CLOUD == type) {
+                String module = service + StrUtil.DASHED + SERVER_SERVICE_SUFFIX;
+                String modulePath = Paths.get(outputDir, service, module).toString();
+                String javaPath = Paths.get(modulePath, SRC_MAIN_JAVA).toString();
+                String resourcePath = Paths.get(modulePath, SRC_MAIN_RESOURCE).toString();
+                String javaParentPath = Paths.get(javaPath, parentPath).toString();
+
+                // java
+                writeZip(objectMap, zip, StrUtil.format(JAVA_FORMAT, RUN_APPLICATION_SUFFIX), Paths.get(javaParentPath, serviceNameUpper + RUN_APPLICATION_SUFFIX).toString());
+                String configPath = Paths.get(javaParentPath, vo.getModuleName(), "config").toString();
+                writeZip(objectMap, zip, StrUtil.format(JAVA_FORMAT, WEB_CONFIGURATION_SUFFIX), Paths.get(configPath, serviceNameUpper + WEB_CONFIGURATION_SUFFIX).toString());
+                writeZip(objectMap, zip, StrUtil.format(JAVA_FORMAT, EXCEPTION_CONFIGURATION_SUFFIX), Paths.get(configPath, serviceNameUpper + EXCEPTION_CONFIGURATION_SUFFIX).toString());
+
+                // resources
+                writeZip(objectMap, zip, StrUtil.format(RESOURCE_YML_FORMAT, APPLICATION_SUFFIX), Paths.get(resourcePath, APPLICATION_SUFFIX).toString());
+                String gateway = vo.getProjectPrefix() + StrPool.DASH + GATEWAY_SERVER_SUFFIX;
+                writeZip(objectMap, zip, StrUtil.format(RESOURCE_YML_FORMAT, GATEWAY_SERVER_SUFFIX), Paths.get(resourcePath, gateway).toString());
+            } else {
+                // 增量追加 server pom文件
+                String dependencyStr = StrUtil.format(
+                        """
+                                        <dependency>
+                                            <groupId>{}</groupId>
+                                            <artifactId>{}-{}-controller</artifactId>
+                                            <version>${revision}</version>
+                                        </dependency>
+                                """, vo.getGroupId(), projectPrefix, vo.getServiceName());
+
+                tips.append("1. 请在 lamp-boot-server/pom.xml 中加入以下代码：\n");
+                tips.append(dependencyStr);
+
+                // 增量追加 application.yml 文件
+                String swaggerStr = StrUtil.format(
+                        """
+                                    - group: '{}'
+                                      displayName: '{}'
+                                      paths-to-match: '/**'
+                                      packages-to-scan:
+                                        - {}
+                                """, serviceName, vo.getDescription(), vo.getParent() + StrPool.DOT + vo.getModuleName());
+                tips.append("\n 2. 请在 doc.yml 中加入以下代码：\n");
+                tips.append(swaggerStr);
+            }
+
+            // 增量追加 根pom文件
+            String moduleStr = StrUtil.format("<module>{}-{}</module>", projectPrefix, serviceName);
+            tips.append("\n 3. 请在 pom.xml 中加入以下代码：\n");
+            tips.append(moduleStr);
+
+            tips.append("\n 4. 若不知道如何执行上面步骤，请本地启动后直接生成，程序可以直接覆盖文件。无需任何手动操作\n");
+
+            boolean tipsOpened = false;
+            try (StringWriter sw = new StringWriter()) {
+                sw.append(tips);
+                zip.putNextEntry(new ZipEntry("友情提示.md"));
+                tipsOpened = true;
+                IOUtils.write(sw.toString(), zip, StrPool.UTF8);
+            } catch (IOException e) {
+                log.info("代码生成异常, 出错原因可能是的表结构没有按照规范编写，导致模板解析出错！", e);
+            } finally {
+                if (tipsOpened) {
+                    try {
+                        zip.flush();
+                        zip.closeEntry();
+                    } catch (IOException ee) {
+                        log.error("ee=", ee);
+                    }
+                }
+            }
+            zip.finish();
+        }
         String fileName = service + ".zip";
         return DownloadVO.builder()
                 .fileName(fileName)
@@ -520,19 +520,23 @@ public class ProjectUtils {
     }
 
     private static void writeZip(Map<String, Object> objectMap, ZipOutputStream zip, String templatePath, String outputFile) {
+        boolean entryOpened = false;
         try (StringWriter sw = new StringWriter()) {
             Template tpl = TemplateUtils.getTemplate(templatePath);
             tpl.process(objectMap, sw);
             zip.putNextEntry(new ZipEntry(outputFile));
+            entryOpened = true;
             IOUtils.write(sw.toString(), zip, StrPool.UTF8);
         } catch (TemplateException | IOException e) {
             log.info("代码生成异常, 出错原因可能是的表结构没有按照规范编写，导致模板解析出错！", e);
         } finally {
-            try {
-                zip.flush();
-                zip.closeEntry();
-            } catch (IOException ee) {
-                log.error("ee=", ee);
+            if (entryOpened) {
+                try {
+                    zip.flush();
+                    zip.closeEntry();
+                } catch (IOException ee) {
+                    log.error("ee=", ee);
+                }
             }
         }
     }

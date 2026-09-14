@@ -2,10 +2,9 @@ package com.dalio.cloud.file.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,15 +38,11 @@ import java.util.Map;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
-
 public class FileServiceImpl extends SuperServiceImpl<FileManager, Long, File> implements FileService {
-    @Resource
-    private FileContext fileContext;
-    @Resource
-    private FileManager fileManager;
-    @Resource
-    private FileServerProperties fileServerProperties;
+    private final FileContext fileContext;
+    private final FileServerProperties fileServerProperties;
 
     @Override
     public List<FileResultVO> listByBizIdAndBizType(Long bizId, String bizType) {
@@ -71,7 +66,7 @@ public class FileServiceImpl extends SuperServiceImpl<FileManager, Long, File> i
         }
 
         File fileFile = fileContext.upload(file, fileUploadVO);
-        fileManager.save(fileFile);
+        superManager.save(fileFile);
         return BeanPlusUtil.toBean(fileFile, FileResultVO.class);
     }
 
@@ -97,25 +92,25 @@ public class FileServiceImpl extends SuperServiceImpl<FileManager, Long, File> i
         if (CollUtil.isEmpty(ids)) {
             return false;
         }
-        List<File> list = list(Wrappers.<File>lambdaQuery().in(File::getId, ids));
+        List<File> list = superManager.listByIds(ids);
         if (list.isEmpty()) {
             return false;
         }
-        fileManager.removeByIds(ids);
+        superManager.removeByIds(ids);
         return fileContext.delete(list);
     }
 
     @Override
     public void download(HttpServletRequest request, HttpServletResponse response, List<Long> ids) throws Exception {
-        List<File> list = fileManager.listByIds(ids);
-        ArgumentAssert.notEmpty(list, "请配置正确的文件存储类型");
+        List<File> list = superManager.listByIds(ids);
+        ArgumentAssert.notEmpty(list, "未找到要下载的文件");
         fileContext.download(request, response, list);
     }
 
     @Override
     public void download(HttpServletRequest request, HttpServletResponse response, Long id) throws Exception {
-        File file = fileManager.getById(id);
-        ArgumentAssert.notNull(file, "请配置正确的文件存储类型");
+        File file = superManager.getById(id);
+        ArgumentAssert.notNull(file, "未找到要下载的文件");
         fileContext.download(request, response, file);
     }
 }

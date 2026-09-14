@@ -38,7 +38,7 @@ public class DefUser extends Entity<Long> {
     /**
      * 用户名;大小写数字下划线
      */
-    @TableField(value = "username", condition = LIKE)
+    @TableField(value = "username")
     private String username;
 
     /**
@@ -50,31 +50,31 @@ public class DefUser extends Entity<Long> {
     /**
      * 邮箱
      */
-    @TableField(value = "email", condition = LIKE)
+    @TableField(value = "email")
     private String email;
 
     /**
      * 手机;1开头11位纯数字
      */
-    @TableField(value = "mobile", condition = LIKE)
+    @TableField(value = "mobile")
     private String mobile;
 
     /**
      * 身份证;15或18位
      */
-    @TableField(value = "id_card", condition = LIKE)
+    @TableField(value = "id_card")
     private String idCard;
 
     /**
      * 微信OpenId
      */
-    @TableField(value = "wx_open_id", condition = LIKE)
+    @TableField(value = "wx_open_id")
     private String wxOpenId;
 
     /**
      * 钉钉OpenId
      */
-    @TableField(value = "dd_open_id", condition = LIKE)
+    @TableField(value = "dd_open_id")
     private String ddOpenId;
 
     /**
@@ -91,13 +91,13 @@ public class DefUser extends Entity<Long> {
     /**
      * 民族;[01-汉族 99-其他]	@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Global.NATION)
      */
-    @TableField(value = "nation", condition = LIKE)
+    @TableField(value = "nation")
     private String nation;
 
     /**
      * 学历;[01-小学 02-中学 03-高中 04-专科 05-本科 06-硕士 07-博士 08-博士后 99-其他]	@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Global.EDUCATION)
      */
-    @TableField(value = "education", condition = LIKE)
+    @TableField(value = "education")
     private String education;
 
     /**
@@ -133,13 +133,13 @@ public class DefUser extends Entity<Long> {
     /**
      * 密码
      */
-    @TableField(value = "password", condition = LIKE)
+    @TableField(value = "password")
     private String password;
 
     /**
      * 密码盐
      */
-    @TableField(value = "salt", condition = LIKE)
+    @TableField(value = "salt")
     private String salt;
 
     /**

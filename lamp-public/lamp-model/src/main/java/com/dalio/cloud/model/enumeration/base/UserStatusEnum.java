@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.dalio.basic.interfaces.BaseEnum;
 
-import java.util.stream.Stream;
-
 /**
  * 用户状态
  *
@@ -46,7 +44,12 @@ public enum UserStatusEnum implements BaseEnum {
     private String desc;
 
     public static UserStatusEnum match(String val, UserStatusEnum def) {
-        return Stream.of(values()).parallel().filter((item) -> item.getCode().equalsIgnoreCase(val)).findAny().orElse(def);
+        for (UserStatusEnum item : values()) {
+            if (item.getCode().equalsIgnoreCase(val)) {
+                return item;
+            }
+        }
+        return def;
     }
 
     public static UserStatusEnum get(String val) {
@@ -54,7 +57,7 @@ public enum UserStatusEnum implements BaseEnum {
     }
 
     public boolean eq(UserStatusEnum val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

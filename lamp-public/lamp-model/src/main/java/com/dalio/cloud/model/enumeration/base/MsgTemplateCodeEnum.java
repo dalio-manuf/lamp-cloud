@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.dalio.basic.interfaces.BaseEnum;
 
-import java.util.stream.Stream;
-
 /**
  * @author admin
  * @version v1.0
@@ -28,15 +26,20 @@ public enum MsgTemplateCodeEnum implements BaseEnum {
     MOBILE_EDIT("MOBILE_EDIT", "修改手机号"),
     EMAIL_EDIT("EMAIL_EDIT", "修改邮箱"),
     FORGET_PASSWORD("FORGET_PASSWORD", "忘记密码");
-    String value;
-    String desc;
 
+    private String value;
+    private String desc;
 
     /**
      * 根据当前枚举的name匹配
      */
     public static MsgTemplateCodeEnum match(String val, MsgTemplateCodeEnum def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        for (MsgTemplateCodeEnum item : values()) {
+            if (item.name().equalsIgnoreCase(val)) {
+                return item;
+            }
+        }
+        return def;
     }
 
     public static MsgTemplateCodeEnum get(String val) {
@@ -44,11 +47,11 @@ public enum MsgTemplateCodeEnum implements BaseEnum {
     }
 
     public boolean eq(MsgTemplateCodeEnum val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override
-    @Schema(description = "编码", allowableValues = "IMAGE,VIDEO,AUDIO,DOC,OTHER", example = "IMAGE")
+    @Schema(description = "编码", allowableValues = "REGISTER_SMS,REGISTER_EMAIL,MOBILE_LOGIN,MOBILE_EDIT,EMAIL_EDIT,FORGET_PASSWORD", example = "REGISTER_SMS")
     public String getCode() {
         return this.value;
     }

@@ -52,7 +52,9 @@ public class BaseLoginLogController extends SuperController<DefLoginLogService, 
         return echoService;
     }
 
+    @Operation(summary = "任何人分页查询登录日志")
     @PostMapping(value = "/anyone/page")
+    @WebLog(value = "'任何人分页查询登录日志:第' + #params?.current + '页, 显示' + #params?.size + '行'", response = false)
     public R<IPage<DefLoginLogResultVO>> anyOnePage(@RequestBody PageParams<DefLoginLogPageQuery> params) {
         return super.page(params);
     }
@@ -62,29 +64,21 @@ public class BaseLoginLogController extends SuperController<DefLoginLogService, 
     @DeleteMapping("clear")
     @WebLog("清空日志")
     public R<Boolean> clear(@RequestParam(required = false, defaultValue = "1") Integer type) {
-        LocalDateTime clearBeforeTime = null;
-        Integer clearBeforeNum = null;
-        if (type == 1) {
-            clearBeforeTime = LocalDateTime.now().plusMonths(-1);
-        } else if (type == 2) {
-            clearBeforeTime = LocalDateTime.now().plusMonths(-3);
-        } else if (type == 3) {
-            clearBeforeTime = LocalDateTime.now().plusMonths(-6);
-        } else if (type == 4) {
-            clearBeforeTime = LocalDateTime.now().plusMonths(-12);
-        } else if (type == 5) {
-            // 清理一千条以前日志数据
-            clearBeforeNum = 1000;
-        } else if (type == 6) {
-            // 清理一万条以前日志数据
-            clearBeforeNum = 10000;
-        } else if (type == 7) {
-            // 清理三万条以前日志数据
-            clearBeforeNum = 30000;
-        } else if (type == 8) {
-            // 清理十万条以前日志数据
-            clearBeforeNum = 100000;
-        }
+        int t = type != null ? type : 1;
+        LocalDateTime clearBeforeTime = switch (t) {
+            case 1 -> LocalDateTime.now().minusMonths(1);
+            case 2 -> LocalDateTime.now().minusMonths(3);
+            case 3 -> LocalDateTime.now().minusMonths(6);
+            case 4 -> LocalDateTime.now().minusMonths(12);
+            default -> null;
+        };
+        Integer clearBeforeNum = switch (t) {
+            case 5 -> 1000;
+            case 6 -> 10000;
+            case 7 -> 30000;
+            case 8 -> 100000;
+            default -> null;
+        };
 
         return success(superService.clearLog(clearBeforeTime, clearBeforeNum));
     }

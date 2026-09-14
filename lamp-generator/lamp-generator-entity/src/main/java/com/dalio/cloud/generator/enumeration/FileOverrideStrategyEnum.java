@@ -41,10 +41,7 @@ public enum FileOverrideStrategyEnum implements BaseEnum {
     }
 
     public boolean eq(FileOverrideStrategyEnum val) {
-        if (val == null) {
-            return false;
-        }
-        return eq(val.name());
+        return this == val;
     }
 
     @Override

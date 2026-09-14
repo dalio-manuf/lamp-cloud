@@ -91,7 +91,7 @@ public class ZipUtils {
             while ((len = is.read(buf)) > 0) {
                 out.write(buf, 0, len);
             }
-            is.close();
+            out.closeEntry();
         } finally {
             if (is != null) {
                 is.close();
@@ -132,8 +132,8 @@ public class ZipUtils {
             pathFile.mkdirs();
         }
         try (ZipFile zip = new ZipFile(zipFile)) {
-            for (Enumeration entries = zip.entries(); entries.hasMoreElements(); ) {
-                ZipEntry entry = (ZipEntry) entries.nextElement();
+            for (Enumeration<? extends ZipEntry> entries = zip.entries(); entries.hasMoreElements(); ) {
+                ZipEntry entry = entries.nextElement();
                 String zipEntryName = entry.getName();
 
                 String outPath = (descDir + zipEntryName).replaceAll("\\*", SLASH);
@@ -200,15 +200,16 @@ public class ZipUtils {
 
         ServletOutputStream out = response.getOutputStream();
         if (fileMap.size() == 1) {
-            String url = null;
-            for (Map.Entry<String, String> entry : fileMap.entrySet()) {
-                url = entry.getValue();
-            }
+            String url = fileMap.values().iterator().next();
             try {
                 connection = getConnection(url);
                 ZipUtils.downloadFile(connection.getInputStream(), out);
             } catch (Exception e) {
                 throw new BizException("文件地址连接超时", e);
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
             }
             return;
         }
@@ -248,6 +249,8 @@ public class ZipUtils {
         log.info("url={}", url);
         URL conUrl = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) conUrl.openConnection();
+        connection.setConnectTimeout(10000);
+        connection.setReadTimeout(30000);
         connection.connect();
         return connection;
     }

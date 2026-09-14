@@ -2,7 +2,7 @@
 logs
 #*.gitignore
 rebel.xml
-.flattened-pom.xml
+.flattened-pom*.xml
 target/
 !.mvn/wrapper/maven-wrapper.jar
 log.path_IS_UNDEFINED

@@ -1,5 +1,6 @@
 package com.dalio.cloud.base.controller.user;
 
+import cn.hutool.core.collection.CollUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -48,7 +49,9 @@ public class BasePositionController extends SuperController<BasePositionService,
     @Override
     public QueryWrap<BasePosition> handlerWrapper(BasePosition model, PageParams<BasePositionPageQuery> params) {
         QueryWrap<BasePosition> wrap = super.handlerWrapper(model, params);
-        wrap.lambda().in(BasePosition::getOrgId, params.getModel().getOrgIdList());
+        if (params != null && params.getModel() != null) {
+            wrap.lambda().in(CollUtil.isNotEmpty(params.getModel().getOrgIdList()), BasePosition::getOrgId, params.getModel().getOrgIdList());
+        }
         return wrap;
     }
 

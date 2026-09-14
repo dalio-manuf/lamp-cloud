@@ -24,19 +24,19 @@ import static com.dalio.cloud.oauth.granter.CaptchaTokenGranter.GRANT_TYPE;
 @Component(GRANT_TYPE)
 @Slf4j
 @RequiredArgsConstructor
-public class CaptchaTokenGranter extends PasswordTokenGranter implements TokenGranter {
+public class CaptchaTokenGranter extends PasswordTokenGranter {
 
     public static final String GRANT_TYPE = "CAPTCHA";
     private final CaptchaService captchaService;
 
     @Override
     protected R<LoginResultVO> checkCaptcha(LoginParamVO loginParam) {
-        if (systemProperties.getVerifyCaptcha()) {
+        if (Boolean.TRUE.equals(systemProperties.getVerifyCaptcha())) {
             R<Boolean> check = captchaService.checkCaptcha(loginParam.getKey(), GRANT_TYPE, loginParam.getCode());
-            if (!check.getIsSuccess()) {
-                String msg = check.getMsg();
+            if (check == null || !check.getIsSuccess()) {
+                String msg = check != null ? check.getMsg() : "验证码校验失败";
                 SpringUtils.publishEvent(new LoginEvent(LoginStatusDTO.fail(loginParam.getUsername(), LoginStatusEnum.CAPTCHA_ERROR, msg)));
-                throw BizException.validFail(check.getMsg());
+                throw BizException.validFail(msg);
             }
         }
         return R.success(null);

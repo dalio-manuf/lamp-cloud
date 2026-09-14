@@ -17,6 +17,10 @@ import static com.dalio.basic.exception.code.ExceptionCode.JWT_BASIC_INVALID;
  */
 public class Base64Util {
 
+    private static final String BASIC_PREFIX = "Basic ";
+
+    private Base64Util() {
+    }
 
     /**
      * authorization: base64(clientId:clientSec)
@@ -38,9 +42,16 @@ public class Base64Util {
     /**
      * 解析请求头中存储的 client 信息
      * clientId:clientSec 解码
+     *
+     * @param client client 信息或带 Basic 前缀的 Authorization header
+     * @return [clientId, clientSec]
      */
     public static String[] extractClient(String client) {
-        String token = base64Decoder(client);
+        if (StrUtil.isEmpty(client)) {
+            throw BizException.wrap("客户端参数尚未传递");
+        }
+        String cleanClient = StrUtil.removePrefixIgnoreCase(client.trim(), BASIC_PREFIX).trim();
+        String token = base64Decoder(cleanClient);
         int index = token.indexOf(StrPool.COLON);
         if (index == -1) {
             throw BizException.wrap(JWT_BASIC_INVALID);
@@ -57,6 +68,9 @@ public class Base64Util {
      */
     @SneakyThrows
     public static String base64Decoder(String val) {
+        if (StrUtil.isEmpty(val)) {
+            return StrPool.EMPTY;
+        }
         byte[] decoded = Base64.getDecoder().decode(val.getBytes(StandardCharsets.UTF_8));
         return new String(decoded, StandardCharsets.UTF_8);
     }

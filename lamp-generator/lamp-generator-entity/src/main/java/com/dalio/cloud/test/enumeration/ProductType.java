@@ -39,7 +39,7 @@ public enum ProductType implements BaseEnum {
      * 根据当前枚举的name匹配
      */
     public static ProductType match(String val, ProductType def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        return Stream.of(values()).filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static ProductType get(String val) {
@@ -47,7 +47,7 @@ public enum ProductType implements BaseEnum {
     }
 
     public boolean eq(ProductType val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.dalio.basic.interfaces.BaseEnum;
 
-import java.util.stream.Stream;
 
 /**
  * <p>
@@ -40,7 +39,12 @@ public enum TenantConnectTypeEnum implements BaseEnum {
      * 根据当前枚举的name匹配
      */
     public static TenantConnectTypeEnum match(String val, TenantConnectTypeEnum def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        for (TenantConnectTypeEnum item : values()) {
+            if (item.name().equalsIgnoreCase(val)) {
+                return item;
+            }
+        }
+        return def;
     }
 
     public static TenantConnectTypeEnum get(String val) {
@@ -48,7 +52,7 @@ public enum TenantConnectTypeEnum implements BaseEnum {
     }
 
     public boolean eq(TenantConnectTypeEnum val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

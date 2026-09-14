@@ -72,19 +72,26 @@ public class BootWebConfiguration implements WebMvcConfigurer {
 
 
     /**
-     * auth-client 中的拦截器需要排除拦截的地址
+     * 排除拦截的地址（静态资源、认证文档、健康检查等）
      */
     protected String[] getExcludeCommonPathPatterns() {
         return new String[]{
                 "/*.css",
                 "/*.js",
                 "/*.html",
+                "/*.ico",
+                "/*.png",
+                "/*.jpg",
                 "/error",
                 "/login",
+                "/favicon.ico",
+                "/doc.html",
                 "/v2/api-docs",
                 "/v2/api-docs-ext",
+                "/v3/api-docs/**",
                 "/swagger-resources/**",
                 "/webjars/**",
+                "/actuator/**",
 
                 "/",
                 "/csrf",
@@ -103,6 +110,4 @@ public class BootWebConfiguration implements WebMvcConfigurer {
                 "/swagger-ui/**"
         };
     }
-
-
 }

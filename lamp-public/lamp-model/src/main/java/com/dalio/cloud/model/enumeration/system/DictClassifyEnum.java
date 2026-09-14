@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import com.dalio.basic.interfaces.BaseEnum;
 
-import java.util.stream.Stream;
 
 /**
  * 字典分类
@@ -40,7 +39,12 @@ public enum DictClassifyEnum implements BaseEnum {
      * 根据当前枚举的name匹配
      */
     public static DictClassifyEnum match(String val, DictClassifyEnum def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        for (DictClassifyEnum item : values()) {
+            if (item.name().equalsIgnoreCase(val) || item.code.equalsIgnoreCase(val)) {
+                return item;
+            }
+        }
+        return def;
     }
 
     public static DictClassifyEnum get(String val) {
@@ -48,7 +52,7 @@ public enum DictClassifyEnum implements BaseEnum {
     }
 
     public boolean eq(DictClassifyEnum val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

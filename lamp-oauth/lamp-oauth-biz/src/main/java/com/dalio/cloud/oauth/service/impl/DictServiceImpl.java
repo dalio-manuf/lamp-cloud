@@ -16,7 +16,6 @@ import com.dalio.basic.context.ContextUtil;
 import com.dalio.basic.database.mybatis.conditions.Wraps;
 import com.dalio.basic.interfaces.BaseEnum;
 import com.dalio.basic.utils.ClassUtils;
-import com.dalio.basic.utils.CollHelper;
 import com.dalio.basic.utils.StrPool;
 import com.dalio.cloud.common.properties.SystemProperties;
 import com.dalio.cloud.model.vo.result.Option;
@@ -33,9 +32,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * @author admin
@@ -45,8 +46,6 @@ import java.util.function.Predicate;
 @RequiredArgsConstructor
 @Slf4j
 public class DictServiceImpl implements DictService {
-    private static final Map<String, Map<String, String>> ENUM_MAP = new HashMap<>();
-    private static final Map<String, List<Option>> ENUM_LIST_MAP = new HashMap<>();
     private static final Map<Option, List<Option>> TEMP_ENUM_LIST_MAP = new HashMap<>();
     /**
      * 过滤那些枚举
@@ -69,9 +68,6 @@ public class DictServiceImpl implements DictService {
             Object[] enumConstants = item.getEnumConstants();
             BaseEnum[] baseEnums = Arrays.stream(enumConstants).map(i -> (BaseEnum) i).toArray(BaseEnum[]::new);
 
-            ENUM_LIST_MAP.put(item.getSimpleName(), Option.mapOptions(baseEnums));
-            ENUM_MAP.put(item.getSimpleName(), CollHelper.getMap(baseEnums));
-
             Option option = new Option();
             option.setValue(item.getSimpleName());
 
@@ -86,7 +82,7 @@ public class DictServiceImpl implements DictService {
                 }
             } else {
                 // 3. 获取类注释的首行内容
-                System.err.println(item.getSimpleName() + "类上没有@Schema注解");
+                log.warn("{}类上没有@Schema注解", item.getSimpleName());
                 option.setLabel(item.getSimpleName());
             }
 
@@ -111,14 +107,24 @@ public class DictServiceImpl implements DictService {
         List<String> dictKeyList = new ArrayList<>();
         map.forEach((key, value) -> dictKeyList.add(key.getValue()));
 
-        // 查询数据库库中的所有字典和字典项
+        // 查询数据库库中的所有字典和字典项（批量拉取，彻底解决 N+1 查询隐患）
         List<DefDict> existsList = defDictManager.list(Wraps.<DefDict>lbQ().in(DefDict::getKey, dictKeyList));
         List<DefDictResultVO> existsDictList = BeanUtil.copyToList(existsList, DefDictResultVO.class);
-        existsDictList.forEach(dict -> {
-            List<DefDict> itemList = defDictManager.list(Wraps.<DefDict>lbQ().eq(DefDict::getParentId, dict.getId()));
-            List<DefDictItemResultVO> sysDictItemList = BeanUtil.copyToList(itemList, DefDictItemResultVO.class);
-            dict.setItemList(sysDictItemList);
-        });
+        if (CollUtil.isNotEmpty(existsDictList)) {
+            List<Long> parentIds = existsDictList.stream().map(DefDictResultVO::getId).filter(Objects::nonNull).toList();
+            Map<Long, List<DefDictItemResultVO>> itemMapByParentId = Collections.emptyMap();
+            if (CollUtil.isNotEmpty(parentIds)) {
+                List<DefDict> allItems = defDictManager.list(Wraps.<DefDict>lbQ().in(DefDict::getParentId, parentIds));
+                if (CollUtil.isNotEmpty(allItems)) {
+                    itemMapByParentId = allItems.stream()
+                            .map(item -> BeanUtil.toBean(item, DefDictItemResultVO.class))
+                            .collect(Collectors.groupingBy(DefDictItemResultVO::getParentId));
+                }
+            }
+            for (DefDictResultVO dict : existsDictList) {
+                dict.setItemList(itemMapByParentId.getOrDefault(dict.getId(), Collections.emptyList()));
+            }
+        }
 
         // 已存在的字典
         Map<String, DefDictResultVO> existingDictMap = new HashMap<>();
@@ -193,7 +199,7 @@ public class DictServiceImpl implements DictService {
                         name = i18nValue;
                     }
                 } catch (Exception e) {
-
+                    log.debug("解析i18nJson失败: {}", i18nJson, e);
                 }
             }
             map.put(key, name);
@@ -208,9 +214,6 @@ public class DictServiceImpl implements DictService {
 
         // 查询不在base的字典
         Map<String, List<DefDictItemResultVO>> defMap = defDictManager.findDictMapItemListByKey(dictKeys);
-
-        Map<String, List<DefDictItemResultVO>> map = MapUtil.newHashMap();
-        map.putAll(defMap);
-        return map;
+        return defMap != null ? defMap : Collections.emptyMap();
     }
 }

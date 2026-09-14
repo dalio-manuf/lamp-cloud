@@ -23,7 +23,9 @@ public class BaseAnyoneController {
     @GetMapping("/base/test")
     public R<Object> test(@RequestParam(required = false) Long id) throws InterruptedException {
         log.info("id={}", id);
-        Thread.sleep(id);
+        if (id != null && id > 0) {
+            Thread.sleep(id);
+        }
         log.info("id={}", id);
         return R.success(id);
     }

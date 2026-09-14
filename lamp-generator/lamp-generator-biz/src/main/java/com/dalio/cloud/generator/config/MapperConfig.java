@@ -33,7 +33,7 @@ public class MapperConfig {
     /**
      * mapper类上是否添加忽略表结构 @InterceptorIgnore
      */
-    private Set<String> columnAnnotationTablePrefix = new HashSet();
+    private Set<String> columnAnnotationTablePrefix = new HashSet<>();
     /**
      * 是否开启BaseResultMap（默认 false）
      *

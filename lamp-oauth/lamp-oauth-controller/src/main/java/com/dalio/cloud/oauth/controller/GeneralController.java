@@ -37,7 +37,7 @@ public class GeneralController {
     @PostMapping("/anyTenant/enums/syncEnumToDict")
     public R<Boolean> syncEnumToDict() {
         dictService.syncEnumToDict();
-        return R.success();
+        return R.success(true);
     }
 
     @Operation(summary = "根据字典类型编码批量查询字典项", description = "根据字典类型编码批量查询字典项")

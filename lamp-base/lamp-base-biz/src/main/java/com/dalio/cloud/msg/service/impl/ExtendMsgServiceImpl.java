@@ -5,7 +5,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.dalio.basic.base.service.impl.SuperServiceImpl;
@@ -53,12 +52,9 @@ import java.util.Map;
 @Service
 @Transactional(readOnly = true)
 public class ExtendMsgServiceImpl extends SuperServiceImpl<ExtendMsgManager, Long, ExtendMsg> implements ExtendMsgService {
-    @Autowired
-    private ExtendMsgRecipientManager extendMsgRecipientManager;
-    @Autowired
-    private ExtendNoticeManager extendNoticeManager;
-    @Autowired
-    private JobFacade jobFacde;
+    private final ExtendMsgRecipientManager extendMsgRecipientManager;
+    private final ExtendNoticeManager extendNoticeManager;
+    private final JobFacade jobFacade;
 
     @Override
     public ExtendMsgResultVO getResultById(Long id) {
@@ -128,7 +124,7 @@ public class ExtendMsgServiceImpl extends SuperServiceImpl<ExtendMsgManager, Lon
 
             XxlJobInfoVO xxlJobInfoVO = XxlJobInfoVO.create("lamp-none-executor",
                     "【发送消息】" + extendMsg.getTitle(), extendMsg.getSendTime(), "publishMsg", JsonUtil.toJson(param));
-            jobFacde.addTimingTask(xxlJobInfoVO);
+            jobFacade.addTimingTask(xxlJobInfoVO);
         }
         return true;
     }
@@ -156,8 +152,8 @@ public class ExtendMsgServiceImpl extends SuperServiceImpl<ExtendMsgManager, Lon
         }).toList();
         extendNoticeManager.saveBatch(noticeList);
 
-        recipientList.forEach(employeeId -> {
-            WebSocketSubject subject = WebSocketSubject.Holder.getSubject(employeeId);
+        recipientList.forEach(recipient -> {
+            WebSocketSubject subject = WebSocketSubject.Holder.getSubject(recipient.getRecipient());
             // 通知客户端 接收消息
             subject.notify("1", null);
         });
@@ -207,7 +203,7 @@ public class ExtendMsgServiceImpl extends SuperServiceImpl<ExtendMsgManager, Lon
 
             XxlJobInfoVO xxlJobInfoVO = XxlJobInfoVO.create("lamp-none-executor",
                     "【发送消息】" + extendMsg.getTitle(), extendMsg.getSendTime(), "sendMsg", JsonUtil.toJson(param));
-            jobFacde.addTimingTask(xxlJobInfoVO);
+            jobFacade.addTimingTask(xxlJobInfoVO);
         }
         return true;
     }

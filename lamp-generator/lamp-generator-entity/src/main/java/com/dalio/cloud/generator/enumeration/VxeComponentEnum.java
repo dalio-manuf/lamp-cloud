@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(title = "ComponentEnum", description = "生成方式")
+@Schema(title = "VxeComponentEnum", description = "VXE前端组件")
 public enum VxeComponentEnum implements BaseEnum {
     /**
      * 输入框
@@ -44,7 +44,7 @@ public enum VxeComponentEnum implements BaseEnum {
      * 根据当前枚举的name匹配
      */
     public static VxeComponentEnum match(String val, VxeComponentEnum def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        return Stream.of(values()).filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static VxeComponentEnum get(String val) {
@@ -52,7 +52,7 @@ public enum VxeComponentEnum implements BaseEnum {
     }
 
     public boolean eq(VxeComponentEnum val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

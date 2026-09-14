@@ -22,8 +22,7 @@ import com.dalio.cloud.system.vo.save.system.DefLoginLogSaveVO;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.LocalDateTime;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
+import java.util.List;
 
 /**
  * <p>
@@ -41,20 +40,30 @@ import java.util.stream.Stream;
 
 public class DefLoginLogServiceImpl extends SuperServiceImpl<DefLoginLogManager, Long, DefLoginLog> implements DefLoginLogService {
     private final Ip2Region ip2Region;
-    private static final Supplier<Stream<String>> BROWSER = () -> Stream.of(
+    private static final List<String> BROWSERS = List.of(
             "Chrome", "Firefox", "Microsoft Edge", "Safari", "Opera"
     );
-    private static final Supplier<Stream<String>> OPERATING_SYSTEM = () -> Stream.of(
+    private static final List<String> OPERATING_SYSTEMS = List.of(
             "Android", "Linux", "Mac OS X", "Ubuntu", "Windows 10", "Windows 8", "Windows 7", "Windows XP", "Windows Vista"
     );
     private final DefUserManager defUserManager;
 
     private static String simplifyOperatingSystem(String operatingSystem) {
-        return OPERATING_SYSTEM.get().parallel().filter(b -> StrUtil.containsIgnoreCase(operatingSystem, b)).findAny().orElse(operatingSystem);
+        for (String os : OPERATING_SYSTEMS) {
+            if (StrUtil.containsIgnoreCase(operatingSystem, os)) {
+                return os;
+            }
+        }
+        return operatingSystem;
     }
 
     private static String simplifyBrowser(String browser) {
-        return BROWSER.get().parallel().filter(b -> StrUtil.containsIgnoreCase(browser, b)).findAny().orElse(browser);
+        for (String b : BROWSERS) {
+            if (StrUtil.containsIgnoreCase(browser, b)) {
+                return b;
+            }
+        }
+        return browser;
     }
 
     @Override

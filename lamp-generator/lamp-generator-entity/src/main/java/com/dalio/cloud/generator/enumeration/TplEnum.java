@@ -41,7 +41,7 @@ public enum TplEnum implements BaseEnum {
      * 根据当前枚举的name匹配
      */
     public static TplEnum match(String val, TplEnum def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        return Stream.of(values()).filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static TplEnum get(String val) {
@@ -49,7 +49,7 @@ public enum TplEnum implements BaseEnum {
     }
 
     public boolean eq(TplEnum val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

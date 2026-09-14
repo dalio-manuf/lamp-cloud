@@ -68,7 +68,7 @@ public enum SuperClassEnum implements BaseEnum {
             SuperManager.class.getName(), SuperManagerImpl.class.getName(),
             SuperMapper.class.getName()),
     /**
-     * 仅查询方法
+     * 仅增删改方法
      */
     SUPER_WRITE_CLASS("06", SuperWriteController.class.getName(),
             SuperService.class.getName(), SuperServiceImpl.class.getName(),
@@ -91,6 +91,10 @@ public enum SuperClassEnum implements BaseEnum {
     private String manager;
     private String managerImpl;
     private String mapper;
+
+    public boolean eq(SuperClassEnum val) {
+        return this == val;
+    }
 
     @Override
     public String getCode() {

@@ -1,6 +1,5 @@
 package com.dalio.cloud.gateway.config;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.context.annotation.Bean;
@@ -19,16 +18,14 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 全局异常处理
+ * 网关全局异常处理器装配
  *
- * @author admin
+ * @author dalio
  * @date 2020年01月02日17:19:27
  */
 @Configuration
 @RestControllerAdvice(annotations = {RestController.class, Controller.class})
-@Slf4j
 public class ExceptionConfiguration extends AbstractGlobalExceptionHandler {
-
 
     @Primary
     @Bean
@@ -42,3 +39,4 @@ public class ExceptionConfiguration extends AbstractGlobalExceptionHandler {
         return jsonExceptionHandler;
     }
 }
+

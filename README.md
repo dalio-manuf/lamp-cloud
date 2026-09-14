@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/Spring%20Cloud-2023+-blue.svg" alt="Spring Cloud 2023+">
   <img src="https://img.shields.io/badge/Spring%20Cloud%20Alibaba-2023+-orange.svg" alt="Spring Cloud Alibaba">
   <img src="https://img.shields.io/badge/JDK-17%20%7C%2021-red.svg" alt="JDK 17/21">
-  <img src="https://img.shields.io/badge/Sa--Token-1.37+-brightgreen.svg" alt="Sa-Token">
+  <img src="https://img.shields.io/badge/Sa--Token-1.45+-brightgreen.svg" alt="Sa-Token">
   <img src="https://img.shields.io/badge/MyBatis--Plus-3.5+-blue.svg" alt="MyBatis-Plus">
   <img src="https://img.shields.io/badge/Nacos-2.x-yellow.svg" alt="Nacos 2.x">
   <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License">
@@ -20,8 +20,12 @@
 - [平台简介](#平台简介)
 - [核心特性](#核心特性)
 - [系统架构](#系统架构)
+  - [架构示意图](#架构示意图)
+  - [网关路由与分发矩阵](#网关路由与分发矩阵)
 - [技术选型](#技术选型)
 - [模块划分与端口矩阵](#模块划分与端口矩阵)
+  - [1. 微服务端口对照表](#1-微服务端口对照表)
+  - [2. 标准五层工程架构设计](#2-标准五层工程架构设计)
 - [环境依赖](#环境依赖)
 - [快速开始](#快速开始)
   - [1. 编译基础依赖 lamp-util](#1-编译基础依赖-lamp-util)
@@ -30,7 +34,9 @@
   - [4. 工程打包编译](#4-工程打包编译)
   - [5. 微服务启动与推荐顺序](#5-微服务启动与推荐顺序)
   - [6. 服务验证与默认访问信息](#6-服务验证与默认访问信息)
+- [多数据库方言与信创支持](#多数据库方言与信创支持)
 - [生产运维与高可用](#生产运维与高可用)
+- [常见问题与排错指南 (FAQ)](#常见问题与排错指南-faq)
 - [工程文档中心导航](#工程文档中心导航)
 - [开源协议与鸣谢](#开源协议与鸣谢)
 
@@ -92,23 +98,23 @@ flowchart TD
     
     subgraph EdgeLayer["边界入口与网络分发"]
         Nginx["Nginx 反向代理 / SSL 卸载"]
-        Gateway["lamp-gateway-server (API 网关 :8760)<br/>全局鉴权 / 动态路由 / 限流熔断 / 跨域 / 灰度"]
+        Gateway["lamp-gateway-server (API 网关 :18760 /api)<br/>全局鉴权 / 动态路由 / 限流熔断 / 跨域 / 灰度"]
     end
 
     subgraph ServiceLayer["微服务核心业务集群"]
-        OAuth["lamp-oauth-server (:8764)<br/>认证中心 / Token 签发 / 登录鉴权"]
-        System["lamp-system-server (:8766)<br/>用户 / 角色 / 菜单 / 组织 / 岗位 / 租户"]
-        Base["lamp-base-server (:8768)<br/>字典 / 消息 / 文件存储 / 地区数据"]
-        Generator["lamp-generator-server (:8770)<br/>数据建模 / 在线代码生成"]
-        Support["lamp-support 支撑套件<br/>monitor (:8762) / job-executor / boot-server"]
+        OAuth["lamp-oauth-server (:18761)<br/>认证中心 / Token 签发 / 登录鉴权"]
+        Base["lamp-base-server (:18762)<br/>字典 / 通用参数 / 地区 / 消息 / 文件 / WebSocket"]
+        System["lamp-system-server (:18763)<br/>用户 / 角色 / 资源 / 组织 / 岗位 / 租户"]
+        Generator["lamp-generator-server (:18764)<br/>数据建模 / 在线代码生成"]
+        Support["lamp-support 支撑套件<br/>monitor (:18759) / job-executor (:8776) / boot-server (:18760)"]
     end
 
     subgraph MiddlewareLayer["中间件与基础设施"]
-        Nacos["Nacos 2.x<br/>注册中心 & 配置中心"]
-        Redis["Redis 7.x<br/>分布式缓存 / 会话 / 锁"]
-        MySQL["MySQL 8.x / 达梦 / Oracle<br/>关系型主备数据库"]
-        RabbitMQ["RabbitMQ 3.x<br/>异步消息总线 / 削峰填谷"]
-        MinIO["MinIO / kkFileView<br/>对象存储 & 文件在线预览"]
+        Nacos["Nacos 2.x<br/>注册中心 & 配置中心 (:8848)"]
+        Redis["Redis 7.x<br/>分布式缓存 / 会话 / 锁 (:16379 或 :6379)"]
+        MySQL["MySQL 8.x / 达梦 / Oracle<br/>关系型主备数据库 (:3306)"]
+        RabbitMQ["RabbitMQ 3.x<br/>异步消息总线 (:5672, 看板 :15672)"]
+        MinIO["MinIO / kkFileView<br/>对象存储 (:9000) & 看板 (:9001)"]
         Sentinel["Sentinel<br/>服务保护与流控看板"]
     end
 
@@ -127,6 +133,18 @@ flowchart TD
     ServiceLayer -. 流量统计与熔断 .-> Sentinel
 ```
 
+### 网关路由与分发矩阵
+
+网关统一监听端口为 `18760`，上下文根路径为 `/api`，下发路由通过 `StripPrefix=1` 自动剥离模块前缀后转发至各微服务：
+
+| 外部请求路径 | 转发微服务 (`lb://`) | 剥离前缀 | 承载核心业务 |
+| :--- | :--- | :---: | :--- |
+| `/api/oauth/**` | `lamp-oauth-server` | 1 | 认证授权、Token 签发、刷新 Token、验证码、用户信息 |
+| `/api/system/**` | `lamp-system-server` | 1 | 系统管理（用户、角色、资源菜单、组织机构、租户数据） |
+| `/api/base/**` | `lamp-base-server` | 1 | 基础数据（通用字典、系统参数、行政区划、站内信、文件存取） |
+| `/api/wsMsg/**` | `ws://lamp-base-server` | 1 | WebSocket 双工长连接实时通知与消息广播 |
+| `/api/generator/**` | `lamp-generator-server` | 1 | 可视化代码生成、表结构逆向元数据管理、代码包下载 |
+
 > [!TIP]
 > 更多架构设计图、依赖关系图与监控拓扑，请参阅目录：[`doc/image/架构图/`](doc/image/架构图/)。
 
@@ -143,14 +161,14 @@ flowchart TD
 | **微服务注册与配置** | **Nacos** | 2.x+ 注册中心与集中配置管控 |
 | **服务网关** | **Spring Cloud Gateway** | 响应式 Reactive API 路由与全局过滤器 |
 | **服务通信** | **OpenFeign** | 声明式 HTTP 服务间客户端远程调用 |
-| **安全与认证鉴权** | **Sa-Token** | 1.37+ 轻量级安全框架（网关路由鉴权、Session、踢人） |
+| **安全与认证鉴权** | **Sa-Token** | 1.45+ 轻量级安全框架（网关路由鉴权、Session、踢人） |
 | **持久层 ORM** | **MyBatis-Plus** | 3.5.x+ 丰富 CRUD 增强与多租户/数据权限拦截器插件 |
 | **数据库连接池** | **HikariCP / Druid** | 高性能企业级数据库连接池 |
 | **分布式缓存** | **Redis** | 6.x / 7.x 分布式缓存、Token 与热点数据管理 |
 | **分布式消息队列** | **RabbitMQ** | 3.12+ 异步事件通信、数据同步与削峰填谷 |
 | **分布式事务** | **Seata** | 2.x AT 模式无侵入分布式事务协同 |
 | **服务熔断与限流** | **Sentinel** | 流量防卫兵、实时监控看板与集群降级 |
-| **API 文档与契约** | **SpringDoc** | 2.3.x (OpenAPI 3 / Swagger-UI / Knife4j) 接口文档 |
+| **API 文档与契约** | **SpringDoc** | 2.3.x (OpenAPI 3 / Knife4j) 接口文档看板 |
 | **对象存储** | **MinIO / FastDFS** | 高性能云原生 S3 兼容对象存储 |
 | **文件在线预览** | **kkFileView** | 支持 Office、PDF、图片等多格式在线渲染预览 |
 | **分布式任务调度** | **XXL-JOB** | 分布式定时任务调度平台（支持集群执行） |
@@ -160,20 +178,20 @@ flowchart TD
 
 ## 模块划分与端口矩阵
 
-### 1. 服务模块与端口对照表
+### 1. 微服务端口对照表
 
-| 模块名称 | 默认端口 | 职责定位 | 核心包路径 / 启动类 |
+| 模块名称 | 默认端口 | 上下文路径 / 路由前缀 | 职责定位与核心说明 |
 | :--- | :--- | :--- | :--- |
-| **`lamp-dependencies-parent`** | - | 全局统一依赖与第三方库版本管理 POM | 父级构建依赖 |
-| **`lamp-public`** | - | 公共模型、通用 SDK 集合与底层核心基类 | `com.dalio.cloud.*` |
-| **`lamp-gateway-server`** | `8760` | 统一微服务 API 网关，路由转发、鉴权与流控 | `GatewayServerApplication` |
-| **`lamp-oauth-server`** | `8764` | 认证授权服务，Token 签发、登录注销、第三方鉴权 | `OauthServerApplication` |
-| **`lamp-system-server`** | `8766` | 核心系统服务，用户/角色/资源/组织/岗位/租户管理 | `SystemServerApplication` |
-| **`lamp-base-server`** | `8768` | 基础业务服务，字典/通用参数/地区/站内消息/文件 | `BaseServerApplication` |
-| **`lamp-generator-server`** | `8770` | 可视化代码生成服务，支持多前端模板生成与导出 | `GeneratorServerApplication` |
-| **`lamp-monitor`** | `8762` | 微服务健康状态治理、监控大屏与系统运行指标 | `MonitorApplication` |
-| **`lamp-job-executor`** | `8776` | XXL-JOB 任务调度执行器客户端节点 | `JobExecutorApplication` |
-| **`lamp-boot-server`** | `18760` | 聚合单体模式支撑服务（按需适配非微服务模式） | `BootServerApplication` |
+| **`lamp-dependencies-parent`** | - | - | 全局统一依赖与第三方库版本管理 POM |
+| **`lamp-public`** | - | - | 公共模型、通用 SDK 集合与底层核心基类（模型/安全/回显/数据权限） |
+| **`lamp-gateway-server`** | `18760` | `/api` | 统一 API 微服务网关，流量接收、路由转发、全局鉴权与灰度控制 |
+| **`lamp-oauth-server`** | `18761` | `/api/oauth` | 认证授权中心，多方式登录鉴权、Token 签发与刷新 |
+| **`lamp-base-server`** | `18762` | `/api/base`, `/api/wsMsg` | 基础业务服务，字典/参数/文件存储/站内消息/WebSocket 实时通道 |
+| **`lamp-system-server`** | `18763` | `/api/system` | 核心系统服务，用户/角色/资源菜单/组织机构/岗位/租户管理 |
+| **`lamp-generator-server`** | `18764` | `/api/generator` | 在线可视化代码生成服务，多前端模板支持 |
+| **`lamp-monitor`** | `18759` | `/lamp-monitor` | Spring Boot Admin 微服务健康度大屏与运行指标监控 |
+| **`lamp-job-executor`** | `8776` | - | XXL-JOB 任务调度执行器（RPC 通信端口 `8777`） |
+| **`lamp-boot-server`** | `18760` | - | 聚合单体模式服务（开发环境 `18760`，生产环境 `28760`） |
 
 ### 2. 标准五层工程架构设计
 
@@ -194,11 +212,11 @@ lamp-[module]
 
 在开始本地构建与部署前，请确保您的工作机或服务器已安装并配置好以下基础软件：
 
-- **JDK**：`17+` 或 `21+`（推荐 Eclipse Temurin 或 Alibaba Dragonwell）
+- **JDK**：`17+` 或 `21+`（推荐 Eclipse Temurin、Alibaba Dragonwell 或 Oracle OpenJDK）
 - **Maven**：`3.8.0+`（配置国内镜像源如阿里云以获得更流畅的拉取速度）
-- **MySQL**：`8.0+`（亦可选择 5.7 或达梦 DM8）
+- **MySQL**：`8.0+`（亦可选择 5.7 或达梦 DM8、Oracle、SQL Server）
 - **Redis**：`6.0+` 或 `7.0+`
-- **Nacos**：`2.2+`（推荐开启鉴权）
+- **Nacos**：`2.2+`（推荐使用 `2.3.x` 并开启鉴权）
 - **Docker & Docker Compose**（推荐）：`Docker 24.0+` / `Compose 2.20+`
 - **Node.js**（仅运行前端工程时需要）：`18.x+` / `20.x+` 与 `pnpm`
 
@@ -236,6 +254,9 @@ cp .env.example .env
 docker compose up -d
 ```
 
+> [!TIP]
+> 容器就绪后，可通过 `docker compose ps` 查看各组件运行状态。
+
 ---
 
 ### 3. 数据库与 Nacos 配置初始化
@@ -251,8 +272,11 @@ docker compose up -d
 #### 3.2 导入 Nacos 微服务配置包
 1. 访问 Nacos 控制台（本地默认地址：`http://127.0.0.1:8848/nacos`，初始账号/密码：`nacos / nacos`）。
 2. 在“配置管理” -> “配置列表”页面，点击“导入配置”按钮。
-3. 上传导入预置压缩包：[`doc/third-party/nacos/nacos_config_export_*.zip`](doc/third-party/nacos/)。
-4. 检查公共配置文件（如 `common.yml`、`mysql.yml`、`redis.yml`、`rabbitmq.yml`），确认数据库连接、Redis 与 RabbitMQ 的 IP、端口与密码与真实环境完全一致。
+3. 上传导入预置压缩包：[`doc/third-party/nacos/nacos_config_export_20260615232624.zip`](doc/third-party/nacos/nacos_config_export_20260615232624.zip)。
+4. **关键配置校对**：
+   - 检查公共配置文件 `common.yml`、`mysql.yml`、`redis.yml`、`rabbitmq.yml`。
+   - 确认数据库连接 IP、端口与密码。
+   - **注意 Redis 端口**：Nacos 导出的默认预设配置中 `redis.yml` 端口为 `16379`（密码 `SbtyMveYNfLzTks7H0apCmyStPzWJqjy`）。若本地 Redis 运行在标准端口 `6379` 且无密码，请在 Nacos 的 `redis.yml` 中修改为对应端口与密码。
 
 ---
 
@@ -274,27 +298,31 @@ mvn clean package -DskipTests
 微服务之间存在上下文依赖与网关路由探测，**推荐严格按照以下顺序启动**：
 
 ```text
-[Step 1] lamp-gateway-server    (API 统一网关，负责接收并路由所有前端流量)
+[Step 1] lamp-gateway-server    (统一 API 网关，端口 18760，接收并路由前端流量)
    ↓
-[Step 2] lamp-oauth-server      (认证授权中心，提供 Token 签发与权限校验上下文)
+[Step 2] lamp-oauth-server      (认证授权中心，端口 18761，Token 签发与权限校验)
    ↓
-[Step 3] lamp-system-server     (系统管理核心，提供用户、角色、租户与机构数据)
+[Step 3] lamp-base-server       (基础数据服务，端口 18762，数据字典、文件存取与消息)
    ↓
-[Step 4] lamp-base-server       (基础数据服务，提供数据字典、文件存取与系统通知)
+[Step 4] lamp-system-server     (系统管理核心，端口 18763，用户、角色、租户与机构)
    ↓
-[Step 5] lamp-generator-server  (代码生成器服务，业务功能快速逆向输出，按需启动)
+[Step 5] lamp-generator-server  (代码生成器服务，端口 18764，按需启动)
    ↓
-[Step 6] lamp-monitor           (服务健康度大屏与 Spring Boot Admin 监控面板，可选)
+[Step 6] lamp-monitor           (Spring Boot Admin 监控大屏，端口 18759，可选)
 ```
 
 #### 启动方式选择：
 - **方式 A：IDE 本地调试**  
   在 IntelliJ IDEA 或 VSCode 中，按上述顺序分别运行各模块的主启动类（`*Application.java`）。
-- **方式 B：Shell / Bat 脚本启动**  
-  - Linux 环境：使用项目提供的运维脚本体系 [`doc/shells/linux/start-all.sh`](doc/shells/linux/start-all.sh) 一键按序全量拉起。
-  - Windows 环境：使用 [`doc/shells/window/`](doc/shells/window/) 目录下的批处理脚本。
-- **方式 C：Docker 容器化镜像构建**  
-  各微服务均内置标准 Dockerfile，可参阅 [`doc/docker/03.docker运行项目.md`](doc/docker/03.docker运行项目.md) 编译镜像并启动容器。
+- **方式 B：Shell 脚本批量启动（Linux）**  
+  使用项目提供的运维脚本体系一键拉起：
+  ```bash
+  sh doc/shells/linux/start-all.sh dev
+  ```
+- **方式 C：Windows 批处理脚本**  
+  使用 [`doc/shells/window/`](doc/shells/window/) 目录下的批处理脚本。
+- **方式 D：Docker 容器化部署**  
+  各微服务均内置标准 Dockerfile，可参阅 [`doc/docker/03.docker运行项目.md`](doc/docker/03.docker运行项目.md) 进行镜像构建与容器运行。
 
 ---
 
@@ -304,18 +332,35 @@ mvn clean package -DskipTests
 
 | 服务/组件 | 访问地址 | 默认账号 / 密码 / 凭证 | 备注说明 |
 | :--- | :--- | :--- | :--- |
-| **API 统一网关** | `http://127.0.0.1:8760` | - | 客户端/前端请求统一入口地址 |
-| **OpenAPI / 接口文档** | `http://127.0.0.1:8760/doc.html`<br/>或各服务 `/swagger-ui.html` | - | 基于 SpringDoc 聚合的微服务 API 契约看板 |
-| **Nacos 配置与注册中心** | `http://127.0.0.1:8848/nacos` | `nacos / nacos` | 服务列表需全部显示为健康状态（`UP`） |
-| **RabbitMQ 控制台** | `http://127.0.0.1:15672` | `lamp / lamp` | 消息队列状态与队列路由监控 |
-| **MinIO 对象存储看板** | `http://127.0.0.1:9001` | `lamp / lamp123456` | 附件云存储桶与文件管理后台 |
-| **系统内置超级管理员** | 业务前端登录界面 | `admin / 123456` *(或工程预设密码)* | 拥有全部管理权限，**生产环境务必第一时间修改** |
+| **API 统一网关** | `http://127.0.0.1:18760/api` | - | 客户端/前端请求统一入口地址 |
+| **OpenAPI / 接口文档** | `http://127.0.0.1:18760/api/doc.html` | - | 基于 SpringDoc 聚合的微服务 Knife4j API 契约看板 |
+| **Nacos 控制台** | `http://127.0.0.1:8848/nacos` | `nacos / nacos` | 服务列表中各服务需显示为健康状态（`UP`） |
+| **服务监控中心** | `http://127.0.0.1:18759/lamp-monitor` | - | Spring Boot Admin 微服务集群健康监控大屏 |
+| **RabbitMQ 控制台** | `http://127.0.0.1:15672` | `admin / admin123` *(或 lamp/lamp)* | 消息队列运行状态与队列监控 |
+| **MinIO 对象存储看板** | `http://127.0.0.1:9001` | `minioadmin / minioadmin` *(或 lamp/lamp123456)* | 附件云存储桶与文件管理后台 |
+| **系统内置超级管理员** | 业务前端登录界面 | `admin / 123456` | 拥有平台最高管理权限，**生产环境务必第一时间修改** |
 
 > [!NOTE]
 > **API 调试全局请求头（Header）规范**：
-> - `Token`: 登录成功后换取的业务身份凭证（Sa-Token 自动管理）。
-> - `Authorization`: 客户端凭证（默认格式为 Basic Auth，预设值为 `bGFtcF93ZWI6bGFtcF93ZWJfc2VjcmV0`）。
-> - `ApplicationId`: 应用标识（默认填 `1`）。
+> - `Token`: 登录成功后换取的业务身份凭证（由 Sa-Token 管理并透传）。
+> - `Authorization`: 客户端凭证（默认格式为 Basic Auth，预设值为 `Basic bGFtcF93ZWI6bGFtcF93ZWJfc2VjcmV0`）。
+> - `ApplicationId`: 当前应用标识（默认填 `1`）。
+
+---
+
+## 多数据库方言与信创支持
+
+`lamp-cloud` 原生设计具备优异的数据库多方言兼容能力，SQL 编写与分页插件均严格适配各厂商特性：
+
+| 数据库 | 版本要求 | 驱动与依赖配置 | 预置脚本路径 |
+| :--- | :--- | :--- | :--- |
+| **MySQL** | `8.0+` / `5.7` | `com.mysql.cj.jdbc.Driver` | [`doc/sql/mysql/`](doc/sql/mysql/) |
+| **达梦 (DM8)** | `DM8` (信创推荐) | `dm.jdbc.driver.DmDriver` | [`doc/sql/dameng/`](doc/sql/dameng/) |
+| **Oracle** | `12c+` / `19c` | `oracle.jdbc.OracleDriver` | [`doc/sql/oracle/`](doc/sql/oracle/) |
+| **SQL Server** | `2016+` | `com.microsoft.sqlserver.jdbc.SQLServerDriver` | [`doc/sql/sqlserver/`](doc/sql/sqlserver/) |
+
+> [!TIP]
+> 切换至其他数据库方言时，只需在 Nacos 控制台的 `mysql.yml`（或对应数据源配置文件）中调整 JDBC URL 与驱动类名，并从 `doc/sql/` 对应子目录下导入初始化 SQL 即可。
 
 ---
 
@@ -336,10 +381,38 @@ mvn clean package -DskipTests
 # 语法: sh run.sh {start|stop|restart|status} <服务名> [Profile]
 sh run.sh restart lamp-system-server prod
 ```
-脚本内置循环状态探测机制（`kill -15` 优雅通知 -> 等待请求处理完成 -> 10 秒超时强制 `kill -9` 兜底），确保正在执行中的业务事务不受影响。
+脚本内置循环状态探测机制（`kill -15` 优雅通知 -> 等待请求处理完成 -> 超时强制 `kill -9` 兜底），确保正在执行中的业务事务不受中断。
 
 ### 3. 限流与容错机制
-关于微服务调用链超时计算（`Gateway -> Feign -> Ribbon/Sentinel`）及线程池隔离、降级配置的深度解析，请深入阅读 [`doc/hystrix配置详解.md`](doc/hystrix配置详解.md)。
+关于微服务调用链超时计算（`Gateway -> Feign -> Sentinel`）及线程池隔离、降级配置的深度解析，请深入阅读 [`doc/hystrix配置详解.md`](doc/hystrix配置详解.md)。
+
+---
+
+## 常见问题与排错指南 (FAQ)
+
+<details>
+<summary><b>Q1: 为什么执行 <code>mvn clean compile</code> 时提示 <code>lamp-util</code> 依赖不存在？</b></summary>
+
+> `lamp-cloud` 深度依赖基础类库 `com.dalio.basic:lamp-util:5.10.0`。若第一次下载源码，必须先在本地检出 `lamp-util` 项目并执行 `mvn clean install -DskipTests` 将其发布至本地 Maven 仓库，然后再构建本工程。
+</details>
+
+<details>
+<summary><b>Q2: 为什么微服务启动时报错连接不上 Redis？</b></summary>
+
+> 检查 Nacos 中的 `redis.yml` 配置文件。Nacos 导出的默认配置端口为 `16379`，若您的 Redis 运行在 `6379` 或没有密码，请在 Nacos 的 `redis.yml` 中将 `port` 和 `password` 修改为您本地实际参数，点击发布即可热更新生效。
+</details>
+
+<details>
+<summary><b>Q3: 为什么访问 <code>http://127.0.0.1:18760/doc.html</code> 提示 404？</b></summary>
+
+> 网关设置了全局上下文路径 `server.servlet.context-path: /api`。因此所有网关接口均需携带 `/api` 前缀，接口文档请访问：`http://127.0.0.1:18760/api/doc.html`。
+</details>
+
+<details>
+<summary><b>Q4: 为什么前端调用接口返回客户端鉴权异常（JWT_BASIC_INVALID）？</b></summary>
+
+> 请求未携带正确的 `Authorization` 请求头。系统默认客户端凭证为 Basic Auth 格式：`Basic bGFtcF93ZWI6bGFtcF93ZWJfc2VjcmV0`（表示 `lamp_web:lamp_web_secret` 的 Base64 编码）。
+</details>
 
 ---
 

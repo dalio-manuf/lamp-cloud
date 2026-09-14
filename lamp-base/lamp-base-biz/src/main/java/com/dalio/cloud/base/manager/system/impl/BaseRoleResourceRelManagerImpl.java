@@ -1,5 +1,6 @@
 package com.dalio.cloud.base.manager.system.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,14 +40,19 @@ public class BaseRoleResourceRelManagerImpl extends SuperManagerImpl<BaseRoleRes
 
     @Override
     public void deleteByRole(Collection<Long> roleIdList) {
+        if (CollUtil.isEmpty(roleIdList)) {
+            return;
+        }
         List<BaseRoleResourceRel> roleResourceRelList = list(Wraps.<BaseRoleResourceRel>lbQ().in(BaseRoleResourceRel::getRoleId, roleIdList));
         super.remove(Wraps.<BaseRoleResourceRel>lbQ().in(BaseRoleResourceRel::getRoleId, roleIdList));
 
-        List<CacheKey> keys = new ArrayList<>();
-        for (BaseRoleResourceRel rr : roleResourceRelList) {
-            keys.add(RoleResourceCacheKeyBuilder.build(rr.getApplicationId(), rr.getRoleId()));
-            keys.add(RoleResourceCacheKeyBuilder.build(null, rr.getRoleId()));
+        if (CollUtil.isNotEmpty(roleResourceRelList)) {
+            List<CacheKey> keys = new ArrayList<>(roleResourceRelList.size() * 2);
+            for (BaseRoleResourceRel rr : roleResourceRelList) {
+                keys.add(RoleResourceCacheKeyBuilder.build(rr.getApplicationId(), rr.getRoleId()));
+                keys.add(RoleResourceCacheKeyBuilder.build(null, rr.getRoleId()));
+            }
+            cacheOps.del(keys);
         }
-        cacheOps.del(keys);
     }
 }

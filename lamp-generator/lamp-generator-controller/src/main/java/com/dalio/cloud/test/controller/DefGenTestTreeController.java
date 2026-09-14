@@ -63,7 +63,9 @@ public class DefGenTestTreeController extends SuperController<DefGenTestTreeServ
         return success(superService.findTree(pageQuery));
     }
 
+    @Operation(summary = "测试获取当前用户", description = "测试获取当前用户")
     @PostMapping("/anyone/test")
+    @WebLog(value = "测试获取当前用户")
     public R<Object> test(@Parameter(hidden = true) @LoginUser(isFull = true) SysUser user) {
         return success(user);
     }

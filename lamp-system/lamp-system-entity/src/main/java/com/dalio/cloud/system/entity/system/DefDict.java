@@ -47,7 +47,7 @@ public class DefDict extends Entity<Long> {
     /**
      * 父字典标识
      */
-    @TableField(value = "parent_key", condition = LIKE)
+    @TableField(value = "parent_key")
     private String parentKey;
     /**
      * 字典分组
@@ -59,18 +59,18 @@ public class DefDict extends Entity<Long> {
      * [10-系统字典 20-业务字典]
      * @Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.System.DICT_CLASSIFY)
      */
-    @TableField(value = "classify", condition = LIKE)
+    @TableField(value = "classify")
     private String classify;
     /**
      * 数据类型
      * [1-字符串 2-整型 3-布尔]
      */
-    @TableField(value = "data_type", condition = LIKE)
+    @TableField(value = "data_type")
     private String dataType;
     /**
      * 标识
      */
-    @TableField(value = "key_", condition = LIKE)
+    @TableField(value = "key_")
     private String key;
     /**
      * 名称

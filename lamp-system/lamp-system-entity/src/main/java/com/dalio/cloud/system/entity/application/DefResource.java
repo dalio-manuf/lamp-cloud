@@ -46,7 +46,7 @@ public class DefResource extends TreeEntity<DefResource, Long> {
     /**
      * 编码;唯一编码，用于区分资源
      */
-    @TableField(value = "code", condition = LIKE)
+    @TableField(value = "code")
     private String code;
 
     @TableField(value = "name", condition = LIKE)
@@ -56,7 +56,7 @@ public class DefResource extends TreeEntity<DefResource, Long> {
      * 类型;[20-菜单 40-按钮 50-字段 06-数据]@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.System.RESOURCE_TYPE)
      * 菜单即左侧显示的菜单，视图即隐藏的菜单(需要配置在路由中)
      */
-    @TableField(value = "resource_type", condition = LIKE)
+    @TableField(value = "resource_type")
     private String resourceType;
 
     /**
@@ -78,7 +78,7 @@ public class DefResource extends TreeEntity<DefResource, Long> {
     /**
      * 打开方式 [01-组件 02-内链 03-外链]
      */
-    @TableField(value = "open_with", condition = LIKE)
+    @TableField(value = "open_with")
     private String openWith;
 
     /**
@@ -138,7 +138,7 @@ public class DefResource extends TreeEntity<DefResource, Long> {
     /**
      * 数据范围;[01-全部 02-本单位及子级 03-本单位 04-本部门 05-本部门及子级 06-个人 07-自定义]
      */
-    @TableField(value = "data_scope", condition = LIKE)
+    @TableField(value = "data_scope")
     private String dataScope;
     /**
      * 实现类;自定义实现类全类名

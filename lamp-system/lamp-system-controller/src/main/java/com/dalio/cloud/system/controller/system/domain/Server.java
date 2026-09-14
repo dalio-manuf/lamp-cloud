@@ -29,7 +29,8 @@ import java.util.Properties;
  */
 public class Server {
 
-    private static final int OSHI_WAIT_SECOND = 1000;
+    private static volatile long[] prevCpuTicks = null;
+    private static volatile long lastCpuSampleTime = 0;
 
     /**
      * CPU相关信息
@@ -163,10 +164,20 @@ public class Server {
      * 设置CPU信息
      */
     private void setCpuInfo(CentralProcessor processor) {
-        // CPU信息
-        long[] prevTicks = processor.getSystemCpuLoadTicks();
-        Util.sleep(OSHI_WAIT_SECOND);
-        long[] ticks = processor.getSystemCpuLoadTicks();
+        long[] prevTicks;
+        long[] ticks;
+        synchronized (Server.class) {
+            long now = System.currentTimeMillis();
+            if (prevCpuTicks == null || (now - lastCpuSampleTime) < 200) {
+                prevCpuTicks = processor.getSystemCpuLoadTicks();
+                Util.sleep(200);
+            }
+            prevTicks = prevCpuTicks;
+            ticks = processor.getSystemCpuLoadTicks();
+            prevCpuTicks = ticks;
+            lastCpuSampleTime = System.currentTimeMillis();
+        }
+
         long nice = ticks[TickType.NICE.getIndex()] - prevTicks[TickType.NICE.getIndex()];
         long irq = ticks[TickType.IRQ.getIndex()] - prevTicks[TickType.IRQ.getIndex()];
         long softirq = ticks[TickType.SOFTIRQ.getIndex()] - prevTicks[TickType.SOFTIRQ.getIndex()];

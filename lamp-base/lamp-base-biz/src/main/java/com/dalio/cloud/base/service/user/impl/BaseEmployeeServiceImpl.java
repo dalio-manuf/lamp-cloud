@@ -76,7 +76,7 @@ public class BaseEmployeeServiceImpl extends SuperCacheServiceImpl<BaseEmployeeM
                 .eq(BaseEmployee::getPositionId, model.getPositionId())
                 .eq(BaseEmployee::getActiveStatus, model.getActiveStatus())
                 .eq(BaseEmployee::getState, model.getState())
-                .in(BaseEmployee::getUserId, model.getUserIdList());
+                .in(CollUtil.isNotEmpty(model.getUserIdList()), BaseEmployee::getUserId, model.getUserIdList());
 
         return superManager.selectPageResultVO(page, wrap, model);
     }
@@ -89,7 +89,7 @@ public class BaseEmployeeServiceImpl extends SuperCacheServiceImpl<BaseEmployeeM
         }
 
         baseEmployeeRoleRelManager.remove(Wraps.<BaseEmployeeRoleRel>lbQ().eq(BaseEmployeeRoleRel::getEmployeeId, saveVO.getEmployeeId())
-                .in(BaseEmployeeRoleRel::getRoleId, saveVO.getRoleIdList()));
+                .in(CollUtil.isNotEmpty(saveVO.getRoleIdList()), BaseEmployeeRoleRel::getRoleId, saveVO.getRoleIdList()));
 
         if (saveVO.getFlag() && CollUtil.isNotEmpty(saveVO.getRoleIdList())) {
             List<BaseEmployeeRoleRel> list = saveVO.getRoleIdList().stream()
@@ -153,9 +153,19 @@ public class BaseEmployeeServiceImpl extends SuperCacheServiceImpl<BaseEmployeeM
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean removeByIds(Collection<Long> idList) {
+        if (CollUtil.isEmpty(idList)) {
+            return false;
+        }
         boolean flag = superManager.removeByIds(idList);
         baseEmployeeOrgRelManager.removeByEmployeeIds(idList);
         baseEmployeeRoleRelManager.removeByEmployeeIds(idList);
+
+        List<com.dalio.basic.model.cache.CacheKey> keys = new java.util.ArrayList<>(idList.size() * 2);
+        for (Long employeeId : idList) {
+            keys.add(EmployeeRoleCacheKeyBuilder.build(employeeId));
+            keys.add(EmployeeOrgCacheKeyBuilder.build(employeeId));
+        }
+        cacheOps.del(keys);
         return flag;
     }
 

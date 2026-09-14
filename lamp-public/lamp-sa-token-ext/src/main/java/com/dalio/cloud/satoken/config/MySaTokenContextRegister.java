@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.dalio.basic.constant.Constants;
-import com.dalio.cloud.common.properties.IgnoreProperties;
 import com.dalio.cloud.common.properties.SystemProperties;
 
 /**
@@ -32,7 +31,7 @@ public class MySaTokenContextRegister {
         }
 
         @Bean
-        public GlobalMvcConfigurer getGlobalMvcConfigurer(IgnoreProperties ignoreProperties) {
+        public GlobalMvcConfigurer getGlobalMvcConfigurer() {
             return new GlobalMvcConfigurer();
         }
 

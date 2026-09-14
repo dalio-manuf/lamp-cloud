@@ -6,7 +6,6 @@ import jakarta.websocket.OnError;
 import jakarta.websocket.OnMessage;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
-import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -59,7 +58,7 @@ public class TestEndpoint {
                 session.close();
             }
         } catch (IOException e) {
-            throw new RuntimeException("close web socket session error.", e);
+            log.error("关闭 WebSocket session 异常: sessionId={}", session.getId(), e);
         }
     }
 
@@ -69,7 +68,7 @@ public class TestEndpoint {
      * @param text
      */
     @OnMessage
-    public String onMsg(@PathParam("principal") String principal, String text) {
+    public String onMsg(String text) {
         if (StrUtil.isEmpty(text)) {
             return "";
         }
@@ -78,7 +77,6 @@ public class TestEndpoint {
 
     @OnError
     public void onError(Session session, Throwable error) {
-        log.info("连接error");
-        throw new RuntimeException("web socket error.", error);
+        log.error("WebSocket 连接异常: sessionId={}", session != null ? session.getId() : null, error);
     }
 }

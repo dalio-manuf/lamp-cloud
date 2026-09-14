@@ -123,7 +123,7 @@ public class QiNiuFileStrategyImpl extends AbstractFileStrategy {
             try {
                 if (CollUtil.isNotEmpty(publicBucket) && publicBucket.contains(bucket)) {
                     StringBuilder url = new StringBuilder(qiNiu.getUrlPrefix())
-                            .append(fileGet.getBucket())
+                            .append(bucket)
                             .append(StrPool.SLASH)
                             .append(fileGet.getPath());
                     map.put(fileGet.getPath(), url.toString());
@@ -135,7 +135,7 @@ public class QiNiuFileStrategyImpl extends AbstractFileStrategy {
                     map.put(fileGet.getPath(), urlString);
                 }
             } catch (Exception e) {
-                log.warn("加载文件url地址失败，请确保yml中第三方存储参数配置正确. bucket={}, , 文件名={} path={}", bucket, fileGet.getOriginalFileName(), fileGet.getPath(), e);
+                log.warn("加载文件url地址失败，请确保yml中第三方存储参数配置正确. bucket={}, 文件名={} path={}", bucket, fileGet.getOriginalFileName(), fileGet.getPath(), e);
                 map.put(fileGet.getPath(), StrPool.EMPTY);
             }
         }

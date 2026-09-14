@@ -37,12 +37,12 @@ public class DefArea extends TreeEntity<DefArea, Long> {
     /**
      * 编码
      */
-    @TableField(value = "code", condition = LIKE)
+    @TableField(value = "code")
     private String code;
     /**
      * 城乡划分代码
      */
-    @TableField(value = "division_code", condition = LIKE)
+    @TableField(value = "division_code")
     private String divisionCode;
 
     /**
@@ -66,13 +66,13 @@ public class DefArea extends TreeEntity<DefArea, Long> {
     /**
      * 行政级别;[10-国家 20-省份/直辖市 30-地市 40-区县 50-乡镇]@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Global.AREA_LEVEL)
      */
-    @TableField(value = "level_", condition = LIKE)
+    @TableField(value = "level_")
     private String level;
 
     /**
      * 数据来源;[10-爬取 20-新增]	@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.System.AREA_SOURCE)
      */
-    @TableField(value = "source_", condition = LIKE)
+    @TableField(value = "source_")
     private String source;
 
     /**

@@ -1,5 +1,6 @@
 package com.dalio.cloud.gateway.filter;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.core.annotation.Order;
@@ -10,14 +11,10 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 /**
- * 为了解决 历史遗留问题！
- * 原zuul-server一直都是有 /api 前缀的，改成gateway后，生产环境需要改造成nginx转发
- * <p>
- * spring mvc有ContextPath的配置选项，webflux因为没有DispatchServlet，已经不支持ContextPath了，
- * 一般来说都是在nginx统一配置路径转发就好了。本地调试时可能就需要稍微注意下了，要么本地也装个nginx和线上环境保持一致，
- * 要么就做差异化配置，还有种方法，通过WebFilter的方式做一层ContextPath的转发，不过有一定风险，不推荐使用。
+ * ContextPath 转发兼容过滤器
+ * 用于兼容历史 /api 路径前缀访问，非必要场景直接放行以消除无谓对象创建开销
  *
- * @author admin
+ * @author dalio
  * @date 2019/07/31
  */
 @Component
@@ -28,11 +25,18 @@ public class ContextPathFilter implements WebFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        String contextPath = serverProperties.getServlet().getContextPath();
-        String requestPath = exchange.getRequest().getPath().pathWithinApplication().value();
-        if (contextPath != null && requestPath.startsWith(contextPath)) {
-            requestPath = requestPath.substring(contextPath.length());
+        String contextPath = serverProperties.getServlet() != null ? serverProperties.getServlet().getContextPath() : null;
+        if (StrUtil.isBlank(contextPath)) {
+            return chain.filter(exchange);
         }
-        return chain.filter(exchange.mutate().request(exchange.getRequest().mutate().path(requestPath).build()).build());
+
+        String requestPath = exchange.getRequest().getPath().pathWithinApplication().value();
+        if (!requestPath.startsWith(contextPath)) {
+            return chain.filter(exchange);
+        }
+
+        String newPath = requestPath.substring(contextPath.length());
+        return chain.filter(exchange.mutate().request(exchange.getRequest().mutate().path(newPath).build()).build());
     }
 }
+

@@ -40,7 +40,7 @@ public enum GenTypeEnum implements BaseEnum {
      * 根据当前枚举的name匹配
      */
     public static GenTypeEnum match(String val, GenTypeEnum def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        return Stream.of(values()).filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static GenTypeEnum get(String val) {
@@ -48,7 +48,7 @@ public enum GenTypeEnum implements BaseEnum {
     }
 
     public boolean eq(GenTypeEnum val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

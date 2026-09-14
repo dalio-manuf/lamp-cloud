@@ -14,6 +14,7 @@ import com.dalio.cloud.msg.vo.save.DefInterfacePropertyBatchSaveVO;
 import com.dalio.cloud.msg.vo.save.DefInterfacePropertySaveVO;
 import com.dalio.cloud.msg.vo.update.DefInterfacePropertyUpdateVO;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -49,8 +50,8 @@ public class DefInterfacePropertyServiceImpl extends SuperServiceImpl<DefInterfa
         List<DefInterfacePropertyUpdateVO> pendingRecords = saveVO.getPendingRecords();
         Set<String> insertKeys = insertRecords.stream().map(DefInterfacePropertySaveVO::getKey).collect(Collectors.toSet());
         Set<String> updateKeys = updateRecords.stream().map(DefInterfacePropertyUpdateVO::getKey).collect(Collectors.toSet());
-        if (updateKeys.size() + insertKeys.size() != insertRecords.size() + updateRecords.size()) {
-            throw BizException.wrap("参数健重复");
+        if (insertKeys.size() != insertRecords.size() || updateKeys.size() != updateRecords.size() || !Collections.disjoint(insertKeys, updateKeys)) {
+            throw BizException.wrap("参数键重复");
         }
 
         List<Long> removeIdList = removeRecords.stream().map(DefInterfacePropertyUpdateVO::getId).toList();

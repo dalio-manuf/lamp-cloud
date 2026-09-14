@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.dalio.basic.interfaces.BaseEnum;
 
-import java.util.stream.Stream;
-
 /**
  * @author admin
  * @date 2021/11/12 9:06
@@ -52,10 +50,15 @@ public enum LoginStatusEnum implements BaseEnum {
     private String extra;
 
     /**
-     * 根据当前枚举的name匹配
+     * 根据当前枚举的name或code匹配
      */
     public static LoginStatusEnum match(String val, LoginStatusEnum def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        for (LoginStatusEnum item : values()) {
+            if (item.name().equalsIgnoreCase(val) || item.code.equalsIgnoreCase(val)) {
+                return item;
+            }
+        }
+        return def;
     }
 
     public static LoginStatusEnum get(String val) {
@@ -63,7 +66,7 @@ public enum LoginStatusEnum implements BaseEnum {
     }
 
     public boolean eq(LoginStatusEnum val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

@@ -139,9 +139,9 @@ public class SourceCodeUtils {
 
     private static List<DefGenTableColumn> getDefGenTableColumns(DatabaseProperties databaseProperties, DefGenTable genTable,
                                                                  List<DefGenTableColumn> allFieldList, Map<String, Object> map) {
-        List<DefGenTableColumn> pkFieldList = allFieldList.stream().filter(DefGenTableColumn::getIsPk).toList();
+        List<DefGenTableColumn> pkFieldList = allFieldList.stream().filter(col -> Boolean.TRUE.equals(col.getIsPk())).toList();
         ArgumentAssert.notEmpty(pkFieldList, "请设置主键id");
-        ArgumentAssert.isFalse(pkFieldList.size() > 1, "目前只支持1个主键id, 不支持符合组件");
+        ArgumentAssert.isFalse(pkFieldList.size() > 1, "目前只支持1个主键id, 不支持复合主键");
         map.put("pkField", pkFieldList.get(0));
         List<DefGenTableColumn> commonFields = new ArrayList<>();
         List<DefGenTableColumn> fields = new ArrayList<>();
@@ -167,15 +167,14 @@ public class SourceCodeUtils {
     private static Map<String, Object> controllerMap(DefGenTable genTable, GeneratorConfig generatorConfig) {
         ControllerConfig controllerConfig = generatorConfig.getControllerConfig();
         Map<String, Object> map = new HashMap<>();
-        if (controllerConfig.getHyphenStyle()) {
+        if (Boolean.TRUE.equals(controllerConfig.getHyphenStyle())) {
             map.put("mappingHyphen", StrHelper.convertToCamelCase(StrUtil.lowerFirst(genTable.getEntityName())));
         }
         return map;
     }
 
     private static Map<String, Object> serviceMap(DefGenTable genTable, GeneratorConfig generatorConfig) {
-        Map<String, Object> map = new HashMap<>();
-        return map;
+        return Collections.emptyMap();
     }
 
     private static Map<String, Object> getConstant() {

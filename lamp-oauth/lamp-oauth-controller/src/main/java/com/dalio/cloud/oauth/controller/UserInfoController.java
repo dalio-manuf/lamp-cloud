@@ -2,7 +2,7 @@ package com.dalio.cloud.oauth.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dalio.basic.annotation.log.WebLog;
 import com.dalio.basic.base.R;
 import com.dalio.basic.context.ContextUtil;
-import com.dalio.basic.exception.BizException;
 import com.dalio.cloud.base.entity.user.BaseOrg;
 import com.dalio.cloud.oauth.biz.OauthUserBiz;
 import com.dalio.cloud.oauth.service.CaptchaService;
@@ -39,7 +38,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/anyone")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Tag(name = "用户基本信息")
 public class UserInfoController {
 
@@ -53,7 +52,7 @@ public class UserInfoController {
      */
     @Operation(summary = "获取当前登录的用户信息", description = "获取当前登录的用户信息：登录后，查询用户信息")
     @GetMapping(value = "/getUserInfoById")
-    public R<DefUserInfoResultVO> getUserInfoById(@RequestParam(required = false) Long userId) throws BizException {
+    public R<DefUserInfoResultVO> getUserInfoById(@RequestParam(required = false) Long userId) {
         if (userId == null) {
             userId = ContextUtil.getUserId();
         }
@@ -97,8 +96,8 @@ public class UserInfoController {
     @WebLog("'修改手机:' + #data.mobile")
     public R<Boolean> updateMobile(@RequestBody @Validated DefUserMobileUpdateVO data) {
         R<Boolean> r = captchaService.checkCaptcha(data.getMobile(), data.getTemplateCode(), data.getCode());
-        if (!r.getIsSuccess()) {
-            return r;
+        if (r == null || !r.getIsSuccess()) {
+            return r != null ? r : R.fail("验证码校验失败");
         }
         return R.success(defUserService.updateMobile(data));
     }
@@ -114,8 +113,8 @@ public class UserInfoController {
     @WebLog("'修改邮箱:' + #data.email")
     public R<Boolean> updateEmail(@RequestBody @Validated DefUserEmailUpdateVO data) {
         R<Boolean> r = captchaService.checkCaptcha(data.getEmail(), data.getTemplateCode(), data.getCode());
-        if (!r.getIsSuccess()) {
-            return r;
+        if (r == null || !r.getIsSuccess()) {
+            return r != null ? r : R.fail("验证码校验失败");
         }
         return R.success(defUserService.updateEmail(data));
     }

@@ -43,9 +43,9 @@ import com.dalio.cloud.system.vo.update.tenant.DefUserUpdateVO;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 /**
  * <p>
@@ -67,35 +67,17 @@ public class DefUserController extends SuperExcelController<DefUserService, Long
     private final EchoService echoService;
 
     public static <T> IPage<T> buildPager(long pageSize, long pageIndex, List<T> list) {
-        //使用list 中的sublist方法分页
-        List<T> dataList = new ArrayList<>();
-        IPage<T> pageInfoVo = new Page<>(pageIndex, pageSize);
-        //当前第几页数据
-        long currentPage;
-        // 一共多少条记录
-        long totalRecord = list.size();
-        // 一共多少页
-        long totalPage = totalRecord % pageSize;
-        if (totalPage > 0) {
-            totalPage = totalRecord / pageSize + 1;
-        } else {
-            totalPage = totalRecord / pageSize;
+        IPage<T> pageInfoVo = new Page<>(pageIndex, pageSize, list.size());
+        if (list.isEmpty()) {
+            return pageInfoVo;
         }
-        pageInfoVo.setTotal(totalRecord);
-        // 当前第几页数据
-        currentPage = Math.min(totalPage, pageIndex);
-        // 起始索引
-        int fromIndex = (int) (pageSize * (currentPage - 1));
-        // 结束索引
-        int toIndex = (int) (Math.min(pageSize * currentPage, totalRecord));
-        try {
-            if (!list.isEmpty()) {
-                dataList = list.subList(fromIndex, toIndex);
-            }
-        } catch (IndexOutOfBoundsException e) {
-            log.error("e", e);
+        long fromIndex = Math.max(0, (pageIndex - 1) * pageSize);
+        if (fromIndex >= list.size()) {
+            pageInfoVo.setRecords(Collections.emptyList());
+            return pageInfoVo;
         }
-        pageInfoVo.setRecords(dataList);
+        long toIndex = Math.min(fromIndex + pageSize, list.size());
+        pageInfoVo.setRecords(list.subList((int) fromIndex, (int) toIndex));
         return pageInfoVo;
     }
 
@@ -227,6 +209,9 @@ public class DefUserController extends SuperExcelController<DefUserService, Long
         for (String sessionId : sessionIdList) {
             // 根据会话id，查询对应的 SaSession 对象，此处一个 SaSession 对象即代表一个登录的账号
             SaSession session = StpUtil.getSessionBySessionId(sessionId);
+            if (session == null) {
+                continue;
+            }
 
             DefUser defUser = superService.getByIdCache(Convert.toLong(session.getLoginId()));
 
@@ -251,7 +236,9 @@ public class DefUserController extends SuperExcelController<DefUserService, Long
 
             loginUserList.add(bean);
         }
-        List<OnlineUsersResultVO> sortedList = loginUserList.stream().sorted(((o1, o2) -> o2.getSessionTime().compareTo(o1.getSessionTime()))).collect(Collectors.toList());
+        List<OnlineUsersResultVO> sortedList = loginUserList.stream()
+                .sorted(Comparator.comparing(OnlineUsersResultVO::getSessionTime, Comparator.nullsLast(Comparator.reverseOrder())))
+                .toList();
         return R.success(buildPager(params.getSize(), params.getCurrent(), sortedList));
     }
 

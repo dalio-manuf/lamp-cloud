@@ -97,26 +97,9 @@ public class TokenContextFilter implements AsyncHandlerInterceptor {
         return !StrPool.PROD.equalsIgnoreCase(profiles) && (StrPool.TEST_TOKEN.equalsIgnoreCase(token) || StrPool.TEST.equalsIgnoreCase(token));
     }
 
-    /**
-     * 忽略应用级token
-     *
-     * @return
-     */
-    protected boolean isIgnoreToken(HttpServletRequest request) {
-        return ignoreProperties.isIgnoreUser(request.getMethod(), request.getRequestURI());
-    }
-
-    /**
-     * 忽略 租户编码
-     *
-     * @return
-     */
-    protected boolean isIgnoreTenant(HttpServletRequest request) {
-        return ignoreProperties.isIgnoreTenant(request.getMethod(), request.getRequestURI());
-    }
-
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         ContextUtil.remove();
+        MDC.clear();
     }
 }

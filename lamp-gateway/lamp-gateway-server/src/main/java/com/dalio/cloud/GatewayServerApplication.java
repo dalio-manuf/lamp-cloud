@@ -1,7 +1,5 @@
 package com.dalio.cloud;
 
-
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -17,7 +15,9 @@ import static com.dalio.cloud.common.constant.BizConstant.BUSINESS_PACKAGE;
 import static com.dalio.cloud.common.constant.BizConstant.UTIL_PACKAGE;
 
 /**
- * @author admin
+ * 网关服务启动入口类
+ *
+ * @author dalio
  * @date 2017-12-13 15:02
  */
 @SpringBootApplication(exclude = {
@@ -33,9 +33,9 @@ import static com.dalio.cloud.common.constant.BizConstant.UTIL_PACKAGE;
 @EnableFeignClients(value = {
         UTIL_PACKAGE, BUSINESS_PACKAGE
 })
-@Slf4j
 public class GatewayServerApplication extends ServerApplication {
     public static void main(String[] args) throws UnknownHostException {
         start(GatewayServerApplication.class, args);
     }
 }
+

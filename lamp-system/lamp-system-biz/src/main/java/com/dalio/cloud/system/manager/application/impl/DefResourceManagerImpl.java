@@ -18,8 +18,10 @@ import com.dalio.cloud.system.mapper.application.DefResourceMapper;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * 应用管理
@@ -59,11 +61,15 @@ public class DefResourceManagerImpl extends SuperCacheManagerImpl<DefResourceMap
     @Override
     public List<DefResource> findByIdsAndType(Collection<? extends Serializable> idList, Collection<String> types) {
         List<DefResource> list = findByIds(idList, null);
+        final Set<String> typeSet = CollUtil.isNotEmpty(types) ? (types instanceof Set ? (Set<String>) types : new HashSet<>(types)) : null;
         return list.stream()
-                // 过滤数据状态
-                .filter(Objects::nonNull).filter(DefResource::getState).filter(item -> !CollUtil.isNotEmpty(types) || (CollUtil.contains(types, item.getResourceType())))
+                // 过滤数据状态，防止 NPE
+                .filter(Objects::nonNull)
+                .filter(item -> Boolean.TRUE.equals(item.getState()))
+                .filter(item -> typeSet == null || typeSet.contains(item.getResourceType()))
                 // 按sortValue排序，null排在最后
-                .sorted(Comparator.comparing(DefResource::getSortValue, Comparator.nullsLast(Integer::compareTo))).toList();
+                .sorted(Comparator.comparing(DefResource::getSortValue, Comparator.nullsLast(Integer::compareTo)))
+                .toList();
     }
 
     @Override

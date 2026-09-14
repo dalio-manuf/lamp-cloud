@@ -4,6 +4,8 @@ import com.dalio.cloud.generator.config.DateType;
 import com.dalio.cloud.generator.rules.ColumnType;
 import com.dalio.cloud.generator.rules.DbColumnType;
 
+import java.util.regex.Pattern;
+
 import static com.dalio.cloud.generator.converts.TypeConverts.contains;
 import static com.dalio.cloud.generator.converts.TypeConverts.containsAny;
 import static com.dalio.cloud.generator.rules.DbColumnType.BIG_DECIMAL;
@@ -23,6 +25,7 @@ import static com.dalio.cloud.generator.rules.DbColumnType.STRING;
  */
 public class MySqlTypeConvert implements ITypeConvert {
     public static final MySqlTypeConvert INSTANCE = new MySqlTypeConvert();
+    private static final Pattern DIGIT_PATTERN = Pattern.compile("\\(\\d+\\)");
 
     /**
      * 转换为日期类型
@@ -32,7 +35,10 @@ public class MySqlTypeConvert implements ITypeConvert {
      * @return 返回对应的列类型
      */
     public static ColumnType toDateType(DateType dt, String type) {
-        String dateType = type.replaceAll("\\(\\d+\\)", "");
+        if (type == null) {
+            return STRING;
+        }
+        String dateType = DIGIT_PATTERN.matcher(type).replaceAll("");
         switch (dt) {
             case ONLY_DATE -> {
                 return DbColumnType.DATE;

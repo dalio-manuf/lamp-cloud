@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import com.dalio.basic.interfaces.BaseEnum;
 
-import java.util.stream.Stream;
 
 /**
  * 数据类型
@@ -39,7 +38,12 @@ public enum DataTypeEnum implements BaseEnum {
      * 根据当前枚举的name匹配
      */
     public static DataTypeEnum match(String val, DataTypeEnum def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        for (DataTypeEnum item : values()) {
+            if (item.name().equalsIgnoreCase(val)) {
+                return item;
+            }
+        }
+        return def;
     }
 
     public static DataTypeEnum get(String val) {
@@ -47,7 +51,7 @@ public enum DataTypeEnum implements BaseEnum {
     }
 
     public boolean eq(DataTypeEnum val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

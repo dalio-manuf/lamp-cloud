@@ -1,6 +1,7 @@
 package com.dalio.cloud.generator.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.db.meta.Column;
 import cn.hutool.db.meta.MetaUtil;
 import cn.hutool.db.meta.Table;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dalio.basic.base.request.PageParams;
 import com.dalio.basic.base.service.impl.SuperServiceImpl;
 import com.dalio.basic.database.mybatis.conditions.Wraps;
+import com.dalio.basic.exception.BizException;
 import com.dalio.basic.utils.ArgumentAssert;
 import com.dalio.basic.utils.BeanPlusUtil;
 import com.dalio.cloud.generator.config.GeneratorConfig;
@@ -39,7 +41,6 @@ import javax.sql.DataSource;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-
 public class DefGenTableColumnServiceImpl extends SuperServiceImpl<DefGenTableColumnManager, Long, DefGenTableColumn> implements DefGenTableColumnService {
     private final DefGenTableManager defGenTableManager;
     private final GeneratorConfig generatorConfig;
@@ -65,6 +66,9 @@ public class DefGenTableColumnServiceImpl extends SuperServiceImpl<DefGenTableCo
         DataSource ds = defGenTableManager.getDs(genTable.getDsId());
 
         Table tableMeta = MetaUtil.getTableMeta(ds, genTable.getName());
+        if (tableMeta == null || CollUtil.isEmpty(tableMeta.getColumns())) {
+            throw BizException.wrap("未获取到表结构信息，请确保该表在数据源中存在且至少包含1个字段");
+        }
         for (Column column : tableMeta.getColumns()) {
             if (genTableColumn.getName().equals(column.getName())) {
                 DefGenTableColumn tableColumn = GenUtils.initColumnField(generatorConfig, defGenTableManager.getDbType(), genTable, column);

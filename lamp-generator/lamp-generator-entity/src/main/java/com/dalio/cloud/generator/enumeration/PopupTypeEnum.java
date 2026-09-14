@@ -23,13 +23,16 @@ import java.util.stream.Stream;
 public enum PopupTypeEnum implements BaseEnum {
 
     /**
-     * 单表
+     * 对话框
      */
     MODAL("01", "对话框"),
     /**
-     * 树结构
+     * 抽屉
      */
     DRAWER("02", "抽屉"),
+    /**
+     * 跳转
+     */
     JUMP("03", "跳转");
 
     private String value;
@@ -40,7 +43,7 @@ public enum PopupTypeEnum implements BaseEnum {
      * 根据当前枚举的name匹配
      */
     public static PopupTypeEnum match(String val, PopupTypeEnum def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        return Stream.of(values()).filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static PopupTypeEnum get(String val) {
@@ -48,7 +51,7 @@ public enum PopupTypeEnum implements BaseEnum {
     }
 
     public boolean eq(PopupTypeEnum val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

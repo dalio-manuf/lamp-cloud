@@ -163,7 +163,7 @@ public abstract class AbstractTokenGranter implements TokenGranter {
         if (defClient == null) {
             return R.fail("请在.env文件中配置正确的客户端ID或者客户端秘钥");
         }
-        if (!defClient.getState()) {
+        if (!Boolean.TRUE.equals(defClient.getState())) {
             return R.fail("客户端[%s]已被禁用", defClient.getClientId());
         }
         return R.success(null);
@@ -220,8 +220,11 @@ public abstract class AbstractTokenGranter implements TokenGranter {
      * @create [2022/10/5 12:38 PM ] [admin] [初始创建]
      */
     protected R<LoginResultVO> checkUserState(DefUser user) {
+        if (user == null) {
+            return R.fail(ExceptionCode.JWT_USER_INVALID);
+        }
         // 用户被禁用
-        if (!user.getState()) {
+        if (!Boolean.TRUE.equals(user.getState())) {
             String msg = "您已被禁用，请联系管理员开通账号！";
             SpringUtils.publishEvent(new LoginEvent(LoginStatusDTO.fail(user.getId(), LoginStatusEnum.USER_ERROR, msg)));
             return R.fail(msg);
@@ -325,7 +328,7 @@ public abstract class AbstractTokenGranter implements TokenGranter {
             }
 
             if (defaultCompany != null) {
-                Long rootId = TreeUtil.getTopNodeId(defaultCompany.getTreePath());
+                Long rootId = getTopNodeIdSafely(defaultCompany.getTreePath());
                 BaseOrg rootCompany;
                 if (rootId != null) {
                     rootCompany = baseOrgService.getByIdCache(rootId);
@@ -439,7 +442,7 @@ public abstract class AbstractTokenGranter implements TokenGranter {
             if (OrgTypeEnum.COMPANY.eq(selectOrg.getType())) {
                 companyId = selectOrg.getId();
 
-                Long rootId = TreeUtil.getTopNodeId(selectOrg.getTreePath());
+                Long rootId = getTopNodeIdSafely(selectOrg.getTreePath());
                 if (rootId != null) {
                     BaseOrg rootCompany = baseOrgService.getByIdCache(rootId);
                     topCompanyId = rootCompany != null ? rootCompany.getId() : companyId;
@@ -453,7 +456,7 @@ public abstract class AbstractTokenGranter implements TokenGranter {
                 if (company != null) {
                     companyId = company.getId();
 
-                    Long rootId = TreeUtil.getTopNodeId(company.getTreePath());
+                    Long rootId = getTopNodeIdSafely(company.getTreePath());
                     if (rootId != null) {
                         BaseOrg rootCompany = baseOrgService.getByIdCache(rootId);
                         topCompanyId = rootCompany != null ? rootCompany.getId() : companyId;
@@ -462,11 +465,8 @@ public abstract class AbstractTokenGranter implements TokenGranter {
                     }
                 }
             }
-
-            baseEmployeeService.updateOrgInfo(employee.getId(), companyId, deptId);
-        } else {
-            baseEmployeeService.updateOrgInfo(employee.getId(), companyId, deptId);
         }
+        baseEmployeeService.updateOrgInfo(employee.getId(), companyId, deptId);
 
 
         Employee e = Employee.builder()
@@ -484,6 +484,18 @@ public abstract class AbstractTokenGranter implements TokenGranter {
         LoginStatusDTO loginStatus = LoginStatusDTO.switchOrg(defUser.getId(), employee.getId());
         SpringUtils.publishEvent(new LoginEvent(loginStatus));
         return loginResultVO;
+    }
+
+    private Long getTopNodeIdSafely(String treePath) {
+        if (treePath == null) {
+            return null;
+        }
+        try {
+            return TreeUtil.getTopNodeId(treePath);
+        } catch (Exception e) {
+            log.debug("解析顶级机构节点ID失败: treePath={}", treePath, e);
+            return null;
+        }
     }
 
     @Builder

@@ -5,12 +5,12 @@ import cn.dev33.satoken.exception.SaTokenException;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.spring.pathmatch.SaPathPatternParserUtil;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
@@ -28,9 +28,10 @@ import com.dalio.basic.context.ContextConstants;
 import com.dalio.basic.context.ContextUtil;
 import com.dalio.basic.exception.BizException;
 import com.dalio.basic.exception.UnauthorizedException;
-import com.dalio.basic.utils.StrPool;
 import com.dalio.cloud.common.properties.IgnoreProperties;
 import com.dalio.cloud.common.utils.Base64Util;
+
+import java.nio.charset.StandardCharsets;
 
 import static com.dalio.basic.context.ContextConstants.APPLICATION_ID_HEADER;
 import static com.dalio.basic.context.ContextConstants.APPLICATION_ID_KEY;
@@ -47,9 +48,9 @@ import static com.dalio.basic.context.ContextConstants.JWT_KEY_TOP_COMPANY_ID;
 import static com.dalio.basic.context.ContextConstants.USER_ID_HEADER;
 
 /**
- * 过滤器
+ * 租户与鉴权上下文过滤器
  *
- * @author admin
+ * @author dalio
  * @date 2019/07/31
  */
 @Component
@@ -58,18 +59,11 @@ import static com.dalio.basic.context.ContextConstants.USER_ID_HEADER;
 public class TokenContextFilter implements WebFilter, Ordered {
     protected final SaTokenConfig saTokenConfig;
     private final IgnoreProperties ignoreProperties;
-    @Value("${spring.profiles.active:dev}")
-    protected String profiles;
-
-    protected boolean isDev(String token) {
-        return !StrPool.PROD.equalsIgnoreCase(profiles) && (StrPool.TEST_TOKEN.equalsIgnoreCase(token) || StrPool.TEST.equalsIgnoreCase(token));
-    }
 
     @Override
     public int getOrder() {
         return OrderedConstant.TOKEN;
     }
-
 
     /**
      * 忽略 用户token
@@ -78,29 +72,19 @@ public class TokenContextFilter implements WebFilter, Ordered {
         return ignoreProperties.isIgnoreUser(request.getMethod().name(), request.getPath().toString());
     }
 
-    /**
-     * 忽略 租户编码
-     */
-    protected boolean isIgnoreTenant(ServerHttpRequest request) {
-        return ignoreProperties.isIgnoreTenant(request.getMethod().name(), request.getPath().toString());
-    }
-
     protected String getHeader(String headerName, ServerHttpRequest request) {
         HttpHeaders headers = request.getHeaders();
-        String token = StrUtil.EMPTY;
-        if (headers == null || headers.isEmpty()) {
-            return token;
+        if (headers.isEmpty()) {
+            return StrUtil.EMPTY;
         }
 
-        token = headers.getFirst(headerName);
-
+        String token = headers.getFirst(headerName);
         if (StrUtil.isNotBlank(token)) {
             return token;
         }
 
         return request.getQueryParams().getFirst(headerName);
     }
-
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
@@ -110,66 +94,66 @@ public class TokenContextFilter implements WebFilter, Ordered {
 
         ContextUtil.setGrayVersion(getHeader(ContextConstants.GRAY_VERSION, request));
 
-
         try {
-            // 2,解码 Authorization
+            // 1. 解码 Authorization 获取客户端ID
             parseClient(request, mutate);
 
-            // 3, 获取 应用id
+            // 2. 获取应用ID
             parseApplication(request, mutate);
 
-
-            Mono<Void> token = parseToken(exchange, chain, mutate);
-            if (token != null) {
-                return token;
-            }
+            // 3. 解析用户Token上下文
+            parseToken(request, mutate);
 
         } catch (UnauthorizedException e) {
-            log.error(request.getPath().toString(), e);
+            log.error("[TokenContextFilter] 认证异常: path={}, msg={}", request.getPath(), e.getMessage());
             return errorResponse(response, e.getMessage(), e.getCode(), HttpStatus.UNAUTHORIZED);
         } catch (BizException e) {
-            log.error(request.getPath().toString(), e);
+            log.error("[TokenContextFilter] 业务异常: path={}, msg={}", request.getPath(), e.getMessage());
             return errorResponse(response, e.getMessage(), e.getCode(), HttpStatus.BAD_REQUEST);
         } catch (SaTokenException e) {
-            log.error(request.getPath().toString(), e);
+            log.error("[TokenContextFilter] Sa-Token异常: path={}, msg={}", request.getPath(), e.getMessage());
             return errorResponse(response, e.getMessage(), e.getCode(), HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
-            log.error(request.getPath().toString(), e);
+            log.error("[TokenContextFilter] 验证token出错: path={}", request.getPath(), e);
             return errorResponse(response, "验证token出错", R.FAIL_CODE, HttpStatus.BAD_REQUEST);
         }
 
         ServerHttpRequest build = mutate.build();
         return chain.filter(exchange.mutate().request(build).build())
-                .doFinally(signalType -> ContextUtil.remove());
+                .doFinally(signalType -> {
+                    ContextUtil.remove();
+                    MDC.clear();
+                });
     }
 
-    private Mono<Void> parseToken(ServerWebExchange exchange, WebFilterChain chain, ServerHttpRequest.Builder mutate) {
-        ServerHttpRequest request = exchange.getRequest();
-        ServerHttpResponse response = exchange.getResponse();
+    private void parseToken(ServerHttpRequest request, ServerHttpRequest.Builder mutate) {
         // 判断接口是否需要忽略token验证
         if (isIgnoreToken(request)) {
-            log.debug("当前接口：{}, 不解析用户token", request.getPath());
-            return chain.filter(exchange);
+            log.debug("当前接口：{}, 忽略用户 Token 解析", request.getPath());
+            return;
         }
 
-        SaSession tokenSession = StpUtil.getTokenSessionByToken(getHeader(saTokenConfig.getTokenName(), request));
-        log.info("{}", tokenSession);
+        String token = getHeader(saTokenConfig.getTokenName(), request);
+        if (StrUtil.isBlank(token)) {
+            return;
+        }
+
+        SaSession tokenSession = StpUtil.getTokenSessionByToken(token);
+        log.debug("Token session: {}", tokenSession);
 
         if (tokenSession != null) {
-            Long userId = (Long) tokenSession.getLoginId();
-            long topCompanyId = tokenSession.getLong(JWT_KEY_TOP_COMPANY_ID);
-            long companyId = tokenSession.getLong(JWT_KEY_COMPANY_ID);
-            long deptId = tokenSession.getLong(JWT_KEY_DEPT_ID);
-            long employeeId = tokenSession.getLong(JWT_KEY_EMPLOYEE_ID);
+            Long userId = Convert.toLong(tokenSession.getLoginId(), null);
+            Long employeeId = Convert.toLong(tokenSession.get(JWT_KEY_EMPLOYEE_ID), null);
+            Long topCompanyId = Convert.toLong(tokenSession.get(JWT_KEY_TOP_COMPANY_ID), null);
+            Long companyId = Convert.toLong(tokenSession.get(JWT_KEY_COMPANY_ID), null);
+            Long deptId = Convert.toLong(tokenSession.get(JWT_KEY_DEPT_ID), null);
 
-            mutate.header(USER_ID_HEADER, String.valueOf(userId));
-            mutate.header(EMPLOYEE_ID_HEADER, String.valueOf(employeeId));
-            mutate.header(CURRENT_TOP_COMPANY_ID_HEADER, String.valueOf(topCompanyId));
-            mutate.header(CURRENT_COMPANY_ID_HEADER, String.valueOf(companyId));
-            mutate.header(CURRENT_DEPT_ID_HEADER, String.valueOf(deptId));
+            addHeader(mutate, USER_ID_HEADER, userId);
+            addHeader(mutate, EMPLOYEE_ID_HEADER, employeeId);
+            addHeader(mutate, CURRENT_TOP_COMPANY_ID_HEADER, topCompanyId);
+            addHeader(mutate, CURRENT_COMPANY_ID_HEADER, companyId);
+            addHeader(mutate, CURRENT_DEPT_ID_HEADER, deptId);
         }
-
-        return null;
     }
 
     private void parseClient(ServerHttpRequest request, ServerHttpRequest.Builder mutate) {
@@ -202,14 +186,14 @@ public class TokenContextFilter implements WebFilter, Ordered {
         }
         String valueStr = value.toString();
         String valueEncode = URLUtil.encode(valueStr);
-        mutate.header(name, valueEncode);
+        mutate.headers(h -> h.set(name, valueEncode));
     }
 
     protected Mono<Void> errorResponse(ServerHttpResponse response, String errMsg, int errCode, HttpStatus httpStatus) {
-        R tokenError = R.fail(errCode, errMsg);
-        response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        R<?> tokenError = R.fail(errCode, errMsg);
+        response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.setStatusCode(httpStatus);
-        DataBuffer dataBuffer = response.bufferFactory().wrap(tokenError.toString().getBytes());
+        DataBuffer dataBuffer = response.bufferFactory().wrap(cn.hutool.json.JSONUtil.toJsonStr(tokenError).getBytes(StandardCharsets.UTF_8));
         return response.writeWith(Mono.just(dataBuffer));
     }
 

@@ -1,5 +1,6 @@
 package com.dalio.cloud.file.strategy.impl;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.StringJoiner;
-import java.util.UUID;
 
 import static com.dalio.basic.exception.code.ExceptionCode.BASE_VALID_PARAM;
 import static com.dalio.basic.utils.DateUtils.SLASH_DATE_FORMAT;
@@ -35,6 +35,8 @@ import static com.dalio.basic.utils.DateUtils.SLASH_DATE_FORMAT;
 public abstract class AbstractFileStrategy implements FileStrategy {
 
     private static final String FILE_SPLIT = ".";
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(SLASH_DATE_FORMAT);
+
     protected final FileServerProperties fileProperties;
     protected final FileMapper fileMapper;
 
@@ -47,22 +49,25 @@ public abstract class AbstractFileStrategy implements FileStrategy {
     @Override
     public File upload(MultipartFile multipartFile, String bucket, String bizType) {
         try {
-            if (!StrUtil.contains(multipartFile.getOriginalFilename(), FILE_SPLIT)) {
+            String originalFilename = multipartFile.getOriginalFilename();
+            if (StrUtil.isEmpty(originalFilename) || !StrUtil.contains(originalFilename, FILE_SPLIT)) {
                 throw BizException.wrap(BASE_VALID_PARAM.build("文件缺少后缀名"));
             }
 
             File file = File.builder()
-                    .originalFileName(multipartFile.getOriginalFilename())
+                    .originalFileName(originalFilename)
                     .contentType(multipartFile.getContentType())
                     .size(multipartFile.getSize())
                     .bizType(bizType)
-                    .suffix(FilenameUtils.getExtension(multipartFile.getOriginalFilename()))
+                    .suffix(FilenameUtils.getExtension(originalFilename))
                     .fileType(FileTypeUtil.getFileType(multipartFile.getContentType()))
                     .build();
             uploadFile(file, multipartFile, bucket);
             return file;
+        } catch (BizException e) {
+            throw e;
         } catch (Exception e) {
-            log.error("ex", e);
+            log.error("文件上传失败: {}", e.getMessage(), e);
             throw BizException.wrap(BASE_VALID_PARAM.build("文件上传失败"), e);
         }
     }
@@ -88,7 +93,7 @@ public abstract class AbstractFileStrategy implements FileStrategy {
      * @return 日期文件夹
      */
     protected String getDateFolder() {
-        return LocalDate.now().format(DateTimeFormatter.ofPattern(SLASH_DATE_FORMAT));
+        return LocalDate.now().format(DATE_FORMATTER);
     }
 
     /**
@@ -101,7 +106,7 @@ public abstract class AbstractFileStrategy implements FileStrategy {
 
     protected String getUniqueFileName(File file) {
         return new StringJoiner(StrPool.DOT)
-                .add(UUID.randomUUID().toString().replace("-", ""))
+                .add(IdUtil.fastSimpleUUID())
                 .add(file.getSuffix()).toString();
     }
 }

@@ -15,7 +15,7 @@ import java.util.Set;
  * @author admin
  * @date 2019/08/02
  */
-@FeignClient(name = "${" + Constants.PROJECT_PREFIX + ".feign.oauth-server:lamp-oauth-server}", path = "")
+@FeignClient(name = "${" + Constants.PROJECT_PREFIX + ".feign.oauth-server:lamp-oauth-server}")
 public interface OrgApi {
 
     /**

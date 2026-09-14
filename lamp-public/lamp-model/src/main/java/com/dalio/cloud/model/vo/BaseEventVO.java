@@ -33,7 +33,10 @@ public class BaseEventVO {
             map = new HashMap<>();
         }
         map.clear();
-        map.putAll(ContextUtil.getLocalMap());
+        Map<String, String> localMap = ContextUtil.getLocalMap();
+        if (localMap != null) {
+            map.putAll(localMap);
+        }
         return this;
     }
 

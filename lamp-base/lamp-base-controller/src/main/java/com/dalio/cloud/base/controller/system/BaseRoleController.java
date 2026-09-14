@@ -70,11 +70,11 @@ public class BaseRoleController extends SuperCacheController<BaseRoleService, Lo
         QueryWrap<BaseRole> wrap = Wraps.q(null, params.getExtra(), getEntityClass());
         // category = ? and state = ? and (code like ? or name like ? or remarks like ?)
         wrap.lambda()
-                .eq(BaseRole::getCategory, model.getCategory())
-                .eq(BaseRole::getState, model.getState())
+                .eq(model.getCategory() != null, BaseRole::getCategory, model.getCategory())
+                .eq(model.getState() != null, BaseRole::getState, model.getState())
                 .and(StrUtil.isNotEmpty(model.getName()), w ->
                         w.like(BaseRole::getCode, model.getName()).or().like(BaseRole::getName, model.getName())
-                                .or().like(BaseRole::getRemarks, model.getRemarks())
+                                .or().like(BaseRole::getRemarks, model.getName())
                 );
         return wrap;
     }

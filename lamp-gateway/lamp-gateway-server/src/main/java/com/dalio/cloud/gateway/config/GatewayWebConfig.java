@@ -1,6 +1,5 @@
 package com.dalio.cloud.gateway.config;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +34,9 @@ import java.util.TimeZone;
 import static com.dalio.basic.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 
 /**
- * @author admin
+ * 网关 Web 与 Jackson 序列化配置
+ *
+ * @author dalio
  * @date 2021/12/9 18:52
  */
 @Configuration
@@ -56,22 +57,6 @@ public class GatewayWebConfig {
 
     /**
      * 全局配置 序列化和反序列化规则
-     * addSerializer：序列化 （Controller 返回 给前端的json）
-     * 1. Long -> string
-     * 2. BigInteger -> string
-     * 3. BigDecimal -> string
-     * 4. date -> string
-     * 5. LocalDateTime -> "yyyy-MM-dd HH:mm:ss"
-     * 6. LocalDate -> "yyyy-MM-dd"
-     * 7. LocalTime -> "HH:mm:ss"
-     * 8. BaseEnum -> {"code": "xxx", "desc": "xxx"}
-     *
-     * <p>
-     * addDeserializer: 反序列化 （前端调用接口时，传递到后台的json）
-     * 1.  {"code": "xxx"} -> BaseEnum
-     * 2. "yyyy-MM-dd HH:mm:ss" -> LocalDateTime
-     * 3. "yyyy-MM-dd" -> LocalDate
-     * 4. "HH:mm:ss" -> LocalTime
      *
      * @param builder 构造器
      * @return 全局 ObjectMapper
@@ -100,7 +85,7 @@ public class GatewayWebConfig {
                 //忽略未知字段
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 //单引号处理
-                .configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+                .configure(JsonReadFeature.ALLOW_SINGLE_QUOTES.mappedFeature(), true);
         // 注册自定义模块
         objectMapper.registerModule(new LampJacksonModule()).findAndRegisterModules();
 

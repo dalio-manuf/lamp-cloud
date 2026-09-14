@@ -62,7 +62,7 @@ public class BaseRoleServiceImpl extends SuperCacheServiceImpl<BaseRoleManager, 
     public Boolean check(String code, Long id) {
         ArgumentAssert.notEmpty(code, "请填写角色编码");
         LbQueryWrap<BaseRole> wrap = Wraps.<BaseRole>lbQ()
-                .eq(BaseRole::getCode, code).ne(BaseRole::getId, id);
+                .eq(BaseRole::getCode, code).ne(id != null, BaseRole::getId, id);
         return superManager.count(wrap) > 0;
     }
 
@@ -118,15 +118,17 @@ public class BaseRoleServiceImpl extends SuperCacheServiceImpl<BaseRoleManager, 
         }
 
         baseEmployeeRoleRelManager.remove(Wraps.<BaseEmployeeRoleRel>lbQ().eq(BaseEmployeeRoleRel::getRoleId, saveVO.getRoleId())
-                .in(BaseEmployeeRoleRel::getEmployeeId, saveVO.getEmployeeIdList()));
-        if (saveVO.getFlag()) {
+                .in(CollUtil.isNotEmpty(saveVO.getEmployeeIdList()), BaseEmployeeRoleRel::getEmployeeId, saveVO.getEmployeeIdList()));
+        if (saveVO.getFlag() && CollUtil.isNotEmpty(saveVO.getEmployeeIdList())) {
             List<BaseEmployeeRoleRel> list = saveVO.getEmployeeIdList().stream().map(employeeId ->
                     BaseEmployeeRoleRel.builder().employeeId(employeeId).roleId(saveVO.getRoleId()).build()).toList();
             baseEmployeeRoleRelManager.saveBatch(list);
         }
 
-        CacheKey[] cacheKeys = saveVO.getEmployeeIdList().stream().map(EmployeeRoleCacheKeyBuilder::build).toArray(CacheKey[]::new);
-        cacheOps.del(cacheKeys);
+        if (CollUtil.isNotEmpty(saveVO.getEmployeeIdList())) {
+            CacheKey[] cacheKeys = saveVO.getEmployeeIdList().stream().map(EmployeeRoleCacheKeyBuilder::build).toArray(CacheKey[]::new);
+            cacheOps.del(cacheKeys);
+        }
         return findEmployeeIdByRoleId(saveVO.getRoleId());
     }
 

@@ -38,7 +38,7 @@ public class DefParameter extends Entity<Long> {
     /**
      * 参数键
      */
-    @TableField(value = "key_", condition = LIKE)
+    @TableField(value = "key_")
     private String key;
 
     /**
@@ -68,7 +68,7 @@ public class DefParameter extends Entity<Long> {
     /**
      * 类型;[10-系统参数 20-业务参数]@Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.System.PARAMETER_TYPE)
      */
-    @TableField(value = "param_type", condition = LIKE)
+    @TableField(value = "param_type")
     private String paramType;
 
     @Builder

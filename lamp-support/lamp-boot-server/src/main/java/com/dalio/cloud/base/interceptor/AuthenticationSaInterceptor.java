@@ -9,6 +9,7 @@ import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.spring.pathmatch.SaPathPatternParserUtil;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -117,6 +118,7 @@ public class AuthenticationSaInterceptor extends SaInterceptor {
                         if (StrUtil.equalsAny(requestMethod, method, SaHttpMethod.ALL.name())) {
                             if (StrUtil.equals(uri, path) || SaPathPatternParserUtil.match(uri, path)) {
                                 flag = true;
+                                break;
                             }
                         }
                     }
@@ -150,11 +152,11 @@ public class AuthenticationSaInterceptor extends SaInterceptor {
             return;
         }
         SaSession tokenSession = StpUtil.getTokenSession();
-        Long userId = (Long) tokenSession.getLoginId();
-        Long topCompanyId = (Long) tokenSession.get(JWT_KEY_TOP_COMPANY_ID);
-        Long companyId = (Long) tokenSession.get(JWT_KEY_COMPANY_ID);
-        Long deptId = (Long) tokenSession.get(JWT_KEY_DEPT_ID);
-        Long employeeId = (Long) tokenSession.get(JWT_KEY_EMPLOYEE_ID);
+        Long userId = Convert.toLong(tokenSession.getLoginId(), null);
+        Long topCompanyId = Convert.toLong(tokenSession.get(JWT_KEY_TOP_COMPANY_ID), null);
+        Long companyId = Convert.toLong(tokenSession.get(JWT_KEY_COMPANY_ID), null);
+        Long deptId = Convert.toLong(tokenSession.get(JWT_KEY_DEPT_ID), null);
+        Long employeeId = Convert.toLong(tokenSession.get(JWT_KEY_EMPLOYEE_ID), null);
 
         //6, 转换，将 token 解析出来的用户身份 和 解码后的tenant、Authorization 重新封装到请求头
         ContextUtil.setUserId(userId);
@@ -162,7 +164,11 @@ public class AuthenticationSaInterceptor extends SaInterceptor {
         ContextUtil.setCurrentCompanyId(companyId);
         ContextUtil.setCurrentTopCompanyId(topCompanyId);
         ContextUtil.setCurrentDeptId(deptId);
-        MDC.put(ContextConstants.USER_ID_HEADER, String.valueOf(userId));
-        MDC.put(ContextConstants.EMPLOYEE_ID_HEADER, String.valueOf(employeeId));
+        if (userId != null) {
+            MDC.put(ContextConstants.USER_ID_HEADER, String.valueOf(userId));
+        }
+        if (employeeId != null) {
+            MDC.put(ContextConstants.EMPLOYEE_ID_HEADER, String.valueOf(employeeId));
+        }
     }
 }

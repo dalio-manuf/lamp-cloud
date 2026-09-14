@@ -1,7 +1,5 @@
 package com.dalio.cloud.oauth.facade.impl;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import com.dalio.cloud.model.constant.EchoApi;
@@ -18,11 +16,13 @@ import java.util.Set;
  * @since 2024/9/20 23:29
  */
 @Service(EchoApi.DICTIONARY_ITEM_FEIGN_CLASS)
-@RequiredArgsConstructor
 public class DictFacadeImpl implements DictFacade {
-    @Autowired
-    @Lazy  // 一定要延迟加载，否则lamp-gateway-server无法启动
-    private DictApi dictApi;
+    // 一定要延迟加载，否则lamp-gateway-server无法启动
+    private final DictApi dictApi;
+
+    public DictFacadeImpl(@Lazy DictApi dictApi) {
+        this.dictApi = dictApi;
+    }
 
     @Override
     public Map<Serializable, Object> findByIds(Set<Serializable> ids) {

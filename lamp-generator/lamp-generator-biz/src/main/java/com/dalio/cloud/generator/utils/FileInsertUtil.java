@@ -1,6 +1,5 @@
 package com.dalio.cloud.generator.utils;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
@@ -20,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author admin
@@ -31,7 +31,8 @@ import java.util.regex.Matcher;
 @AllArgsConstructor
 public class FileInsertUtil {
     public static final String SLOT_PAT = "@lamp.generator auto insert ([a-zA-Z0-9._]+)( -->)?";
-    private static final Set<String> ONE_TAB = CollUtil.newHashSet(EchoDictType.class.getSimpleName(), EchoRef.class.getSimpleName(), EchoApi.class.getSimpleName());
+    public static final Pattern SLOT_PATTERN = Pattern.compile(SLOT_PAT);
+    private static final Set<String> ONE_TAB = Set.of(EchoDictType.class.getSimpleName(), EchoRef.class.getSimpleName(), EchoApi.class.getSimpleName());
     /** 要操作的文件的路径 */
     private String filePath;
     private String prefix;
@@ -41,8 +42,7 @@ public class FileInsertUtil {
      * 获取服务器的换行符
      */
     public static String getSeparator() {
-        String separator = System.getProperty("line.separator");
-        return separator == null ? "\r\n" : separator;
+        return System.lineSeparator();
     }
 
     public static String repeatTab(int count) {

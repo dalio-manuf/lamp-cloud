@@ -28,15 +28,15 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 /**
- * 解决跨域问题
+ * 跨域配置与解码器注册
  *
- * @author admin
+ * @author dalio
  * @date 2017-12-29 14:16
  */
 @Configuration
 public class CorsConfiguration {
     private static final String ALL = "*";
-    private static final String MAX_AGE = "18000L";
+    private static final String MAX_AGE = "18000";
 
     @Bean
     public RouteDefinitionLocator discoveryClientRouteDefinitionLocator(ReactiveDiscoveryClient discoveryClient,
@@ -45,8 +45,8 @@ public class CorsConfiguration {
     }
 
     /**
-     * attention:简单跨域就是GET，HEAD和POST请求，但是POST请求的"Content-Type"只能是application/x-www-form-urlencoded, multipart/form-data 或 text/plain
-     * 反之，就是非简单跨域，此跨域有一个预检机制，说直白点，就是会发两次请求，一次OPTIONS请求，一次真正的请求
+     * 网关全局跨域过滤器
+     * 处理浏览器预检请求（OPTIONS）及跨域响应头设置
      */
     @Bean
     @Order(Integer.MIN_VALUE)
@@ -60,14 +60,21 @@ public class CorsConfiguration {
             ServerHttpResponse response = ctx.getResponse();
             HttpMethod requestMethod = requestHeaders.getAccessControlRequestMethod();
             HttpHeaders headers = response.getHeaders();
-            headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, requestHeaders.getOrigin());
-            headers.addAll(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, requestHeaders.getAccessControlRequestHeaders());
-            if (requestMethod != null) {
-                headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, requestMethod.name());
+
+            String origin = requestHeaders.getOrigin();
+            if (origin != null) {
+                headers.set(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, origin);
             }
-            headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
-            headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, ALL);
-            headers.add(HttpHeaders.ACCESS_CONTROL_MAX_AGE, MAX_AGE);
+            List<String> allowHeaders = requestHeaders.getAccessControlRequestHeaders();
+            if (allowHeaders != null && !allowHeaders.isEmpty()) {
+                headers.addAll(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, allowHeaders);
+            }
+            if (requestMethod != null) {
+                headers.set(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, requestMethod.name());
+            }
+            headers.set(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
+            headers.set(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, ALL);
+            headers.set(HttpHeaders.ACCESS_CONTROL_MAX_AGE, MAX_AGE);
             if (request.getMethod() == HttpMethod.OPTIONS) {
                 response.setStatusCode(HttpStatus.OK);
                 return Mono.empty();
@@ -81,11 +88,10 @@ public class CorsConfiguration {
         return new DefaultServerCodecConfigurer();
     }
 
-
     /**
-     * 升级版本后， 不加这个 gateway 使用feign会报错，不知道什么原因
+     * 解决网关整合 Feign 时的表单与响应解码器配置
      *
-     * @return
+     * @return Feign 解码器
      */
     @Bean
     public Decoder feignFormDecoder() {
@@ -94,3 +100,4 @@ public class CorsConfiguration {
         return new ResponseEntityDecoder(new SpringDecoder(factory));
     }
 }
+

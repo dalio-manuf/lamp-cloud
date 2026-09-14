@@ -34,8 +34,8 @@ public class LampLogAspect extends BaseLogAspect {
      * ()中间的.. 任意参数
      *
      */
-    @Pointcut("execution(* com.dalio.cloud.controller..*.*(..))) || execution(* com.dalio.cloud.service..*.*(..))) " +
-              "|| execution(* com.dalio.cloud.biz..*.*(..)))")
+    @Pointcut("execution(* com.dalio.cloud.controller..*.*(..)) || execution(* com.dalio.cloud.service..*.*(..)) " +
+              "|| execution(* com.dalio.cloud.biz..*.*(..))")
     public void lampLogAspect() {
 
     }
@@ -51,7 +51,7 @@ public class LampLogAspect extends BaseLogAspect {
             Object retVal = joinPoint.proceed();
             outResultLog(joinPoint, logTraceId, types, start, retVal, systemProperties.getRecordLampResult());
             return retVal;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.error("<<<< [traceId:{}] {}.{}({}) end... {} ms", logTraceId, joinPoint.getSignature().getDeclaringType(),
                     joinPoint.getSignature().getName(), types, System.currentTimeMillis() - start, e);
             throw e;

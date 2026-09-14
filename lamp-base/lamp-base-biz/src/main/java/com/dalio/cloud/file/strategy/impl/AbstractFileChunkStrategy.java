@@ -201,7 +201,8 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
      */
     private java.io.File[] getChunks(String folder) {
         java.io.File targetFolder = new java.io.File(folder);
-        return targetFolder.listFiles(file -> !file.isDirectory());
+        java.io.File[] files = targetFolder.listFiles(file -> !file.isDirectory());
+        return files != null ? files : new java.io.File[0];
     }
 
 }

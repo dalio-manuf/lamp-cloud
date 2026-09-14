@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(title = "ComponentEnum", description = "生成方式")
+@Schema(title = "ComponentEnum", description = "Web Pro前端组件")
 public enum ComponentEnum {
     /**
      * 输入框
@@ -160,7 +160,7 @@ public enum ComponentEnum {
      * 根据当前枚举的name匹配
      */
     public static ComponentEnum match(String val, ComponentEnum def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        return Stream.of(values()).filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static ComponentEnum get(String val) {
@@ -168,7 +168,7 @@ public enum ComponentEnum {
     }
 
     public boolean eq(ComponentEnum val) {
-        return val != null && val.name().equals(this.name());
+        return this == val;
     }
 
 

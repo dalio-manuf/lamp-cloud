@@ -1,9 +1,13 @@
 package com.dalio.cloud.common.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,11 +17,14 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
+ * Actuator 监控端点安全配置
  *
  * @author admin
  * @since 2025/10/24 20:34
  */
 @Configuration
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+@ConditionalOnClass({SecurityFilterChain.class, HttpSecurity.class})
 public class ActuatorSecurityConfig {
 
     @Value("${management.endpoints.web.security.username:actuator-admin}")
@@ -48,7 +55,7 @@ public class ActuatorSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 // 关闭 CSRF（若 Actuator 仅内部访问，可关闭；外部访问需评估）
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 // 配置请求权限
                 .authorizeHttpRequests(auth -> auth
                         // Actuator 所有端点仅允许 "ACTUATOR_ADMIN" 角色访问
@@ -57,8 +64,7 @@ public class ActuatorSecurityConfig {
                         .anyRequest().permitAll()
                 )
                 // 启用 HTTP Basic 认证（简单场景）；生产环境建议用 OAuth2/JWT 更安全
-                .httpBasic(httpBasic -> {
-                });
+                .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }

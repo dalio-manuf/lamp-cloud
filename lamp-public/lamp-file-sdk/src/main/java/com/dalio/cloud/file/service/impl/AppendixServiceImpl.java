@@ -1,7 +1,7 @@
 package com.dalio.cloud.file.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Multimap;
@@ -64,8 +64,10 @@ public class AppendixServiceImpl extends SuperManagerImpl<AppendixMapper, Append
 
         Multimap<AppendixService.AppendixBizKey, AppendixResultVO> map = listByBizIds(ids, bizTypes);
 
-        Set<String> bizTypeSet = CollUtil.newHashSet();
-        map.forEach((biz, item) -> bizTypeSet.add(biz.getBizType()));
+        Set<String> bizTypeSet = map.keySet().stream()
+                .map(AppendixService.AppendixBizKey::getBizType)
+                .filter(StrUtil::isNotEmpty)
+                .collect(Collectors.toSet());
 
         list.forEach(item -> {
             bizTypeSet.forEach(bizType -> {
@@ -79,7 +81,8 @@ public class AppendixServiceImpl extends SuperManagerImpl<AppendixMapper, Append
     @Transactional(readOnly = true)
     public Multimap<AppendixService.AppendixBizKey, AppendixResultVO> listByBizId(Long bizId, String... bizType) {
         ArgumentAssert.notNull(bizId, "请传入业务id");
-        LbQueryWrap<Appendix> wrap = Wraps.<Appendix>lbQ().eq(Appendix::getBizId, bizId).in(Appendix::getBizType, bizType);
+        LbQueryWrap<Appendix> wrap = Wraps.<Appendix>lbQ().eq(Appendix::getBizId, bizId)
+                .in(ArrayUtil.isNotEmpty(bizType), Appendix::getBizType, (Object[]) bizType);
         List<Appendix> list = list(wrap);
         return CollHelper.iterableToMultiMap(list, item -> AppendixService.AppendixBizKey.builder().bizId(item.getBizId()).bizType(item.getBizType()).build(), item -> BeanPlusUtil.toBean(item, AppendixResultVO.class));
     }
@@ -88,7 +91,8 @@ public class AppendixServiceImpl extends SuperManagerImpl<AppendixMapper, Append
     @Transactional(readOnly = true)
     public Multimap<AppendixService.AppendixBizKey, AppendixResultVO> listByBizIds(List<Long> bizIds, String... bizType) {
         ArgumentAssert.notEmpty(bizIds, "请传入业务id");
-        LbQueryWrap<Appendix> wrap = Wraps.<Appendix>lbQ().in(Appendix::getBizId, bizIds).in(Appendix::getBizType, bizType);
+        LbQueryWrap<Appendix> wrap = Wraps.<Appendix>lbQ().in(Appendix::getBizId, bizIds)
+                .in(ArrayUtil.isNotEmpty(bizType), Appendix::getBizType, (Object[]) bizType);
         List<Appendix> list = list(wrap);
         return CollHelper.iterableToMultiMap(list, item -> AppendixService.AppendixBizKey.builder().bizId(item.getBizId()).bizType(item.getBizType()).build(), item -> BeanPlusUtil.toBean(item, AppendixResultVO.class));
     }
@@ -99,7 +103,7 @@ public class AppendixServiceImpl extends SuperManagerImpl<AppendixMapper, Append
         ArgumentAssert.notNull(bizId, "请传入业务id");
         LbQueryWrap<Appendix> wrap = Wraps.<Appendix>lbQ().eq(Appendix::getBizId, bizId).eq(Appendix::getBizType, bizType);
         List<Appendix> list = baseMapper.selectList(wrap);
-        return list.stream().map(item -> BeanUtil.toBean(item, AppendixResultVO.class)).toList();
+        return list.stream().map(item -> BeanPlusUtil.toBean(item, AppendixResultVO.class)).toList();
     }
 
     @Override
@@ -143,6 +147,9 @@ public class AppendixServiceImpl extends SuperManagerImpl<AppendixMapper, Append
                             return dix;
                         }))).toList();
 
+        if (CollUtil.isEmpty(allList)) {
+            return true;
+        }
         return saveBatch(allList);
     }
 

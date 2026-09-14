@@ -31,6 +31,9 @@ public class FreeMarkerUtil {
     private static final Configuration FREEMARKER_CFG;
     private static final StringTemplateLoader SL;
 
+    private FreeMarkerUtil() {
+    }
+
     static {
         FREEMARKER_CFG = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         SL = new StringTemplateLoader();
@@ -73,9 +76,16 @@ public class FreeMarkerUtil {
 
     @SneakyThrows
     public static String generateString(String strTemplate, Map<String, Object> parameters) {
+        if (strTemplate == null) {
+            return null;
+        }
         String templateName = DigestUtil.md5Hex(strTemplate);
         if (SL.findTemplateSource(templateName) == null) {
-            SL.putTemplate(templateName, strTemplate);
+            synchronized (SL) {
+                if (SL.findTemplateSource(templateName) == null) {
+                    SL.putTemplate(templateName, strTemplate);
+                }
+            }
         }
 
         StringWriter writer = new StringWriter();

@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.dalio.basic.interfaces.BaseEnum;
 
-import java.util.stream.Stream;
-
 /**
  * 激活状态
  *
@@ -34,7 +32,12 @@ public enum ActiveStatusEnum implements BaseEnum {
     private String desc;
 
     public static ActiveStatusEnum match(String val, ActiveStatusEnum def) {
-        return Stream.of(values()).parallel().filter((item) -> item.getCode().equalsIgnoreCase(val)).findAny().orElse(def);
+        for (ActiveStatusEnum item : values()) {
+            if (item.getCode().equalsIgnoreCase(val)) {
+                return item;
+            }
+        }
+        return def;
     }
 
     public static ActiveStatusEnum get(String val) {
@@ -42,11 +45,11 @@ public enum ActiveStatusEnum implements BaseEnum {
     }
 
     public boolean eq(ActiveStatusEnum val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override
-    @Schema(description = "编码", allowableValues = "MONTH,WEEK,DAY,NUL", example = "NUL")
+    @Schema(description = "编码", allowableValues = "10,20", example = "10")
     public String getCode() {
         return code;
     }

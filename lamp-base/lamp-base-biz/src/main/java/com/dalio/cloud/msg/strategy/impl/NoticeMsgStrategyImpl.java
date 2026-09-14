@@ -67,6 +67,6 @@ public class NoticeMsgStrategyImpl implements MsgStrategy {
 
     @Override
     public boolean isSuccess(MsgResult result) {
-        return (boolean) result.getResult();
+        return result != null && Boolean.TRUE.equals(result.getResult());
     }
 }

@@ -84,7 +84,7 @@ public class DefGenTableController
     @Operation(summary = "同步表的字段", description = "同步表的字段,新增或删除，不修改原来就存在的字段")
     @PostMapping("/syncField")
     @WebLog(value = "同步表的字段")
-    public R<Boolean> syncField(@RequestParam Long id) {
+    public R<Boolean> syncField(@RequestParam("id") Long id) {
         superService.syncField(id);
         return R.success(true);
     }
@@ -99,7 +99,7 @@ public class DefGenTableController
     @Operation(summary = "预览", description = "预览")
     @PostMapping("/previewCode")
     @WebLog(value = "预览")
-    public R<Map<String, String>> previewCode(@RequestParam Long id, @RequestParam TemplateEnum template) {
+    public R<Map<String, String>> previewCode(@RequestParam("id") Long id, @RequestParam("template") TemplateEnum template) {
         return R.success(superService.previewCode(id, template));
     }
 
@@ -114,9 +114,11 @@ public class DefGenTableController
     @Operation(summary = "批量下载代码", description = "批量下载代码")
     @GetMapping(value = "/downloadZip", produces = "application/octet-stream")
     @WebLog(value = "批量下载代码")
-    public void downloadZip(HttpServletResponse response, @RequestParam List<Long> ids, @RequestParam TemplateEnum template) {
+    public void downloadZip(HttpServletResponse response, @RequestParam("ids") List<Long> ids, @RequestParam("template") TemplateEnum template) {
         DownloadVO download = superService.downloadZip(ids, template);
-        write(download.getData(), download.getFileName(), response);
+        if (download != null && download.getData() != null) {
+            write(download.getData(), download.getFileName(), response);
+        }
     }
 
 
@@ -130,7 +132,7 @@ public class DefGenTableController
     @Operation(summary = "获取字段模板映射", description = "获取字段模板映射")
     @GetMapping("/getFieldTemplate")
     @WebLog(value = "获取字段模板映射")
-    public R<Map<String, String>> getFieldTemplate(TemplateEnum template) {
+    public R<Map<String, String>> getFieldTemplate(@RequestParam("template") TemplateEnum template) {
         return R.success(superService.getFieldTemplate(template));
     }
 

@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.dalio.basic.interfaces.BaseEnum;
 
-import java.util.stream.Stream;
 
 /**
  * HTTP方法枚举
@@ -59,7 +58,12 @@ public enum HttpMethod implements BaseEnum {
     private String extra;
 
     public static HttpMethod match(String val, HttpMethod def) {
-        return Stream.of(values()).parallel().filter((item) -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        for (HttpMethod item : values()) {
+            if (item.name().equalsIgnoreCase(val)) {
+                return item;
+            }
+        }
+        return def;
     }
 
     public static HttpMethod get(String val) {
@@ -67,7 +71,7 @@ public enum HttpMethod implements BaseEnum {
     }
 
     public boolean eq(HttpMethod val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.dalio.cloud.model.enumeration.system;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import com.dalio.basic.interfaces.BaseEnum;
 
 /**
@@ -14,7 +13,6 @@ import com.dalio.basic.interfaces.BaseEnum;
  */
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
 @Schema(title = "ResourceTypeEnum", description = "资源类型-枚举")
 public enum ResourceTypeEnum implements BaseEnum {
     /**
@@ -42,20 +40,33 @@ public enum ResourceTypeEnum implements BaseEnum {
     /**
      * 资源类型
      */
-    private String code;
+    private final String code;
 
     /**
      * 资源描述
      */
-    private String desc;
+    private final String desc;
+
+    public static ResourceTypeEnum match(String val, ResourceTypeEnum def) {
+        for (ResourceTypeEnum item : values()) {
+            if (item.name().equalsIgnoreCase(val) || item.code.equalsIgnoreCase(val)) {
+                return item;
+            }
+        }
+        return def;
+    }
+
+    public static ResourceTypeEnum get(String val) {
+        return match(val, null);
+    }
+
+    public boolean eq(ResourceTypeEnum val) {
+        return this == val;
+    }
 
     @Override
     public String getDesc() {
         return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
     }
 
     @Override

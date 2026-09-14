@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import com.dalio.basic.interfaces.BaseEnum;
 
-import java.util.stream.Stream;
-
 /**
  * <p>
  * 实体注释中生成的类型枚举
@@ -50,7 +48,15 @@ public enum DataScopeEnum implements BaseEnum {
 
 
     public static DataScopeEnum match(String val, DataScopeEnum def) {
-        return Stream.of(values()).parallel().filter((item) -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        if (val == null) {
+            return def;
+        }
+        for (DataScopeEnum item : values()) {
+            if (item.name().equalsIgnoreCase(val) || item.val.equalsIgnoreCase(val)) {
+                return item;
+            }
+        }
+        return def;
     }
 
     public static DataScopeEnum get(String val) {
@@ -58,7 +64,7 @@ public enum DataScopeEnum implements BaseEnum {
     }
 
     public boolean eq(final DataScopeEnum val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

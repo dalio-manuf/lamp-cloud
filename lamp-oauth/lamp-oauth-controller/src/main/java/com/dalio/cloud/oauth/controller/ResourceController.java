@@ -3,7 +3,7 @@ package com.dalio.cloud.oauth.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +35,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Tag(name = "资源-菜单-应用")
 public class ResourceController {
     private final IgnoreProperties ignoreProperties;
@@ -61,7 +61,7 @@ public class ResourceController {
                                         @RequestParam(value = "subGroup", required = false) String subGroup
     ) {
         if (employeeId == null || employeeId <= 0) {
-            employeeId = sysUser.getEmployeeId();
+            employeeId = sysUser != null ? sysUser.getEmployeeId() : ContextUtil.getEmployeeId();
         }
         return R.success(VisibleResourceVO.builder()
                 .enabled(ignoreProperties.getAuthEnabled())

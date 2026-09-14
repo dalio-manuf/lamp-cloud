@@ -75,7 +75,7 @@ public class MsgEndpoint {
                 session.close();
             }
         } catch (IOException e) {
-            throw new RuntimeException("close web socket session error.", e);
+            log.error("关闭 WebSocket session 异常: sessionId={}", session.getId(), e);
         }
     }
 
@@ -91,38 +91,40 @@ public class MsgEndpoint {
         }
         log.info("employeeId={}, text={}", principal, text);
         ContextUtil.setEmployeeId(principal);
+        try {
+            PageParams<ExtendNotice> params = new PageParams<>(1, 10);
+            ExtendNoticeService superService = SpringUtils.getBean(ExtendNoticeService.class);
 
-        PageParams<ExtendNotice> params = new PageParams<>(1, 10);
-        ExtendNoticeService superService = SpringUtils.getBean(ExtendNoticeService.class);
+            IPage<ExtendNotice> todoList = params.buildPage(ExtendNotice.class);
+            IPage<ExtendNotice> noticeList = params.buildPage(ExtendNotice.class);
+            IPage<ExtendNotice> earlyWarningList = params.buildPage(ExtendNotice.class);
+            superService.page(todoList, Wraps.<ExtendNotice>lbQ()
+                    .eq(ExtendNotice::getRemindMode, NoticeRemindModeEnum.TO_DO.getValue())
+                    .eq(ExtendNotice::getIsRead, false).eq(ExtendNotice::getRecipientId, ContextUtil.getEmployeeId()));
+            superService.page(noticeList, Wraps.<ExtendNotice>lbQ()
+                    .eq(ExtendNotice::getRemindMode, NoticeRemindModeEnum.NOTICE.getValue())
+                    .eq(ExtendNotice::getIsRead, false).eq(ExtendNotice::getRecipientId, ContextUtil.getEmployeeId()));
+            superService.page(earlyWarningList, Wraps.<ExtendNotice>lbQ()
+                    .eq(ExtendNotice::getRemindMode, NoticeRemindModeEnum.EARLY_WARNING.getValue())
+                    .eq(ExtendNotice::getIsRead, false).eq(ExtendNotice::getRecipientId, ContextUtil.getEmployeeId()));
 
-        IPage<ExtendNotice> todoList = params.buildPage(ExtendNotice.class);
-        IPage<ExtendNotice> noticeList = params.buildPage(ExtendNotice.class);
-        IPage<ExtendNotice> earlyWarningList = params.buildPage(ExtendNotice.class);
-        superService.page(todoList, Wraps.<ExtendNotice>lbQ()
-                .eq(ExtendNotice::getRemindMode, NoticeRemindModeEnum.TO_DO.getValue()).
-                eq(ExtendNotice::getIsRead, false).eq(ExtendNotice::getRecipientId, ContextUtil.getEmployeeId()));
-        superService.page(noticeList, Wraps.<ExtendNotice>lbQ()
-                .eq(ExtendNotice::getRemindMode, NoticeRemindModeEnum.NOTICE.getValue()).
-                eq(ExtendNotice::getIsRead, false).eq(ExtendNotice::getRecipientId, ContextUtil.getEmployeeId()));
-        superService.page(earlyWarningList, Wraps.<ExtendNotice>lbQ()
-                .eq(ExtendNotice::getRemindMode, NoticeRemindModeEnum.EARLY_WARNING.getValue()).
-                eq(ExtendNotice::getIsRead, false).eq(ExtendNotice::getRecipientId, ContextUtil.getEmployeeId()));
+            MyMsgResult result = MyMsgResult.builder()
+                    .todoList(BeanPlusUtil.toBeanPage(todoList, ExtendNoticeResultVO.class))
+                    .noticeList(BeanPlusUtil.toBeanPage(noticeList, ExtendNoticeResultVO.class))
+                    .earlyWarningList(BeanPlusUtil.toBeanPage(earlyWarningList, ExtendNoticeResultVO.class))
+                    .build();
 
-        MyMsgResult result = MyMsgResult.builder()
-                .todoList(BeanPlusUtil.toBeanPage(todoList, ExtendNoticeResultVO.class))
-                .noticeList(BeanPlusUtil.toBeanPage(noticeList, ExtendNoticeResultVO.class))
-                .earlyWarningList(BeanPlusUtil.toBeanPage(earlyWarningList, ExtendNoticeResultVO.class))
-                .build();
-
-        Map<String, Object> map = MapUtil.newHashMap();
-        map.put("type", "2");
-        map.put("data", result);
-        return JsonUtil.toJson(map);
+            Map<String, Object> map = MapUtil.newHashMap();
+            map.put("type", "2");
+            map.put("data", result);
+            return JsonUtil.toJson(map);
+        } finally {
+            ContextUtil.remove();
+        }
     }
 
     @OnError
     public void onError(Session session, Throwable error) {
-        log.info("连接error");
-        throw new RuntimeException("web socket error.", error);
+        log.error("WebSocket 连接异常: sessionId={}", session != null ? session.getId() : null, error);
     }
 }

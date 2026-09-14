@@ -87,7 +87,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         } else if (MsgTemplateCodeEnum.MOBILE_LOGIN.eq(templateCode)) {
             //查user表判断是否存在
             boolean flag = defUserService.checkMobile(mobile, null);
-            ArgumentAssert.isTrue(flag, "该手机号尚未注册，请先注册后在登陆。");
+            ArgumentAssert.isTrue(flag, "该手机号尚未注册，请先注册后再登录。");
         } else if (MsgTemplateCodeEnum.MOBILE_EDIT.eq(templateCode)) {
             //查user表判断是否存在
             boolean flag = defUserService.checkMobile(mobile, null);
@@ -111,7 +111,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         msgSendVO.addParam("code", code);
         msgSendVO.addRecipient(mobile);
         msgFacade.sendByTemplate(msgSendVO);
-        return R.success();
+        return R.success(true);
     }
 
     @Override
@@ -135,7 +135,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         ArgumentAssert.notNull(user, "用户名不存在");
         ArgumentAssert.equals(user.getMobile(), mobile, "用户名或手机号错误");
 
-        String templateCode = MsgTemplateCodeEnum.FORGET_PASSWORD.name();
+        String templateCode = MsgTemplateCodeEnum.FORGET_PASSWORD.getCode();
 
         return sendMobileByCode(RandomUtil.randomNumbers(4), mobile, templateCode, "短信验证码 cacheKey={}, code={}");
     }
@@ -147,7 +147,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         }
         CacheKey cacheKey = CaptchaCacheKeyBuilder.build(key, templateCode);
         CacheResult<String> code = cacheOps.get(cacheKey);
-        if (StrUtil.isEmpty(code.getValue())) {
+        if (code == null || StrUtil.isEmpty(code.getValue())) {
             return R.fail(CAPTCHA_ERROR.build("验证码已过期"));
         }
         if (!StrUtil.equalsIgnoreCase(value, code.getValue())) {

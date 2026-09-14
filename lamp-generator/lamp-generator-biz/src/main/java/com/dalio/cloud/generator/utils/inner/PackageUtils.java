@@ -370,7 +370,7 @@ public class PackageUtils {
     }
 
     private static void importValid(Set<String> saveVoImportPackages, Set<String> updateVoImportPackages, DefGenTableColumn field) {
-        if (field.getIsPk() || field.getIsRequired()) {
+        if (Boolean.TRUE.equals(field.getIsPk()) || Boolean.TRUE.equals(field.getIsRequired())) {
             if ("String".equals(field.getJavaType())) {
                 saveVoImportPackages.add(NotEmpty.class.getCanonicalName());
                 updateVoImportPackages.add(NotEmpty.class.getCanonicalName());
@@ -386,9 +386,9 @@ public class PackageUtils {
     }
 
     private static void importEntity(Set<String> entityImportPackages, EntityConfig entityConfig, DefGenTableColumn field) {
-        if (field.getIsPk()) {
+        if (Boolean.TRUE.equals(field.getIsPk())) {
             entityImportPackages.add(TableId.class.getCanonicalName());
-            if (field.getIsIncrement() || entityConfig.getIdType() != null) {
+            if (Boolean.TRUE.equals(field.getIsIncrement()) || entityConfig.getIdType() != null) {
                 entityImportPackages.add(IdType.class.getCanonicalName());
             }
         } else {
@@ -398,10 +398,10 @@ public class PackageUtils {
                 entityImportPackages.add(FieldFill.class.getCanonicalName());
             }
         }
-        if (field.getIsVersionField()) {
+        if (Boolean.TRUE.equals(field.getIsVersionField())) {
             entityImportPackages.add(Version.class.getCanonicalName());
         }
-        if (field.getIsLogicDeleteField()) {
+        if (Boolean.TRUE.equals(field.getIsLogicDeleteField())) {
             entityImportPackages.add(TableLogic.class.getCanonicalName());
         }
         if (field.getQueryType() != null) {
@@ -490,14 +490,14 @@ public class PackageUtils {
 
     private static void importVO(DefGenTable genTable, Set<String> saveVoImportPackages, Set<String> updateVoImportPackages, Set<String> resultVoImportPackages, Set<String> pageQueryImportPackages, Set<String> entityImportPackages) {
         // VO-实体 公共部分导包
-        if (genTable.getIsLombok()) {
+        if (Boolean.TRUE.equals(genTable.getIsLombok())) {
             entityImportPackages.add(Data.class.getCanonicalName());
             entityImportPackages.add(NoArgsConstructor.class.getCanonicalName());
             entityImportPackages.add(AllArgsConstructor.class.getCanonicalName());
             entityImportPackages.add(ToString.class.getCanonicalName());
             entityImportPackages.add(EqualsAndHashCode.class.getCanonicalName());
             entityImportPackages.add(Builder.class.getCanonicalName());
-            if (genTable.getIsChain()) {
+            if (Boolean.TRUE.equals(genTable.getIsChain())) {
                 entityImportPackages.add(Accessors.class.getCanonicalName());
             }
         }
@@ -526,7 +526,7 @@ public class PackageUtils {
     }
 
     private static void importMainSub(DefGenTable genTable, Map<String, Object> objectMap, Set<String> saveVoImportPackages, Set<String> updateVoImportPackages, Set<String> serviceImplImportPackages) {
-        if (TplEnum.MAIN_SUB.eq(genTable.getTplType())) {
+        if (TplEnum.MAIN_SUB == genTable.getTplType()) {
             Map<String, Object> subMap = (Map<String, Object>) objectMap.get("sub");
 
             saveVoImportPackages.add(List.class.getCanonicalName());
@@ -552,7 +552,7 @@ public class PackageUtils {
     }
 
     private static void importTreeEntity(DefGenTable genTable, Set<String> serviceImportPackages, Set<String> serviceImplImportPackages, Set<String> controllerImportPackages) {
-        if (EntitySuperClassEnum.TREE_ENTITY.eq(genTable.getEntitySuperClass())) {
+        if (EntitySuperClassEnum.TREE_ENTITY == genTable.getEntitySuperClass()) {
             serviceImplImportPackages.add(TreeUtil.class.getCanonicalName());
             serviceImplImportPackages.add(List.class.getCanonicalName());
             serviceImplImportPackages.add(Wraps.class.getCanonicalName());
@@ -569,7 +569,7 @@ public class PackageUtils {
     }
 
     private static void importServiceImpl(DefGenTable genTable, Set<String> serviceImplImportPackages) {
-        if (genTable.getIsLombok()) {
+        if (Boolean.TRUE.equals(genTable.getIsLombok())) {
             serviceImplImportPackages.add(Slf4j.class.getCanonicalName());
             serviceImplImportPackages.add(RequiredArgsConstructor.class.getCanonicalName());
         }
@@ -578,18 +578,18 @@ public class PackageUtils {
     }
 
     private static void importManagerImpl(DefGenTable genTable, Set<String> managerImplImportPackages) {
-        if (genTable.getIsLombok()) {
+        if (Boolean.TRUE.equals(genTable.getIsLombok())) {
             managerImplImportPackages.add(Slf4j.class.getCanonicalName());
             managerImplImportPackages.add(RequiredArgsConstructor.class.getCanonicalName());
         }
         managerImplImportPackages.add(Service.class.getCanonicalName());
-        if (genTable.getSuperClass() != null && SuperClassEnum.SUPER_CACHE_CLASS.eq(genTable.getSuperClass().getCode())) {
+        if (genTable.getSuperClass() != null && SuperClassEnum.SUPER_CACHE_CLASS == genTable.getSuperClass()) {
             managerImplImportPackages.add(CacheKeyBuilder.class.getCanonicalName());
         }
     }
 
     private static void importController(DefGenTable genTable, Set<String> controllerImportPackages) {
-        if (genTable.getIsLombok()) {
+        if (Boolean.TRUE.equals(genTable.getIsLombok())) {
             controllerImportPackages.add(Slf4j.class.getCanonicalName());
             controllerImportPackages.add(RequiredArgsConstructor.class.getCanonicalName());
         } else {

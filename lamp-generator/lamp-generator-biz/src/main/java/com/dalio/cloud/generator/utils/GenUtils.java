@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import com.dalio.basic.exception.BizException;
 import com.dalio.basic.utils.StrHelper;
 import com.dalio.basic.utils.StrPool;
 import com.dalio.cloud.generator.config.EntityConfig;
@@ -77,8 +78,8 @@ public class GenUtils {
         genTable.setEntitySuperClass(entityConfig.getEntitySuperClass());
         genTable.setSuperClass(generatorConfig.getSuperClass());
 
-        genTable.setIsTenantLine(mapperConfig.getColumnAnnotationTablePrefix().stream().anyMatch(tablePrefix -> tableMeta.getTableName().startsWith(tablePrefix)));
-        genTable.setIsDs(serviceConfig.getDsTablePrefix().stream().anyMatch(tablePrefix -> tableMeta.getTableName().startsWith(tablePrefix)));
+        genTable.setIsTenantLine(CollUtil.emptyIfNull(mapperConfig.getColumnAnnotationTablePrefix()).stream().anyMatch(tablePrefix -> tableMeta.getTableName().startsWith(tablePrefix)));
+        genTable.setIsDs(CollUtil.emptyIfNull(serviceConfig.getDsTablePrefix()).stream().anyMatch(tablePrefix -> tableMeta.getTableName().startsWith(tablePrefix)));
         genTable.setDsValue(StrPool.EMPTY);
 
         genTable.setIsLombok(entityConfig.getLombok());
@@ -137,7 +138,7 @@ public class GenUtils {
             propertyName = NamingStrategy.removeSuffix(propertyName, suffix);
         }
         if (StringUtils.isBlank(propertyName)) {
-            throw new RuntimeException(String.format("%s 的名称转换结果为空，请检查是否配置问题", name));
+            throw BizException.wrap("{} 的名称转换结果为空，请检查是否配置问题", name);
         }
         // 下划线转驼峰
         if (NamingStrategy.underline_to_camel.equals(strategy)) {
@@ -255,15 +256,15 @@ public class GenUtils {
         }
 
         // 编辑字段
-        if (!ArrayUtil.contains(GenConstants.NOT_EDIT, name) && !column.isPk() && !tableColumn.getIsLogicDeleteField()) {
+        if (!ArrayUtil.contains(GenConstants.NOT_EDIT, name) && !column.isPk() && !Boolean.TRUE.equals(tableColumn.getIsLogicDeleteField())) {
             tableColumn.setIsEdit(true);
         }
         // 列表字段
-        if (!ArrayUtil.contains(GenConstants.NOT_LIST, name) && !column.isPk() && !tableColumn.getIsLogicDeleteField()) {
+        if (!ArrayUtil.contains(GenConstants.NOT_LIST, name) && !column.isPk() && !Boolean.TRUE.equals(tableColumn.getIsLogicDeleteField())) {
             tableColumn.setIsList(true);
         }
         // 查询字段
-        if (!ArrayUtil.contains(GenConstants.NOT_QUERY, name) && !column.isPk() && !tableColumn.getIsLogicDeleteField()) {
+        if (!ArrayUtil.contains(GenConstants.NOT_QUERY, name) && !column.isPk() && !Boolean.TRUE.equals(tableColumn.getIsLogicDeleteField())) {
             tableColumn.setIsQuery(true);
         }
 

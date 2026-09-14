@@ -57,7 +57,9 @@ public class DefGenProjectController implements DownloadController<Long, DefGenT
         return R.success(defGenTableService.getDef());
     }
 
+    @Operation(summary = "获取系统属性", description = "获取系统属性")
     @PostMapping("/anno/getProperties")
+    @WebLog(value = "获取系统属性")
     public R<Object> getProperties() {
         return R.success(System.getProperties());
     }
@@ -69,7 +71,9 @@ public class DefGenProjectController implements DownloadController<Long, DefGenT
     public void download(ProjectGeneratorVO projectGenerator, HttpServletResponse response) {
         ValidatorUtils.validateFast(projectGenerator);
         DownloadVO download = defGenTableService.download(projectGenerator);
-        write(download.getData(), download.getFileName(), response);
+        if (download != null && download.getData() != null) {
+            write(download.getData(), download.getFileName(), response);
+        }
     }
 
     @Operation(summary = "生成项目", description = "生成项目")

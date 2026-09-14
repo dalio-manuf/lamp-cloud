@@ -6,8 +6,8 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import com.dalio.basic.base.R;
@@ -31,9 +31,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * @author admin
@@ -41,13 +38,11 @@ import static java.util.stream.Collectors.toList;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class FileContext {
-    @Autowired
-    private Map<String, FileStrategy> contextStrategyMap;
-    @Autowired
-    private FileServerProperties fileServerProperties;
-    @Autowired
-    private FileMapper fileMapper;
+    private final Map<String, FileStrategy> contextStrategyMap;
+    private final FileServerProperties fileServerProperties;
+    private final FileMapper fileMapper;
 
     private static Predicate<File> getFilePredicate() {
         return file -> file != null && StrUtil.isNotEmpty(file.getUrl());
@@ -121,26 +116,22 @@ public class FileContext {
         if (CollUtil.isEmpty(pathFiles)) {
             return Collections.emptyMap();
         }
-        Map<String, List<File>> pathMap = pathFiles.stream().collect(Collectors.groupingBy(File::getPath, LinkedHashMap::new, toList()));
-
-        Map<String, String> map = new LinkedHashMap<>(CollHelper.initialCapacity(pathMap.size()));
-        pathMap.forEach((path, files) -> {
-            if (CollUtil.isEmpty(files)) {
-                return;
+        Map<String, String> map = new LinkedHashMap<>(CollHelper.initialCapacity(pathFiles.size()));
+        for (File fileFile : pathFiles) {
+            if (fileFile == null || map.containsKey(fileFile.getPath())) {
+                continue;
             }
-            File fileFile = files.get(0);
-
             if (FileStorageType.LOCAL.eq(fileFile.getStorageType())) {
-                map.put(path, fileFile.getUrl());
+                map.put(fileFile.getPath(), fileFile.getUrl());
             } else {
                 FileStrategy fileStrategy = getFileStrategy(fileFile.getStorageType());
-                map.put(path, fileStrategy.getUrl(FileGetUrlBO.builder()
+                map.put(fileFile.getPath(), fileStrategy.getUrl(FileGetUrlBO.builder()
                         .bucket(fileFile.getBucket())
                         .path(fileFile.getPath())
                         .originalFileName(fileFile.getOriginalFileName())
                         .build()));
             }
-        });
+        }
         return map;
     }
 
@@ -149,23 +140,18 @@ public class FileContext {
             return Collections.emptyMap();
         }
         List<File> pathFiles = fileMapper.selectList(Wraps.<File>lbQ().in(File::getId, ids));
-
-        Map<Long, List<File>> pathMap = pathFiles.stream().collect(Collectors.groupingBy(File::getId, LinkedHashMap::new, toList()));
-
-        Map<Long, String> map = new LinkedHashMap<>(CollHelper.initialCapacity(pathMap.size()));
-        pathMap.forEach((id, files) -> {
-            if (CollUtil.isEmpty(files)) {
-                return;
+        Map<Long, String> map = new LinkedHashMap<>(CollHelper.initialCapacity(pathFiles.size()));
+        for (File fileFile : pathFiles) {
+            if (fileFile == null) {
+                continue;
             }
-            File fileFile = files.get(0);
-
             FileStrategy fileStrategy = getFileStrategy(fileFile.getStorageType());
-            map.put(id, fileStrategy.getUrl(FileGetUrlBO.builder()
+            map.put(fileFile.getId(), fileStrategy.getUrl(FileGetUrlBO.builder()
                     .bucket(fileFile.getBucket())
                     .path(fileFile.getPath())
                     .originalFileName(fileFile.getOriginalFileName())
                     .build()));
-        });
+        }
         return map;
     }
 
@@ -218,12 +204,8 @@ public class FileContext {
                 .forEach(file -> {
                     String originalFileName = file.getOriginalFileName();
                     if (map.containsKey(originalFileName)) {
-                        if (duplicateFile.containsKey(originalFileName)) {
-                            duplicateFile.put(originalFileName, duplicateFile.get(originalFileName) + 1);
-                        } else {
-                            duplicateFile.put(originalFileName, 1);
-                        }
-                        originalFileName = buildNewFileName(originalFileName, duplicateFile.get(originalFileName));
+                        int count = duplicateFile.merge(originalFileName, 1, Integer::sum);
+                        originalFileName = buildNewFileName(originalFileName, count);
                     }
                     map.put(originalFileName, file.getUrl());
                 });

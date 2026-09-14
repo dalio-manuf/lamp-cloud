@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "生成方式")
+@Schema(title = "SoyComponentEnum", description = "Soybean前端组件")
 public enum SoyComponentEnum implements BaseEnum {
     /**
      * 输入框
@@ -72,7 +72,7 @@ public enum SoyComponentEnum implements BaseEnum {
      * 根据当前枚举的name匹配
      */
     public static SoyComponentEnum match(String val, SoyComponentEnum def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        return Stream.of(values()).filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static SoyComponentEnum get(String val) {
@@ -80,7 +80,7 @@ public enum SoyComponentEnum implements BaseEnum {
     }
 
     public boolean eq(SoyComponentEnum val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

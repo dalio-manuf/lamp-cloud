@@ -1,11 +1,8 @@
 package com.dalio.cloud.msg.biz;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import com.dalio.basic.exception.BizException;
 import com.dalio.basic.utils.ArgumentAssert;
 import com.dalio.cloud.model.entity.system.SysUser;
 import com.dalio.cloud.msg.entity.DefInterface;
@@ -24,8 +21,6 @@ import com.dalio.cloud.msg.vo.update.ExtendMsgSendVO;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-
-import static com.dalio.basic.exception.code.ExceptionCode.BASE_VALID_PARAM;
 
 /**
  * 消息业务层，
@@ -93,10 +88,7 @@ public class MsgBiz {
     private DefMsgTemplate validAndInit(ExtendMsgSendVO msgSaveVO) {
         ArgumentAssert.notEmpty(msgSaveVO.getCode(), "请选择消息模板");
 
-        DefMsgTemplate msgTemplate = null;
-        if (StrUtil.isNotEmpty(msgSaveVO.getCode())) {
-            msgTemplate = extendMsgTemplateService.getByCode(msgSaveVO.getCode());
-        }
+        DefMsgTemplate msgTemplate = extendMsgTemplateService.getByCode(msgSaveVO.getCode());
         ArgumentAssert.notNull(msgTemplate, "请选择正确的消息模板");
 
         //1，验证必要参数
@@ -106,10 +98,6 @@ public class MsgBiz {
         if (msgSaveVO.getSendTime() != null) {
             boolean flag = LocalDateTime.now().plusMinutes(4).isBefore(msgSaveVO.getSendTime());
             ArgumentAssert.isTrue(flag, "定时发送时间至少在当前时间的5分钟之后");
-        }
-
-        if (CollUtil.isEmpty(msgSaveVO.getRecipientList())) {
-            throw new BizException(BASE_VALID_PARAM.getCode(), "接收人不能为空");
         }
 
         return msgTemplate;
@@ -135,14 +123,6 @@ public class MsgBiz {
         if (data.getSendTime() != null) {
             boolean flag = LocalDateTime.now().plusMinutes(4).isBefore(data.getSendTime());
             ArgumentAssert.isTrue(flag, "定时发送时间至少在当前时间的5分钟之后");
-        }
-
-        if (CollUtil.isEmpty(data.getRecipientList())) {
-            throw new BizException(BASE_VALID_PARAM.getCode(), "接收人不能为空");
-        }
-
-        if (data.getContent().length() > 2147483647) {
-            throw new BizException(BASE_VALID_PARAM.getCode(), "发送内容不能超过2147483647字");
         }
 
         return extendMsgService.publish(data, sysUser);

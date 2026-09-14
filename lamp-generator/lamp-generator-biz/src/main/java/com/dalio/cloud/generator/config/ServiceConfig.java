@@ -36,6 +36,6 @@ public class ServiceConfig {
     /**
      * serviceImpl 类上是否添加切换数据源注解 @DS
      */
-    private Set<String> dsTablePrefix = new HashSet();
+    private Set<String> dsTablePrefix = new HashSet<>();
 
 }

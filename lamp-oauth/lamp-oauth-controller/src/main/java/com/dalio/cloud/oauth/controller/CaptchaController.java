@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.dalio.basic.annotation.response.IgnoreResponseBodyAdvice;
 import com.dalio.basic.base.R;
-import com.dalio.basic.exception.BizException;
 import com.dalio.cloud.oauth.granter.CaptchaTokenGranter;
 import com.dalio.cloud.oauth.service.CaptchaService;
 
@@ -34,7 +33,7 @@ import static com.dalio.cloud.common.constant.SwaggerConstants.DATA_TYPE_STRING;
 @Slf4j
 @RestController
 @RequestMapping("/anyTenant")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Tag(name = "验证码")
 public class CaptchaController {
 
@@ -50,7 +49,7 @@ public class CaptchaController {
     @GetMapping(value = "/checkCaptcha")
     public R<Boolean> checkCaptcha(@RequestParam(value = "key") String key, @RequestParam(value = "code") String code,
                                    @RequestParam(value = "templateCode", required = false, defaultValue = CaptchaTokenGranter.GRANT_TYPE)
-                                   String templateCode) throws BizException {
+                                   String templateCode) {
         return this.captchaService.checkCaptcha(key, templateCode, code);
     }
 
@@ -90,7 +89,7 @@ public class CaptchaController {
 
     @Operation(summary = "发送短信验证码-忘记密码", description = "发送短信验证码-忘记密码")
     @Parameters({
-            @Parameter(name = "phone", description = "手机号", schema = @Schema(type = DATA_TYPE_STRING), in = ParameterIn.QUERY),
+            @Parameter(name = "mobile", description = "手机号", schema = @Schema(type = DATA_TYPE_STRING), in = ParameterIn.QUERY),
             @Parameter(name = "username", description = "用户名", schema = @Schema(type = DATA_TYPE_STRING), in = ParameterIn.QUERY),
     })
     @GetMapping(value = "/sendCodeByForgetPassword")

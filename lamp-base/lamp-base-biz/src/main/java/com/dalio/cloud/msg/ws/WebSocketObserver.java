@@ -1,8 +1,10 @@
 package com.dalio.cloud.msg.ws;
 
 import jakarta.websocket.Session;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -12,6 +14,7 @@ import java.util.Observer;
  * @author admin
  * @date 2021/8/5 14:59
  */
+@Slf4j
 public class WebSocketObserver implements Observer {
 
     /**
@@ -31,11 +34,11 @@ public class WebSocketObserver implements Observer {
     public void update(Observable o, Object arg) {
         String message = (String) arg;
         try {
-            if (session.isOpen()) {
+            if (session != null && session.isOpen()) {
                 session.getBasicRemote().sendText(message);
             }
         } catch (IOException e) {
-            throw new RuntimeException("ws 发送消息失败", e);
+            log.warn("WebSocket 发送消息失败, sessionId={}", session != null ? session.getId() : null, e);
         }
     }
 
@@ -52,19 +55,13 @@ public class WebSocketObserver implements Observer {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         WebSocketObserver other = (WebSocketObserver) obj;
-        if (session == null) {
-            if (other.session != null) {
-                return false;
-            }
-        }
-        return session.getId().equals(other.session.getId());
+        String thisId = session != null ? session.getId() : null;
+        String otherId = other.session != null ? other.session.getId() : null;
+        return Objects.equals(thisId, otherId);
     }
 
 }

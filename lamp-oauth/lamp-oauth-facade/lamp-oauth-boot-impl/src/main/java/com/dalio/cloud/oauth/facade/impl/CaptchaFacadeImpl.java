@@ -17,8 +17,9 @@ public class CaptchaFacadeImpl implements CaptchaFacade {
 
     private final CaptchaService captchaService;
 
+    @Override
     public Boolean check(String key, String code, String templateCode) {
-        R<Boolean> result = captchaService.checkCaptcha(key, code, templateCode);
-        return result.getData();
+        R<Boolean> result = captchaService.checkCaptcha(key, templateCode, code);
+        return result != null && result.getIsSuccess() && Boolean.TRUE.equals(result.getData());
     }
 }

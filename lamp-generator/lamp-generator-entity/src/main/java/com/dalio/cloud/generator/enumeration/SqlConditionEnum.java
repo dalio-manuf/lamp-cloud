@@ -57,7 +57,7 @@ public enum SqlConditionEnum implements BaseEnum {
      * 根据当前枚举的name匹配
      */
     public static SqlConditionEnum match(String val, SqlConditionEnum def) {
-        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        return Stream.of(values()).filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static SqlConditionEnum get(String val) {
@@ -65,7 +65,7 @@ public enum SqlConditionEnum implements BaseEnum {
     }
 
     public boolean eq(SqlConditionEnum val) {
-        return val != null && eq(val.name());
+        return this == val;
     }
 
     @Override

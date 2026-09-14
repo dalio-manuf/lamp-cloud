@@ -37,11 +37,11 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class UserInfoServiceImpl implements UserInfoService {
-    protected final BaseEmployeeService baseEmployeeService;
-    protected final BaseOrgService baseOrgService;
-    protected final DefUserService defUserService;
-    protected final CacheOps cacheOps;
-    protected final SystemProperties systemProperties;
+    private final BaseEmployeeService baseEmployeeService;
+    private final BaseOrgService baseOrgService;
+    private final DefUserService defUserService;
+    private final CacheOps cacheOps;
+    private final SystemProperties systemProperties;
 
     @Override
     public OrgResultVO findCompanyAndDept() {
@@ -71,13 +71,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public String registerByMobile(RegisterByMobileVO register) {
-        if (systemProperties.getVerifyCaptcha()) {
+        ArgumentAssert.equals(register.getConfirmPassword(), register.getPassword(), "密码和确认密码不一致");
+        if (Boolean.TRUE.equals(systemProperties.getVerifyCaptcha())) {
 //            短信验证码
             CacheKey cacheKey = new CaptchaCacheKeyBuilder().key(register.getMobile(), register.getKey());
             CacheResult<String> code = cacheOps.get(cacheKey);
-            ArgumentAssert.equals(code.getValue(), register.getCode(), "验证码不正确");
+            ArgumentAssert.equals(code != null ? code.getValue() : null, register.getCode(), "验证码不正确");
+            cacheOps.del(cacheKey);
         }
-        ArgumentAssert.equals(register.getConfirmPassword(), register.getPassword(), "密码和确认密码不一致");
         DefUser defUser = BeanUtil.toBean(register, DefUser.class);
 
         defUserService.register(defUser);
@@ -87,13 +88,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public String registerByEmail(RegisterByEmailVO register) {
-        if (systemProperties.getVerifyCaptcha()) {
+        ArgumentAssert.equals(register.getConfirmPassword(), register.getPassword(), "密码和确认密码不一致");
+        if (Boolean.TRUE.equals(systemProperties.getVerifyCaptcha())) {
 //            短信验证码
             CacheKey cacheKey = new CaptchaCacheKeyBuilder().key(register.getEmail(), register.getKey());
             CacheResult<String> code = cacheOps.get(cacheKey);
-            ArgumentAssert.equals(code.getValue(), register.getCode(), "验证码不正确");
+            ArgumentAssert.equals(code != null ? code.getValue() : null, register.getCode(), "验证码不正确");
+            cacheOps.del(cacheKey);
         }
-        ArgumentAssert.equals(register.getConfirmPassword(), register.getPassword(), "密码和确认密码不一致");
         DefUser defUser = BeanUtil.toBean(register, DefUser.class);
 
         defUserService.registerByEmail(defUser);
@@ -119,6 +121,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     private static String formatDuration(Duration duration) {
+        if (duration == null) {
+            return "00:00:00";
+        }
         long seconds = duration.getSeconds();
         long minutes = (seconds % 3600) / 60;
         long secs = seconds % 60;

@@ -2,6 +2,8 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <!--
             本工程依赖底层的 lamp-util 基础组件库。
@@ -16,27 +18,42 @@
     <groupId>com.dalio.cloud</groupId>
     <artifactId>lamp-dependencies-parent</artifactId>
     <version>${revision}</version>
-
     <packaging>pom</packaging>
-    <modelVersion>4.0.0</modelVersion>
+
     <name>${project.artifactId}</name>
-    <description>lamp项目业务父pom</description>
+    <description>lamp微服务业务工程统一父POM与依赖治理中心</description>
+
     <properties>
-        <!-- 本项目的版本 -->
+        <!-- 本工程业务模块统一版本 -->
         <revision>5.10.0</revision>
-        <!-- lamp-util基础库的版本 -->
+        <!-- lamp-util基础组件库版本 -->
         <lamp-util.version>5.10.0</lamp-util.version>
+        <!-- Docker镜像仓库前缀 -->
         <docker.image.prefix>cloud</docker.image.prefix>
-        <springdoc.version>2.3.0</springdoc.version>
+        <!-- OpenAPI 规范文档组件版本（与lamp-parent及Spring Boot 3.5.x保持一致） -->
+        <springdoc.version>2.8.5</springdoc.version>
+        <!-- 辅助构建插件版本 -->
+        <versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
+        <!-- 默认跳过单元测试，单测执行时通过 -DskipTests=false 开启 -->
+        <skipTests>true</skipTests>
+        <!-- JaCoCo 覆盖率插件版本 -->
+        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- ======================================================= -->
+            <!-- 1. 底层基础库 BOM 引入 (lamp-util)                         -->
+            <!-- ======================================================= -->
             <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
-                <version>${springdoc.version}</version>
+                <groupId>com.dalio.basic</groupId>
+                <artifactId>lamp-bom</artifactId>
+                <version>${lamp-util.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
+
+            <!-- lamp-util 常用业务Starter显式声明（保证各模块精确版本控制） -->
             <dependency>
                 <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-all-cloud</artifactId>
@@ -82,7 +99,6 @@
                 <artifactId>lamp-echo-starter</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.dalio.basic</groupId>
                 <artifactId>lamp-log-starter</artifactId>
@@ -133,11 +149,244 @@
                 <artifactId>fastdfs-client</artifactId>
                 <version>${lamp-util.version}</version>
             </dependency>
+
+            <!-- ======================================================= -->
+            <!-- 2. 本项目公共 SDK 与基础设施模块 (com.dalio.cloud)           -->
+            <!-- ======================================================= -->
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-model</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-common</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-common-config</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-file-sdk</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-data-scope-sdk</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-sa-token-ext</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-login-user-facade</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-login-user-resolver</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-login-user-boot-impl</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-login-user-cloud-impl</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- ======================================================= -->
+            <!-- 3. 本项目业务域模块 (com.dalio.cloud)                        -->
+            <!-- ======================================================= -->
+            <!-- lamp-oauth 认证服务 -->
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-oauth-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-oauth-boot-impl</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-oauth-cloud-impl</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-oauth-entity</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-oauth-controller</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-oauth-biz</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-oauth-server</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- lamp-base 基础服务 -->
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-base-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-base-boot-impl</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-base-cloud-impl</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-base-entity</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-base-controller</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-base-biz</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-base-server</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- lamp-system 系统服务 -->
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-system-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-system-boot-impl</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-system-cloud-impl</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-system-entity</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-system-controller</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-system-biz</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-system-server</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- lamp-generator 代码生成服务 -->
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-generator-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-generator-entity</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-generator-controller</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-generator-biz</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-generator-server</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- lamp-gateway 网关服务 -->
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-gateway-biz</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-gateway-server</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- lamp-support 支撑模块 -->
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-boot-server-none</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-job-executor-none</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dalio.cloud</groupId>
+                <artifactId>lamp-monitor</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- ======================================================= -->
+            <!-- 4. 第三方扩展组件                                        -->
+            <!-- ======================================================= -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
-        <!--Lombok-->
+        <!-- 全局通用基础依赖 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -155,6 +404,12 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
+        </dependency>
+        <!-- 全局测试套件 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -175,6 +430,7 @@
             </properties>
         </profile>
     </profiles>
+
     <build>
         <finalName>${project.artifactId}</finalName>
         <resources>
@@ -215,12 +471,12 @@
                     <version>${maven-jar-plugin.version}</version>
                 </plugin>
                 <plugin>
-                    <!--打包跳过测试-->
+                    <!-- 单元测试插件 -->
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <configuration>
-                        <skipTests>true</skipTests>
-                        <skip>true</skip>
+                        <skipTests>${skipTests}</skipTests>
+                        <failIfNoSpecifiedTests>false</failIfNoSpecifiedTests>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -234,43 +490,77 @@
                         </execution>
                     </executions>
                 </plugin>
+                <!-- Docker 打包插件版本与通用构建参数管理 -->
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>dockerfile-maven-plugin</artifactId>
+                    <version>${dockerfile-maven-plugin.version}</version>
+                    <configuration>
+                        <repository>${docker.image.prefix}/${project.artifactId}</repository>
+                        <tag>${revision}</tag>
+                        <buildArgs>
+                            <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                        </buildArgs>
+                    </configuration>
+                </plugin>
+                <!-- 一键更新子模块版本号插件 -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${versions-maven-plugin.version}</version>
+                    <configuration>
+                        <generateBackupPoms>false</generateBackupPoms>
+                    </configuration>
+                </plugin>
+                <!-- JaCoCo 单测覆盖率统计插件 -->
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
             </plugins>
         </pluginManagement>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
             <plugin>
-                <!--打包跳过测试-->
+                <!-- 单元测试插件 -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
-
-            <!-- 资源插件 -->
+            <!-- 单测覆盖率插件 -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+            <!-- 资源拷贝插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
             </plugin>
-            <!--
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-            -->
             <!-- 一键更新子模块版本号 -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
-                <configuration>
-                    <generateBackupPoms>false</generateBackupPoms>
-                </configuration>
             </plugin>
-
             <!-- 代码规范检查 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

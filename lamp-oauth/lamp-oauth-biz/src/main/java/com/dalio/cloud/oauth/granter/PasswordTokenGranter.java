@@ -46,7 +46,7 @@ import static com.dalio.cloud.oauth.granter.PasswordTokenGranter.GRANT_TYPE;
  */
 @Component(GRANT_TYPE)
 @Slf4j
-public class PasswordTokenGranter extends AbstractTokenGranter implements TokenGranter {
+public class PasswordTokenGranter extends AbstractTokenGranter {
 
     public static final String GRANT_TYPE = "PASSWORD";
 
@@ -96,7 +96,7 @@ public class PasswordTokenGranter extends AbstractTokenGranter implements TokenG
         }
 
         // 方便开发、测试、演示环境 开发者登录别人的账号，生产环境禁用。
-        if (!systemProperties.getVerifyPassword()) {
+        if (!Boolean.TRUE.equals(systemProperties.getVerifyPassword())) {
             return R.success(null);
         }
 
@@ -110,7 +110,7 @@ public class PasswordTokenGranter extends AbstractTokenGranter implements TokenG
         // 用户锁定
         Integer passwordErrorNum = Convert.toInt(user.getPasswordErrorNum(), 0);
         Integer maxPasswordErrorNum = systemProperties.getMaxPasswordErrorNum();
-        if (maxPasswordErrorNum > 0 && passwordErrorNum >= maxPasswordErrorNum) {
+        if (maxPasswordErrorNum != null && maxPasswordErrorNum > 0 && passwordErrorNum >= maxPasswordErrorNum) {
             log.info("[{}][{}], 输错密码次数：{}, 最大限制次数:{}", user.getNickName(), user.getId(), passwordErrorNum, maxPasswordErrorNum);
 
             /*
@@ -131,7 +131,9 @@ public class PasswordTokenGranter extends AbstractTokenGranter implements TokenG
 
         String passwordMd5 = SecureUtil.sha256(password + user.getSalt());
         if (!passwordMd5.equalsIgnoreCase(user.getPassword())) {
-            String msg = StrUtil.format("用户名或密码错误{}次，连续输错{}次您将被锁定！", (user.getPasswordErrorNum() + 1), maxPasswordErrorNum);
+            String msg = (maxPasswordErrorNum != null && maxPasswordErrorNum > 0)
+                    ? StrUtil.format("用户名或密码错误{}次，连续输错{}次您将被锁定！", (passwordErrorNum + 1), maxPasswordErrorNum)
+                    : "用户名或密码错误！";
             // 密码错误事件
             SpringUtils.publishEvent(new LoginEvent(LoginStatusDTO.fail(user.getId(), LoginStatusEnum.PASSWORD_ERROR, msg)));
             return R.fail(msg);

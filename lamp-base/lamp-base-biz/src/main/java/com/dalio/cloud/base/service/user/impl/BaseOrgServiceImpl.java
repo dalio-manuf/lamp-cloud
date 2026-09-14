@@ -82,7 +82,7 @@ public class BaseOrgServiceImpl extends SuperCacheServiceImpl<BaseOrgManager, Lo
     @Transactional(readOnly = true)
     public boolean check(String name, Long parentId, Long id) {
         ArgumentAssert.notEmpty(name, "请填写名称");
-        LbQueryWrap<BaseOrg> wrap = Wraps.<BaseOrg>lbQ().eq(BaseOrg::getName, name).eq(BaseOrg::getParentId, parentId).ne(BaseOrg::getId, id);
+        LbQueryWrap<BaseOrg> wrap = Wraps.<BaseOrg>lbQ().eq(BaseOrg::getName, name).eq(BaseOrg::getParentId, parentId).ne(id != null, BaseOrg::getId, id);
         return superManager.count(wrap) > 0;
     }
 
@@ -119,6 +119,8 @@ public class BaseOrgServiceImpl extends SuperCacheServiceImpl<BaseOrgManager, Lo
 
         baseOrgRoleRelManager.deleteByOrg(idList);
         baseEmployeeOrgRelManager.deleteByOrg(idList);
+        List<com.dalio.basic.model.cache.CacheKey> keys = idList.stream().map(OrgRoleCacheKeyBuilder::build).toList();
+        cacheOps.del(keys);
         return flag;
     }
 
@@ -136,7 +138,7 @@ public class BaseOrgServiceImpl extends SuperCacheServiceImpl<BaseOrgManager, Lo
         }
 
         baseOrgRoleRelManager.remove(Wraps.<BaseOrgRoleRel>lbQ().eq(BaseOrgRoleRel::getOrgId, saveVO.getOrgId())
-                .in(BaseOrgRoleRel::getRoleId, saveVO.getRoleIdList()));
+                .in(CollUtil.isNotEmpty(saveVO.getRoleIdList()), BaseOrgRoleRel::getRoleId, saveVO.getRoleIdList()));
 
         if (saveVO.getFlag() && CollUtil.isNotEmpty(saveVO.getRoleIdList())) {
             List<BaseOrgRoleRel> list = saveVO.getRoleIdList().stream()
@@ -253,16 +255,18 @@ public class BaseOrgServiceImpl extends SuperCacheServiceImpl<BaseOrgManager, Lo
     @Override
     @Transactional(readOnly = true)
     public BaseOrg getCompanyByDeptId(Long deptId) {
-        if (deptId == null) {
-            return null;
+        Set<Long> visited = new HashSet<>();
+        Long currentId = deptId;
+        while (currentId != null && currentId > 0 && visited.add(currentId)) {
+            BaseOrg org = superManager.getByIdCache(currentId);
+            if (org == null) {
+                return null;
+            }
+            if (OrgTypeEnum.COMPANY.eq(org.getType())) {
+                return org;
+            }
+            currentId = org.getParentId();
         }
-        BaseOrg org = superManager.getByIdCache(deptId);
-        if (org == null) {
-            return null;
-        }
-        if (OrgTypeEnum.COMPANY.eq(org.getType())) {
-            return org;
-        }
-        return getCompanyByDeptId(org.getParentId());
+        return null;
     }
 }

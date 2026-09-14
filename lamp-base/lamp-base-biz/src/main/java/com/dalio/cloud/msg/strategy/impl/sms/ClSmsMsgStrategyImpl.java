@@ -92,7 +92,7 @@ public class ClSmsMsgStrategyImpl implements MsgStrategy {
             return MsgResult.builder().result(result).build();
         }
 
-        Map<String, Object> map = new HashMap();
+        Map<String, Object> map = new HashMap<>();
         map.put("account", property.getAccount());
         map.put("password", property.getPassword());
         String endPoint = property.getEndPoint();
@@ -163,7 +163,7 @@ public class ClSmsMsgStrategyImpl implements MsgStrategy {
 
     @Override
     public boolean isSuccess(MsgResult result) {
-        ClSendResult clSendResult = (ClSendResult) result.getResult();
-        return "0".equals(clSendResult.getCode());
+        return result != null && result.getResult() instanceof ClSendResult clSendResult
+                && "0".equals(clSendResult.getCode());
     }
 }
