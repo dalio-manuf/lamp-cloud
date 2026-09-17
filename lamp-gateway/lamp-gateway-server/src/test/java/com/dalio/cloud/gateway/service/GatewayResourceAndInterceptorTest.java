@@ -82,4 +82,52 @@ class GatewayResourceAndInterceptorTest {
         interceptor.filter(exchange, chain).block();
         assertTrue(called.get());
     }
+
+    @Test
+    @DisplayName("测试 AuthenticationSaInterceptor 开启鉴权模式下的权限检查与未授权拦截")
+    void testAuthenticationWithAuthEnabled() {
+        DefResourceFacade facade = Mockito.mock(DefResourceFacade.class);
+        IgnoreProperties ignoreProperties = new IgnoreProperties();
+        ignoreProperties.setAuthEnabled(true);
+        ignoreProperties.setNotConfigUriAllow(false);
+
+        Map<String, Set<String>> apiMap = new java.util.HashMap<>();
+        apiMap.put("/api/user/list###GET", Collections.singleton("user:view"));
+        when(facade.listAllApi()).thenReturn(apiMap);
+
+        AuthenticationSaInterceptor interceptor = new AuthenticationSaInterceptor(facade, ignoreProperties);
+
+        try (org.mockito.MockedStatic<cn.dev33.satoken.stp.StpUtil> mockedStp = Mockito.mockStatic(cn.dev33.satoken.stp.StpUtil.class)) {
+            // 1. 已配置接口，鉴权成功
+            MockServerWebExchange exSuccess = MockServerWebExchange.from(
+                    MockServerHttpRequest.get("/api/user/list").build()
+            );
+            AtomicBoolean chainCalled = new AtomicBoolean(false);
+            WebFilterChain chain = ex -> {
+                chainCalled.set(true);
+                return Mono.empty();
+            };
+
+            interceptor.filter(exSuccess, chain).block();
+            assertTrue(chainCalled.get());
+            mockedStp.verify(() -> cn.dev33.satoken.stp.StpUtil.checkLogin());
+            mockedStp.verify(() -> cn.dev33.satoken.stp.StpUtil.checkPermissionOr("user:view"));
+
+            // 2. 未配置接口且 notConfigUriAllow 为 false -> 拦截并返回 JSON 错误
+            MockServerWebExchange exUnconfigured = MockServerWebExchange.from(
+                    MockServerHttpRequest.get("/api/unknown/path").build()
+            );
+            interceptor.filter(exUnconfigured, chain).block();
+            assertEquals("application/json", exUnconfigured.getResponse().getHeaders().getFirst(org.springframework.http.HttpHeaders.CONTENT_TYPE));
+
+            // 3. 未登录异常 (SaTokenException) 拦截
+            mockedStp.when(cn.dev33.satoken.stp.StpUtil::checkLogin)
+                    .thenThrow(new cn.dev33.satoken.exception.NotLoginException("未登录", "login", "token"));
+            MockServerWebExchange exNotLogin = MockServerWebExchange.from(
+                    MockServerHttpRequest.get("/api/user/list").build()
+            );
+            interceptor.filter(exNotLogin, chain).block();
+            assertEquals("application/json", exNotLogin.getResponse().getHeaders().getFirst(org.springframework.http.HttpHeaders.CONTENT_TYPE));
+        }
+    }
 }

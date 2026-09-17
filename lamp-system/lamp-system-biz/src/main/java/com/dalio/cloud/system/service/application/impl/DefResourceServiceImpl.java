@@ -135,9 +135,11 @@ public class DefResourceServiceImpl extends SuperCacheServiceImpl<DefResourceMan
     }
 
     @Override
-
     @Transactional(rollbackFor = Exception.class)
     public void deleteRoleResourceRelByResourceId(List<Long> resourceIds) {
+        if (CollUtil.isEmpty(resourceIds)) {
+            return;
+        }
         superManager.deleteRoleResourceRelByResourceId(resourceIds);
     }
 
@@ -282,11 +284,16 @@ public class DefResourceServiceImpl extends SuperCacheServiceImpl<DefResourceMan
 
     private String parseMetaJson(String metaJson) {
         if (StrUtil.isNotEmpty(metaJson)) {
+            Map<?, ?> map = null;
             try {
-                return JsonUtil.toJson(JsonUtil.parse(metaJson, HashMap.class));
+                map = JsonUtil.parse(metaJson, HashMap.class);
             } catch (Exception e) {
                 throw new BizException("【元数据】须满足JSON格式");
             }
+            if (map == null) {
+                throw new BizException("【元数据】须满足JSON格式");
+            }
+            return JsonUtil.toJson(map);
         }
         return StrPool.EMPTY;
     }

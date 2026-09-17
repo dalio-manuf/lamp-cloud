@@ -164,4 +164,141 @@ class BaseOrgServiceImplTest {
         verify(orgRoleRelManager).saveBatch(anyList());
         verify(cacheOps).del(any(com.dalio.basic.model.cache.CacheKey.class));
     }
+
+    @Test
+    @DisplayName("测试 updateBefore 树形层级与重名更新")
+    void testUpdateBefore() {
+        BaseEmployeeOrgRelManager employeeOrgRelManager = Mockito.mock(BaseEmployeeOrgRelManager.class);
+        BaseOrgRoleRelManager orgRoleRelManager = Mockito.mock(BaseOrgRoleRelManager.class);
+        BaseOrgManager orgManager = Mockito.mock(BaseOrgManager.class);
+
+        BaseOrgServiceImpl service = Mockito.spy(new BaseOrgServiceImpl(employeeOrgRelManager, orgRoleRelManager));
+        ReflectionTestUtils.setField(service, "superManager", orgManager);
+
+        com.dalio.cloud.base.vo.update.user.BaseOrgUpdateVO updateVO = new com.dalio.cloud.base.vo.update.user.BaseOrgUpdateVO();
+        updateVO.setId(10L);
+        updateVO.setName("研发二部");
+        updateVO.setParentId(1L);
+
+        doReturn(false).when(service).check("研发二部", 1L, 10L);
+        BaseOrg parentOrg = new BaseOrg();
+        parentOrg.setId(1L);
+        parentOrg.setTreeGrade(1);
+        parentOrg.setTreePath("/0/");
+        when(orgManager.getByIdCache(1L)).thenReturn(parentOrg);
+
+        BaseOrg updated = service.updateBefore(updateVO);
+        assertNotNull(updated);
+        assertEquals(1L, updated.getParentId());
+        assertEquals(2, updated.getTreeGrade());
+    }
+
+    @Test
+    @DisplayName("测试 list 查询与 findByIds")
+    void testListAndFindByIds() {
+        BaseEmployeeOrgRelManager employeeOrgRelManager = Mockito.mock(BaseEmployeeOrgRelManager.class);
+        BaseOrgRoleRelManager orgRoleRelManager = Mockito.mock(BaseOrgRoleRelManager.class);
+        BaseOrgManager orgManager = Mockito.mock(BaseOrgManager.class);
+
+        BaseOrgServiceImpl service = new BaseOrgServiceImpl(employeeOrgRelManager, orgRoleRelManager);
+        ReflectionTestUtils.setField(service, "superManager", orgManager);
+
+        com.dalio.cloud.base.vo.query.user.BaseOrgPageQuery query = new com.dalio.cloud.base.vo.query.user.BaseOrgPageQuery();
+        query.setName("测试");
+        query.setState(true);
+
+        BaseOrg org = new BaseOrg();
+        org.setId(1L);
+        org.setName("测试部");
+        when(orgManager.list(any(com.baomidou.mybatisplus.core.conditions.Wrapper.class))).thenReturn(List.of(org));
+
+        List<?> listResult = service.list(query);
+        assertEquals(1, listResult.size());
+
+        when(orgManager.findByIds(any())).thenReturn(java.util.Map.of(1L, org));
+        java.util.Map<?, ?> map = service.findByIds(java.util.Set.of(1L));
+        assertEquals(1, map.size());
+    }
+
+    @Test
+    @DisplayName("测试 findDeptByEmployeeId, findOrgByEmployeeId, getDefaultOrg")
+    void testFindDeptAndDefaultOrg() {
+        BaseEmployeeOrgRelManager employeeOrgRelManager = Mockito.mock(BaseEmployeeOrgRelManager.class);
+        BaseOrgRoleRelManager orgRoleRelManager = Mockito.mock(BaseOrgRoleRelManager.class);
+        BaseOrgManager orgManager = Mockito.mock(BaseOrgManager.class);
+
+        BaseOrgServiceImpl service = Mockito.spy(new BaseOrgServiceImpl(employeeOrgRelManager, orgRoleRelManager));
+        ReflectionTestUtils.setField(service, "superManager", orgManager);
+
+        when(employeeOrgRelManager.findOrgIdByEmployeeId(100L)).thenReturn(List.of(10L, 20L));
+
+        BaseOrg dept = new BaseOrg();
+        dept.setId(10L);
+        dept.setType(com.dalio.cloud.model.enumeration.base.OrgTypeEnum.DEPT.getCode());
+        dept.setTreePath("/1/10/");
+
+        BaseOrg company = new BaseOrg();
+        company.setId(20L);
+        company.setType(com.dalio.cloud.model.enumeration.base.OrgTypeEnum.COMPANY.getCode());
+        company.setTreePath("/20/");
+
+        doReturn(List.of(dept, company)).when(service).findByIds(anyList(), any());
+
+        // findOrgByEmployeeId
+        List<BaseOrg> orgs = service.findOrgByEmployeeId(100L);
+        assertEquals(2, orgs.size());
+
+        // findDeptByEmployeeId
+        List<BaseOrg> depts = service.findDeptByEmployeeId(100L, 1L);
+        assertEquals(1, depts.size());
+        assertEquals(10L, depts.get(0).getId());
+
+        // getDefaultOrg
+        assertNull(service.getDefaultOrg(Collections.emptyList(), null));
+        assertEquals(dept, service.getDefaultOrg(List.of(dept, company), 10L));
+        assertEquals(dept, service.getDefaultOrg(List.of(dept, company), 999L));
+    }
+
+    @Test
+    @DisplayName("测试 findCompanyByEmployeeId 与 getCompanyByDeptId")
+    void testFindCompanyAndGetCompanyByDeptId() {
+        BaseEmployeeOrgRelManager employeeOrgRelManager = Mockito.mock(BaseEmployeeOrgRelManager.class);
+        BaseOrgRoleRelManager orgRoleRelManager = Mockito.mock(BaseOrgRoleRelManager.class);
+        BaseOrgManager orgManager = Mockito.mock(BaseOrgManager.class);
+
+        BaseOrgServiceImpl service = Mockito.spy(new BaseOrgServiceImpl(employeeOrgRelManager, orgRoleRelManager));
+        ReflectionTestUtils.setField(service, "superManager", orgManager);
+
+        when(employeeOrgRelManager.findOrgIdByEmployeeId(100L)).thenReturn(List.of(10L));
+
+        BaseOrg dept = new BaseOrg();
+        dept.setId(10L);
+        dept.setParentId(1L);
+        dept.setType(com.dalio.cloud.model.enumeration.base.OrgTypeEnum.DEPT.getCode());
+        dept.setTreePath("/1/10/");
+
+        BaseOrg parentComp = new BaseOrg();
+        parentComp.setId(1L);
+        parentComp.setType(com.dalio.cloud.model.enumeration.base.OrgTypeEnum.COMPANY.getCode());
+        parentComp.setTreePath("/1/");
+
+        doReturn(List.of(dept)).when(service).findByIds(List.of(10L), null);
+        when(orgManager.findByIds(anyList(), any())).thenReturn(List.of(parentComp));
+
+        List<BaseOrg> companies = service.findCompanyByEmployeeId(100L);
+        assertEquals(1, companies.size());
+        assertEquals(1L, companies.get(0).getId());
+
+        // getCompanyByDeptId
+        when(orgManager.getByIdCache(10L)).thenReturn(dept);
+        when(orgManager.getByIdCache(1L)).thenReturn(parentComp);
+
+        BaseOrg foundComp = service.getCompanyByDeptId(10L);
+        assertNotNull(foundComp);
+        assertEquals(1L, foundComp.getId());
+
+        // 递归上溯未找到单位时返回 null
+        when(orgManager.getByIdCache(99L)).thenReturn(null);
+        assertNull(service.getCompanyByDeptId(99L));
+    }
 }

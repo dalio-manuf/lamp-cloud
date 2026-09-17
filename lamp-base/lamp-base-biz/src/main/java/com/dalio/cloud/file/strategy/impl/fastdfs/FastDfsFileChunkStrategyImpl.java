@@ -50,13 +50,14 @@ public class FastDfsFileChunkStrategyImpl extends AbstractFileChunkStrategy {
         for (int i = 0; i < files.size(); i++) {
             java.io.File file = files.get(i);
 
-            FileInputStream in = FileUtils.openInputStream(file);
-            if (i == 0) {
-                storePath = storageClient.uploadAppenderFile(null, in,
-                        file.length(), info.getExt());
-            } else {
-                storageClient.appendFile(storePath.getGroup(), storePath.getPath(),
-                        in, file.length());
+            try (FileInputStream in = FileUtils.openInputStream(file)) {
+                if (i == 0) {
+                    storePath = storageClient.uploadAppenderFile(null, in,
+                            file.length(), info.getExt());
+                } else {
+                    storageClient.appendFile(storePath.getGroup(), storePath.getPath(),
+                            in, file.length());
+                }
             }
         }
         if (storePath == null) {

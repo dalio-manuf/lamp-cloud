@@ -70,12 +70,17 @@ public class ExtendMsgServiceImpl extends SuperServiceImpl<ExtendMsgManager, Lon
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean publish(ExtendMsgPublishVO data, SysUser sysUser) {
+        ArgumentAssert.notNull(data, "发布消息参数不能为空");
+        ArgumentAssert.notEmpty(data.getRecipientList(), "消息接收人列表不能为空");
+
         ExtendMsg extendMsg = BeanUtil.toBean(data, ExtendMsg.class);
         extendMsg.setType(MsgTemplateTypeEnum.NOTICE.getCode());
         extendMsg.setChannel(SourceType.APP);
 
-        extendMsg.setCreatedOrgId(sysUser.getEmployee() != null ? sysUser.getEmployee().getLastDeptId() : null);
-        if (data != null && data.getDraft() != null && data.getDraft()) {
+        if (sysUser != null && sysUser.getEmployee() != null) {
+            extendMsg.setCreatedOrgId(sysUser.getEmployee().getLastDeptId());
+        }
+        if (data.getDraft() != null && data.getDraft()) {
             extendMsg.setStatus(TaskStatus.DRAFT);
         } else {
             extendMsg.setStatus(TaskStatus.WAITING);

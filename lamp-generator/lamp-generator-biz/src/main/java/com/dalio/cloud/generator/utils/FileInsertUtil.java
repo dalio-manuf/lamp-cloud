@@ -81,7 +81,7 @@ public class FileInsertUtil {
         }
 
         String con = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
-        return StrUtil.replace(con, SLOT_PAT, matcher -> getText(con, matcher));
+        return StrUtil.replace(con, SLOT_PAT, matcher -> Matcher.quoteReplacement(getText(con, matcher)));
     }
 
     private String getText(String con, Matcher matcher) {
@@ -121,7 +121,7 @@ public class FileInsertUtil {
         // 读取
         String con = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
         // 替换
-        String text = StrUtil.replace(con, SLOT_PAT, matcher -> getText(con, matcher));
+        String text = StrUtil.replace(con, SLOT_PAT, matcher -> Matcher.quoteReplacement(getText(con, matcher)));
         // 写入
         FileUtils.writeStringToFile(file, text, StandardCharsets.UTF_8);
     }

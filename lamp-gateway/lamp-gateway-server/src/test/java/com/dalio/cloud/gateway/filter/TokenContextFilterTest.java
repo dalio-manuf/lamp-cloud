@@ -20,7 +20,11 @@ import java.util.Base64;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import cn.dev33.satoken.stp.StpUtil;
+import org.mockito.Mockito;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 /**
  * TokenContextFilter 单元测试
@@ -98,5 +102,75 @@ class TokenContextFilterTest {
         JSONObject json = JSONUtil.parseObj(body);
         assertEquals(40101, json.getInt("code"));
         assertEquals("Token Expired", json.getStr("msg"));
+    }
+
+    @Test
+    @DisplayName("测试用户 Token 解析及上下文请求头注入")
+    void testParseTokenSuccess() {
+        cn.dev33.satoken.session.SaSession mockSession = Mockito.mock(cn.dev33.satoken.session.SaSession.class);
+        when(mockSession.getLoginId()).thenReturn("1001");
+        when(mockSession.get(ContextConstants.JWT_KEY_EMPLOYEE_ID)).thenReturn("2001");
+        when(mockSession.get(ContextConstants.JWT_KEY_TOP_COMPANY_ID)).thenReturn("3001");
+        when(mockSession.get(ContextConstants.JWT_KEY_COMPANY_ID)).thenReturn("4001");
+        when(mockSession.get(ContextConstants.JWT_KEY_DEPT_ID)).thenReturn("5001");
+
+        try (org.mockito.MockedStatic<StpUtil> mockedStp = Mockito.mockStatic(StpUtil.class)) {
+            mockedStp.when(() -> StpUtil.getTokenSessionByToken("valid_token")).thenReturn(mockSession);
+
+            MockServerWebExchange exchange = MockServerWebExchange.from(
+                    MockServerHttpRequest.get("/api/user/detail")
+                            .header("token", "valid_token")
+                            .build()
+            );
+
+            AtomicReference<String> userIdHeader = new AtomicReference<>();
+            AtomicReference<String> empIdHeader = new AtomicReference<>();
+            WebFilterChain chain = ex -> {
+                userIdHeader.set(ex.getRequest().getHeaders().getFirst(ContextConstants.USER_ID_HEADER));
+                empIdHeader.set(ex.getRequest().getHeaders().getFirst(ContextConstants.EMPLOYEE_ID_HEADER));
+                return Mono.empty();
+            };
+
+            filter.filter(exchange, chain).block();
+            assertEquals("1001", userIdHeader.get());
+            assertEquals("2001", empIdHeader.get());
+        }
+    }
+
+    @Test
+    @DisplayName("测试异常拦截与不同 HTTP 状态码转换")
+    void testFilterExceptions() {
+        // 1. UnauthorizedException
+        TokenContextFilter unauthFilter = new TokenContextFilter(saTokenConfig, ignoreProperties) {
+            @Override
+            protected boolean isIgnoreToken(org.springframework.http.server.reactive.ServerHttpRequest request) {
+                throw new com.dalio.basic.exception.UnauthorizedException(401, "Unauthorized token");
+            }
+        };
+        MockServerWebExchange ex1 = MockServerWebExchange.from(MockServerHttpRequest.get("/api/secure").build());
+        unauthFilter.filter(ex1, ex -> Mono.empty()).block();
+        assertEquals(HttpStatus.UNAUTHORIZED, ex1.getResponse().getStatusCode());
+
+        // 2. BizException
+        TokenContextFilter bizFilter = new TokenContextFilter(saTokenConfig, ignoreProperties) {
+            @Override
+            protected boolean isIgnoreToken(org.springframework.http.server.reactive.ServerHttpRequest request) {
+                throw new com.dalio.basic.exception.BizException(400, "Biz error");
+            }
+        };
+        MockServerWebExchange ex2 = MockServerWebExchange.from(MockServerHttpRequest.get("/api/secure").build());
+        bizFilter.filter(ex2, ex -> Mono.empty()).block();
+        assertEquals(HttpStatus.BAD_REQUEST, ex2.getResponse().getStatusCode());
+
+        // 3. SaTokenException
+        TokenContextFilter saFilter = new TokenContextFilter(saTokenConfig, ignoreProperties) {
+            @Override
+            protected boolean isIgnoreToken(org.springframework.http.server.reactive.ServerHttpRequest request) {
+                throw new cn.dev33.satoken.exception.NotLoginException("Not logged in", "login", "token");
+            }
+        };
+        MockServerWebExchange ex3 = MockServerWebExchange.from(MockServerHttpRequest.get("/api/secure").build());
+        saFilter.filter(ex3, ex -> Mono.empty()).block();
+        assertEquals(HttpStatus.UNAUTHORIZED, ex3.getResponse().getStatusCode());
     }
 }

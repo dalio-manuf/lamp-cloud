@@ -19,7 +19,9 @@ import com.dalio.cloud.base.manager.system.BaseRoleResourceRelManager;
 import com.dalio.cloud.base.manager.user.BaseEmployeeRoleRelManager;
 import com.dalio.cloud.base.manager.user.BaseOrgRoleRelManager;
 import com.dalio.cloud.base.vo.save.system.BaseRoleResourceRelSaveVO;
+import com.dalio.cloud.base.vo.save.system.BaseRoleSaveVO;
 import com.dalio.cloud.base.vo.save.system.RoleEmployeeSaveVO;
+import com.dalio.cloud.base.vo.update.system.BaseRoleUpdateVO;
 import com.dalio.cloud.model.enumeration.base.RoleCategoryEnum;
 
 import java.util.Arrays;
@@ -176,7 +178,7 @@ class BaseRoleServiceImplTest {
 
         when(roleResRelManager.saveBatch(anyList())).thenReturn(true);
         assertTrue(service.saveRoleResource(saveVO));
-        verify(roleResRelManager).remove(any());
+        verify(roleResRelManager, times(2)).remove(any());
         verify(roleResRelManager).saveBatch(anyList());
         verify(cacheOps).del(anyList());
     }
@@ -200,8 +202,8 @@ class BaseRoleServiceImplTest {
         verify(roleResRelManager).findByRoleIdAndCategory(eq(10L), eq(RoleCategoryEnum.FUNCTION.getCode()));
 
         // 指定 category
-        service.findResourceIdByRoleId(10L, RoleCategoryEnum.DATA);
-        verify(roleResRelManager).findByRoleIdAndCategory(eq(10L), eq(RoleCategoryEnum.DATA.getCode()));
+        service.findResourceIdByRoleId(10L, RoleCategoryEnum.DATA_SCOPE);
+        verify(roleResRelManager).findByRoleIdAndCategory(eq(10L), eq(RoleCategoryEnum.DATA_SCOPE.getCode()));
     }
 
     @Test
@@ -231,5 +233,56 @@ class BaseRoleServiceImplTest {
         assertEquals(2, codes.size());
         assertTrue(codes.contains("ROLE_ADMIN"));
         assertTrue(codes.contains("ROLE_USER"));
+    }
+
+    @Test
+    @DisplayName("测试 saveBefore 与 updateBefore 编码校验与默认值处理")
+    void testSaveBeforeAndUpdateBefore() {
+        BaseEmployeeRoleRelManager empRoleRelManager = Mockito.mock(BaseEmployeeRoleRelManager.class);
+        BaseRoleResourceRelManager roleResRelManager = Mockito.mock(BaseRoleResourceRelManager.class);
+        BaseOrgRoleRelManager orgRoleRelManager = Mockito.mock(BaseOrgRoleRelManager.class);
+        BaseRoleManager roleManager = Mockito.mock(BaseRoleManager.class);
+
+        BaseRoleServiceImpl service = new BaseRoleServiceImpl(empRoleRelManager, roleResRelManager, orgRoleRelManager);
+        ReflectionTestUtils.setField(service, "superManager", roleManager);
+
+        // 1. saveBefore 编码重复抛异常
+        when(roleManager.count(any())).thenReturn(1L);
+        BaseRoleSaveVO saveVO1 = new BaseRoleSaveVO();
+        saveVO1.setName("管理员");
+        saveVO1.setCode("ROLE_ADMIN");
+        assertThrows(com.dalio.basic.exception.ArgumentException.class, () -> ReflectionTestUtils.invokeMethod(service, "saveBefore", saveVO1));
+
+        // 2. saveBefore 正常生成
+        when(roleManager.count(any())).thenReturn(0L);
+        BaseRoleSaveVO saveVO2 = new BaseRoleSaveVO();
+        saveVO2.setName("测试角色");
+        BaseRole savedRole = ReflectionTestUtils.invokeMethod(service, "saveBefore", saveVO2);
+        assertNotNull(savedRole);
+        assertNotNull(savedRole.getCode());
+        assertEquals(com.dalio.cloud.model.enumeration.system.DataTypeEnum.BUSINESS.getCode(), savedRole.getType());
+        assertFalse(savedRole.getReadonly());
+
+        // 3. updateBefore 编码重复抛异常
+        when(roleManager.count(any())).thenReturn(1L);
+        BaseRoleUpdateVO updateVO1 = new BaseRoleUpdateVO();
+        updateVO1.setId(10L);
+        updateVO1.setCode("ROLE_EXIST");
+        assertThrows(com.dalio.basic.exception.ArgumentException.class, () -> ReflectionTestUtils.invokeMethod(service, "updateBefore", updateVO1));
+
+        // 4. updateBefore 正常更新
+        when(roleManager.count(any())).thenReturn(0L);
+        BaseRoleUpdateVO updateVO2 = new BaseRoleUpdateVO();
+        updateVO2.setId(10L);
+        updateVO2.setCode("ROLE_NEW");
+        BaseRole updatedRole = ReflectionTestUtils.invokeMethod(service, "updateBefore", updateVO2);
+        assertNotNull(updatedRole);
+        assertEquals("ROLE_NEW", updatedRole.getCode());
+        assertFalse(updatedRole.getReadonly());
+
+        // 5. findResourceIdByEmployeeId
+        when(roleManager.findResourceIdByEmployeeId(1L, 100L)).thenReturn(List.of(10L, 20L));
+        List<Long> resIds = service.findResourceIdByEmployeeId(1L, 100L);
+        assertEquals(List.of(10L, 20L), resIds);
     }
 }

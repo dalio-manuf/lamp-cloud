@@ -4,6 +4,9 @@ import com.dalio.basic.context.ContextConstants;
 import com.dalio.basic.context.ContextUtil;
 import com.dalio.basic.exception.BizException;
 import com.dalio.cloud.common.properties.SystemProperties;
+import com.dalio.cloud.satoken.config.AlwaysConfigurer;
+import com.dalio.cloud.satoken.config.GlobalMvcConfigurer;
+import com.dalio.cloud.satoken.config.MySaTokenContextRegister;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +14,7 @@ import org.mockito.Mockito;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,7 +24,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * SaToken 拦截器单元测试
+ * SaToken 拦截器与配置类单元测试
  */
 class SaTokenInterceptorsTest {
 
@@ -97,5 +101,24 @@ class SaTokenInterceptorsTest {
         // 未命中禁止规则放行
         request.setRequestURI("/api/query/list");
         assertTrue(interceptor.preHandle(request, response, handlerMethod));
+    }
+
+    @Test
+    @DisplayName("测试 WebMvcConfigurer 与 MySaTokenContextRegister 配置初始化")
+    void testConfigurers() {
+        SystemProperties properties = new SystemProperties();
+        InterceptorRegistry registry = new InterceptorRegistry();
+
+        GlobalMvcConfigurer globalMvcConfigurer = new GlobalMvcConfigurer();
+        globalMvcConfigurer.addInterceptors(registry);
+
+        AlwaysConfigurer alwaysConfigurer = new AlwaysConfigurer(properties);
+        alwaysConfigurer.addInterceptors(registry);
+
+        MySaTokenContextRegister register = new MySaTokenContextRegister();
+        assertNotNull(register.getAlwaysConfigurer(properties));
+
+        MySaTokenContextRegister.InnerConfig innerConfig = new MySaTokenContextRegister.InnerConfig();
+        assertNotNull(innerConfig.getGlobalMvcConfigurer());
     }
 }

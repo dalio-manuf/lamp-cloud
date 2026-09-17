@@ -58,4 +58,26 @@ class FileInsertUtilTest {
         assertFalse(FileInsertUtil.SLOT_PATTERN.matcher("// normal comment").find());
         assertFalse(FileInsertUtil.SLOT_PATTERN.matcher("String s = \"value\";").find());
     }
+    @Test
+    @DisplayName("测试 writeFile")
+    void testWriteFile() throws Exception {
+        java.io.File tempFile = cn.hutool.core.io.FileUtil.createTempFile("FileInsertUtilTest", ".txt", new java.io.File(System.getProperty("java.io.tmpdir")), true);
+        org.apache.commons.io.FileUtils.writeStringToFile(tempFile, "Some text @lamp.generator auto insert testKey -->", java.nio.charset.StandardCharsets.UTF_8);
+        
+        Map<String, String> map = new java.util.HashMap<>();
+        map.put("testKey", "testValue");
+        FileInsertUtil util2 = FileInsertUtil.of(tempFile.getAbsolutePath(), "\t", map);
+        util2.writeFile();
+
+        String newCon = org.apache.commons.io.FileUtils.readFileToString(tempFile, java.nio.charset.StandardCharsets.UTF_8);
+        assertTrue(newCon.contains("testValue"));
+        
+        // Write file missing
+        FileInsertUtil util3 = FileInsertUtil.of("missing_path", map);
+        Exception e = assertThrows(Exception.class, () -> util3.writeFile());
+        assertNotNull(e);
+        
+        Exception exception = assertThrows(Exception.class, () -> util3.replaceAll());
+        assertNotNull(exception);
+    }
 }

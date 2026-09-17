@@ -44,6 +44,9 @@ public class ZipUtils {
     }
 
     private static void zipFiles(ZipOutputStream out, String path, File... srcFiles) {
+        if (srcFiles == null || srcFiles.length == 0) {
+            return;
+        }
         path = path.replaceAll("\\*", SLASH);
         if (!path.endsWith(SLASH)) {
             path += SLASH;
@@ -51,6 +54,9 @@ public class ZipUtils {
         byte[] buf = new byte[1024];
         try {
             for (File srcFile : srcFiles) {
+                if (srcFile == null || !srcFile.exists()) {
+                    continue;
+                }
                 if (srcFile.isDirectory()) {
                     File[] files = srcFile.listFiles();
                     String srcPath = srcFile.getName();
@@ -59,7 +65,9 @@ public class ZipUtils {
                         srcPath += SLASH;
                     }
                     out.putNextEntry(new ZipEntry(path + srcPath));
-                    zipFiles(out, path + srcPath, files);
+                    if (files != null && files.length > 0) {
+                        zipFiles(out, path + srcPath, files);
+                    }
                 } else {
                     try (FileInputStream in = new FileInputStream(srcFile)) {
                         out.putNextEntry(new ZipEntry(path + srcFile.getName()));
@@ -131,24 +139,29 @@ public class ZipUtils {
         if (!pathFile.exists()) {
             pathFile.mkdirs();
         }
+        String canonicalDestDir = pathFile.getCanonicalPath() + File.separator;
         try (ZipFile zip = new ZipFile(zipFile)) {
             for (Enumeration<? extends ZipEntry> entries = zip.entries(); entries.hasMoreElements(); ) {
                 ZipEntry entry = entries.nextElement();
                 String zipEntryName = entry.getName();
 
-                String outPath = (descDir + zipEntryName).replaceAll("\\*", SLASH);
-                //判断路径是否存在,不存在则创建文件路径
-                File file = new File(outPath.substring(0, outPath.lastIndexOf('/')));
-                if (!file.exists()) {
-                    file.mkdirs();
+                File targetFile = new File(pathFile, zipEntryName);
+                String canonicalTarget = targetFile.getCanonicalPath();
+                if (!canonicalTarget.startsWith(canonicalDestDir) && !canonicalTarget.equals(pathFile.getCanonicalPath())) {
+                    throw new IOException("Zip entry is outside of the target dir: " + zipEntryName);
                 }
-                //判断文件全路径是否为文件夹,如果是上面已经上传,不需要解压
-                if (new File(outPath).isDirectory()) {
+
+                if (entry.isDirectory()) {
+                    targetFile.mkdirs();
                     continue;
                 }
 
+                File parent = targetFile.getParentFile();
+                if (parent != null && !parent.exists()) {
+                    parent.mkdirs();
+                }
 
-                try (InputStream in = zip.getInputStream(entry); OutputStream out = new FileOutputStream(outPath)) {
+                try (InputStream in = zip.getInputStream(entry); OutputStream out = new FileOutputStream(targetFile)) {
                     byte[] buf1 = new byte[1024];
                     int len;
                     while ((len = in.read(buf1)) > 0) {

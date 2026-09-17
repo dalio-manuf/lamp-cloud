@@ -339,4 +339,146 @@ class TokenGrantersTest {
         R<Boolean> logoutRes = granter.logout();
         assertTrue(logoutRes.getIsSuccess());
     }
+
+    @Test
+    @DisplayName("测试 CaptchaTokenGranter 参数校验与验证码校验失败分支")
+    void testCaptchaTokenGranterBranches() {
+        CaptchaTokenGranter granter = new CaptchaTokenGranter(captchaService);
+        injectFields(granter);
+
+        // 1. checkParam 用户名或密码为空
+        LoginParamVO p1 = new LoginParamVO();
+        R<LoginResultVO> r1 = granter.checkParam(p1);
+        assertFalse(r1.getIsSuccess());
+        assertEquals("请输入用户名或密码", r1.getMsg());
+
+        // 2. checkParam 验证码或key为空
+        LoginParamVO p2 = new LoginParamVO();
+        p2.setUsername("user");
+        p2.setPassword("pwd");
+        R<LoginResultVO> r2 = granter.checkParam(p2);
+        assertFalse(r2.getIsSuccess());
+        assertEquals("请输入验证码", r2.getMsg());
+
+        // 3. checkCaptcha 当 verifyCaptcha 为 true 且校验失败
+        systemProperties.setVerifyCaptcha(true);
+        LoginParamVO p3 = new LoginParamVO();
+        p3.setUsername("user");
+        p3.setPassword("pwd");
+        p3.setCode("0000");
+        p3.setKey("k1");
+
+        when(captchaService.checkCaptcha("k1", CaptchaTokenGranter.GRANT_TYPE, "0000")).thenReturn(null);
+        assertThrows(BizException.class, () -> granter.checkCaptcha(p3));
+
+        when(captchaService.checkCaptcha("k1", CaptchaTokenGranter.GRANT_TYPE, "0000")).thenReturn(R.fail("验证码已过期"));
+        assertThrows(BizException.class, () -> granter.checkCaptcha(p3));
+
+        // 校验成功
+        when(captchaService.checkCaptcha("k1", CaptchaTokenGranter.GRANT_TYPE, "0000")).thenReturn(R.success(true));
+        assertTrue(granter.checkCaptcha(p3).getIsSuccess());
+
+        // verifyCaptcha 为 false 跳过
+        systemProperties.setVerifyCaptcha(false);
+        assertTrue(granter.checkCaptcha(p3).getIsSuccess());
+    }
+
+    @Test
+    @DisplayName("测试 MobileTokenGranter 参数校验与验证码校验失败分支")
+    void testMobileTokenGranterBranches() {
+        MobileTokenGranter granter = new MobileTokenGranter(captchaService);
+        injectFields(granter);
+
+        // 1. checkParam 手机号或验证码为空
+        LoginParamVO p1 = new LoginParamVO();
+        R<LoginResultVO> r1 = granter.checkParam(p1);
+        assertFalse(r1.getIsSuccess());
+        assertEquals("请输入手机号或验证码", r1.getMsg());
+
+        // 2. checkCaptcha 失败分支
+        systemProperties.setVerifyCaptcha(true);
+        LoginParamVO p2 = new LoginParamVO();
+        p2.setMobile("13800000000");
+        p2.setCode("0000");
+
+        when(captchaService.checkCaptcha("13800000000", com.dalio.cloud.model.enumeration.base.MsgTemplateCodeEnum.MOBILE_LOGIN.getCode(), "0000"))
+                .thenReturn(null);
+        assertThrows(BizException.class, () -> granter.checkCaptcha(p2));
+
+        when(captchaService.checkCaptcha("13800000000", com.dalio.cloud.model.enumeration.base.MsgTemplateCodeEnum.MOBILE_LOGIN.getCode(), "0000"))
+                .thenReturn(R.fail("短信验证码失效"));
+        assertThrows(BizException.class, () -> granter.checkCaptcha(p2));
+
+        // 校验成功
+        when(captchaService.checkCaptcha("13800000000", com.dalio.cloud.model.enumeration.base.MsgTemplateCodeEnum.MOBILE_LOGIN.getCode(), "0000"))
+                .thenReturn(R.success(true));
+        assertTrue(granter.checkCaptcha(p2).getIsSuccess());
+
+        // verifyCaptcha 为 false 跳过
+        systemProperties.setVerifyCaptcha(false);
+        assertTrue(granter.checkCaptcha(p2).getIsSuccess());
+    }
+
+    @Test
+    @DisplayName("测试 AbstractTokenGranter 状态校验与 switchOrg 异常分支")
+    void testAbstractTokenGranterBranches() {
+        PasswordTokenGranter granter = new PasswordTokenGranter();
+        injectFields(granter);
+
+        // checkUserState 为 null 或禁用
+        R<LoginResultVO> userNullRes = granter.checkUserState(null);
+        assertFalse(userNullRes.getIsSuccess());
+
+        DefUser disabledUser = new DefUser();
+        disabledUser.setId(999L);
+        disabledUser.setState(false);
+        R<LoginResultVO> userDisabledRes = granter.checkUserState(disabledUser);
+        assertFalse(userDisabledRes.getIsSuccess());
+
+        // switchOrg 用户为空抛出异常
+        StpUtil.login(1002L, "PC");
+        ContextUtil.setUserId(1002L);
+        when(defUserService.getByIdCache(1002L)).thenReturn(null);
+        assertThrows(com.dalio.basic.exception.UnauthorizedException.class, () -> granter.switchOrg(10L));
+
+        // switchOrg 用户被禁用
+        DefUser uDisabled = new DefUser();
+        uDisabled.setId(1002L);
+        uDisabled.setState(false);
+        when(defUserService.getByIdCache(1002L)).thenReturn(uDisabled);
+        assertThrows(com.dalio.basic.exception.UnauthorizedException.class, () -> granter.switchOrg(10L));
+
+        // switchOrg 员工为空抛出异常
+        DefUser u2 = new DefUser();
+        u2.setId(1002L);
+        u2.setState(true);
+        when(defUserService.getByIdCache(1002L)).thenReturn(u2);
+        when(baseEmployeeService.getEmployeeByUser(1002L)).thenReturn(null);
+        assertThrows(com.dalio.basic.exception.ArgumentException.class, () -> granter.switchOrg(10L));
+
+        // switchOrg 员工被禁用抛出异常
+        BaseEmployee empDisabled = new BaseEmployee();
+        empDisabled.setId(2002L);
+        empDisabled.setState(false);
+        when(baseEmployeeService.getEmployeeByUser(1002L)).thenReturn(empDisabled);
+        assertThrows(BizException.class, () -> granter.switchOrg(10L));
+
+        // switchOrg 组织为空抛出异常
+        BaseEmployee emp = new BaseEmployee();
+        emp.setId(2002L);
+        emp.setState(true);
+        when(baseEmployeeService.getEmployeeByUser(1002L)).thenReturn(emp);
+        when(baseOrgService.getByIdCache(9999L)).thenReturn(null);
+        assertThrows(com.dalio.basic.exception.ArgumentException.class, () -> granter.switchOrg(9999L));
+
+        // switchOrg 目标组织为 COMPANY 类型
+        BaseOrg targetCompany = new BaseOrg();
+        targetCompany.setId(5001L);
+        targetCompany.setType(OrgTypeEnum.COMPANY.getCode());
+        targetCompany.setTreePath("/0/5001/");
+        when(baseOrgService.getByIdCache(5001L)).thenReturn(targetCompany);
+        LoginResultVO compSwitchRes = granter.switchOrg(5001L);
+        assertNotNull(compSwitchRes);
+        assertNotNull(compSwitchRes.getToken());
+    }
 }

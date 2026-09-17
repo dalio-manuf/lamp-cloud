@@ -5,6 +5,7 @@ import cn.hutool.core.date.TimeInterval;
 import cn.hutool.log.StaticLog;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +14,7 @@ import com.dalio.cloud.system.entity.system.DefArea;
 
 import java.util.List;
 
+@Disabled("手动执行爬取脚本，依赖外部网络与数据库环境，不作为自动化单元测试运行")
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @Slf4j

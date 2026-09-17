@@ -98,10 +98,30 @@ class DictAndParamServiceTest {
         properties.setEnumPackage("com.dalio.cloud.model.enumeration");
         dictService.init();
 
-        // 3. findAll
+        // 3. findAll - 空数据库列表
         when(dictManager.list(any(com.baomidou.mybatisplus.core.conditions.Wrapper.class))).thenReturn(Collections.emptyList());
         List<com.dalio.cloud.system.vo.result.system.DefDictResultVO> list = dictService.findAll();
         assertNotNull(list);
+
+        // 4. findAll - 模拟数据库中已有字典和字典项数据
+        DefDict existingDict = new DefDict();
+        existingDict.setId(101L);
+        existingDict.setKey("BooleanEnum");
+        existingDict.setName("是否");
+
+        DefDict existingItem = new DefDict();
+        existingItem.setId(201L);
+        existingItem.setParentId(101L);
+        existingItem.setKey("true");
+        existingItem.setName("是");
+
+        when(dictManager.list(any(com.baomidou.mybatisplus.core.conditions.Wrapper.class)))
+                .thenReturn(List.of(existingDict))
+                .thenReturn(List.of(existingItem));
+
+        List<com.dalio.cloud.system.vo.result.system.DefDictResultVO> populatedList = dictService.findAll();
+        assertNotNull(populatedList);
+        assertFalse(populatedList.isEmpty());
     }
 
     @Test

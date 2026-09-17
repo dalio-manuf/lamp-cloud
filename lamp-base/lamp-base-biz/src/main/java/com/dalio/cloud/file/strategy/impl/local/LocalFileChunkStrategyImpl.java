@@ -73,6 +73,9 @@ public class LocalFileChunkStrategyImpl extends AbstractFileChunkStrategy {
         log.info("path={},fileName={}", path, fileName);
         java.io.File outputFile = new java.io.File(Paths.get(path, fileName).toString());
         if (!outputFile.exists()) {
+            if (outputFile.getParentFile() != null && !outputFile.getParentFile().exists()) {
+                outputFile.getParentFile().mkdirs();
+            }
             boolean newFile = outputFile.createNewFile();
             if (!newFile) {
                 return R.fail("创建文件失败");

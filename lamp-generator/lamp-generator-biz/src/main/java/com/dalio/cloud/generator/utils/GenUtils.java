@@ -130,11 +130,11 @@ public class GenUtils {
     private static String processName(String name, NamingStrategy strategy, List<String> prefix, List<String> suffix) {
         String propertyName = name;
         // 删除前缀
-        if (prefix.size() > 0) {
+        if (CollUtil.isNotEmpty(prefix)) {
             propertyName = NamingStrategy.removePrefix(propertyName, prefix);
         }
         // 删除后缀
-        if (suffix.size() > 0) {
+        if (CollUtil.isNotEmpty(suffix)) {
             propertyName = NamingStrategy.removeSuffix(propertyName, suffix);
         }
         if (StringUtils.isBlank(propertyName)) {
