@@ -121,12 +121,13 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     private static String formatDuration(Duration duration) {
-        if (duration == null) {
+        if (duration == null || duration.isNegative()) {
             return "00:00:00";
         }
         long seconds = duration.getSeconds();
+        long hours = seconds / 3600;
         long minutes = (seconds % 3600) / 60;
         long secs = seconds % 60;
-        return String.format("00:%02d:%02d", minutes, secs);
+        return String.format("%02d:%02d:%02d", hours, minutes, secs);
     }
 }

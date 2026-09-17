@@ -49,6 +49,9 @@ public class Mem {
     }
 
     public double getUsage() {
+        if (total <= 0) {
+            return 0.0;
+        }
         return ArithUtil.mul(ArithUtil.div(used, total, 4), 100);
     }
 }

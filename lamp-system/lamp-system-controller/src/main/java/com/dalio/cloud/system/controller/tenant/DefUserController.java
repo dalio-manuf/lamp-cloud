@@ -231,7 +231,7 @@ public class DefUserController extends SuperExcelController<DefUserService, Long
             Duration duration = Duration.between(bean.getSessionTime(), currentTime);
             bean.setSessionStr(DateUtils.tranDurationToShow(duration));
 
-            Duration expireDuration = Duration.between(bean.getExpireTime(), currentTime);
+            Duration expireDuration = Duration.between(currentTime, bean.getExpireTime());
             bean.setExpireStr(DateUtils.tranDurationToShow(expireDuration));
 
             loginUserList.add(bean);
@@ -265,7 +265,7 @@ public class DefUserController extends SuperExcelController<DefUserService, Long
                 Duration duration = Duration.between(bean.getSessionTime(), currentTime);
                 bean.setSessionStr(DateUtils.tranDurationToShow(duration));
 
-                Duration expireDuration = Duration.between(bean.getExpireTime(), currentTime);
+                Duration expireDuration = Duration.between(currentTime, bean.getExpireTime());
                 bean.setExpireStr(DateUtils.tranDurationToShow(expireDuration));
             } catch (Exception e) {
                 log.error(e.getMessage(), e);

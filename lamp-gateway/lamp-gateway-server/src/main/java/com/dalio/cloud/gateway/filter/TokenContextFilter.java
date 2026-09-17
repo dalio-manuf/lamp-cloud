@@ -92,6 +92,15 @@ public class TokenContextFilter implements WebFilter, Ordered {
         ServerHttpResponse response = exchange.getResponse();
         ServerHttpRequest.Builder mutate = request.mutate();
 
+        // 剥离客户端自带的内部信任敏感Header，杜绝伪造与越权
+        mutate.headers(h -> {
+            h.remove(USER_ID_HEADER);
+            h.remove(EMPLOYEE_ID_HEADER);
+            h.remove(CURRENT_TOP_COMPANY_ID_HEADER);
+            h.remove(CURRENT_COMPANY_ID_HEADER);
+            h.remove(CURRENT_DEPT_ID_HEADER);
+        });
+
         ContextUtil.setGrayVersion(getHeader(ContextConstants.GRAY_VERSION, request));
 
         try {

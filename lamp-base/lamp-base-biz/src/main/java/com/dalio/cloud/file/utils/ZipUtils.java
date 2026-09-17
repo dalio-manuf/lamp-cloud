@@ -65,6 +65,7 @@ public class ZipUtils {
                         srcPath += SLASH;
                     }
                     out.putNextEntry(new ZipEntry(path + srcPath));
+                    out.closeEntry();
                     if (files != null && files.length > 0) {
                         zipFiles(out, path + srcPath, files);
                     }
@@ -232,10 +233,12 @@ public class ZipUtils {
                 String fileName = entry.getKey();
                 String url = entry.getValue();
                 BufferedInputStream bis = null;
+                boolean entryOpened = false;
                 try {
                     connection = getConnection(url);
                     bis = new BufferedInputStream(connection.getInputStream());
                     zos.putNextEntry(new ZipEntry(fileName));
+                    entryOpened = true;
 
                     int len;
                     byte[] buf = new byte[10 * 1024];
@@ -250,9 +253,17 @@ public class ZipUtils {
                         connection.disconnect();
                     }
                     if (bis != null) {
-                        bis.close();
+                        try {
+                            bis.close();
+                        } catch (Exception ignore) {
+                        }
                     }
-                    zos.closeEntry();
+                    if (entryOpened) {
+                        try {
+                            zos.closeEntry();
+                        } catch (Exception ignore) {
+                        }
+                    }
                 }
             }
         }

@@ -200,7 +200,7 @@ public class DefResourceServiceImpl extends SuperCacheServiceImpl<DefResourceMan
         }
 
         DefResource parent = null;
-        if (parentId != null) {
+        if (parentId != null && !TreeUtil.isRoot(parentId)) {
             ArgumentAssert.isFalse(id.equals(parentId), "不能移动到自己的子节点");
             boolean flag = childrenList.stream().anyMatch(item -> item.getId().equals(parentId));
             ArgumentAssert.isFalse(flag, "不能移动到自己的子节点");

@@ -57,7 +57,7 @@ class DefServerAndDomainTest {
         cpu.setWait(0.1);
         cpu.setFree(0.1);
 
-        assertEquals(80.0, cpu.getTotal());
+        assertEquals(87.5, cpu.getTotal());
         assertTrue(cpu.getSys() > 0);
         assertTrue(cpu.getUsed() > 0);
         assertTrue(cpu.getWait() > 0);

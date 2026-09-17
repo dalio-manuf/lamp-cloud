@@ -66,6 +66,9 @@ public class Jvm {
     }
 
     public double getUsage() {
+        if (total <= 0) {
+            return 0.0;
+        }
         return ArithUtil.mul(ArithUtil.div(total - free, total, 4), 100);
     }
 

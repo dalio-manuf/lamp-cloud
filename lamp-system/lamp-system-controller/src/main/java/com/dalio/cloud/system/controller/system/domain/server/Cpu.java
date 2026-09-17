@@ -48,7 +48,10 @@ public class Cpu {
     }
 
     public double getTotal() {
-        return ArithUtil.round(ArithUtil.mul(total, 100), 2);
+        if (total <= 0) {
+            return 0.0;
+        }
+        return ArithUtil.round(ArithUtil.mul((total - free) / total, 100), 2);
     }
 
     public void setTotal(double total) {

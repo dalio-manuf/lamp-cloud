@@ -89,6 +89,11 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
             //文件名
             File filePo = result.getData();
 
+            if (filePo.getId() != null) {
+                copyFile(filePo);
+                filePo.setId(null);
+            }
+
             filePo
                     .setOriginalFileName(info.getSubmittedFileName())
                     .setSize(info.getSize())
@@ -108,6 +113,13 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
         int chunks = info.getChunks();
         String folder = info.getName();
         String md5 = info.getMd5();
+
+        java.nio.file.Path rootPath = Paths.get(path).normalize().toAbsolutePath();
+        java.nio.file.Path targetFolder = Paths.get(path, folder).normalize().toAbsolutePath();
+        if (!targetFolder.startsWith(rootPath) || targetFolder.equals(rootPath)) {
+            log.warn("检测到非法路径穿越合并请求: folder={}, path={}", folder, path);
+            return R.fail("非法分片目录");
+        }
 
         int chunksNum = this.getChunksNum(Paths.get(path, folder).toString());
         log.info("chunks={}, chunksNum={}", chunks, chunksNum);
@@ -172,8 +184,14 @@ public abstract class AbstractFileChunkStrategy implements FileChunkStrategy {
      * @return 是否成功
      */
     protected boolean cleanSpace(String folder, String path) {
+        java.nio.file.Path rootPath = Paths.get(path).normalize().toAbsolutePath();
+        java.nio.file.Path targetFolder = Paths.get(path, folder).normalize().toAbsolutePath();
+        if (!targetFolder.startsWith(rootPath) || targetFolder.equals(rootPath)) {
+            log.warn("检测到非法路径穿越清理操作: folder={}, path={}", folder, path);
+            return false;
+        }
         //删除分片文件夹
-        java.io.File garbage = new java.io.File(Paths.get(path, folder).toString());
+        java.io.File garbage = targetFolder.toFile();
         if (!FileUtils.deleteQuietly(garbage)) {
             return false;
         }

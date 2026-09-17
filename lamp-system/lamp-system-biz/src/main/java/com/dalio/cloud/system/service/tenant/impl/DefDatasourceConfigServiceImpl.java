@@ -35,7 +35,7 @@ import java.sql.SQLException;
 @Transactional(readOnly = true)
 public class DefDatasourceConfigServiceImpl extends SuperServiceImpl<DefDatasourceConfigManager, Long, DefDatasourceConfig>
         implements DefDatasourceConfigService {
-    @Value("${spring.datasource.druid.validation-query}")
+    @Value("${spring.datasource.druid.validation-query:SELECT 1}")
     private String validationQuery;
 
     @Override

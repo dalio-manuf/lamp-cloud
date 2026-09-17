@@ -326,11 +326,21 @@ class DefUserServiceImplTest {
             assertTrue(service.updateMobile(mobVO));
             verify(cacheOps, atLeastOnce()).del(any(CacheKey.class));
 
+            // updateMobile duplicate check
+            when(userManager.count(any())).thenReturn(1L);
+            assertThrows(ArgumentException.class, () -> service.updateMobile(mobVO));
+            when(userManager.count(any())).thenReturn(0L);
+
             // 4. updateEmail
             u.setEmail("old@test.com");
             com.dalio.cloud.system.vo.update.tenant.DefUserEmailUpdateVO emailVO = new com.dalio.cloud.system.vo.update.tenant.DefUserEmailUpdateVO();
             emailVO.setEmail("new@test.com");
             assertTrue(service.updateEmail(emailVO));
+
+            // updateEmail duplicate check
+            when(userManager.count(any())).thenReturn(1L);
+            assertThrows(ArgumentException.class, () -> service.updateEmail(emailVO));
+            when(userManager.count(any())).thenReturn(0L);
 
             // 5. updateBaseInfo
             com.dalio.cloud.system.vo.update.tenant.DefUserBaseInfoUpdateVO baseInfoVO = new com.dalio.cloud.system.vo.update.tenant.DefUserBaseInfoUpdateVO();

@@ -34,8 +34,8 @@ public class LampLogAspect extends BaseLogAspect {
      * ()中间的.. 任意参数
      *
      */
-    @Pointcut("execution(* com.dalio.cloud.controller..*.*(..)) || execution(* com.dalio.cloud.service..*.*(..)) " +
-              "|| execution(* com.dalio.cloud.biz..*.*(..))")
+    @Pointcut("execution(* com.dalio.cloud..controller..*.*(..)) || execution(* com.dalio.cloud..service..*.*(..)) " +
+              "|| execution(* com.dalio.cloud..biz..*.*(..))")
     public void lampLogAspect() {
 
     }

@@ -237,6 +237,8 @@ public class DefUserServiceImpl extends SuperCacheServiceImpl<DefUserManager, Lo
         Long id = ContextUtil.getUserId();
         DefUser user = superManager.getById(id);
         ArgumentAssert.notNull(user, "用户不存在");
+        ArgumentAssert.notEmpty(data.getMobile(), "手机号不能为空");
+        ArgumentAssert.isFalse(checkMobile(data.getMobile(), id), "手机号：{}已经存在", data.getMobile());
         String oldMobile = user.getMobile();
         user.setMobile(data.getMobile());
         superManager.updateById(user);
@@ -255,6 +257,8 @@ public class DefUserServiceImpl extends SuperCacheServiceImpl<DefUserManager, Lo
         Long id = ContextUtil.getUserId();
         DefUser user = superManager.getById(id);
         ArgumentAssert.notNull(user, "用户不存在");
+        ArgumentAssert.notEmpty(data.getEmail(), "邮箱不能为空");
+        ArgumentAssert.isFalse(checkEmail(data.getEmail(), id), "邮箱：{}已经存在", data.getEmail());
         String oldEmail = user.getEmail();
         user.setEmail(data.getEmail());
         superManager.updateById(user);

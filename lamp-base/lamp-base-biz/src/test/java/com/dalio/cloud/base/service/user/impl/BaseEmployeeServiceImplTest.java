@@ -201,6 +201,15 @@ class BaseEmployeeServiceImplTest {
         assertNotNull(updated);
         assertEquals(100L, updated.getId());
         verify(empManager).updateById(any(BaseEmployee.class));
+
+        // updateById with null orgIdList does not clear org relations
+        com.dalio.cloud.base.vo.update.user.BaseEmployeeUpdateVO updateNoOrgVO = new com.dalio.cloud.base.vo.update.user.BaseEmployeeUpdateVO();
+        updateNoOrgVO.setId(100L);
+        updateNoOrgVO.setRealName("王五未改机构");
+        updateNoOrgVO.setOrgIdList(null);
+        service.updateById(updateNoOrgVO);
+        // removeByEmployeeId should still have been called only twice (once in save, once in first updateById)
+        verify(empOrgRelManager, times(2)).removeByEmployeeId(any());
     }
 
     @Test

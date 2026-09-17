@@ -47,10 +47,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class DictServiceImpl implements DictService {
     private static final Map<Option, List<Option>> TEMP_ENUM_LIST_MAP = new HashMap<>();
-    /**
-     * 过滤那些枚举
-     */
-    private static final Predicate<Class<?>> CLASS_FILTER = item -> item != null && item.isEnum() && MybatisEnumTypeHandler.isMpEnums(item);
+    private static final Predicate<Class<?>> CLASS_FILTER = item -> item != null && item.isEnum()
+            && BaseEnum.class.isAssignableFrom(item) && MybatisEnumTypeHandler.isMpEnums(item);
     private final DefDictManager defDictManager;
     private final SystemProperties systemProperties;
 

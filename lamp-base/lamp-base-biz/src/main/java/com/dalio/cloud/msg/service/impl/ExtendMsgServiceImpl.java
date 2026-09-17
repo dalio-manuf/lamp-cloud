@@ -2,6 +2,7 @@ package com.dalio.cloud.msg.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.map.MapUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -99,13 +100,17 @@ public class ExtendMsgServiceImpl extends SuperServiceImpl<ExtendMsgManager, Lon
         }).toList();
         extendMsgRecipientManager.saveBatch(recipientList);
 
+        if (Boolean.TRUE.equals(data.getDraft())) {
+            return true;
+        }
+
         if (data.getSendTime() == null) {
             List<ExtendNotice> noticeList = data.getRecipientList().stream().map((item) -> {
                 ExtendNotice notice = new ExtendNotice();
                 BeanUtil.copyProperties(extendMsg, notice);
                 notice.setId(null);
                 notice.setMsgId(extendMsg.getId());
-                notice.setRecipientId(Long.valueOf(item));
+                notice.setRecipientId(Convert.toLong(item, null));
                 notice.setIsHandle(false);
                 notice.setIsRead(false);
                 notice.setHandleTime(null);
@@ -147,7 +152,7 @@ public class ExtendMsgServiceImpl extends SuperServiceImpl<ExtendMsgManager, Lon
             BeanUtil.copyProperties(extendMsg, notice);
             notice.setId(null);
             notice.setMsgId(extendMsg.getId());
-            notice.setRecipientId(Long.valueOf(item.getRecipient()));
+            notice.setRecipientId(Convert.toLong(item.getRecipient(), null));
             notice.setIsHandle(false);
             notice.setIsRead(false);
             notice.setHandleTime(null);

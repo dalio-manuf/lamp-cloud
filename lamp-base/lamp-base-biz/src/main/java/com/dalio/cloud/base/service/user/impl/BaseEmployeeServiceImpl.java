@@ -131,8 +131,9 @@ public class BaseEmployeeServiceImpl extends SuperCacheServiceImpl<BaseEmployeeM
         BaseEmployee baseEmployee = BeanUtil.toBean(updateVO, BaseEmployee.class);
         superManager.updateById(baseEmployee);
         List<Long> orgIdList = employeeUpdateVO.getOrgIdList();
-
-        saveEmployeeOrg(baseEmployee, orgIdList);
+        if (orgIdList != null) {
+            saveEmployeeOrg(baseEmployee, orgIdList);
+        }
         return baseEmployee;
     }
 
