@@ -43,6 +43,17 @@ public class UserInfoServiceImpl implements UserInfoService {
     private final CacheOps cacheOps;
     private final SystemProperties systemProperties;
 
+    private static String formatDuration(Duration duration) {
+        if (duration == null || duration.isNegative()) {
+            return "00:00:00";
+        }
+        long seconds = duration.getSeconds();
+        long hours = seconds / 3600;
+        long minutes = (seconds % 3600) / 60;
+        long secs = seconds % 60;
+        return String.format("%02d:%02d:%02d", hours, minutes, secs);
+    }
+
     @Override
     public OrgResultVO findCompanyAndDept() {
         Long userId = ContextUtil.getUserId();
@@ -118,16 +129,5 @@ public class UserInfoServiceImpl implements UserInfoService {
         result.put("expire", key.getExpire());
         result.put("expireStr", formatDuration(key.getExpire()));
         return result;
-    }
-
-    private static String formatDuration(Duration duration) {
-        if (duration == null || duration.isNegative()) {
-            return "00:00:00";
-        }
-        long seconds = duration.getSeconds();
-        long hours = seconds / 3600;
-        long minutes = (seconds % 3600) / 60;
-        long secs = seconds % 60;
-        return String.format("%02d:%02d:%02d", hours, minutes, secs);
     }
 }

@@ -110,6 +110,7 @@ public interface BaseOrgService extends SuperCacheService<Long, BaseOrg> {
 
     /**
      * 根据部门id，递归查询部门的上级公司id
+     *
      * @param deptId 部门id
      * @return
      */

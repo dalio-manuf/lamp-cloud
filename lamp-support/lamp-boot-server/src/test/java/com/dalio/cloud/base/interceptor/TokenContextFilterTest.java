@@ -39,10 +39,6 @@ public class TokenContextFilterTest {
         ContextUtil.remove();
     }
 
-    public static class SampleHandler {
-        public void handle() {}
-    }
-
     @Test
     @DisplayName("测试非 HandlerMethod 直接放行")
     void testPreHandleNonHandlerMethod() {
@@ -110,5 +106,10 @@ public class TokenContextFilterTest {
         ContextUtil.setClientId("temp_client");
         filter.afterCompletion(mock(HttpServletRequest.class), mock(HttpServletResponse.class), new Object(), null);
         assertNull(ContextUtil.getClientId());
+    }
+
+    public static class SampleHandler {
+        public void handle() {
+        }
     }
 }

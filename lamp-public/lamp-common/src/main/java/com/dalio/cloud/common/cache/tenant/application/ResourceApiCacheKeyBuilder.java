@@ -23,9 +23,6 @@ public class ResourceApiCacheKeyBuilder implements CacheKeyBuilder {
         return new ResourceApiCacheKeyBuilder().key(id);
     }
 
-    
-
-    
 
     @Override
     public String getModular() {

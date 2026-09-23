@@ -37,7 +37,9 @@ public class DefMsgTemplatePageQuery implements Serializable {
     private Long id;
     @Schema(description = "状态")
     private Boolean state;
-    /** 接口ID */
+    /**
+     * 接口ID
+     */
     @Schema(description = "接口ID")
     private Long interfaceId;
     /**

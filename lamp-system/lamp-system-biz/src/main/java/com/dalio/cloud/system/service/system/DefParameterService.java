@@ -13,7 +13,8 @@ import com.dalio.cloud.system.entity.system.DefParameter;
  * @date 2021-10-13
  */
 public interface DefParameterService extends SuperCacheService<Long, DefParameter> {
-    /**¬
+    /**
+     * ¬
      * 检测参数键是否可用
      *
      * @param key 健

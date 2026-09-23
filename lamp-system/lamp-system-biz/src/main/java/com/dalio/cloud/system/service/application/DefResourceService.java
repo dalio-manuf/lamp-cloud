@@ -24,6 +24,7 @@ import java.util.Map;
 public interface DefResourceService extends SuperCacheService<Long, DefResource> {
     /**
      * 查询系统中配置的所有API与资源编码
+     *
      * @return API与资源编码
      */
     List<ResourceApiVO> findAllApi();

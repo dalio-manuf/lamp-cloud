@@ -18,8 +18,8 @@ public interface UserInfoService {
     /**
      * 根据单位ID查找部门
      *
-     * @param companyId 单位ID
-     * @param employeeId  员工id
+     * @param companyId  单位ID
+     * @param employeeId 员工id
      * @return java.util.List<com.dalio.cloud.model.entity.base.SysOrg>
      * @author admin
      * @date 2022/9/29 11:18 PM

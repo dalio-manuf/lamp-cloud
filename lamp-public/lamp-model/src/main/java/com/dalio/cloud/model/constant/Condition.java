@@ -10,11 +10,13 @@ import com.baomidou.mybatisplus.annotation.SqlCondition;
  */
 public class Condition {
 
+    /**
+     * MySQL、Oracle 数据库的 模糊查询
+     */
+    public static final String LIKE = SqlCondition.LIKE;
+
     private Condition() {
     }
-
-    /** MySQL、Oracle 数据库的 模糊查询 */
-    public static final String LIKE = SqlCondition.LIKE;
 //    /**  ORACLE 数据库的 模糊查询 */
 //    public static final String LIKE = SqlCondition.ORACLE_LIKE;
 }

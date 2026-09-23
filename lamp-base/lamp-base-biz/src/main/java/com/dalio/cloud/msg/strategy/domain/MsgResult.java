@@ -24,8 +24,12 @@ public class MsgResult {
      * 消息标题
      */
     private String title;
-    /** 消息内容 */
+    /**
+     * 消息内容
+     */
     private String content;
-    /** 返回结果 */
+    /**
+     * 返回结果
+     */
     private Object result;
 }

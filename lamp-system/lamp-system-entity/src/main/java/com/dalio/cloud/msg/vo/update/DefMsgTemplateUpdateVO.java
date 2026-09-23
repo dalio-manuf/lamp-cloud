@@ -41,7 +41,9 @@ public class DefMsgTemplateUpdateVO implements Serializable {
     private Long id;
     @Schema(description = "状态")
     private Boolean state;
-    /** 接口ID */
+    /**
+     * 接口ID
+     */
     @Schema(description = "接口ID")
     @NotNull(message = "请选择接口")
     private Long interfaceId;

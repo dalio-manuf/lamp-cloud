@@ -15,11 +15,17 @@ import com.dalio.cloud.msg.strategy.domain.BaseProperty;
 public class TencentSmsProperty extends BaseProperty {
     private static final String DEF_REGION = "ap-beijing";
     private static final String DEF_END_POINT = "sms.tencentcloudapi.com";
-    /** secretId */
+    /**
+     * secretId
+     */
     private String secretId;
-    /** secretKey */
+    /**
+     * secretKey
+     */
     private String secretKey;
-    /** 地域域名 */
+    /**
+     * 地域域名
+     */
     private String endpoint;
     /**
      * 地域参数
@@ -29,7 +35,9 @@ public class TencentSmsProperty extends BaseProperty {
      * https://cloud.tencent.com/document/api/382/52071#.E5.9C.B0.E5.9F.9F.E5.88.97.E8.A1.A8
      */
     private String region;
-    /** 短信 SdkAppId，在 短信控制台 添加应用后生成的实际 SdkAppId，示例如1400006666。 */
+    /**
+     * 短信 SdkAppId，在 短信控制台 添加应用后生成的实际 SdkAppId，示例如1400006666。
+     */
     private String sdkAppId;
 
 

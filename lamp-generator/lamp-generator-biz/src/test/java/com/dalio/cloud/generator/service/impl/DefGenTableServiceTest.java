@@ -394,13 +394,14 @@ class DefGenTableServiceTest {
         projectVO.setDescription("Test");
         projectVO.setServerPort(8080);
         projectVO.setSeata(false);
-        
+
         java.io.File pomFile = new java.io.File(projDir + "/pom.xml");
         pomFile.getParentFile().mkdirs();
         try {
             pomFile.createNewFile();
-        } catch (Exception e) {}
-        
+        } catch (Exception e) {
+        }
+
         try {
             service.generator(projectVO);
         } catch (Exception e) {

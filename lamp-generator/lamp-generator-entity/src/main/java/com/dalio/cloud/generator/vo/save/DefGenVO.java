@@ -37,7 +37,9 @@ public class DefGenVO {
     @Schema(description = "生成类型")
     @NotNull(message = "请选择需生成类型")
     private TemplateEnum template;
-    /** 文件覆盖配置 */
+    /**
+     * 文件覆盖配置
+     */
     @Schema(description = "文件覆盖配置")
     private Map<String, FileOverrideStrategyEnum> fileOverrideConfig;
 

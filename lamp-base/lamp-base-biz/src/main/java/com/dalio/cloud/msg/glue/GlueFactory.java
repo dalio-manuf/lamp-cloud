@@ -26,8 +26,6 @@ public class GlueFactory {
     private static final Logger log = LoggerFactory.getLogger(GlueFactory.class);
 
     private static final ConcurrentMap<String, Class<?>> CLASS_CACHE = new ConcurrentHashMap<>();
-    private static GlueFactory glueFactory = new SpringGlueFactory();
-
     /**
      * 危险 Token 黑名单。
      * 脚本源码被剥离空白和字符串字面量后，如果仍包含以下任意 Token 则拒绝执行。
@@ -63,7 +61,6 @@ public class GlueFactory {
             // ---- 通用危险方法名 ----
             "exec", "execute"
     );
-
     /**
      * 危险调用模式（正则匹配，覆盖 Token 扫描可能遗漏的组合写法）
      */
@@ -79,7 +76,7 @@ public class GlueFactory {
             Pattern.compile("@ASTTest"),
             Pattern.compile("@Grab\\b")
     };
-
+    private static GlueFactory glueFactory = new SpringGlueFactory();
     /**
      * groovy class loader
      */
@@ -105,66 +102,6 @@ public class GlueFactory {
      */
     private static String sha256Hex(String input) {
         return DigestUtil.sha256Hex(input);
-    }
-
-    /**
-     * 加载groovy脚本，并实例化
-     *
-     * @param script groovy脚本
-     * @return
-     * @throws Exception
-     */
-    public MsgStrategy loadNewInstance(String script) throws Exception {
-        if (script != null && !script.trim().isEmpty()) {
-            checkScriptSafety(script);
-            Class<?> clazz = getCodeSourceClass(script);
-            if (clazz != null) {
-                Object instance = clazz.getDeclaredConstructor().newInstance();
-                if (instance instanceof MsgStrategy inst) {
-                    this.injectService(inst);
-                    return inst;
-                } else {
-                    throw new IllegalArgumentException("glue 加载失败，"
-                                                       + "无法将实例转换 [" + instance.getClass() + "] 为 MsgStrategy");
-                }
-            }
-        }
-        throw BizException.wrap("脚本不能为空");
-    }
-
-    /**
-     * 执行脚本
-     *
-     * @param script script
-     * @param params params
-     * @return java.lang.Object
-     * @author henhen
-     * @date 2022/7/25 9:35 PM
-     */
-    public Object exeGroovyScript(String script, Map<String, Object> params) {
-        if (script != null && !script.trim().isEmpty()) {
-            checkScriptSafety(script);
-            Class<?> clazz = getCodeSourceClass(script);
-            if (clazz != null) {
-                return InvokerHelper.createScript(clazz, new Binding(params)).run();
-            }
-        }
-        throw new IllegalArgumentException("脚本不能为空");
-    }
-
-    private Class<?> getCodeSourceClass(String codeSource) {
-        try {
-            String hashKey = sha256Hex(codeSource);
-            Class<?> clazz = CLASS_CACHE.get(hashKey);
-            if (clazz == null) {
-                clazz = groovyClassLoader.parseClass(codeSource);
-                CLASS_CACHE.putIfAbsent(hashKey, clazz);
-            }
-            return clazz;
-        } catch (Exception e) {
-            // 编译失败直接抛异常，禁止静默回退
-            throw BizException.wrap("脚本编译失败: {}", e.getMessage());
-        }
     }
 
     /**
@@ -211,6 +148,66 @@ public class GlueFactory {
         result = result.replaceAll("/\\*[\\s\\S]*?\\*/", " ");
         // 压缩空白
         return result.replaceAll("\\s+", " ");
+    }
+
+    /**
+     * 加载groovy脚本，并实例化
+     *
+     * @param script groovy脚本
+     * @return
+     * @throws Exception
+     */
+    public MsgStrategy loadNewInstance(String script) throws Exception {
+        if (script != null && !script.trim().isEmpty()) {
+            checkScriptSafety(script);
+            Class<?> clazz = getCodeSourceClass(script);
+            if (clazz != null) {
+                Object instance = clazz.getDeclaredConstructor().newInstance();
+                if (instance instanceof MsgStrategy inst) {
+                    this.injectService(inst);
+                    return inst;
+                } else {
+                    throw new IllegalArgumentException("glue 加载失败，"
+                            + "无法将实例转换 [" + instance.getClass() + "] 为 MsgStrategy");
+                }
+            }
+        }
+        throw BizException.wrap("脚本不能为空");
+    }
+
+    /**
+     * 执行脚本
+     *
+     * @param script script
+     * @param params params
+     * @return java.lang.Object
+     * @author henhen
+     * @date 2022/7/25 9:35 PM
+     */
+    public Object exeGroovyScript(String script, Map<String, Object> params) {
+        if (script != null && !script.trim().isEmpty()) {
+            checkScriptSafety(script);
+            Class<?> clazz = getCodeSourceClass(script);
+            if (clazz != null) {
+                return InvokerHelper.createScript(clazz, new Binding(params)).run();
+            }
+        }
+        throw new IllegalArgumentException("脚本不能为空");
+    }
+
+    private Class<?> getCodeSourceClass(String codeSource) {
+        try {
+            String hashKey = sha256Hex(codeSource);
+            Class<?> clazz = CLASS_CACHE.get(hashKey);
+            if (clazz == null) {
+                clazz = groovyClassLoader.parseClass(codeSource);
+                CLASS_CACHE.putIfAbsent(hashKey, clazz);
+            }
+            return clazz;
+        } catch (Exception e) {
+            // 编译失败直接抛异常，禁止静默回退
+            throw BizException.wrap("脚本编译失败: {}", e.getMessage());
+        }
     }
 
     /**

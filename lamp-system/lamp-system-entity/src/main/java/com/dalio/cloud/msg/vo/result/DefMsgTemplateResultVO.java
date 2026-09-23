@@ -55,7 +55,9 @@ public class DefMsgTemplateResultVO extends Entity<Long> implements Serializable
     @Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.Base.MSG_TEMPLATE_TYPE)
     private String type;
 
-    /** 接口ID */
+    /**
+     * 接口ID
+     */
     @Schema(description = "接口ID")
     private Long interfaceId;
 

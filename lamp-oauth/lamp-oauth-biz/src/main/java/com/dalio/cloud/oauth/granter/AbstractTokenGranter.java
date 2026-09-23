@@ -199,7 +199,7 @@ public abstract class AbstractTokenGranter implements TokenGranter {
      *
      * @param loginParam loginParam
      * @param user       user
-     * @param tenantId       tenantId
+     * @param tenantId   tenantId
      * @return com.dalio.basic.base.R<com.dalio.cloud.oauth.vo.result.LoginResultVO>
      * @author admin
      * @date 2022/10/5 12:38 PM

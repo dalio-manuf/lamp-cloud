@@ -52,6 +52,25 @@ public class DictServiceImpl implements DictService {
     private final DefDictManager defDictManager;
     private final SystemProperties systemProperties;
 
+    private static void execI18n(Map<Serializable, DefDict> defMap, String locale, HashMap<Serializable, Object> map) {
+        defMap.forEach((key, value) -> {
+            String name = value.getName();
+            if (StrUtil.isNotEmpty(locale)) {
+                String i18nJson = value.getI18nJson();
+                try {
+                    JSONObject i18n = JSONUtil.parseObj(i18nJson);
+                    String i18nValue = i18n.getStr(locale);
+                    if (StrUtil.isNotEmpty(i18nValue)) {
+                        name = i18nValue;
+                    }
+                } catch (Exception e) {
+                    log.debug("解析i18nJson失败: {}", i18nJson, e);
+                }
+            }
+            map.put(key, name);
+        });
+    }
+
     @PostConstruct
     public void init() {
         String enumPackage = systemProperties.getEnumPackage();
@@ -93,6 +112,7 @@ public class DictServiceImpl implements DictService {
 
     /**
      * 查找本服务中，所有的枚举类
+     *
      * @return 枚举数据
      */
     public List<DefDictResultVO> findAll() {
@@ -161,7 +181,6 @@ public class DictServiceImpl implements DictService {
         return list;
     }
 
-
     @Override
     public void syncEnumToDict() {
         defDictManager.syncEnumToDict(TEMP_ENUM_LIST_MAP);
@@ -183,25 +202,6 @@ public class DictServiceImpl implements DictService {
         execI18n(defMap, locale, map);
 
         return map;
-    }
-
-    private static void execI18n(Map<Serializable, DefDict> defMap, String locale, HashMap<Serializable, Object> map) {
-        defMap.forEach((key, value) -> {
-            String name = value.getName();
-            if (StrUtil.isNotEmpty(locale)) {
-                String i18nJson = value.getI18nJson();
-                try {
-                    JSONObject i18n = JSONUtil.parseObj(i18nJson);
-                    String i18nValue = i18n.getStr(locale);
-                    if (StrUtil.isNotEmpty(i18nValue)) {
-                        name = i18nValue;
-                    }
-                } catch (Exception e) {
-                    log.debug("解析i18nJson失败: {}", i18nJson, e);
-                }
-            }
-            map.put(key, name);
-        });
     }
 
     @Override

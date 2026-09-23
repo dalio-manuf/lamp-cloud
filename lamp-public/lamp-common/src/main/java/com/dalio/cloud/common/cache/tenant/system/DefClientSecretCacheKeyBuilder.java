@@ -21,9 +21,6 @@ public class DefClientSecretCacheKeyBuilder implements CacheKeyBuilder {
         return new DefClientSecretCacheKeyBuilder().key(clientId, clientSecret);
     }
 
-    
-
-    
 
     @Override
     public String getTable() {

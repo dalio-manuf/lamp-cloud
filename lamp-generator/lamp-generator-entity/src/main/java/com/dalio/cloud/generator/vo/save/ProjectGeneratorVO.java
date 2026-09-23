@@ -34,17 +34,25 @@ import java.io.Serializable;
 public class ProjectGeneratorVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    /** 作者 */
+    /**
+     * 作者
+     */
     @NotEmpty(message = "请填写作者")
     private String author;
-    /** cloud boot */
+    /**
+     * cloud boot
+     */
     @NotNull(message = "请填写类型")
     private ProjectTypeEnum type;
-    /** 输出路径 */
+    /**
+     * 输出路径
+     */
     @NotEmpty(message = "请填写输出路径")
 
     private String outputDir;
-    /** 项目前缀 */
+    /**
+     * 项目前缀
+     */
     @NotEmpty(message = "请填写项目前缀")
     private String projectPrefix;
     /**

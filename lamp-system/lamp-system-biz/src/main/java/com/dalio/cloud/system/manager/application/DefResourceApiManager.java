@@ -18,7 +18,9 @@ import java.util.List;
  * @create [2021/9/29 1:26 下午 ] [admin] [初始创建]
  */
 public interface DefResourceApiManager extends SuperCacheManager<DefResourceApi> {
-    /** 查询系统中配置的所有API与资源编码 */
+    /**
+     * 查询系统中配置的所有API与资源编码
+     */
     List<ResourceApiVO> findAllApi();
 
     /**

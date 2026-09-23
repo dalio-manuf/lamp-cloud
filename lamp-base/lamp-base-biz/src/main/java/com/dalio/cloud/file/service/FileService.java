@@ -74,7 +74,7 @@ public interface FileService extends SuperService<Long, File> {
      *
      * @param request  请求头
      * @param response 响应头
-     * @param id      文件id
+     * @param id       文件id
      * @throws Exception
      */
     void download(HttpServletRequest request, HttpServletResponse response, Long id) throws Exception;

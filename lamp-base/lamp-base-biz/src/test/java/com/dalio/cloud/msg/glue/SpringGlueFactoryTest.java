@@ -19,6 +19,52 @@ import static org.mockito.Mockito.*;
  */
 class SpringGlueFactoryTest {
 
+    @Test
+    @DisplayName("测试 injectService 空对象与无 ApplicationContext 场景")
+    void testInjectServiceNullAndNoContext() {
+        SpringGlueFactory factory = new SpringGlueFactory();
+        assertDoesNotThrow(() -> factory.injectService(null));
+
+        try (MockedStatic<SpringUtils> springMock = Mockito.mockStatic(SpringUtils.class)) {
+            springMock.when(SpringUtils::getApplicationContext).thenReturn(null);
+            TargetBean target = new TargetBean();
+            factory.injectService(target);
+            assertNull(target.getServiceNamed());
+        }
+    }
+
+    @Test
+    @DisplayName("测试 injectService 注入各类 @Resource 和 @Autowired 字段")
+    void testInjectServiceWithAnnotations() {
+        SpringGlueFactory factory = new SpringGlueFactory();
+
+        try (MockedStatic<SpringUtils> springMock = Mockito.mockStatic(SpringUtils.class)) {
+            ApplicationContext mockContext = mock(ApplicationContext.class);
+            springMock.when(SpringUtils::getApplicationContext).thenReturn(mockContext);
+
+            TestService namedS = new TestService("named");
+            TestService fieldS = new TestService("field");
+            TestService typeS = new TestService("type");
+            TestService qualS = new TestService("qualified");
+
+            springMock.when(() -> SpringUtils.getBean("namedService")).thenReturn(namedS);
+            springMock.when(() -> SpringUtils.getBean("serviceByField")).thenReturn(fieldS);
+            springMock.when(() -> SpringUtils.getBean("serviceByType")).thenThrow(new RuntimeException("not found"));
+            springMock.when(() -> SpringUtils.getBean("qualifiedService")).thenReturn(qualS);
+            springMock.when(() -> SpringUtils.getBean(TestService.class)).thenReturn(typeS);
+
+            TargetBean target = new TargetBean();
+            factory.injectService(target);
+
+            assertEquals(namedS, target.getServiceNamed());
+            assertEquals(fieldS, target.getServiceByField());
+            assertEquals(typeS, target.getServiceByType());
+            assertEquals(qualS, target.getServiceQualified());
+            assertEquals(typeS, target.getServiceAutowiredByType());
+            assertNull(target.getPlainField());
+        }
+    }
+
     public static class TestService {
         private String name;
 
@@ -74,52 +120,6 @@ class SpringGlueFactoryTest {
 
         public String getPlainField() {
             return plainField;
-        }
-    }
-
-    @Test
-    @DisplayName("测试 injectService 空对象与无 ApplicationContext 场景")
-    void testInjectServiceNullAndNoContext() {
-        SpringGlueFactory factory = new SpringGlueFactory();
-        assertDoesNotThrow(() -> factory.injectService(null));
-
-        try (MockedStatic<SpringUtils> springMock = Mockito.mockStatic(SpringUtils.class)) {
-            springMock.when(SpringUtils::getApplicationContext).thenReturn(null);
-            TargetBean target = new TargetBean();
-            factory.injectService(target);
-            assertNull(target.getServiceNamed());
-        }
-    }
-
-    @Test
-    @DisplayName("测试 injectService 注入各类 @Resource 和 @Autowired 字段")
-    void testInjectServiceWithAnnotations() {
-        SpringGlueFactory factory = new SpringGlueFactory();
-
-        try (MockedStatic<SpringUtils> springMock = Mockito.mockStatic(SpringUtils.class)) {
-            ApplicationContext mockContext = mock(ApplicationContext.class);
-            springMock.when(SpringUtils::getApplicationContext).thenReturn(mockContext);
-
-            TestService namedS = new TestService("named");
-            TestService fieldS = new TestService("field");
-            TestService typeS = new TestService("type");
-            TestService qualS = new TestService("qualified");
-
-            springMock.when(() -> SpringUtils.getBean("namedService")).thenReturn(namedS);
-            springMock.when(() -> SpringUtils.getBean("serviceByField")).thenReturn(fieldS);
-            springMock.when(() -> SpringUtils.getBean("serviceByType")).thenThrow(new RuntimeException("not found"));
-            springMock.when(() -> SpringUtils.getBean("qualifiedService")).thenReturn(qualS);
-            springMock.when(() -> SpringUtils.getBean(TestService.class)).thenReturn(typeS);
-
-            TargetBean target = new TargetBean();
-            factory.injectService(target);
-
-            assertEquals(namedS, target.getServiceNamed());
-            assertEquals(fieldS, target.getServiceByField());
-            assertEquals(typeS, target.getServiceByType());
-            assertEquals(qualS, target.getServiceQualified());
-            assertEquals(typeS, target.getServiceAutowiredByType());
-            assertNull(target.getPlainField());
         }
     }
 }

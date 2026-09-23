@@ -29,7 +29,7 @@ public class FileAutoConfigure {
 
     /**
      * 初始化minio客户端,不用每次都初始化
-     *
+     * <p>
      * https://www.minio.org.cn/docs/minio/linux/integrations/setup-nginx-proxy-with-minio.html
      *
      * @return MinioClient

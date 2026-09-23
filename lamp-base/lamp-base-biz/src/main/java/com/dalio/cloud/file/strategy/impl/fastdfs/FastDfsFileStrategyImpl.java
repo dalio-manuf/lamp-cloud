@@ -63,9 +63,9 @@ public class FastDfsFileStrategyImpl extends AbstractFileStrategy {
         FileServerProperties.FastDfs fastDfs = fileProperties.getFastDfs();
         fileGets.forEach(item -> {
             String url = fastDfs.getUrlPrefix() +
-                         item.getBucket() +
-                         StrPool.SLASH +
-                         item.getPath();
+                    item.getBucket() +
+                    StrPool.SLASH +
+                    item.getPath();
             map.put(item.getPath(), url);
         });
         return map;

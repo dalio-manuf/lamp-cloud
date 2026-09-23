@@ -33,7 +33,9 @@ public class FileInsertUtil {
     public static final String SLOT_PAT = "@lamp.generator auto insert ([a-zA-Z0-9._]+)( -->)?";
     public static final Pattern SLOT_PATTERN = Pattern.compile(SLOT_PAT);
     private static final Set<String> ONE_TAB = Set.of(EchoDictType.class.getSimpleName(), EchoRef.class.getSimpleName(), EchoApi.class.getSimpleName());
-    /** 要操作的文件的路径 */
+    /**
+     * 要操作的文件的路径
+     */
     private String filePath;
     private String prefix;
     private Map<String, String> map;

@@ -73,9 +73,9 @@ public class LocalFileStrategyImpl extends AbstractFileStrategy {
         FileServerProperties.Local local = fileProperties.getLocal();
         fileGets.forEach(item -> {
             String url = local.getUrlPrefix() +
-                         item.getBucket() +
-                         StrPool.SLASH +
-                         item.getPath();
+                    item.getBucket() +
+                    StrPool.SLASH +
+                    item.getPath();
             map.put(item.getPath(), url);
         });
         return map;

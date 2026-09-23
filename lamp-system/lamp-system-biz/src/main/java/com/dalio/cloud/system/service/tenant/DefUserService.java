@@ -245,6 +245,7 @@ public interface DefUserService extends SuperCacheService<Long, DefUser> {
 
     /**
      * 忘记密码
+     *
      * @param dto 入参
      * @return
      */

@@ -130,6 +130,7 @@ public interface DefUserManager extends SuperCacheManager<DefUser>, LoadService 
 
     /**
      * 清理缓存
+     *
      * @param list id或用户对象
      */
     void delUserCache(Collection<?> list);

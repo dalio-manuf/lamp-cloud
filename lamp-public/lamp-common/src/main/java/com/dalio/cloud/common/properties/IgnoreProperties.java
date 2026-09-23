@@ -31,6 +31,7 @@ import static com.dalio.basic.utils.CollHelper.putAll;
 @ConfigurationProperties(prefix = IgnoreProperties.PREFIX)
 public class IgnoreProperties {
     public static final String PREFIX = Constants.PROJECT_PREFIX + ".ignore";
+    private static final ConcurrentHashMap<String, PathPattern> PATTERN_CACHE = new ConcurrentHashMap<>();
     /**
      * 是否启用网关的 uri权限鉴权 和 前端按钮权限 (设置为false，则不校验访问权限)
      *
@@ -41,10 +42,10 @@ public class IgnoreProperties {
      * 前端校验按钮 是否区分大小写
      */
     private Boolean caseSensitive = false;
-
-    /** 系统没有配置某个URI时，是否允许访问 */
+    /**
+     * 系统没有配置某个URI时，是否允许访问
+     */
     private Boolean notConfigUriAllow = false;
-
     private Map<String, Set<String>> baseUri = MapUtil.<String, Set<String>>builder(HttpMethod.ALL.name(), CollUtil.newHashSet(
             "/{p:[a-zA-Z0-9]+}.css",
             "/{p:[a-zA-Z0-9]+}.js",
@@ -90,7 +91,6 @@ public class IgnoreProperties {
             "/*/druid/**"
 
     )).build();
-
     /**
      * 需要携带租户ID，需要登录，但无需验证是否拥有 uri 权限的接口。 即： 请求头中携带 tenant，也携带 token， 但不对uri权限验证
      * <p>
@@ -102,8 +102,6 @@ public class IgnoreProperties {
      * @see 4.0.0
      */
     private Map<String, Set<String>> anyone = MapUtil.newHashMap();
-
-
     /**
      * 需要携带租户ID，不需要登录, 且不需要校验权限。 即： 请求头中携带 tenant， 但不携带 token
      * <p>
@@ -116,7 +114,6 @@ public class IgnoreProperties {
      * @see 4.0.0
      */
     private Map<String, Set<String>> anyUser = MapUtil.newHashMap();
-
     /**
      * 不需要携带 租户ID, 也不校验是否登录 和 是否有权限。  即： 请求头中不携带 tenant
      * <p>
@@ -130,6 +127,13 @@ public class IgnoreProperties {
      */
     private Map<String, Set<String>> anyTenant = MapUtil.newHashMap();
 
+    private static boolean matchPattern(String pattern, PathContainer pathContainer) {
+        if (StrUtil.isBlank(pattern) || pathContainer == null) {
+            return false;
+        }
+        PathPattern pathPattern = PATTERN_CACHE.computeIfAbsent(pattern, PathPatternParser.defaultInstance::parse);
+        return pathPattern.matches(pathContainer);
+    }
 
     public Map<String, Set<String>> buildAnyone() {
         return putAll(getBaseUri(), this.getAnyTenant(), this.getAnyUser(), this.getAnyone());
@@ -143,12 +147,11 @@ public class IgnoreProperties {
         return putAll(getBaseUri(), this.getAnyTenant());
     }
 
-
     /**
      * 是否忽略uri权限认证
      *
      * @param method 请求方式
-     * @param path 相对路径
+     * @param path   相对路径
      * @return 是否忽略
      */
     public boolean isIgnoreAnyone(String method, String path) {
@@ -166,7 +169,7 @@ public class IgnoreProperties {
      * 是否忽略登录
      *
      * @param method 请求方式
-     * @param path 相对路径
+     * @param path   相对路径
      * @return 是否忽略
      */
     public boolean isIgnoreUser(String method, String path) {
@@ -183,7 +186,7 @@ public class IgnoreProperties {
      * 是否忽略租户信息
      *
      * @param method 请求方式
-     * @param path 相对路径
+     * @param path   相对路径
      * @return 是否忽略
      */
     public boolean isIgnoreTenant(String method, String path) {
@@ -220,16 +223,6 @@ public class IgnoreProperties {
             }
         }
         return false;
-    }
-
-    private static final ConcurrentHashMap<String, PathPattern> PATTERN_CACHE = new ConcurrentHashMap<>();
-
-    private static boolean matchPattern(String pattern, PathContainer pathContainer) {
-        if (StrUtil.isBlank(pattern) || pathContainer == null) {
-            return false;
-        }
-        PathPattern pathPattern = PATTERN_CACHE.computeIfAbsent(pattern, PathPatternParser.defaultInstance::parse);
-        return pathPattern.matches(pathContainer);
     }
 
 }

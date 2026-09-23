@@ -103,7 +103,7 @@ class DefGenTableColumnServiceTest {
             c.setType(12); // VARCHAR
             c.setComment("test col");
             tableMeta.setColumn(c);
-            
+
             metaUtilMockedStatic.when(() -> MetaUtil.getTableMeta(ds, "test_table")).thenReturn(tableMeta);
             when(columnManager.updateById(any(DefGenTableColumn.class))).thenReturn(true);
 

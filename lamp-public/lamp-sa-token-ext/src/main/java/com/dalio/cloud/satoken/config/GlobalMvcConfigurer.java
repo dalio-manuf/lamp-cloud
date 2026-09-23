@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.dalio.cloud.satoken.interceptor.HeaderThreadLocalInterceptor;
 
 /**
- *  单体模式不执行的类
+ * 单体模式不执行的类
  *
  * @author admin
  * @date 2018/8/25

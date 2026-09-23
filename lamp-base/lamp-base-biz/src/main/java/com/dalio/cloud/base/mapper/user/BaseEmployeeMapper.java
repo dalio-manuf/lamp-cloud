@@ -28,7 +28,7 @@ public interface BaseEmployeeMapper extends SuperMapper<BaseEmployee> {
      *
      * @param page    分页对象
      * @param wrapper 查询条件
-     * @param model  条件
+     * @param model   条件
      * @return 分页用户数据
      */
     IPage<BaseEmployeeResultVO> selectPageResultVO(IPage<BaseEmployee> page,

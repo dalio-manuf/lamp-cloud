@@ -21,9 +21,6 @@ public class DefUserEmailCacheKeyBuilder implements CacheKeyBuilder {
         return new DefUserEmailCacheKeyBuilder().key(email);
     }
 
-    
-
-    
 
     @Override
     public String getTable() {

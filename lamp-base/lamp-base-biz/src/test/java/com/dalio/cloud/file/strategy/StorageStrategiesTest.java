@@ -54,17 +54,6 @@ import static org.mockito.Mockito.*;
  */
 class StorageStrategiesTest {
 
-    static class TestAliFileChunkStrategy extends AliFileChunkStrategyImpl {
-        public TestAliFileChunkStrategy(FileMapper fileMapper, FileServerProperties fileProperties) {
-            super(fileMapper, fileProperties);
-        }
-
-        @Override
-        public R<File> merge(List<java.io.File> files, String path, String fileName, FileChunksMergeDTO info) throws IOException {
-            return super.merge(files, path, fileName, info);
-        }
-    }
-
     @Test
     @DisplayName("测试 LocalFileStrategyImpl 本地上传、删除与查找URL")
     void testLocalFileStrategy(@TempDir Path tempDir) throws Exception {
@@ -423,5 +412,16 @@ class StorageStrategiesTest {
         R<File> result = chunkStrategy.chunksMerge(mergeDTO);
         assertNotNull(result);
         assertFalse(result.getIsSuccess());
+    }
+
+    static class TestAliFileChunkStrategy extends AliFileChunkStrategyImpl {
+        public TestAliFileChunkStrategy(FileMapper fileMapper, FileServerProperties fileProperties) {
+            super(fileMapper, fileProperties);
+        }
+
+        @Override
+        public R<File> merge(List<java.io.File> files, String path, String fileName, FileChunksMergeDTO info) throws IOException {
+            return super.merge(files, path, fileName, info);
+        }
     }
 }

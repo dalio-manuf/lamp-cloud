@@ -63,7 +63,8 @@ public interface CaptchaService {
 
     /**
      * 忘记密码接口发送短信
-     * @param mobile 手机
+     *
+     * @param mobile   手机
      * @param username 用户名
      * @return
      */

@@ -9,7 +9,9 @@ import com.dalio.basic.utils.TreeUtil;
  * @date 2020/11/20 2:41 下午
  */
 public interface DefValConstants {
-    /** 内置的租户 */
+    /**
+     * 内置的租户
+     */
     Long DEF_TENANT_ID = 1L;
     /**
      * 默认的树节点 分隔符
@@ -30,6 +32,8 @@ public interface DefValConstants {
      */
     Integer SORT_VALUE = 0;
 
-    /** 防止字典空值导致的 缓存击穿问题 */
+    /**
+     * 防止字典空值导致的 缓存击穿问题
+     */
     String DICT_NULL_VAL_KEY = "-999999999";
 }

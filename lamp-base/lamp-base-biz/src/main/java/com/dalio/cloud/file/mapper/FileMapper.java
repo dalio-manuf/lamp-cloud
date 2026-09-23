@@ -23,7 +23,8 @@ import java.util.List;
 public interface FileMapper extends SuperMapper<File> {
     /**
      * 查询附件信息
-     * @param bizId 业务id
+     *
+     * @param bizId   业务id
      * @param bizType 业务类型
      * @return
      */

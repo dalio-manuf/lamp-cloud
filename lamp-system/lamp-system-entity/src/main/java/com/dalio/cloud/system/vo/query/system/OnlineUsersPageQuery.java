@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * 在线用户
+ *
  * @author admin
  * @since 2024/8/1 15:40
  */

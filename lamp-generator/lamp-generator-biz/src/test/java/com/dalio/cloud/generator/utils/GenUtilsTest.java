@@ -29,26 +29,26 @@ class GenUtilsTest {
         GeneratorConfig config = new GeneratorConfig();
         config.setAuthor("admin");
         config.setOutputDir("/tmp");
-        
+
         ServiceConfig serviceConfig = new ServiceConfig();
         java.util.Set<String> dsPrefix = new java.util.HashSet<>();
         dsPrefix.add("ds_");
         serviceConfig.setDsTablePrefix(dsPrefix);
         config.setServiceConfig(serviceConfig);
-        
+
         MapperConfig mapperConfig = new MapperConfig();
         java.util.Set<String> tenantPrefix = new java.util.HashSet<>();
         tenantPrefix.add("tenant_");
         mapperConfig.setColumnAnnotationTablePrefix(tenantPrefix);
         config.setMapperConfig(mapperConfig);
-        
+
         EntityConfig entityConfig = new EntityConfig();
         entityConfig.setLombok(true);
         config.setEntityConfig(entityConfig);
-        
+
         WebProConfig webProConfig = new WebProConfig();
         config.setWebProConfig(webProConfig);
-        
+
         com.dalio.cloud.generator.config.PackageInfoConfig packageInfoConfig = new com.dalio.cloud.generator.config.PackageInfoConfig();
         packageInfoConfig.setParent("com.dalio.cloud");
         config.setPackageInfoConfig(packageInfoConfig);
@@ -70,18 +70,18 @@ class GenUtilsTest {
         List<String> prefix = new ArrayList<>();
         prefix.add("test_");
         config.setTablePrefix(prefix);
-        
+
         String className = GenUtils.convertClassName(config, "test_user_info");
         assertEquals("UserInfo", className);
-        
+
         String className2 = GenUtils.convertClassName(config, "user_info");
         assertEquals("UserInfo", className2);
-        
+
         config.setTablePrefix(new ArrayList<>());
         String className3 = GenUtils.convertClassName(config, "test_user_info");
         assertEquals("TestUserInfo", className3);
     }
-    
+
     @Test
     @DisplayName("测试 initColumnField")
     void testInitColumnField() {
@@ -92,7 +92,7 @@ class GenUtilsTest {
         entityConfig.setIgnoreColumns(ignoreColumns);
         entityConfig.setDateType(com.dalio.cloud.generator.config.DateType.TIME_PACK);
         config.setEntityConfig(entityConfig);
-        
+
         DefGenTable genTable = new DefGenTable();
         genTable.setName("test");
         genTable.setEntityName("Test");

@@ -87,7 +87,7 @@ public class DefMsgTemplateServiceImpl extends SuperServiceImpl<DefMsgTemplateMa
     protected <SaveVO> DefMsgTemplate saveBefore(SaveVO saveVO) {
         DefMsgTemplateSaveVO extendMsgTemplateSaveVO = (DefMsgTemplateSaveVO) saveVO;
         ArgumentAssert.isFalse(StrUtil.isNotBlank(extendMsgTemplateSaveVO.getCode()) &&
-                               check(extendMsgTemplateSaveVO.getCode(), null), "模板标识{}已存在", extendMsgTemplateSaveVO.getCode());
+                check(extendMsgTemplateSaveVO.getCode(), null), "模板标识{}已存在", extendMsgTemplateSaveVO.getCode());
         extendMsgTemplateSaveVO.setParam(getParamByContent(extendMsgTemplateSaveVO.getTitle(), extendMsgTemplateSaveVO.getContent()));
         return super.saveBefore(extendMsgTemplateSaveVO);
     }
@@ -96,7 +96,7 @@ public class DefMsgTemplateServiceImpl extends SuperServiceImpl<DefMsgTemplateMa
     protected <UpdateVO> DefMsgTemplate updateBefore(UpdateVO updateVO) {
         DefMsgTemplateUpdateVO extendMsgTemplateUpdateVO = (DefMsgTemplateUpdateVO) updateVO;
         ArgumentAssert.isFalse(StrUtil.isNotBlank(extendMsgTemplateUpdateVO.getCode()) &&
-                               check(extendMsgTemplateUpdateVO.getCode(), extendMsgTemplateUpdateVO.getId()),
+                        check(extendMsgTemplateUpdateVO.getCode(), extendMsgTemplateUpdateVO.getId()),
                 "模板标识{}已存在", extendMsgTemplateUpdateVO.getCode());
         extendMsgTemplateUpdateVO.setParam(getParamByContent(extendMsgTemplateUpdateVO.getTitle(), extendMsgTemplateUpdateVO.getContent()));
         return super.updateBefore(extendMsgTemplateUpdateVO);

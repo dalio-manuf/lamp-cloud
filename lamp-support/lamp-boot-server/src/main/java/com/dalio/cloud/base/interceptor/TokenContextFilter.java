@@ -34,6 +34,17 @@ public class TokenContextFilter implements AsyncHandlerInterceptor {
     private final String profiles;
     private final IgnoreProperties ignoreProperties;
 
+    private static void clearDataScopeSafely() {
+        try {
+            Class<?> clazz = Class.forName("com.dalio.cloud.datascope.DataScopeHelper");
+            clazz.getMethod("clearDataScope").invoke(null);
+        } catch (ClassNotFoundException ignored) {
+            // 未引入 lamp-data-scope-sdk 模块，无需清理
+        } catch (Exception e) {
+            log.trace("清理 DataScopeHelper 异常: {}", e.getMessage());
+        }
+    }
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (!(handler instanceof HandlerMethod)) {
@@ -60,7 +71,6 @@ public class TokenContextFilter implements AsyncHandlerInterceptor {
         return true;
     }
 
-
     private void parseClient(HttpServletRequest request) {
         try {
             String base64Authorization = getHeader(CLIENT_KEY, request);
@@ -80,7 +90,6 @@ public class TokenContextFilter implements AsyncHandlerInterceptor {
         }
     }
 
-
     private String getHeader(String name, HttpServletRequest request) {
         String value = request.getHeader(name);
         if (StrUtil.isEmpty(value)) {
@@ -92,7 +101,6 @@ public class TokenContextFilter implements AsyncHandlerInterceptor {
         return URLUtil.decode(value);
     }
 
-
     protected boolean isDev(String token) {
         return !StrPool.PROD.equalsIgnoreCase(profiles) && (StrPool.TEST_TOKEN.equalsIgnoreCase(token) || StrPool.TEST.equalsIgnoreCase(token));
     }
@@ -102,16 +110,5 @@ public class TokenContextFilter implements AsyncHandlerInterceptor {
         ContextUtil.remove();
         MDC.clear();
         clearDataScopeSafely();
-    }
-
-    private static void clearDataScopeSafely() {
-        try {
-            Class<?> clazz = Class.forName("com.dalio.cloud.datascope.DataScopeHelper");
-            clazz.getMethod("clearDataScope").invoke(null);
-        } catch (ClassNotFoundException ignored) {
-            // 未引入 lamp-data-scope-sdk 模块，无需清理
-        } catch (Exception e) {
-            log.trace("清理 DataScopeHelper 异常: {}", e.getMessage());
-        }
     }
 }

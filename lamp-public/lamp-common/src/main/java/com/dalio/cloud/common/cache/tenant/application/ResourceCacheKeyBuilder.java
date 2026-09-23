@@ -23,9 +23,6 @@ public class ResourceCacheKeyBuilder implements CacheKeyBuilder {
         return new ResourceCacheKeyBuilder().key(id);
     }
 
-    
-
-    
 
     @Override
     public String getModular() {

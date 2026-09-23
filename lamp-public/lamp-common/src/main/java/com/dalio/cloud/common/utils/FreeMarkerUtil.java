@@ -31,9 +31,6 @@ public class FreeMarkerUtil {
     private static final Configuration FREEMARKER_CFG;
     private static final StringTemplateLoader SL;
 
-    private FreeMarkerUtil() {
-    }
-
     static {
         FREEMARKER_CFG = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         SL = new StringTemplateLoader();
@@ -47,6 +44,9 @@ public class FreeMarkerUtil {
         TemplateLoader[] loaders = new TemplateLoader[]{SL};
         MultiTemplateLoader mt = new MultiTemplateLoader(loaders);
         FREEMARKER_CFG.setTemplateLoader(mt);
+    }
+
+    private FreeMarkerUtil() {
     }
 
     private static void generateSharedVariable() {

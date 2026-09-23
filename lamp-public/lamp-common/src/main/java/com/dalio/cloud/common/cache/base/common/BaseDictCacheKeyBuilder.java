@@ -33,7 +33,6 @@ public class BaseDictCacheKeyBuilder implements CacheKeyBuilder {
     }
 
 
-
     @Override
     public String getTable() {
         return CacheKeyTable.Base.BASE_DICT;

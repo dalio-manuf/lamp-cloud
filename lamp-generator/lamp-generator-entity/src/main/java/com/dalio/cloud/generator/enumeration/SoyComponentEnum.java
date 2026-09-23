@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 /**
  * soybean 前端组件
- *
+ * <p>
  * text | password | textarea | number
  * dict-select| table-select | dict-radio | dict-checkbox | dict-switch
  * dict-cascader

@@ -57,7 +57,7 @@ public class EntityConfig {
      * 【实体、VO】是否为链式模型（默认 false）<br>
      * -----------------------------------<br>
      * <code>
-     *     public User setName(String name) { this.name = name; return this; }
+     * public User setName(String name) { this.name = name; return this; }
      * </code>
      *
      * @since 3.3.2

@@ -23,9 +23,6 @@ public class ApplicationResourceCacheKeyBuilder implements CacheKeyBuilder {
         return new ApplicationResourceCacheKeyBuilder().key(applicationId);
     }
 
-    
-
-    
 
     @Override
     public String getModular() {

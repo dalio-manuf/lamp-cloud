@@ -59,13 +59,13 @@ class OutputFileUtilsTest {
         assertNotNull(zipSoybeanMap);
         String zipVbenMap = OutputFileUtils.getZipOutputFile(config, table, null, com.dalio.cloud.generator.utils.GenCodeConstant.TEMPLATE_WEB_VBEN5_SIMPLE_API, "lamp", TemplateEnum.WEB_VBEN5);
         assertNotNull(zipVbenMap);
-        
+
         java.util.Map<String, FileOverrideStrategyEnum> overrideConfig = new java.util.HashMap<>();
         overrideConfig.put(com.dalio.cloud.generator.utils.GenCodeConstant.TEMPLATE_ENTITY_JAVA, FileOverrideStrategyEnum.OVERRIDE);
         FileOverrideStrategyEnum overrideMap = OutputFileUtils.getFileOverride(config, overrideConfig, com.dalio.cloud.generator.utils.GenCodeConstant.TEMPLATE_ENTITY_JAVA, "backend");
         assertNotNull(overrideMap);
     }
-    
+
     @Test
     @DisplayName("测试所有模板路径的生成")
     void testAllTemplates() throws Exception {
@@ -103,26 +103,31 @@ class OutputFileUtilsTest {
                 String template = (String) field.get(null);
                 try {
                     OutputFileUtils.getOutputFile(config, table, null, template, "lamp", TemplateEnum.BACKEND);
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
                 try {
                     OutputFileUtils.getOutputFile(config, table, null, template, "lamp", TemplateEnum.WEB_SOYBEAN);
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
                 try {
                     OutputFileUtils.getOutputFile(config, table, null, template, "lamp", TemplateEnum.WEB_VBEN5);
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
                 try {
                     OutputFileUtils.getOutputFile(config, table, null, template, "lamp", TemplateEnum.WEB_PLUS);
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
             }
         }
-        
+
         table.setTplType(TplEnum.MAIN_SUB);
         for (java.lang.reflect.Field field : fields) {
             if (field.getName().startsWith("TEMPLATE_")) {
                 String template = (String) field.get(null);
                 try {
                     OutputFileUtils.getOutputFile(config, table, null, template, "lamp", TemplateEnum.WEB_SOYBEAN);
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
             }
         }
     }

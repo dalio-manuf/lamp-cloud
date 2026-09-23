@@ -15,19 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class ScopeUtilsTest {
 
-    interface MockMapper {
-        @DataScope({
-                @DataField(alias = "u"),
-                @DataField(alias = "o")
-        })
-        void selectWithScope();
-
-        @DataScope(ignore = true)
-        void selectIgnored();
-
-        void selectWithoutScope();
-    }
-
     @Test
     @DisplayName("测试 buildDataFieldProperty 处理空与非空")
     void testBuildDataFieldProperty() {
@@ -66,5 +53,18 @@ class ScopeUtilsTest {
         String msIdNone = MockMapper.class.getName() + ".selectWithoutScope";
         List<DataFieldProperty> noneProps = ScopeUtils.buildDataScopeProperty(msIdNone);
         assertTrue(noneProps.isEmpty());
+    }
+
+    interface MockMapper {
+        @DataScope({
+                @DataField(alias = "u"),
+                @DataField(alias = "o")
+        })
+        void selectWithScope();
+
+        @DataScope(ignore = true)
+        void selectIgnored();
+
+        void selectWithoutScope();
     }
 }

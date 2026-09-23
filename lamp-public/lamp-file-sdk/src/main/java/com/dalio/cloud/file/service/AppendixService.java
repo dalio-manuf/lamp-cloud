@@ -104,7 +104,7 @@ public interface AppendixService extends SuperManager<Appendix> {
      * <p>
      * 请业务方自行确保该业务类型的附件始终只有一个。
      *
-     * @param bizId 业务id
+     * @param bizId   业务id
      * @param bizType 业务类型
      * @return 附件
      */
@@ -117,7 +117,7 @@ public interface AppendixService extends SuperManager<Appendix> {
      * 1. bizId 不能为空，先根据bizId删除附件
      * 2. 若附件信息不为为空，保存最新的附件信息
      *
-     * @param appendix  业务附件
+     * @param appendix 业务附件
      * @return 是否成功
      */
     Boolean save(AppendixSaveVO appendix);
@@ -129,29 +129,30 @@ public interface AppendixService extends SuperManager<Appendix> {
      * 1. bizId 不能为空，先根据bizId删除附件
      * 2. 若附件信息不为为空，保存最新的附件信息
      *
-     * @param appendixList  业务附件
+     * @param appendixList 业务附件
      * @return 是否成功
      */
     Boolean save(List<AppendixSaveVO> appendixList);
 
     /**
      * 根据业务id批量删除附件
-     *
+     * <p>
      * 适用于一张表只有1个附件时，批量删除业务数据
      *
      * @param bizType 业务类型
-     * @param bizIds 业务id
+     * @param bizIds  业务id
      * @return 是否删除了记录
      */
     boolean removeByBizId(Collection<Long> bizIds, String bizType);
 
     /**
      * 删除多条数据
-     *
+     * <p>
      * 使用于一张表有多个附件时，同时删除多条数据的多个业务类型
      *
      * @param appendixList 附件
-     * */
+     *
+     */
     void removeByBiz(List<AppendixSaveVO> appendixList);
 
     @Data

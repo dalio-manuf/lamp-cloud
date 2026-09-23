@@ -56,7 +56,7 @@ class GatewayResourceAndInterceptorTest {
 
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
-        cn.dev33.satoken.strategy.SaStrategy.instance.routeMatcher = (pattern, path) -> 
+        cn.dev33.satoken.strategy.SaStrategy.instance.routeMatcher = (pattern, path) ->
                 cn.dev33.satoken.spring.pathmatch.SaPathPatternParserUtil.match(pattern, path);
     }
 

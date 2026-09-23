@@ -50,6 +50,7 @@ public class DefDictItemPageQuery implements Serializable {
     /**
      * 分类
      * [10-系统字典 20-业务字典]
+     *
      * @Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.System.DICT_CLASSIFY)
      */
     @Schema(description = "分类")

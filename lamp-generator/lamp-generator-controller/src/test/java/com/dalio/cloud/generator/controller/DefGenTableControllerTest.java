@@ -122,7 +122,7 @@ class DefGenTableControllerTest {
         DefGenTableResultVO vo = new DefGenTableResultVO();
         vo.setId(1L);
         when(defGenTableService.getDetail(anyLong())).thenReturn(vo);
-        
+
         mockMvc.perform(get("/defGenTable/detail")
                         .param("id", "1"))
                 .andExpect(status().isOk())

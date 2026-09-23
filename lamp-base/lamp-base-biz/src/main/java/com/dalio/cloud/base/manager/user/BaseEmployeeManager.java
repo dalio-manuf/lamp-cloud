@@ -41,7 +41,7 @@ public interface BaseEmployeeManager extends SuperCacheManager<BaseEmployee> {
      *
      * @param page    分页对象
      * @param wrapper 查询条件
-     * @param model  参数
+     * @param model   参数
      * @return 分页用户数据
      */
     IPage<BaseEmployeeResultVO> selectPageResultVO(IPage<BaseEmployee> page, Wrapper<BaseEmployee> wrapper, BaseEmployeePageQuery model);

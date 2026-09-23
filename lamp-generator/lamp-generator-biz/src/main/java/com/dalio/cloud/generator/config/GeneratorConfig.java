@@ -43,7 +43,9 @@ public class GeneratorConfig {
     private String frontVben5OutputDir;
 
 
-    /** 默认项目 */
+    /**
+     * 默认项目
+     */
     private ProjectTypeEnum projectType = ProjectTypeEnum.CLOUD;
 
     /**
@@ -119,7 +121,9 @@ public class GeneratorConfig {
      */
     @NestedConfigurationProperty
     private WebProConfig webProConfig = new WebProConfig();
-    /** 文件覆盖策略 */
+    /**
+     * 文件覆盖策略
+     */
     @NestedConfigurationProperty
     private FileOverrideStrategy fileOverrideStrategy = new FileOverrideStrategy();
 

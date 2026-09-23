@@ -57,6 +57,7 @@ public class DefDict extends Entity<Long> {
     /**
      * 分类
      * [10-系统字典 20-业务字典]
+     *
      * @Echo(api = EchoApi.DICTIONARY_ITEM_FEIGN_CLASS, dictType = EchoDictType.System.DICT_CLASSIFY)
      */
     @TableField(value = "classify")

@@ -40,14 +40,15 @@ class DefGenTableManagerImplTest {
         try {
             DbType dbType = manager.getDbType();
             assertNotNull(dbType);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     @Test
     @DisplayName("测试 getDs")
     void testGetDs() {
         ReflectionTestUtils.setField(manager, "validationQuery", "SELECT 1");
-        
+
         DefDatasourceConfig config = new DefDatasourceConfig();
         config.setUrl("jdbc:mysql://localhost:3306/test");
         config.setUsername("root");
@@ -59,7 +60,7 @@ class DefGenTableManagerImplTest {
 
         DataSource ds = manager.getDs(1L);
         assertNotNull(ds);
-        
+
         // Call again to test cache
         DataSource ds2 = manager.getDs(1L);
         assertNotNull(ds2);

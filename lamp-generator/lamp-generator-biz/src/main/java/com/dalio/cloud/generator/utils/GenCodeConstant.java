@@ -81,51 +81,93 @@ public interface GenCodeConstant {
      */
     String TEMPLATE_CONTROLLER = "/templates/backend/java/controller.java.ftl";
 
-    /** API请求页 */
+    /**
+     * API请求页
+     */
     String TEMPLATE_WEB_PRO_SIMPLE_API = "/templates/web/vben/simple/typescript/api.ts.ftl";
-    /** API泛型Model页 */
+    /**
+     * API泛型Model页
+     */
     String TEMPLATE_WEB_PRO_SIMPLE_MODEL = "/templates/web/vben/simple/typescript/model.ts.ftl";
-    /** 多语言英文 */
+    /**
+     * 多语言英文
+     */
     String TEMPLATE_WEB_PRO_SIMPLE_LANG_EN = "/templates/web/vben/simple/typescript/langEn.ts.ftl";
-    /** 多语言中文 */
+    /**
+     * 多语言中文
+     */
     String TEMPLATE_WEB_PRO_SIMPLE_LANG_ZH = "/templates/web/vben/simple/typescript/langZh.ts.ftl";
-    /** 单表 tsx */
+    /**
+     * 单表 tsx
+     */
     String TEMPLATE_WEB_PRO_SIMPLE_DATA = "/templates/web/vben/simple/typescript/data.tsx.ftl";
-    /** 单表 列表页 */
+    /**
+     * 单表 列表页
+     */
     String TEMPLATE_WEB_PRO_SIMPLE_INDEX = "/templates/web/vben/simple/vue/index.vue.ftl";
-    /** 单表 弹窗编辑页 */
+    /**
+     * 单表 弹窗编辑页
+     */
     String TEMPLATE_WEB_PRO_SIMPLE_EDIT = "/templates/web/vben/simple/vue/edit.vue.ftl";
-    /** 单表 跳转编辑页 */
+    /**
+     * 单表 跳转编辑页
+     */
     String TEMPLATE_WEB_PRO_SIMPLE_JUMP_EDIT = "/templates/web/vben/simple/vue/jumpEdit.vue.ftl";
 
-    /** 主从页面 列表页 */
+    /**
+     * 主从页面 列表页
+     */
     String TEMPLATE_WEB_PRO_MAIN_INDEX = "/templates/web/vben/mainSub/vue/index.vue.ftl";
-    /** 主从页面 弹窗编辑页 */
+    /**
+     * 主从页面 弹窗编辑页
+     */
     String TEMPLATE_WEB_PRO_MAIN_EDIT = "/templates/web/vben/mainSub/vue/edit.vue.ftl";
-    /** 主从页面 跳转编辑页 */
+    /**
+     * 主从页面 跳转编辑页
+     */
     String TEMPLATE_WEB_PRO_MAIN_JUMP_EDIT = "/templates/web/vben/mainSub/vue/jumpEdit.vue.ftl";
-    /** 主从页面 从表列表页 */
+    /**
+     * 主从页面 从表列表页
+     */
     String TEMPLATE_WEB_PRO_MAIN_SUB_INDEX = "/templates/web/vben/mainSub/vue/subIndex.vue.ftl";
-    /** 主从页面 从表列表页tsx */
+    /**
+     * 主从页面 从表列表页tsx
+     */
     String TEMPLATE_WEB_PRO_MAIN_SUB_DATA = "/templates/web/vben/mainSub/typescript/subData.tsx.ftl";
 
-    /** 树结构主页 */
+    /**
+     * 树结构主页
+     */
     String TEMPLATE_WEB_PRO_TREE_INDEX = "/templates/web/vben/tree/vue/index.vue.ftl";
-    /** 树结构树结构页 */
+    /**
+     * 树结构树结构页
+     */
     String TEMPLATE_WEB_PRO_TREE_TREE = "/templates/web/vben/tree/vue/tree.vue.ftl";
-    /** 树结构编辑页 */
+    /**
+     * 树结构编辑页
+     */
     String TEMPLATE_WEB_PRO_TREE_EDIT = "/templates/web/vben/tree/vue/edit.vue.ftl";
 
 
-    /** API请求页 */
+    /**
+     * API请求页
+     */
     String TEMPLATE_WEB_SOYBEAN_SIMPLE_API = "/templates/web/soybean/simple/typescript/api.ts.ftl";
-    /** API泛型Model页 */
+    /**
+     * API泛型Model页
+     */
     String TEMPLATE_WEB_SOYBEAN_SIMPLE_MODEL = "/templates/web/soybean/simple/typescript/model.ts.ftl";
-    /** 多语言英文 */
+    /**
+     * 多语言英文
+     */
     String TEMPLATE_WEB_SOYBEAN_SIMPLE_LANG_EN = "/templates/web/soybean/simple/typescript/langEn.ts.ftl";
-    /** 多语言中文 */
+    /**
+     * 多语言中文
+     */
     String TEMPLATE_WEB_SOYBEAN_SIMPLE_LANG_ZH = "/templates/web/soybean/simple/typescript/langZh.ts.ftl";
-    /** 单表 tsx */
+    /**
+     * 单表 tsx
+     */
     String TEMPLATE_WEB_SOYBEAN_SIMPLE_CRUD = "/templates/web/soybean/simple/typescript/crud.tsx.ftl";
     String TEMPLATE_WEB_SOYBEAN_SIMPLE_INDEX = "/templates/web/soybean/simple/vue/index.vue.ftl";
     String TEMPLATE_WEB_SOYBEAN_SIMPLE_JUMP_EDIT = "/templates/web/soybean/simple/vue/edit.vue.ftl";
@@ -137,15 +179,25 @@ public interface GenCodeConstant {
     String TEMPLATE_WEB_SOYBEAN_MAIN_INDEX = "/templates/web/soybean/mainSub/vue/index.vue.ftl";
 
 
-    /** API请求页 */
+    /**
+     * API请求页
+     */
     String TEMPLATE_WEB_VBEN5_SIMPLE_API = "/templates/web/vben5/simple/typescript/api.ts.ftl";
-    /** API泛型Model页 */
+    /**
+     * API泛型Model页
+     */
     String TEMPLATE_WEB_VBEN5_SIMPLE_MODEL = "/templates/web/vben5/simple/typescript/model.ts.ftl";
-    /** 多语言英文 */
+    /**
+     * 多语言英文
+     */
     String TEMPLATE_WEB_VBEN5_SIMPLE_LANG_EN = "/templates/web/vben5/simple/typescript/langEn.ts.ftl";
-    /** 多语言中文 */
+    /**
+     * 多语言中文
+     */
     String TEMPLATE_WEB_VBEN5_SIMPLE_LANG_ZH = "/templates/web/vben5/simple/typescript/langZh.ts.ftl";
-    /** 单表 tsx */
+    /**
+     * 单表 tsx
+     */
     String TEMPLATE_WEB_VBEN5_SIMPLE_CRUD = "/templates/web/vben5/simple/typescript/crud.tsx.ftl";
     String TEMPLATE_WEB_VBEN5_SIMPLE_INDEX = "/templates/web/vben5/simple/vue/index.vue.ftl";
     String TEMPLATE_WEB_VBEN5_SIMPLE_JUMP_EDIT = "/templates/web/vben5/simple/vue/edit.vue.ftl";
@@ -154,14 +206,22 @@ public interface GenCodeConstant {
     String TEMPLATE_WEB_VBEN5_TREE_EDIT = "/templates/web/vben5/tree/vue/edit.vue.ftl";
     String TEMPLATE_WEB_VBEN5_TREE_CRUD = "/templates/web/vben5/tree/typescript/crud.tsx.ftl";
 
-    /** 主从页面 列表页 */
+    /**
+     * 主从页面 列表页
+     */
     String TEMPLATE_WEB_VBEN5_MAIN_INDEX = "/templates/web/vben5/mainSub/vue/index.vue.ftl";
-    /** 主从页面 列表页tsx */
+    /**
+     * 主从页面 列表页tsx
+     */
     String TEMPLATE_WEB_VBEN5_MAIN_DATA = "/templates/web/vben5/mainSub/typescript/crud.tsx.ftl";
 
-    /** 主从页面 从表列表页 */
+    /**
+     * 主从页面 从表列表页
+     */
     String TEMPLATE_WEB_VBEN5_MAIN_SUB_INDEX = "/templates/web/vben5/mainSub/vue/subIndex.vue.ftl";
-    /** 主从页面 从表列表页tsx */
+    /**
+     * 主从页面 从表列表页tsx
+     */
     String TEMPLATE_WEB_VBEN5_MAIN_SUB_DATA = "/templates/web/vben5/mainSub/typescript/subData.tsx.ftl";
 
 

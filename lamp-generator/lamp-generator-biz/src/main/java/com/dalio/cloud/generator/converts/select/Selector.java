@@ -10,8 +10,9 @@ import java.util.function.Supplier;
  * 当前选择器会从给定的分支中选择第一个匹配的分支，并返回其结果
  * <p>
  * 一旦结果被选择，其他的分支将不再被调用
- * @param <P>    参数类型
- * @param <T>    返回值类型
+ *
+ * @param <P> 参数类型
+ * @param <T> 返回值类型
  * @author hanchunlin
  * @author admin
  * Created at 2020/6/11 16:55

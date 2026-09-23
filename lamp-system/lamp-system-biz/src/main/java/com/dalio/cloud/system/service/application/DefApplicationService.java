@@ -62,7 +62,7 @@ public interface DefApplicationService extends SuperCacheService<Long, DefApplic
     /**
      * 查询推荐应用
      *
-     * @param name     应用名
+     * @param name 应用名
      * @return
      */
     List<DefApplicationResultVO> findRecommendApplication(String name);

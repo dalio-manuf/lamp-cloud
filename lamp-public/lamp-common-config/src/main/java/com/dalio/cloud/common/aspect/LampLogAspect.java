@@ -35,7 +35,7 @@ public class LampLogAspect extends BaseLogAspect {
      *
      */
     @Pointcut("execution(* com.dalio.cloud..controller..*.*(..)) || execution(* com.dalio.cloud..service..*.*(..)) " +
-              "|| execution(* com.dalio.cloud..biz..*.*(..))")
+            "|| execution(* com.dalio.cloud..biz..*.*(..))")
     public void lampLogAspect() {
 
     }

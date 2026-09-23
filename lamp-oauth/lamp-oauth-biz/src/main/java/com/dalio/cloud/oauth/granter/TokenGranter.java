@@ -47,7 +47,7 @@ public interface TokenGranter {
     /**
      * 切换企业和机构
      *
-     * @param orgId    机构ID
+     * @param orgId 机构ID
      * @return com.dalio.cloud.oauth.vo.result.LoginResultVO
      * @author admin
      * @date 2022/9/16 1:14 PM

@@ -72,7 +72,9 @@ public class SystemProperties {
      * @create [2023/5/15 9:28 AM ] [admin] [初始创建]
      */
     private String cachePrefix;
-    /** oauth 服务扫描枚举类的包路径 */
+    /**
+     * oauth 服务扫描枚举类的包路径
+     */
     private String enumPackage;
 
     /**

@@ -27,8 +27,8 @@ public interface BaseEmployeeService extends SuperCacheService<Long, BaseEmploye
      * @param entityList entityList
      * @return boolean
      * @author admin
-     * @since 2022/10/28 4:38 PM
      * @create [2022/10/28 4:38 PM ] [admin] [初始创建]
+     * @since 2022/10/28 4:38 PM
      */
     boolean saveBatch(Collection<BaseEmployee> entityList);
 
@@ -71,8 +71,8 @@ public interface BaseEmployeeService extends SuperCacheService<Long, BaseEmploye
      * @param baseEmployee baseEmployee
      * @return boolean
      * @author admin
-     * @since 2022/10/28 9:20 AM
      * @create [2022/10/28 9:20 AM ] [admin] [初始创建]
+     * @since 2022/10/28 9:20 AM
      */
     boolean updateById(BaseEmployee baseEmployee);
 
@@ -82,8 +82,8 @@ public interface BaseEmployeeService extends SuperCacheService<Long, BaseEmploye
      * @param baseEmployee baseEmployee
      * @return boolean
      * @author admin
-     * @since 2022/10/28 9:20 AM
      * @create [2022/10/28 9:20 AM ] [admin] [初始创建]
+     * @since 2022/10/28 9:20 AM
      */
     boolean updateAllById(BaseEmployee baseEmployee);
 
@@ -106,9 +106,10 @@ public interface BaseEmployeeService extends SuperCacheService<Long, BaseEmploye
 
     /**
      * 修改员工的上次登录单位和部门id
-     * @param id 员工id
+     *
+     * @param id            员工id
      * @param lastCompanyId 上次登录单位id
-     * @param lastDeptId 上次登录部门id
+     * @param lastDeptId    上次登录部门id
      */
     void updateOrgInfo(Long id, Long lastCompanyId, Long lastDeptId);
 }

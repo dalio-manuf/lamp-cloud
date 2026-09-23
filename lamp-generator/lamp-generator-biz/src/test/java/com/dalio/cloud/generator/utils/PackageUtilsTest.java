@@ -47,12 +47,12 @@ class PackageUtilsTest {
 
         Map<String, Object> packageMap = PackageUtils.getPackage(table, config);
         assertNotNull(packageMap);
-        
+
         Map<String, Object> superPackageMap = PackageUtils.getSuperClassPackage(table);
         assertNotNull(superPackageMap);
 
         java.util.List<com.dalio.cloud.generator.entity.DefGenTableColumn> columns = new java.util.ArrayList<>();
-        
+
         com.dalio.cloud.generator.entity.DefGenTableColumn col = new com.dalio.cloud.generator.entity.DefGenTableColumn();
         col.setJavaType("Long");
         col.setJavaField("id");
@@ -71,7 +71,7 @@ class PackageUtilsTest {
         col3.setFill("INSERT");
         columns.add(col3);
 
-        
+
         Map<String, Object> objectMap = new java.util.HashMap<>();
         objectMap.put("superEntityClass", "SuperEntity");
 

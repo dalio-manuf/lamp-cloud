@@ -22,7 +22,9 @@ import java.util.List;
 @InterceptorIgnore(tenantLine = "true", dynamicTableName = "true")
 public interface DefResourceApiMapper extends SuperMapper<DefResourceApi> {
 
-    /** 查询系统中配置的所有API与资源编码 */
+    /**
+     * 查询系统中配置的所有API与资源编码
+     */
     @Select("""
             select ra.uri ,ra.request_method , r.code from def_resource_api ra inner join def_resource r on r.id = ra.resource_id 
             where r.state  = 1 order by r.sort_value asc

@@ -137,12 +137,12 @@ public class ProjectUtils {
 
     /**
      * 生成项目结构，仅仅生成项目结构和pom.xml，不会生成代码。
-     *
+     * <p>
      * 1. 单体版
      * - lamp-xx-entity
      * - lamp-xx-biz
      * - lamp-xx-controller
-     *
+     * <p>
      * 2. 微服务版
      * - lamp-xx-entity
      * - lamp-xx-biz
@@ -152,7 +152,6 @@ public class ProjectUtils {
      * - lamp-xx-boot-impl
      * - lamp-xx-cloud-impl
      * - lamp-xx-server
-     *
      *
      * @param vo                 vo
      * @param databaseProperties databaseProperties

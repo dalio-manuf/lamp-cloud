@@ -43,13 +43,6 @@ public class ContextArgumentResolverTest {
         ContextUtil.remove();
     }
 
-    public static class TestController {
-        public void withLoginUserFull(@LoginUser(isFull = true) SysUser user) {}
-        public void withLoginUserDefault(@LoginUser SysUser user) {}
-        public void withoutAnnotation(SysUser user) {}
-        public void withDifferentType(@LoginUser String text) {}
-    }
-
     private MethodParameter getMethodParameter(String methodName) throws NoSuchMethodException {
         for (Method m : TestController.class.getDeclaredMethods()) {
             if (m.getName().equals(methodName)) {
@@ -156,5 +149,19 @@ public class ContextArgumentResolverTest {
         SysUser user = (SysUser) result;
         assertEquals(1L, user.getId());
         assertEquals(20L, user.getEmployeeId());
+    }
+
+    public static class TestController {
+        public void withLoginUserFull(@LoginUser(isFull = true) SysUser user) {
+        }
+
+        public void withLoginUserDefault(@LoginUser SysUser user) {
+        }
+
+        public void withoutAnnotation(SysUser user) {
+        }
+
+        public void withDifferentType(@LoginUser String text) {
+        }
     }
 }

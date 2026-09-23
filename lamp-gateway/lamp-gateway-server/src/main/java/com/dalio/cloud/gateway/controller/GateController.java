@@ -31,13 +31,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class GateController {
 
+    private final DiscoveryClient discoveryClient;
+    private final GatewayProperties gatewayProperties;
     @Value("${server.servlet.context-path:}")
     private String contextPath;
     @Value("${spring.application.name:}")
     private String application;
-
-    private final DiscoveryClient discoveryClient;
-    private final GatewayProperties gatewayProperties;
 
     /**
      * Swagger UI 文档跳转（兼容原 doc.html 访问）

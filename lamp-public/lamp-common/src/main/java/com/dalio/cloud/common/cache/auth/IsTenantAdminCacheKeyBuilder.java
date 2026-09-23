@@ -24,9 +24,6 @@ public class IsTenantAdminCacheKeyBuilder implements CacheKeyBuilder {
         return new IsTenantAdminCacheKeyBuilder().key(employeeId);
     }
 
-    
-
-    
 
     @Override
     public String getModular() {

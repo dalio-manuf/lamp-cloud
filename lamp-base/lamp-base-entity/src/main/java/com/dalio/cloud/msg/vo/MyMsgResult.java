@@ -26,10 +26,16 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 public class MyMsgResult implements Serializable {
-    /** 待办 */
+    /**
+     * 待办
+     */
     private IPage<ExtendNoticeResultVO> todoList;
-    /** 提醒 */
+    /**
+     * 提醒
+     */
     private IPage<ExtendNoticeResultVO> noticeList;
-    /** 预警 */
+    /**
+     * 预警
+     */
     private IPage<ExtendNoticeResultVO> earlyWarningList;
 }

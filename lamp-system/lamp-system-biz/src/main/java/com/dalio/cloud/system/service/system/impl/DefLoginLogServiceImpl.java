@@ -39,13 +39,13 @@ import java.util.List;
 @Transactional(readOnly = true)
 
 public class DefLoginLogServiceImpl extends SuperServiceImpl<DefLoginLogManager, Long, DefLoginLog> implements DefLoginLogService {
-    private final Ip2Region ip2Region;
     private static final List<String> BROWSERS = List.of(
             "Chrome", "Firefox", "Microsoft Edge", "Safari", "Opera"
     );
     private static final List<String> OPERATING_SYSTEMS = List.of(
             "Android", "Linux", "Mac OS X", "Ubuntu", "Windows 10", "Windows 8", "Windows 7", "Windows XP", "Windows Vista"
     );
+    private final Ip2Region ip2Region;
     private final DefUserManager defUserManager;
 
     private static String simplifyOperatingSystem(String operatingSystem) {

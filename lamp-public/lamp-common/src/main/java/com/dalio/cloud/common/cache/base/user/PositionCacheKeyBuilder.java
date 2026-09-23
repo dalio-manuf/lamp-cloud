@@ -25,7 +25,6 @@ public class PositionCacheKeyBuilder implements CacheKeyBuilder {
     }
 
 
-
     @Override
     public String getModular() {
         return CacheKeyModular.BASE;

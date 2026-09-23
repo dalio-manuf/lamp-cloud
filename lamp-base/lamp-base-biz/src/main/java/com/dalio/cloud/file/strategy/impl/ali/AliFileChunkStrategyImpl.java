@@ -166,9 +166,9 @@ public class AliFileChunkStrategyImpl extends AbstractFileChunkStrategy {
         CompleteMultipartUploadResult uploadResult = ossClient.completeMultipartUpload(completeMultipartUploadRequest);
 
         String url = ali.getUrlPrefix() +
-                     relativePath +
-                     StrPool.SLASH +
-                     fileName;
+                relativePath +
+                StrPool.SLASH +
+                fileName;
         File filePo = File.builder()
                 .bucket(uploadResult.getBucketName())
                 .path(path)

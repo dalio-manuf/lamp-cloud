@@ -48,7 +48,7 @@ public class DefInterfaceServiceImpl extends SuperServiceImpl<DefInterfaceManage
     protected <SaveVO> DefInterface saveBefore(SaveVO saveVO) {
         DefInterfaceSaveVO interfaceSaveVO = (DefInterfaceSaveVO) saveVO;
         ArgumentAssert.isFalse(StrUtil.isNotBlank(interfaceSaveVO.getCode()) &&
-                               check(interfaceSaveVO.getCode(), null), "接口编码{}已存在", interfaceSaveVO.getCode());
+                check(interfaceSaveVO.getCode(), null), "接口编码{}已存在", interfaceSaveVO.getCode());
         if (InterfaceExecModeEnum.IMPL_CLASS.eq(interfaceSaveVO.getExecMode())) {
             ArgumentAssert.notEmpty(interfaceSaveVO.getImplClass(), "请填写实现类");
         } else {
@@ -61,7 +61,7 @@ public class DefInterfaceServiceImpl extends SuperServiceImpl<DefInterfaceManage
     protected <UpdateVO> DefInterface updateBefore(UpdateVO updateVO) {
         DefInterfaceUpdateVO interfaceUpdateVO = (DefInterfaceUpdateVO) updateVO;
         ArgumentAssert.isFalse(StrUtil.isNotBlank(interfaceUpdateVO.getCode()) &&
-                               check(interfaceUpdateVO.getCode(), interfaceUpdateVO.getId()),
+                        check(interfaceUpdateVO.getCode(), interfaceUpdateVO.getId()),
                 "接口编码{}已存在", interfaceUpdateVO.getCode());
         if (InterfaceExecModeEnum.IMPL_CLASS.eq(interfaceUpdateVO.getExecMode())) {
             ArgumentAssert.notEmpty(interfaceUpdateVO.getImplClass(), "请填写实现类");

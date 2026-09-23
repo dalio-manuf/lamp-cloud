@@ -19,9 +19,6 @@ import java.time.Duration;
  */
 public class ApplicationCacheKeyBuilder implements CacheKeyBuilder {
 
-    
-
-    
 
     @Override
     public String getModular() {

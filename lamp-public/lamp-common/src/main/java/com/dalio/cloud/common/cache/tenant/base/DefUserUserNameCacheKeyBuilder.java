@@ -21,9 +21,6 @@ public class DefUserUserNameCacheKeyBuilder implements CacheKeyBuilder {
         return new DefUserUserNameCacheKeyBuilder().key(name);
     }
 
-    
-
-    
 
     @Override
     public String getTable() {

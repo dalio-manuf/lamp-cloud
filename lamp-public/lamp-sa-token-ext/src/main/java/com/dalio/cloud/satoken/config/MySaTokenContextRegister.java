@@ -10,6 +10,7 @@ import com.dalio.cloud.common.properties.SystemProperties;
 
 /**
  * 注册 Sa-Token 框架所需要的 Bean
+ *
  * @author admin
  * @since 2024/9/18 14:38
  */

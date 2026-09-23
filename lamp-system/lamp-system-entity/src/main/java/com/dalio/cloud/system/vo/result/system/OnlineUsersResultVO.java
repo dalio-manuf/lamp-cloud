@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 /**
  * 在线用户
+ *
  * @author admin
  * @since 2024/8/1 15:40
  */
@@ -24,10 +25,14 @@ public class OnlineUsersResultVO extends SaSession {
      * 姓名
      */
     private String nickName;
-    /** 创建时间 */
+    /**
+     * 创建时间
+     */
     private LocalDateTime sessionTime;
     private String sessionStr;
-    /**  失效时间 */
+    /**
+     * 失效时间
+     */
     private LocalDateTime expireTime;
     private String expireStr;
 }

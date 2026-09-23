@@ -31,6 +31,17 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class HeaderThreadLocalInterceptor implements AsyncHandlerInterceptor {
 
+    private static void clearDataScopeSafely() {
+        try {
+            Class<?> clazz = Class.forName("com.dalio.cloud.datascope.DataScopeHelper");
+            clazz.getMethod("clearDataScope").invoke(null);
+        } catch (ClassNotFoundException ignored) {
+            // 未引入 lamp-data-scope-sdk 模块，无需清理
+        } catch (Exception e) {
+            log.trace("清理 DataScopeHelper 异常: {}", e.getMessage());
+        }
+    }
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (!(handler instanceof HandlerMethod)) {
@@ -70,22 +81,10 @@ public class HeaderThreadLocalInterceptor implements AsyncHandlerInterceptor {
         return true;
     }
 
-
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         ContextUtil.remove();
         MDC.clear();
         clearDataScopeSafely();
-    }
-
-    private static void clearDataScopeSafely() {
-        try {
-            Class<?> clazz = Class.forName("com.dalio.cloud.datascope.DataScopeHelper");
-            clazz.getMethod("clearDataScope").invoke(null);
-        } catch (ClassNotFoundException ignored) {
-            // 未引入 lamp-data-scope-sdk 模块，无需清理
-        } catch (Exception e) {
-            log.trace("清理 DataScopeHelper 异常: {}", e.getMessage());
-        }
     }
 }

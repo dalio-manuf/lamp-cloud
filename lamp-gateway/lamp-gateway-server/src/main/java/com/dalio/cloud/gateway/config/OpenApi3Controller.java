@@ -43,16 +43,14 @@ public class OpenApi3Controller {
     private final GatewayProperties gatewayProperties;
     private final RestTemplate restTemplate;
     private final DiscoveryClient discoveryClient;
-
-    @Value("${server.servlet.context-path:/api}")
-    private String contextPath;
-
     private final ExecutorService executorService = new ThreadPoolExecutor(
             2, 8, 60L, TimeUnit.SECONDS,
             new LinkedBlockingQueue<>(100),
             new ThreadFactoryBuilder().setNamePrefix("openapi-aggregator-").setDaemon(true).build(),
             new ThreadPoolExecutor.CallerRunsPolicy()
     );
+    @Value("${server.servlet.context-path:/api}")
+    private String contextPath;
 
     public OpenApi3Controller(GatewayProperties gatewayProperties,
                               @Qualifier("lbRestTemplate") RestTemplate restTemplate,

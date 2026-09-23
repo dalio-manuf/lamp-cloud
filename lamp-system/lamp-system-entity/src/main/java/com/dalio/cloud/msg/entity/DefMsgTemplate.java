@@ -43,10 +43,14 @@ public class DefMsgTemplate extends Entity<Long> {
      */
     @TableField(value = "type")
     private String type;
-    /** 状态 */
+    /**
+     * 状态
+     */
     @TableField(value = "state")
     private Boolean state;
-    /** 接口ID */
+    /**
+     * 接口ID
+     */
     @TableField(value = "interface_id")
     private Long interfaceId;
     /**

@@ -7,6 +7,7 @@ import java.time.Duration;
 
 /**
  * 临时管理员账号
+ *
  * @author admin
  * @since 2025/11/19 11:08
  */

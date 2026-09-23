@@ -47,9 +47,9 @@ public class ResourceController {
     /**
      * 查询用户可用的所有资源
      *
-     * @param type 应用类型 根据类型决定返回的数据格式
+     * @param type          应用类型 根据类型决定返回的数据格式
      * @param applicationId 应用id
-     *                          应用id为空，则返回所有应用的菜单数据
+     *                      应用id为空，则返回所有应用的菜单数据
      * @param employeeId    当前登录人id
      */
     @Operation(summary = "查询用户可用的所有路由和资源和角色", description = "根据员工ID和应用ID查询员工在某个应用下可用的资源")

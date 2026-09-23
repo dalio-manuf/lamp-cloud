@@ -89,7 +89,7 @@ class DefGenProjectControllerTest {
                         .content("{\"author\":\"Test\",\"type\":\"CLOUD\",\"outputDir\":\"test\",\"projectPrefix\":\"test\",\"serviceName\":\"test\",\"moduleName\":\"test\",\"parent\":\"com.test\",\"groupId\":\"com.test\",\"utilParent\":\"com.test\",\"utilGroupId\":\"com.test\",\"version\":\"1.0.0\",\"description\":\"Test\",\"serverPort\":8080,\"seata\":false}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").value(true));
-        
+
         verify(defGenTableService, times(1)).generator(any());
     }
 }

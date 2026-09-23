@@ -105,9 +105,9 @@ public class AliFileStrategyImpl extends AbstractFileStrategy {
                 try {
                     if (CollUtil.isNotEmpty(publicBucket) && publicBucket.contains(bucket)) {
                         String url = ali.getUrlPrefix() +
-                                     bucket +
-                                     StrPool.SLASH +
-                                     fileGet.getPath();
+                                bucket +
+                                StrPool.SLASH +
+                                fileGet.getPath();
                         map.put(fileGet.getPath(), url);
                     } else {
                         map.put(fileGet.getPath(), generatePresignedUrl(ossClient, bucket, fileGet.getPath()));

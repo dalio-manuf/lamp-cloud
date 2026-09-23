@@ -26,7 +26,6 @@ public class RoleCacheKeyBuilder implements CacheKeyBuilder {
     }
 
 
-
     @Override
     public String getModular() {
         return CacheKeyModular.BASE;

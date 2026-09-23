@@ -27,14 +27,24 @@ import java.util.Map;
 @Builder
 @Accessors(chain = true)
 public class MsgParam {
-    /** 消息内容 */
+    /**
+     * 消息内容
+     */
     private ExtendMsg extendMsg;
-    /** 消息接收人 */
+    /**
+     * 消息接收人
+     */
     private List<ExtendMsgRecipient> recipientList;
-    /** 采用的消息模板 */
+    /**
+     * 采用的消息模板
+     */
     private DefMsgTemplate extendMsgTemplate;
-    /** 接口需要使用的动态参数 */
+    /**
+     * 接口需要使用的动态参数
+     */
     private Map<String, Object> propertyParams;
-    /** 消息的附件 */
+    /**
+     * 消息的附件
+     */
     private List<Appendix> list;
 }

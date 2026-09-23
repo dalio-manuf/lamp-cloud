@@ -37,23 +37,19 @@ import java.util.Map;
 public class JsonExceptionHandler implements ErrorWebExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(JsonExceptionHandler.class);
-
+    private static final String EXCEPTION_HANDLER_RESULT_ATTR = "lamp.gateway.exceptionHandlerResult";
     /**
      * MessageReader
      */
     private List<HttpMessageReader<?>> messageReaders = Collections.emptyList();
-
     /**
      * MessageWriter
      */
     private List<HttpMessageWriter<?>> messageWriters = Collections.emptyList();
-
     /**
      * ViewResolvers
      */
     private List<ViewResolver> viewResolvers = Collections.emptyList();
-
-    private static final String EXCEPTION_HANDLER_RESULT_ATTR = "lamp.gateway.exceptionHandlerResult";
 
     /**
      * 参考 AbstractErrorWebExceptionHandler

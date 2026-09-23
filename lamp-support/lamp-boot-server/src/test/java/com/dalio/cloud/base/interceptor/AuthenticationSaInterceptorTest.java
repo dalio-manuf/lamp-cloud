@@ -64,10 +64,6 @@ public class AuthenticationSaInterceptorTest {
         ContextUtil.remove();
     }
 
-    public static class SampleHandler {
-        public void handle() {}
-    }
-
     @Test
     @DisplayName("测试非 HandlerMethod 直接放行")
     void testPreHandleNonHandlerMethod() throws Exception {
@@ -144,6 +140,11 @@ public class AuthenticationSaInterceptorTest {
         try (MockedStatic<StpUtil> mockedStp = mockStatic(StpUtil.class)) {
             mockedStp.when(StpUtil::checkLogin).thenAnswer(inv -> null);
             assertDoesNotThrow(() -> auth.run(new Object()));
+        }
+    }
+
+    public static class SampleHandler {
+        public void handle() {
         }
     }
 }

@@ -144,7 +144,9 @@ public class DefUserInfoResultVO extends Entity<Long> implements Serializable, E
     @Schema(description = "当前应用信息")
     private DefApplicationResultVO defApplication;
 
-    /** 为空时，默认页面由前端控制 */
+    /**
+     * 为空时，默认页面由前端控制
+     */
     @Schema(description = "登录成功后，跳转的页面")
     private String homePath;
 }

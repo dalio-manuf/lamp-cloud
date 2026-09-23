@@ -21,9 +21,6 @@ public class DefUserMobileCacheKeyBuilder implements CacheKeyBuilder {
         return new DefUserMobileCacheKeyBuilder().key(mobile);
     }
 
-    
-
-    
 
     @Override
     public String getTable() {

@@ -34,9 +34,6 @@ public class TokenUserIdCacheKeyBuilder implements CacheKeyBuilder {
         return CacheKeyTable.TOKEN_USER_ID;
     }
 
-    
-
-    
 
     @Override
     public String getModular() {

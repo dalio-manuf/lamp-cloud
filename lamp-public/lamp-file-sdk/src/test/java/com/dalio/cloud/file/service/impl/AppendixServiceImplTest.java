@@ -57,19 +57,6 @@ public class AppendixServiceImplTest {
         ReflectionTestUtils.setField(appendixService, "baseMapper", appendixMapper);
     }
 
-    public static class TestEchoEntity extends SuperEntity<Long> implements EchoVO {
-        private final Map<String, Object> echoMap = new HashMap<>();
-
-        public TestEchoEntity(Long id) {
-            this.id = id;
-        }
-
-        @Override
-        public Map<String, Object> getEchoMap() {
-            return echoMap;
-        }
-    }
-
     @Test
     @DisplayName("测试 echoAppendix 方法")
     void testEchoAppendix() {
@@ -218,5 +205,18 @@ public class AppendixServiceImplTest {
         assertNotNull(key);
         assertEquals(100L, key.getBizId());
         assertEquals("TYPE_A", key.getBizType());
+    }
+
+    public static class TestEchoEntity extends SuperEntity<Long> implements EchoVO {
+        private final Map<String, Object> echoMap = new HashMap<>();
+
+        public TestEchoEntity(Long id) {
+            this.id = id;
+        }
+
+        @Override
+        public Map<String, Object> getEchoMap() {
+            return echoMap;
+        }
     }
 }

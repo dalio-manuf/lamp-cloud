@@ -70,7 +70,7 @@ public class BaseRoleServiceImpl extends SuperCacheServiceImpl<BaseRoleManager, 
     protected <SaveVO> BaseRole saveBefore(SaveVO saveVO) {
         BaseRoleSaveVO data = (BaseRoleSaveVO) saveVO;
         ArgumentAssert.isFalse(StrUtil.isNotBlank(data.getCode()) &&
-                               check(data.getCode(), null), "角色编码{}已存在", data.getCode());
+                check(data.getCode(), null), "角色编码{}已存在", data.getCode());
         BaseRole baseRole = super.saveBefore(data);
         baseRole.setCode(StrHelper.getOrDef(data.getCode(), RandomUtil.randomString(8)));
         baseRole.setType(DataTypeEnum.BUSINESS.getCode());
@@ -82,7 +82,7 @@ public class BaseRoleServiceImpl extends SuperCacheServiceImpl<BaseRoleManager, 
     protected <UpdateVO> BaseRole updateBefore(UpdateVO updateVO) {
         BaseRoleUpdateVO data = (BaseRoleUpdateVO) updateVO;
         ArgumentAssert.isFalse(StrUtil.isNotBlank(data.getCode()) &&
-                               check(data.getCode(), data.getId()), "角色编码{}已存在", data.getCode());
+                check(data.getCode(), data.getId()), "角色编码{}已存在", data.getCode());
         BaseRole baseRole = super.updateBefore(data);
         baseRole.setCode(StrHelper.getOrDef(data.getCode(), RandomUtil.randomString(8)));
         baseRole.setReadonly(false);

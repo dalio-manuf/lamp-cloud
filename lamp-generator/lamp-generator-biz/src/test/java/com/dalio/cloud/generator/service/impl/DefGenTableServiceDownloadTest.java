@@ -108,7 +108,7 @@ class DefGenTableServiceDownloadTest {
             assertNotNull(response.getContentAsByteArray());
         }
     }
-    
+
     @Test
     @DisplayName("测试 previewCode")
     void testPreviewCode() {
@@ -181,7 +181,7 @@ class DefGenTableServiceDownloadTest {
 
         Map<String, String> stringStringMap = service.previewCode(10L, com.dalio.cloud.generator.enumeration.TemplateEnum.BACKEND);
         assertNotNull(stringStringMap);
-        
+
         genTable.setTplType(com.dalio.cloud.generator.enumeration.TplEnum.TREE);
         Map<String, String> stringStringMap2 = service.previewCode(10L, com.dalio.cloud.generator.enumeration.TemplateEnum.WEB_PLUS);
         assertNotNull(stringStringMap2);

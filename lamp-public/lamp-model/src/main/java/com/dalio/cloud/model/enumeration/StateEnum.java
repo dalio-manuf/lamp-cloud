@@ -28,11 +28,6 @@ public enum StateEnum implements BaseEnum {
     private final String str;
     private final String desc;
 
-    @Override
-    public String getCode() {
-        return this.bool.toString();
-    }
-
     public static StateEnum match(String val, StateEnum... defs) {
         StateEnum def = defs != null && defs.length > 0 ? defs[0] : DISABLE;
         if (val == null) {
@@ -45,6 +40,11 @@ public enum StateEnum implements BaseEnum {
             }
         }
         return def;
+    }
+
+    @Override
+    public String getCode() {
+        return this.bool.toString();
     }
 
     public boolean eq(StateEnum val) {
