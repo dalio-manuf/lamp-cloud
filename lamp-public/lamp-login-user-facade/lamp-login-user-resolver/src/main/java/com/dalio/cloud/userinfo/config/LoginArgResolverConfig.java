@@ -1,9 +1,9 @@
 package com.dalio.cloud.userinfo.config;
 
+import com.dalio.cloud.userinfo.resolver.ContextArgumentResolver;
 import lombok.AllArgsConstructor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import com.dalio.cloud.userinfo.resolver.ContextArgumentResolver;
 
 import java.util.List;
 

@@ -8,10 +8,7 @@ import com.dalio.cloud.generator.enumeration.TplEnum;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class OutputFileUtilsTest {
 

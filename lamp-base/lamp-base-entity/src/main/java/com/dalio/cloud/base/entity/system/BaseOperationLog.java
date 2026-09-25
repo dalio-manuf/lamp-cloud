@@ -2,16 +2,11 @@ package com.dalio.cloud.base.entity.system;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 import com.dalio.basic.base.entity.Entity;
 import com.dalio.cloud.base.enumeration.system.LogType;
 import com.dalio.cloud.model.enumeration.HttpMethod;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 

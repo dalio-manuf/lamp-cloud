@@ -3,8 +3,6 @@ package com.dalio.cloud.file.strategy.impl.local;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IORuntimeException;
 import cn.hutool.core.util.StrUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Primary;
 import com.dalio.basic.base.R;
 import com.dalio.basic.exception.BizException;
 import com.dalio.basic.utils.StrPool;
@@ -14,6 +12,8 @@ import com.dalio.cloud.file.mapper.FileMapper;
 import com.dalio.cloud.file.properties.FileServerProperties;
 import com.dalio.cloud.file.strategy.impl.AbstractFileChunkStrategy;
 import com.dalio.cloud.file.utils.FileTypeUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

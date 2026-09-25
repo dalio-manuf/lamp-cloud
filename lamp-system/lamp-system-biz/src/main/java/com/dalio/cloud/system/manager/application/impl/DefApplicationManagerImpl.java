@@ -1,7 +1,5 @@
 package com.dalio.cloud.system.manager.application.impl;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.manager.impl.SuperCacheManagerImpl;
 import com.dalio.basic.database.mybatis.conditions.Wraps;
 import com.dalio.basic.model.cache.CacheKeyBuilder;
@@ -12,13 +10,11 @@ import com.dalio.cloud.system.entity.application.DefApplication;
 import com.dalio.cloud.system.manager.application.DefApplicationManager;
 import com.dalio.cloud.system.mapper.application.DefApplicationMapper;
 import com.dalio.cloud.system.vo.result.application.DefApplicationResultVO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 应用管理

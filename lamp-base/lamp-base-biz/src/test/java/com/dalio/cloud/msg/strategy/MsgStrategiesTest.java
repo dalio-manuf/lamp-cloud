@@ -1,7 +1,5 @@
 package com.dalio.cloud.msg.strategy;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import com.dalio.cloud.msg.entity.DefMsgTemplate;
 import com.dalio.cloud.msg.entity.ExtendMsg;
 import com.dalio.cloud.msg.entity.ExtendMsgRecipient;
@@ -13,6 +11,9 @@ import com.dalio.cloud.msg.strategy.impl.mail.TencentMailMsgStrategyImpl;
 import com.dalio.cloud.msg.strategy.impl.sms.AliSmsMsgStrategyImpl;
 import com.dalio.cloud.msg.strategy.impl.sms.ClSmsMsgStrategyImpl;
 import com.dalio.cloud.msg.strategy.impl.sms.TencentSmsMsgStrategyImpl;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +22,6 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
-
-import org.mockito.Mockito;
 
 /**
  * 消息发送策略单元测试

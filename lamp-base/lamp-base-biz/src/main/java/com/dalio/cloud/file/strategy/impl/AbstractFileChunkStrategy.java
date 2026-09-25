@@ -2,9 +2,6 @@ package com.dalio.cloud.file.strategy.impl;
 
 import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import com.dalio.basic.base.R;
 import com.dalio.basic.utils.StrPool;
 import com.dalio.cloud.file.dto.chunk.FileChunksMergeDTO;
@@ -14,6 +11,9 @@ import com.dalio.cloud.file.properties.FileServerProperties;
 import com.dalio.cloud.file.strategy.FileChunkStrategy;
 import com.dalio.cloud.file.strategy.FileLock;
 import com.dalio.cloud.file.utils.FileTypeUtil;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 
 import java.io.IOException;
 import java.nio.file.Paths;

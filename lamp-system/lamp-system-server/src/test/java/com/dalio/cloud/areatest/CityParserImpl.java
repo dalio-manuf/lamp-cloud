@@ -5,6 +5,8 @@ import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import com.baidu.fsg.uid.UidGenerator;
+import com.dalio.cloud.common.constant.DefValConstants;
+import com.dalio.cloud.system.entity.system.DefArea;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,8 +14,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.dalio.cloud.common.constant.DefValConstants;
-import com.dalio.cloud.system.entity.system.DefArea;
 
 import java.nio.charset.Charset;
 import java.util.Collections;

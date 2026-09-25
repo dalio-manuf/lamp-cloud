@@ -1,9 +1,9 @@
 package com.dalio.cloud.oauth.api;
 
+import com.dalio.basic.constant.Constants;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.dalio.basic.constant.Constants;
 
 import java.io.Serializable;
 import java.util.Map;

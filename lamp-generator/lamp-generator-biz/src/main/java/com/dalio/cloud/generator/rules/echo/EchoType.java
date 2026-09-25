@@ -2,10 +2,10 @@ package com.dalio.cloud.generator.rules.echo;
 
 import cn.hutool.core.text.CharPool;
 import cn.hutool.core.util.StrUtil;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import com.dalio.basic.utils.ArgumentAssert;
 import com.dalio.basic.utils.StrPool;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import java.util.List;
 

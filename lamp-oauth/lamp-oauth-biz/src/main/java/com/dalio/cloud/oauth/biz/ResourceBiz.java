@@ -2,9 +2,6 @@ package com.dalio.cloud.oauth.biz;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.database.mybatis.conditions.Wraps;
 import com.dalio.basic.jackson.JsonUtil;
 import com.dalio.basic.utils.BeanPlusUtil;
@@ -23,6 +20,9 @@ import com.dalio.cloud.system.enumeration.system.ClientTypeEnum;
 import com.dalio.cloud.system.enumeration.tenant.ResourceOpenWithEnum;
 import com.dalio.cloud.system.service.application.DefApplicationService;
 import com.dalio.cloud.system.service.application.DefResourceService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;

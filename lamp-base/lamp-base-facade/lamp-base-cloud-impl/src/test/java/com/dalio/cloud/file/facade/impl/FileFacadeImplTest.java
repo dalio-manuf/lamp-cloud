@@ -1,5 +1,9 @@
 package com.dalio.cloud.file.facade.impl;
 
+import com.dalio.basic.base.R;
+import com.dalio.cloud.file.api.FileApi;
+import com.dalio.cloud.file.enumeration.FileStorageType;
+import com.dalio.cloud.file.vo.result.FileResultVO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,14 +12,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
-import com.dalio.basic.base.R;
-import com.dalio.cloud.file.api.FileApi;
-import com.dalio.cloud.file.enumeration.FileStorageType;
-import com.dalio.cloud.file.vo.result.FileResultVO;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

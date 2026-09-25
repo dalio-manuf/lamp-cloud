@@ -1,15 +1,11 @@
 package com.dalio.cloud.oauth.facade.impl;
 
+import com.dalio.basic.base.R;
+import com.dalio.basic.model.log.OptLogDTO;
+import com.dalio.cloud.oauth.api.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import com.dalio.basic.base.R;
-import com.dalio.basic.model.log.OptLogDTO;
-import com.dalio.cloud.oauth.api.CaptchaApi;
-import com.dalio.cloud.oauth.api.DictApi;
-import com.dalio.cloud.oauth.api.LogApi;
-import com.dalio.cloud.oauth.api.OrgApi;
-import com.dalio.cloud.oauth.api.PositionApi;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -17,10 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

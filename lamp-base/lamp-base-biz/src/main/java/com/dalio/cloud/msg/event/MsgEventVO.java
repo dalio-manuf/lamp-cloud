@@ -1,9 +1,9 @@
 package com.dalio.cloud.msg.event;
 
+import com.dalio.cloud.model.vo.BaseEventVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import com.dalio.cloud.model.vo.BaseEventVO;
 
 /**
  * @author admin

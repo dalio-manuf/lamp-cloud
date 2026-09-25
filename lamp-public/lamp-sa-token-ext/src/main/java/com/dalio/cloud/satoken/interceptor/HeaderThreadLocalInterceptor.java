@@ -1,5 +1,8 @@
 package com.dalio.cloud.satoken.interceptor;
 
+import com.dalio.basic.boot.utils.WebUtils;
+import com.dalio.basic.context.ContextConstants;
+import com.dalio.basic.context.ContextUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -7,9 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
-import com.dalio.basic.boot.utils.WebUtils;
-import com.dalio.basic.context.ContextConstants;
-import com.dalio.basic.context.ContextUtil;
 
 import java.util.Map;
 

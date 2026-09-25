@@ -1,5 +1,7 @@
 package com.dalio.cloud;
 
+import com.dalio.basic.validator.annotation.EnableFormValidator;
+import com.dalio.cloud.common.ServerApplication;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -7,8 +9,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import com.dalio.basic.validator.annotation.EnableFormValidator;
-import com.dalio.cloud.common.ServerApplication;
 
 import java.net.UnknownHostException;
 

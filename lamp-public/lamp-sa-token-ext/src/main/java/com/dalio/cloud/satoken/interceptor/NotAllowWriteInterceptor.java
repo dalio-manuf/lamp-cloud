@@ -2,14 +2,14 @@ package com.dalio.cloud.satoken.interceptor;
 
 import cn.dev33.satoken.spring.pathmatch.SaPathPatternParserUtil;
 import cn.hutool.core.collection.CollUtil;
+import com.dalio.basic.exception.BizException;
+import com.dalio.cloud.common.properties.SystemProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
-import com.dalio.basic.exception.BizException;
-import com.dalio.cloud.common.properties.SystemProperties;
 
 import java.util.List;
 

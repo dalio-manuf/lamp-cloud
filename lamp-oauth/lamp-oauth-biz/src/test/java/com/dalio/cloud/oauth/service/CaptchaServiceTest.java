@@ -1,10 +1,5 @@
 package com.dalio.cloud.oauth.service;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.mock.web.MockHttpServletResponse;
 import com.dalio.basic.base.R;
 import com.dalio.basic.cache.redis2.CacheResult;
 import com.dalio.basic.cache.repository.CacheOps;
@@ -16,6 +11,11 @@ import com.dalio.cloud.oauth.properties.CaptchaProperties;
 import com.dalio.cloud.oauth.service.impl.CaptchaServiceImpl;
 import com.dalio.cloud.system.entity.tenant.DefUser;
 import com.dalio.cloud.system.service.tenant.DefUserService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.mock.web.MockHttpServletResponse;
 
 import java.io.IOException;
 

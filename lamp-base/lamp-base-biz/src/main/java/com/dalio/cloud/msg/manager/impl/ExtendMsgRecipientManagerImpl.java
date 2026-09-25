@@ -1,13 +1,13 @@
 package com.dalio.cloud.msg.manager.impl;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.manager.impl.SuperManagerImpl;
 import com.dalio.basic.database.mybatis.conditions.Wraps;
 import com.dalio.cloud.msg.entity.ExtendMsgRecipient;
 import com.dalio.cloud.msg.manager.ExtendMsgRecipientManager;
 import com.dalio.cloud.msg.mapper.ExtendMsgRecipientMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

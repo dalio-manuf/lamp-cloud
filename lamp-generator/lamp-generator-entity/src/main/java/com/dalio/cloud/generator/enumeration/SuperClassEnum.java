@@ -1,14 +1,6 @@
 package com.dalio.cloud.generator.enumeration;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import com.dalio.basic.base.controller.SuperCacheController;
-import com.dalio.basic.base.controller.SuperController;
-import com.dalio.basic.base.controller.SuperReadController;
-import com.dalio.basic.base.controller.SuperSimpleController;
-import com.dalio.basic.base.controller.SuperWriteController;
+import com.dalio.basic.base.controller.*;
 import com.dalio.basic.base.manager.SuperCacheManager;
 import com.dalio.basic.base.manager.SuperManager;
 import com.dalio.basic.base.manager.impl.SuperCacheManagerImpl;
@@ -19,6 +11,10 @@ import com.dalio.basic.base.service.SuperService;
 import com.dalio.basic.base.service.impl.SuperCacheServiceImpl;
 import com.dalio.basic.base.service.impl.SuperServiceImpl;
 import com.dalio.basic.interfaces.BaseEnum;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * 父类

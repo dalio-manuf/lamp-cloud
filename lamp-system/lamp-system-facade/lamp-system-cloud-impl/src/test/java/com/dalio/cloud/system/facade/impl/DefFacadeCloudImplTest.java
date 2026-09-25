@@ -1,8 +1,5 @@
 package com.dalio.cloud.system.facade.impl;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.test.util.ReflectionTestUtils;
 import com.dalio.basic.base.R;
 import com.dalio.basic.cache.redis2.CacheResult;
 import com.dalio.basic.cache.repository.CacheOps;
@@ -10,6 +7,9 @@ import com.dalio.cloud.model.entity.system.SysUser;
 import com.dalio.cloud.model.vo.result.UserQuery;
 import com.dalio.cloud.system.api.DefUserApi;
 import com.dalio.cloud.system.api.hystrix.DefUserApiFallback;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,7 +18,8 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * 微服务版 DefResourceFacadeImpl、DefUserFacadeImpl 及 DefUserApiFallback 单元测试

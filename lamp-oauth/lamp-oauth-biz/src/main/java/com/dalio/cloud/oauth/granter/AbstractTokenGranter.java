@@ -20,11 +20,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.json.JSONObject;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.dalio.basic.base.R;
 import com.dalio.basic.boot.utils.WebUtils;
 import com.dalio.basic.cache.repository.CacheOps;
@@ -55,15 +50,15 @@ import com.dalio.cloud.system.entity.tenant.DefUser;
 import com.dalio.cloud.system.enumeration.system.LoginStatusEnum;
 import com.dalio.cloud.system.service.system.DefClientService;
 import com.dalio.cloud.system.service.tenant.DefUserService;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static com.dalio.basic.context.ContextConstants.CLIENT_KEY;
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_COMPANY_ID;
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_DEPT_ID;
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_EMPLOYEE_ID;
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_TOP_COMPANY_ID;
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_USER_ID;
+import static com.dalio.basic.context.ContextConstants.*;
 
 /**
  * 验证码TokenGranter

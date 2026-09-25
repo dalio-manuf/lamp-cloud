@@ -1,10 +1,10 @@
 package com.dalio.cloud.oauth.facade.impl;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.R;
 import com.dalio.cloud.oauth.facade.CaptchaFacade;
 import com.dalio.cloud.oauth.service.CaptchaService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 /**
  *

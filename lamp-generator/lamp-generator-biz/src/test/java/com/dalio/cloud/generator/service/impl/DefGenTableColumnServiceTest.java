@@ -6,7 +6,6 @@ import cn.hutool.db.meta.Table;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dalio.basic.base.request.PageParams;
 import com.dalio.cloud.generator.config.GeneratorConfig;
 import com.dalio.cloud.generator.entity.DefGenTable;

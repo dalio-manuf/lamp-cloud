@@ -1,14 +1,14 @@
 package com.dalio.cloud.file.facade.impl;
 
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import com.dalio.cloud.file.enumeration.FileStorageType;
 import com.dalio.cloud.file.facade.FileFacade;
 import com.dalio.cloud.file.service.FileService;
 import com.dalio.cloud.file.vo.param.FileUploadVO;
 import com.dalio.cloud.file.vo.result.FileResultVO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件接口

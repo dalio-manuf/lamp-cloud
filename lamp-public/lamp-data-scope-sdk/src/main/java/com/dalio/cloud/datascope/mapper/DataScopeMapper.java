@@ -1,11 +1,11 @@
 package com.dalio.cloud.datascope.mapper;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 import com.dalio.basic.base.mapper.SuperMapper;
 import com.dalio.cloud.datascope.entity.BaseOrgBO;
 import com.dalio.cloud.datascope.entity.DefResourceDataScope;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

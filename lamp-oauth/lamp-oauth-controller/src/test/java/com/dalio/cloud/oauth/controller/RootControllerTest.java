@@ -2,10 +2,6 @@ package com.dalio.cloud.oauth.controller;
 
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import com.dalio.basic.base.R;
 import com.dalio.cloud.oauth.enumeration.GrantType;
 import com.dalio.cloud.oauth.granter.RefreshTokenGranter;
@@ -18,13 +14,13 @@ import com.dalio.cloud.oauth.vo.param.RegisterByMobileVO;
 import com.dalio.cloud.oauth.vo.result.LoginResultVO;
 import com.dalio.cloud.system.service.tenant.DefUserService;
 import com.dalio.cloud.system.vo.query.tenant.ForgetPasswordDto;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * RootController 单元测试

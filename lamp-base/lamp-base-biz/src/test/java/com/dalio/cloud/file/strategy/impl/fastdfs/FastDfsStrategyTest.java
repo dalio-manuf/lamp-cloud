@@ -1,12 +1,5 @@
 package com.dalio.cloud.file.strategy.impl.fastdfs;
 
-import com.github.tobato.fastdfs.domain.fdfs.StorePath;
-import com.github.tobato.fastdfs.service.AppendFileStorageClient;
-import com.github.tobato.fastdfs.service.FastFileStorageClient;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
-import org.springframework.mock.web.MockMultipartFile;
 import com.dalio.basic.base.R;
 import com.dalio.cloud.file.domain.FileDeleteBO;
 import com.dalio.cloud.file.domain.FileGetUrlBO;
@@ -14,6 +7,13 @@ import com.dalio.cloud.file.dto.chunk.FileChunksMergeDTO;
 import com.dalio.cloud.file.entity.File;
 import com.dalio.cloud.file.mapper.FileMapper;
 import com.dalio.cloud.file.properties.FileServerProperties;
+import com.github.tobato.fastdfs.domain.fdfs.StorePath;
+import com.github.tobato.fastdfs.service.AppendFileStorageClient;
+import com.github.tobato.fastdfs.service.FastFileStorageClient;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import org.springframework.mock.web.MockMultipartFile;
 
 import java.io.InputStream;
 import java.nio.file.Files;

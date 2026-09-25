@@ -3,15 +3,15 @@ package com.dalio.cloud.oauth.biz;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.convert.Convert;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import com.dalio.basic.utils.CollHelper;
 import com.dalio.basic.utils.StrPool;
 import com.dalio.cloud.base.service.system.BaseRoleService;
 import com.dalio.cloud.common.constant.RoleConstant;
 import com.dalio.cloud.system.entity.application.DefResource;
 import com.dalio.cloud.system.service.application.DefResourceService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,11 +1,11 @@
 package com.dalio.cloud.datascope.model;
 
 import cn.hutool.core.util.StrUtil;
+import com.dalio.basic.utils.ArgumentAssert;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.dalio.basic.utils.ArgumentAssert;
 
 import java.util.Collections;
 import java.util.List;

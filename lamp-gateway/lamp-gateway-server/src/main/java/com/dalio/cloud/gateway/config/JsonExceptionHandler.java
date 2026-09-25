@@ -1,6 +1,7 @@
 package com.dalio.cloud.gateway.config;
 
 import cn.hutool.core.util.StrUtil;
+import com.dalio.basic.base.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -21,7 +22,6 @@ import org.springframework.web.reactive.result.view.ViewResolver;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-import com.dalio.basic.base.R;
 
 import java.util.Collections;
 import java.util.HashMap;

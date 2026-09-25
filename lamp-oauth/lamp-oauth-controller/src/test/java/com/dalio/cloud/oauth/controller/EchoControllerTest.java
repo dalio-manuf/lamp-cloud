@@ -1,11 +1,11 @@
 package com.dalio.cloud.oauth.controller;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import com.dalio.cloud.base.service.user.BaseOrgService;
 import com.dalio.cloud.base.service.user.BasePositionService;
 import com.dalio.cloud.oauth.service.DictService;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.io.Serializable;
 import java.util.Collections;

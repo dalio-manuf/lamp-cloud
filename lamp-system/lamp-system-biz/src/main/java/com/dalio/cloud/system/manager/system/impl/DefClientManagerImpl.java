@@ -1,8 +1,5 @@
 package com.dalio.cloud.system.manager.system.impl;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.manager.impl.SuperCacheManagerImpl;
 import com.dalio.basic.cache.redis2.CacheResult;
 import com.dalio.basic.database.mybatis.conditions.Wraps;
@@ -14,6 +11,9 @@ import com.dalio.cloud.common.cache.tenant.system.DefClientSecretCacheKeyBuilder
 import com.dalio.cloud.system.entity.system.DefClient;
 import com.dalio.cloud.system.manager.system.DefClientManager;
 import com.dalio.cloud.system.mapper.system.DefClientMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>

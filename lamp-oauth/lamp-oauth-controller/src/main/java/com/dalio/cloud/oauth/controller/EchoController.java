@@ -1,5 +1,9 @@
 package com.dalio.cloud.oauth.controller;
 
+import com.dalio.basic.annotation.response.IgnoreResponseBodyAdvice;
+import com.dalio.cloud.base.service.user.BaseOrgService;
+import com.dalio.cloud.base.service.user.BasePositionService;
+import com.dalio.cloud.oauth.service.DictService;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -9,10 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.dalio.basic.annotation.response.IgnoreResponseBodyAdvice;
-import com.dalio.cloud.base.service.user.BaseOrgService;
-import com.dalio.cloud.base.service.user.BasePositionService;
-import com.dalio.cloud.oauth.service.DictService;
 
 import java.io.Serializable;
 import java.util.Map;

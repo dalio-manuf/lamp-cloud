@@ -1,11 +1,11 @@
 package com.dalio.cloud.oauth.controller;
 
+import com.dalio.basic.base.R;
+import com.dalio.cloud.oauth.service.CaptchaService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.mock.web.MockHttpServletResponse;
-import com.dalio.basic.base.R;
-import com.dalio.cloud.oauth.service.CaptchaService;
 
 import java.io.IOException;
 

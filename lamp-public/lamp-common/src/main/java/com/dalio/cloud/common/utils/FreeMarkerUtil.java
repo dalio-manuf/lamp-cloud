@@ -1,6 +1,7 @@
 package com.dalio.cloud.common.utils;
 
 import cn.hutool.crypto.digest.DigestUtil;
+import com.dalio.basic.utils.StrPool;
 import freemarker.cache.MruCacheStorage;
 import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.StringTemplateLoader;
@@ -13,7 +14,6 @@ import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModelException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import com.dalio.basic.utils.StrPool;
 
 import java.io.StringWriter;
 import java.util.Map;

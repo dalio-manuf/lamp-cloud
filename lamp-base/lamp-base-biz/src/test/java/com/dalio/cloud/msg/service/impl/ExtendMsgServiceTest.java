@@ -1,20 +1,19 @@
 package com.dalio.cloud.msg.service.impl;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 import com.dalio.cloud.job.facade.JobFacade;
 import com.dalio.cloud.model.entity.base.SysEmployee;
 import com.dalio.cloud.model.entity.system.SysUser;
 import com.dalio.cloud.msg.entity.ExtendMsg;
 import com.dalio.cloud.msg.entity.ExtendMsgRecipient;
-import com.dalio.cloud.msg.enumeration.TaskStatus;
 import com.dalio.cloud.msg.manager.ExtendMsgManager;
 import com.dalio.cloud.msg.manager.ExtendMsgRecipientManager;
 import com.dalio.cloud.msg.manager.ExtendNoticeManager;
 import com.dalio.cloud.msg.vo.result.ExtendMsgResultVO;
 import com.dalio.cloud.msg.vo.update.ExtendMsgPublishVO;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
 import java.util.Collections;

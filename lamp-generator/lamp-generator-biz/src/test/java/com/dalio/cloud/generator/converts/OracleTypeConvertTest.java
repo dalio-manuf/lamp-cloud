@@ -6,7 +6,7 @@ import com.dalio.cloud.generator.rules.DbColumnType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * OracleTypeConvert 单元测试 (验证 Oracle 类型到 Java 类型的映射正确性)

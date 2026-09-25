@@ -1,9 +1,5 @@
 package com.dalio.cloud.oauth.service;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import com.dalio.basic.context.ContextUtil;
 import com.dalio.cloud.common.properties.SystemProperties;
 import com.dalio.cloud.oauth.service.impl.DictServiceImpl;
@@ -12,6 +8,10 @@ import com.dalio.cloud.system.entity.system.DefDict;
 import com.dalio.cloud.system.manager.system.DefDictManager;
 import com.dalio.cloud.system.manager.system.DefParameterManager;
 import com.dalio.cloud.system.vo.result.system.DefDictItemResultVO;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.io.Serializable;
 import java.util.*;

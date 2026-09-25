@@ -3,12 +3,12 @@ package com.dalio.cloud.base.mapper.user;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 import com.dalio.basic.base.mapper.SuperMapper;
 import com.dalio.cloud.base.entity.user.BaseEmployee;
 import com.dalio.cloud.base.vo.query.user.BaseEmployeePageQuery;
 import com.dalio.cloud.base.vo.result.user.BaseEmployeeResultVO;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

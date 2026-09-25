@@ -1,12 +1,12 @@
 package com.dalio.cloud.common.config;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import com.dalio.basic.boot.config.BaseConfig;
 import com.dalio.basic.constant.Constants;
 import com.dalio.basic.log.event.SysLogListener;
 import com.dalio.cloud.oauth.facade.LogFacade;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * 基础服务-Web配置

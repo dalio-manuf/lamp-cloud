@@ -2,8 +2,6 @@ package com.dalio.cloud.system.manager.application.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.manager.impl.SuperCacheManagerImpl;
 import com.dalio.basic.database.mybatis.conditions.Wraps;
 import com.dalio.basic.database.mybatis.conditions.query.LbQueryWrap;
@@ -14,14 +12,11 @@ import com.dalio.cloud.common.cache.tenant.application.ResourceCacheKeyBuilder;
 import com.dalio.cloud.system.entity.application.DefResource;
 import com.dalio.cloud.system.manager.application.DefResourceManager;
 import com.dalio.cloud.system.mapper.application.DefResourceMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 应用管理

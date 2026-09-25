@@ -2,15 +2,15 @@ package com.dalio.cloud.file.properties;
 
 
 import cn.hutool.core.util.StrUtil;
+import com.dalio.basic.constant.Constants;
+import com.dalio.basic.exception.BizException;
+import com.dalio.basic.utils.StrPool;
+import com.dalio.cloud.file.enumeration.FileStorageType;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import com.dalio.basic.constant.Constants;
-import com.dalio.basic.exception.BizException;
-import com.dalio.basic.utils.StrPool;
-import com.dalio.cloud.file.enumeration.FileStorageType;
 
 import java.io.File;
 import java.util.HashSet;

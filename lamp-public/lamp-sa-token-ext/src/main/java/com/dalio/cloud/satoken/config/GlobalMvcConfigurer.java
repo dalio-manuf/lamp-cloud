@@ -1,9 +1,9 @@
 package com.dalio.cloud.satoken.config;
 
+import com.dalio.cloud.satoken.interceptor.HeaderThreadLocalInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import com.dalio.cloud.satoken.interceptor.HeaderThreadLocalInterceptor;
 
 /**
  * 单体模式不执行的类

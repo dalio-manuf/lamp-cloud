@@ -1,12 +1,8 @@
 package com.dalio.cloud.system.controller.application;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.test.util.ReflectionTestUtils;
 import com.dalio.basic.base.R;
 import com.dalio.basic.interfaces.echo.EchoService;
 import com.dalio.cloud.system.biz.application.DefResourceBiz;
-import com.dalio.cloud.system.entity.application.DefApplication;
 import com.dalio.cloud.system.entity.application.DefResource;
 import com.dalio.cloud.system.service.application.DefApplicationService;
 import com.dalio.cloud.system.service.application.DefResourceService;
@@ -14,8 +10,10 @@ import com.dalio.cloud.system.vo.result.application.ApplicationResourceResultVO;
 import com.dalio.cloud.system.vo.result.application.DefResourceResultVO;
 import com.dalio.cloud.system.vo.save.application.DefResourceSaveVO;
 import com.dalio.cloud.system.vo.update.application.DefResourceUpdateVO;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

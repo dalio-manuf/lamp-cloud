@@ -1,9 +1,5 @@
 package com.dalio.cloud.generator.service.impl;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 import com.baidu.fsg.uid.UidGenerator;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.dalio.basic.database.properties.DatabaseProperties;
@@ -16,6 +12,9 @@ import com.dalio.cloud.generator.manager.DefGenTableManager;
 import com.dalio.cloud.generator.vo.result.DefGenTableResultVO;
 import com.dalio.cloud.generator.vo.save.ProjectGeneratorVO;
 import com.dalio.cloud.generator.vo.update.DefGenTableUpdateVO;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Collections;
 import java.util.List;

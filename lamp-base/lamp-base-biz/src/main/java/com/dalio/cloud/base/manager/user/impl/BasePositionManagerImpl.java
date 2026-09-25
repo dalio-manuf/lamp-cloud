@@ -1,9 +1,5 @@
 package com.dalio.cloud.base.manager.user.impl;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.dalio.basic.base.manager.impl.SuperCacheManagerImpl;
 import com.dalio.basic.model.cache.CacheKeyBuilder;
 import com.dalio.basic.utils.CollHelper;
@@ -11,6 +7,10 @@ import com.dalio.cloud.base.entity.user.BasePosition;
 import com.dalio.cloud.base.manager.user.BasePositionManager;
 import com.dalio.cloud.base.mapper.user.BasePositionMapper;
 import com.dalio.cloud.common.cache.base.user.PositionCacheKeyBuilder;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;

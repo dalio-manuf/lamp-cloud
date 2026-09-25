@@ -1,11 +1,11 @@
 package com.dalio.cloud.file.api.fallback;
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 import com.dalio.basic.base.R;
 import com.dalio.cloud.file.api.FileApi;
 import com.dalio.cloud.file.enumeration.FileStorageType;
 import com.dalio.cloud.file.vo.result.FileResultVO;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 熔断

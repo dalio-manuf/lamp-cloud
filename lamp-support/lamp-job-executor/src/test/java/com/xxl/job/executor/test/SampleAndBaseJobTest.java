@@ -1,17 +1,13 @@
 package com.xxl.job.executor.test;
 
-import com.xxl.job.core.context.XxlJobContext;
+import com.dalio.cloud.msg.biz.MsgBiz;
+import com.dalio.cloud.msg.service.ExtendMsgService;
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 import com.xxl.job.executor.NoneExecutorServerApplication;
 import com.xxl.job.executor.core.config.XxlJobConfig;
 import com.xxl.job.executor.service.jobhandler.BaseJob;
 import com.xxl.job.executor.service.jobhandler.SampleXxlJob;
-import com.dalio.basic.exception.BizException;
-import com.dalio.cloud.msg.biz.MsgBiz;
-import com.dalio.cloud.msg.service.ExtendMsgService;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -20,8 +16,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)

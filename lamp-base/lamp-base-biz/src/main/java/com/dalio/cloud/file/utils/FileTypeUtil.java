@@ -2,8 +2,8 @@ package com.dalio.cloud.file.utils;
 
 
 import cn.hutool.core.util.StrUtil;
-import lombok.extern.slf4j.Slf4j;
 import com.dalio.cloud.model.enumeration.base.FileType;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.nio.file.Paths;

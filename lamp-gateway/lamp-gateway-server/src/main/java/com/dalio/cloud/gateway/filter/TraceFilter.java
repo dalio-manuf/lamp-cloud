@@ -2,6 +2,7 @@ package com.dalio.cloud.gateway.filter;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.dalio.basic.context.ContextConstants;
 import org.slf4j.MDC;
 import org.springframework.core.Ordered;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -10,7 +11,6 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
-import com.dalio.basic.context.ContextConstants;
 
 /**
  * 日志链路追踪 ID 过滤器

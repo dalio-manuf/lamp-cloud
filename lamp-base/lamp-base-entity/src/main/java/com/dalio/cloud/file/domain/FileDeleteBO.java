@@ -1,8 +1,8 @@
 package com.dalio.cloud.file.domain;
 
+import com.dalio.cloud.file.enumeration.FileStorageType;
 import lombok.Builder;
 import lombok.Data;
-import com.dalio.cloud.file.enumeration.FileStorageType;
 
 /**
  * 文件删除

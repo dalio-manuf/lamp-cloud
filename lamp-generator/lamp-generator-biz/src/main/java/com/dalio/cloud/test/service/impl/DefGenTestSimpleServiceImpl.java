@@ -1,14 +1,14 @@
 package com.dalio.cloud.test.service.impl;
 
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.dalio.basic.base.service.impl.SuperServiceImpl;
 import com.dalio.cloud.test.entity.DefGenTestSimple;
 import com.dalio.cloud.test.manager.DefGenTestSimpleManager;
 import com.dalio.cloud.test.service.DefGenTestSimpleService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>

@@ -1,5 +1,6 @@
 package com.dalio.cloud.gateway.config;
 
+import com.dalio.basic.boot.handler.AbstractGlobalExceptionHandler;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.reactive.result.view.ViewResolver;
-import com.dalio.basic.boot.handler.AbstractGlobalExceptionHandler;
 
 import java.util.Collections;
 import java.util.List;

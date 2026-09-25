@@ -2,20 +2,20 @@ package com.dalio.cloud.system.service.tenant;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import org.apache.ibatis.builder.MapperBuilderAssistant;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 import com.dalio.basic.exception.ArgumentException;
 import com.dalio.basic.exception.BizException;
 import com.dalio.cloud.system.entity.tenant.DefDatasourceConfig;
 import com.dalio.cloud.system.manager.tenant.DefDatasourceConfigManager;
 import com.dalio.cloud.system.service.tenant.impl.DefDatasourceConfigServiceImpl;
+import org.apache.ibatis.builder.MapperBuilderAssistant;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class DefDatasourceConfigServiceImplTest {
 

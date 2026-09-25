@@ -1,9 +1,9 @@
 package com.dalio.cloud.file.facade;
 
 
-import org.springframework.web.multipart.MultipartFile;
 import com.dalio.cloud.file.enumeration.FileStorageType;
 import com.dalio.cloud.file.vo.result.FileResultVO;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件接口

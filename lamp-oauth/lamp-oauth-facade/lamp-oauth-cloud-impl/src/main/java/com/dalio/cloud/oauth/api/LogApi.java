@@ -1,11 +1,11 @@
 package com.dalio.cloud.oauth.api;
 
+import com.dalio.basic.constant.Constants;
+import com.dalio.basic.model.log.OptLogDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import com.dalio.basic.constant.Constants;
-import com.dalio.basic.model.log.OptLogDTO;
 
 /**
  * 操作日志保存 API

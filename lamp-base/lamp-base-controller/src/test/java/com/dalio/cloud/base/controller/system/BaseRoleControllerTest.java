@@ -1,5 +1,12 @@
 package com.dalio.cloud.base.controller.system;
 
+import com.dalio.basic.base.request.PageParams;
+import com.dalio.basic.interfaces.echo.EchoService;
+import com.dalio.cloud.base.biz.system.BaseRoleBiz;
+import com.dalio.cloud.base.entity.system.BaseRole;
+import com.dalio.cloud.base.service.system.BaseRoleService;
+import com.dalio.cloud.base.vo.query.system.BaseRolePageQuery;
+import com.dalio.cloud.model.enumeration.base.RoleCategoryEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,21 +16,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import com.dalio.basic.base.request.PageParams;
-import com.dalio.basic.interfaces.echo.EchoService;
-import com.dalio.cloud.base.biz.system.BaseRoleBiz;
-import com.dalio.cloud.base.entity.system.BaseRole;
-import com.dalio.cloud.base.service.system.BaseRoleService;
-import com.dalio.cloud.base.vo.query.system.BaseRolePageQuery;
-import com.dalio.cloud.model.enumeration.base.RoleCategoryEnum;
 
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

@@ -3,22 +3,22 @@ package com.dalio.cloud.base.manager.system;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.dalio.cloud.base.entity.system.BaseOperationLog;
+import com.dalio.cloud.base.manager.system.impl.BaseOperationLogManagerImpl;
+import com.dalio.cloud.base.mapper.system.BaseOperationLogExtMapper;
+import com.dalio.cloud.base.mapper.system.BaseOperationLogMapper;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;
-import com.dalio.cloud.base.entity.system.BaseOperationLog;
-import com.dalio.cloud.base.manager.system.impl.BaseOperationLogManagerImpl;
-import com.dalio.cloud.base.mapper.system.BaseOperationLogExtMapper;
-import com.dalio.cloud.base.mapper.system.BaseOperationLogMapper;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 

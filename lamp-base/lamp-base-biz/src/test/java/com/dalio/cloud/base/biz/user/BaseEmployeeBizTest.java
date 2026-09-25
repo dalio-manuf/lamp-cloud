@@ -2,9 +2,6 @@ package com.dalio.cloud.base.biz.user;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import com.dalio.basic.base.request.PageParams;
 import com.dalio.basic.exception.BizException;
 import com.dalio.cloud.base.entity.user.BaseEmployee;
@@ -15,13 +12,16 @@ import com.dalio.cloud.base.vo.result.user.BaseEmployeeResultVO;
 import com.dalio.cloud.base.vo.save.user.BaseEmployeeSaveVO;
 import com.dalio.cloud.system.entity.tenant.DefUser;
 import com.dalio.cloud.system.service.tenant.DefUserService;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 /**
  * BaseEmployeeBiz 单元测试

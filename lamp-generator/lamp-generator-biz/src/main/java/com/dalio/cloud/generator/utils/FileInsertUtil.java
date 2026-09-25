@@ -2,15 +2,15 @@ package com.dalio.cloud.generator.utils;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.StrUtil;
-import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import com.dalio.basic.exception.BizException;
 import com.dalio.basic.utils.StrPool;
 import com.dalio.cloud.model.constant.EchoApi;
 import com.dalio.cloud.model.constant.EchoDictType;
 import com.dalio.cloud.model.constant.EchoRef;
+import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.InputStream;

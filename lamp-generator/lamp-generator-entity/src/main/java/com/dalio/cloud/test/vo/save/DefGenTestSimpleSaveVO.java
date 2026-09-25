@@ -1,18 +1,13 @@
 package com.dalio.cloud.test.vo.save;
 
+import com.dalio.cloud.test.enumeration.DefGenTestSimpleType2Enum;
+import com.dalio.cloud.test.enumeration.ProductType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
-import com.dalio.cloud.test.enumeration.DefGenTestSimpleType2Enum;
-import com.dalio.cloud.test.enumeration.ProductType;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

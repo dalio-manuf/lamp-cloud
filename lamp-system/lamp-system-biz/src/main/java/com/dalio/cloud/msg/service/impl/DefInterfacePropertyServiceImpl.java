@@ -1,10 +1,6 @@
 package com.dalio.cloud.msg.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.dalio.basic.base.service.impl.SuperServiceImpl;
 import com.dalio.basic.exception.BizException;
 import com.dalio.cloud.msg.entity.DefInterfaceProperty;
@@ -13,6 +9,10 @@ import com.dalio.cloud.msg.service.DefInterfacePropertyService;
 import com.dalio.cloud.msg.vo.save.DefInterfacePropertyBatchSaveVO;
 import com.dalio.cloud.msg.vo.save.DefInterfacePropertySaveVO;
 import com.dalio.cloud.msg.vo.update.DefInterfacePropertyUpdateVO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,12 +1,12 @@
 package com.dalio.cloud.base.config;
 
 import cn.hutool.core.util.StrUtil;
+import com.dalio.cloud.file.properties.FileServerProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import com.dalio.cloud.file.properties.FileServerProperties;
 
 /**
  * 通过 Spring Boot 机制预览文件

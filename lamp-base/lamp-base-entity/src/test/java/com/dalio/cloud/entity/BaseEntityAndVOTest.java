@@ -1,7 +1,5 @@
 package com.dalio.cloud.entity;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import com.dalio.cloud.base.entity.user.BaseEmployee;
 import com.dalio.cloud.base.entity.user.BaseOrg;
 import com.dalio.cloud.base.enumeration.system.LogType;
@@ -19,11 +17,10 @@ import com.dalio.cloud.file.vo.param.FileParamVO;
 import com.dalio.cloud.file.vo.param.FileUploadVO;
 import com.dalio.cloud.file.vo.result.FileResultVO;
 import com.dalio.cloud.msg.vo.update.ExtendMsgSendVO;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * 实体与 VO 单元测试

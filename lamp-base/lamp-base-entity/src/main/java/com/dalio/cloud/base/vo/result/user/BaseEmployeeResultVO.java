@@ -2,20 +2,15 @@ package com.dalio.cloud.base.vo.result.user;
 
 
 import cn.hutool.core.map.MapUtil;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 import com.dalio.basic.annotation.echo.Echo;
 import com.dalio.basic.base.entity.Entity;
 import com.dalio.basic.interfaces.echo.EchoVO;
 import com.dalio.cloud.model.constant.EchoApi;
 import com.dalio.cloud.model.constant.EchoDictType;
 import com.dalio.cloud.model.entity.system.SysUser;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,14 +1,5 @@
 package com.dalio.cloud.generator.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import com.dalio.basic.annotation.log.WebLog;
 import com.dalio.basic.base.R;
 import com.dalio.basic.base.controller.SuperController;
@@ -19,6 +10,15 @@ import com.dalio.cloud.generator.vo.query.DefGenTableColumnPageQuery;
 import com.dalio.cloud.generator.vo.result.DefGenTableColumnResultVO;
 import com.dalio.cloud.generator.vo.save.DefGenTableColumnSaveVO;
 import com.dalio.cloud.generator.vo.update.DefGenTableColumnUpdateVO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>

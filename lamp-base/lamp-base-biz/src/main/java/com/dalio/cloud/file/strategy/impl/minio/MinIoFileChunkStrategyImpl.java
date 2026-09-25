@@ -1,12 +1,12 @@
 package com.dalio.cloud.file.strategy.impl.minio;
 
-import lombok.extern.slf4j.Slf4j;
 import com.dalio.basic.base.R;
 import com.dalio.cloud.file.dto.chunk.FileChunksMergeDTO;
 import com.dalio.cloud.file.entity.File;
 import com.dalio.cloud.file.mapper.FileMapper;
 import com.dalio.cloud.file.properties.FileServerProperties;
 import com.dalio.cloud.file.strategy.impl.AbstractFileChunkStrategy;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 

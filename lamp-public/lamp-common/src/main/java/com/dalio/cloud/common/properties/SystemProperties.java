@@ -1,10 +1,10 @@
 package com.dalio.cloud.common.properties;
 
+import com.dalio.basic.constant.Constants;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import com.dalio.basic.constant.Constants;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,5 +1,7 @@
 package com.dalio.cloud.msg.glue;
 
+import com.dalio.basic.utils.SpringUtils;
+import com.dalio.cloud.msg.glue.impl.SpringGlueFactory;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,11 +10,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
-import com.dalio.basic.utils.SpringUtils;
-import com.dalio.cloud.msg.glue.impl.SpringGlueFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 /**
  * SpringGlueFactory 单元测试

@@ -1,15 +1,10 @@
 package com.dalio.cloud.msg.vo.save;
 
+import com.dalio.cloud.msg.vo.update.DefInterfacePropertyUpdateVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
-import com.dalio.cloud.msg.vo.update.DefInterfacePropertyUpdateVO;
 
 import java.io.Serializable;
 import java.util.List;

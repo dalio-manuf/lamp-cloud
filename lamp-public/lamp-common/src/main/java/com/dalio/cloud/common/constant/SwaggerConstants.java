@@ -11,6 +11,7 @@ public class SwaggerConstants {
     public static final String DATA_TYPE_LONG = "long";
     public static final String DATA_TYPE_STRING = "string";
     public static final String DATA_TYPE_MULTIPART_FILE = "MultipartFile";
+
     private SwaggerConstants() {
     }
 }

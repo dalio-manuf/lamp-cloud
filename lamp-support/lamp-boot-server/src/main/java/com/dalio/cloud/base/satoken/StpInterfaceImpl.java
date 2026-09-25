@@ -1,9 +1,9 @@
 package com.dalio.cloud.base.satoken;
 
 import cn.dev33.satoken.stp.StpInterface;
+import com.dalio.cloud.oauth.biz.StpInterfaceBiz;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import com.dalio.cloud.oauth.biz.StpInterfaceBiz;
 
 import java.util.List;
 

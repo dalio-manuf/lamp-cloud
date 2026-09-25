@@ -1,12 +1,12 @@
 package com.dalio.cloud.test.manager.impl;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.manager.impl.SuperManagerImpl;
 import com.dalio.cloud.test.entity.DefGenTestTree;
 import com.dalio.cloud.test.manager.DefGenTestTreeManager;
 import com.dalio.cloud.test.mapper.DefGenTestTreeMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>

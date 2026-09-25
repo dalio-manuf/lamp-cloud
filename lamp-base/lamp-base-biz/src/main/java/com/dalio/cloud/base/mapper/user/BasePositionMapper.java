@@ -1,8 +1,8 @@
 package com.dalio.cloud.base.mapper.user;
 
-import org.springframework.stereotype.Repository;
 import com.dalio.basic.base.mapper.SuperMapper;
 import com.dalio.cloud.base.entity.user.BasePosition;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>

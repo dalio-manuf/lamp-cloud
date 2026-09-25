@@ -2,12 +2,6 @@ package com.dalio.cloud.base.service.user.impl;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import org.apache.ibatis.builder.MapperBuilderAssistant;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 import com.dalio.basic.cache.repository.CacheOps;
 import com.dalio.basic.exception.ArgumentException;
 import com.dalio.cloud.base.entity.user.BaseEmployeeOrgRel;
@@ -18,12 +12,19 @@ import com.dalio.cloud.base.manager.user.BaseOrgManager;
 import com.dalio.cloud.base.manager.user.BaseOrgRoleRelManager;
 import com.dalio.cloud.base.vo.save.user.BaseOrgRoleRelSaveVO;
 import com.dalio.cloud.base.vo.save.user.BaseOrgSaveVO;
+import org.apache.ibatis.builder.MapperBuilderAssistant;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
 /**

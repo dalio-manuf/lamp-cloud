@@ -6,10 +6,6 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.dalio.basic.base.service.impl.SuperCacheServiceImpl;
 import com.dalio.basic.database.mybatis.conditions.Wraps;
 import com.dalio.basic.database.mybatis.conditions.query.LbQueryWrap;
@@ -30,15 +26,13 @@ import com.dalio.cloud.base.vo.update.user.BaseOrgUpdateVO;
 import com.dalio.cloud.common.cache.base.user.OrgRoleCacheKeyBuilder;
 import com.dalio.cloud.common.constant.DefValConstants;
 import com.dalio.cloud.model.enumeration.base.OrgTypeEnum;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**

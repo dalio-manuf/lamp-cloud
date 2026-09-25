@@ -11,7 +11,6 @@ import com.dalio.cloud.generator.manager.DefGenTableManager;
 import com.dalio.cloud.generator.manager.impl.DefGenTableColumnManagerImpl;
 import com.dalio.cloud.generator.mapper.DefGenTableColumnMapper;
 import com.dalio.cloud.generator.vo.save.DefGenTableImportVO;
-import com.dalio.cloud.test.entity.DefGenTestSimple;
 import com.dalio.cloud.test.entity.DefGenTestTree;
 import com.dalio.cloud.test.manager.DefGenTestSimpleManager;
 import com.dalio.cloud.test.manager.DefGenTestTreeManager;
@@ -30,12 +29,8 @@ import javax.sql.DataSource;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

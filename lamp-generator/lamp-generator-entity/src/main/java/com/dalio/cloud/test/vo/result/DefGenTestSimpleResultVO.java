@@ -1,14 +1,6 @@
 package com.dalio.cloud.test.vo.result;
 
 import cn.hutool.core.map.MapUtil;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 import com.dalio.basic.annotation.echo.Echo;
 import com.dalio.basic.base.entity.Entity;
 import com.dalio.basic.interfaces.echo.EchoVO;
@@ -16,6 +8,9 @@ import com.dalio.cloud.model.constant.EchoApi;
 import com.dalio.cloud.model.constant.EchoDictType;
 import com.dalio.cloud.test.enumeration.DefGenTestSimpleType2Enum;
 import com.dalio.cloud.test.enumeration.ProductType;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

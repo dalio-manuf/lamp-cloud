@@ -1,9 +1,9 @@
 package com.dalio.cloud.base.mapper.user;
 
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 import com.dalio.basic.base.mapper.SuperMapper;
 import com.dalio.cloud.base.entity.user.BaseEmployeeOrgRel;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

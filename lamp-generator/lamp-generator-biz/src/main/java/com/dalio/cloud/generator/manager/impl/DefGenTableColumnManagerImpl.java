@@ -2,13 +2,13 @@ package com.dalio.cloud.generator.manager.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.manager.impl.SuperManagerImpl;
 import com.dalio.cloud.generator.entity.DefGenTableColumn;
 import com.dalio.cloud.generator.manager.DefGenTableColumnManager;
 import com.dalio.cloud.generator.mapper.DefGenTableColumnMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 

@@ -23,16 +23,12 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.temp.SaTempUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import com.dalio.basic.exception.BizException;
 import com.dalio.cloud.oauth.vo.result.LoginResultVO;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_COMPANY_ID;
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_DEPT_ID;
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_EMPLOYEE_ID;
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_TOP_COMPANY_ID;
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_USER_ID;
+import static com.dalio.basic.context.ContextConstants.*;
 
 /**
  * RefreshTokenGranter

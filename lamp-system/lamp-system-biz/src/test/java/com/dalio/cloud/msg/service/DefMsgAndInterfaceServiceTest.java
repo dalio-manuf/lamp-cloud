@@ -2,12 +2,6 @@ package com.dalio.cloud.msg.service;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import org.apache.ibatis.builder.MapperBuilderAssistant;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 import com.dalio.basic.exception.ArgumentException;
 import com.dalio.basic.exception.BizException;
 import com.dalio.cloud.msg.entity.DefInterface;
@@ -27,6 +21,11 @@ import com.dalio.cloud.msg.vo.save.DefMsgTemplateSaveVO;
 import com.dalio.cloud.msg.vo.update.DefInterfacePropertyUpdateVO;
 import com.dalio.cloud.msg.vo.update.DefInterfaceUpdateVO;
 import com.dalio.cloud.msg.vo.update.DefMsgTemplateUpdateVO;
+import org.apache.ibatis.builder.MapperBuilderAssistant;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 import java.util.Map;

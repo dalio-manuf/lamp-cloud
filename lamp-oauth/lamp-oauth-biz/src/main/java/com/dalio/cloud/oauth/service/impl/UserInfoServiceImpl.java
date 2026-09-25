@@ -2,8 +2,6 @@ package com.dalio.cloud.oauth.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.RandomUtil;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.cache.redis2.CacheResult;
 import com.dalio.basic.cache.repository.CacheOps;
 import com.dalio.basic.context.ContextUtil;
@@ -22,6 +20,8 @@ import com.dalio.cloud.oauth.vo.param.RegisterByMobileVO;
 import com.dalio.cloud.oauth.vo.result.OrgResultVO;
 import com.dalio.cloud.system.entity.tenant.DefUser;
 import com.dalio.cloud.system.service.tenant.DefUserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.HashMap;

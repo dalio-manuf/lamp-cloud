@@ -1,14 +1,5 @@
 package com.dalio.cloud.system.controller.tenant;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import com.dalio.basic.base.R;
 import com.dalio.basic.base.controller.SuperController;
 import com.dalio.basic.interfaces.echo.EchoService;
@@ -18,6 +9,15 @@ import com.dalio.cloud.system.vo.query.tenant.DefDatasourceConfigPageQuery;
 import com.dalio.cloud.system.vo.result.tenant.DefDatasourceConfigResultVO;
 import com.dalio.cloud.system.vo.save.tenant.DefDatasourceConfigSaveVO;
 import com.dalio.cloud.system.vo.update.tenant.DefDatasourceConfigUpdateVO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**

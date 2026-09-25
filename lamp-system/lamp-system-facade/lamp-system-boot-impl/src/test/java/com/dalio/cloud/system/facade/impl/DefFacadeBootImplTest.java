@@ -1,13 +1,13 @@
 package com.dalio.cloud.system.facade.impl;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import com.dalio.basic.base.R;
 import com.dalio.basic.cache.redis2.CacheResult;
 import com.dalio.basic.cache.repository.CacheOps;
 import com.dalio.cloud.model.vo.result.ResourceApiVO;
 import com.dalio.cloud.system.service.application.DefResourceService;
 import com.dalio.cloud.system.service.tenant.DefUserService;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,7 +17,8 @@ import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * 单体版 DefResourceFacadeImpl 与 DefUserFacadeImpl 单元测试

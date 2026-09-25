@@ -1,11 +1,6 @@
 package com.dalio.cloud.file.strategy.impl.local;
 
 import cn.hutool.core.util.StrUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 import com.dalio.basic.utils.CollHelper;
 import com.dalio.basic.utils.StrPool;
 import com.dalio.cloud.file.domain.FileDeleteBO;
@@ -15,6 +10,11 @@ import com.dalio.cloud.file.enumeration.FileStorageType;
 import com.dalio.cloud.file.mapper.FileMapper;
 import com.dalio.cloud.file.properties.FileServerProperties;
 import com.dalio.cloud.file.strategy.impl.AbstractFileStrategy;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;

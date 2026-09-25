@@ -1,7 +1,6 @@
 package com.dalio.cloud.generator.manager.impl;
 
 import com.baomidou.mybatisplus.annotation.DbType;
-import com.dalio.cloud.generator.mapper.DefGenTableMapper;
 import com.dalio.cloud.generator.mapper.GenDefDatasourceConfigMapper;
 import com.dalio.cloud.system.entity.tenant.DefDatasourceConfig;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +15,6 @@ import javax.sql.DataSource;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)

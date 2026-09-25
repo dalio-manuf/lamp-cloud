@@ -3,17 +3,17 @@ package com.dalio.cloud.system.service.tenant.impl;
 
 import cn.hutool.db.ds.DSFactory;
 import cn.hutool.setting.Setting;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.dalio.basic.base.service.impl.SuperServiceImpl;
 import com.dalio.basic.exception.BizException;
 import com.dalio.basic.utils.ArgumentAssert;
 import com.dalio.cloud.system.entity.tenant.DefDatasourceConfig;
 import com.dalio.cloud.system.manager.tenant.DefDatasourceConfigManager;
 import com.dalio.cloud.system.service.tenant.DefDatasourceConfigService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

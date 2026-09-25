@@ -2,25 +2,26 @@ package com.dalio.cloud.system.service.system;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import org.apache.ibatis.builder.MapperBuilderAssistant;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.lionsoul.ip2region.service.Ip2Region;
-import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 import com.dalio.cloud.system.entity.system.DefLoginLog;
 import com.dalio.cloud.system.entity.tenant.DefUser;
 import com.dalio.cloud.system.manager.system.DefLoginLogManager;
 import com.dalio.cloud.system.manager.tenant.DefUserManager;
 import com.dalio.cloud.system.service.system.impl.DefLoginLogServiceImpl;
 import com.dalio.cloud.system.vo.save.system.DefLoginLogSaveVO;
+import org.apache.ibatis.builder.MapperBuilderAssistant;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.lionsoul.ip2region.service.Ip2Region;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class DefLoginLogServiceImplTest {
 

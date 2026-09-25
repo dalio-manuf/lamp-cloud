@@ -1,23 +1,15 @@
 package com.dalio.cloud.system.vo.save.tenant;
 
 import cn.idev.excel.annotation.ExcelProperty;
+import com.dalio.basic.annotation.constraints.NotEmptyPattern;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import com.dalio.basic.annotation.constraints.NotEmptyPattern;
+import lombok.*;
 
 import java.io.Serializable;
 
-import static com.dalio.basic.utils.ValidatorUtil.REGEX_EMAIL;
-import static com.dalio.basic.utils.ValidatorUtil.REGEX_ID_CARD;
-import static com.dalio.basic.utils.ValidatorUtil.REGEX_MOBILE;
-import static com.dalio.basic.utils.ValidatorUtil.REGEX_USERNAME;
+import static com.dalio.basic.utils.ValidatorUtil.*;
 
 /**
  * <p>

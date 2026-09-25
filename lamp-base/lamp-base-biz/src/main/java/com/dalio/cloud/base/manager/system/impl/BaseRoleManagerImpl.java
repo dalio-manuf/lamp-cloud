@@ -1,9 +1,6 @@
 package com.dalio.cloud.base.manager.system.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.manager.impl.SuperCacheManagerImpl;
 import com.dalio.basic.cache.redis2.CacheResult;
 import com.dalio.basic.database.mybatis.conditions.Wraps;
@@ -20,6 +17,9 @@ import com.dalio.cloud.common.cache.base.system.RoleCacheKeyBuilder;
 import com.dalio.cloud.common.cache.base.system.RoleResourceCacheKeyBuilder;
 import com.dalio.cloud.common.cache.base.user.EmployeeRoleCacheKeyBuilder;
 import com.dalio.cloud.common.cache.base.user.OrgRoleCacheKeyBuilder;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;

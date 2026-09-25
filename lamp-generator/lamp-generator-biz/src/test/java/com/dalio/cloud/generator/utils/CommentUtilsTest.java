@@ -1,10 +1,10 @@
 package com.dalio.cloud.generator.utils;
 
 import cn.hutool.core.util.StrUtil;
-import org.junit.jupiter.api.Test;
 import com.dalio.cloud.generator.rules.echo.EchoDict;
 import com.dalio.cloud.generator.rules.echo.EchoType;
 import com.dalio.cloud.generator.utils.inner.CommentUtils;
+import org.junit.jupiter.api.Test;
 
 import java.util.regex.Matcher;
 

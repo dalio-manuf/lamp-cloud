@@ -1,17 +1,12 @@
 package com.dalio.cloud.msg.vo.update;
 
+import com.dalio.basic.model.Kv;
+import com.dalio.cloud.msg.vo.save.ExtendMsgRecipientSaveVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
-import com.dalio.basic.model.Kv;
-import com.dalio.cloud.msg.vo.save.ExtendMsgRecipientSaveVO;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

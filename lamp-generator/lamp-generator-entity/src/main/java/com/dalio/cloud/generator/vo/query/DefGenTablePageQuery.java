@@ -1,18 +1,9 @@
 package com.dalio.cloud.generator.vo.query;
 
+import com.dalio.cloud.generator.enumeration.*;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
-import com.dalio.cloud.generator.enumeration.EntitySuperClassEnum;
-import com.dalio.cloud.generator.enumeration.GenTypeEnum;
-import com.dalio.cloud.generator.enumeration.PopupTypeEnum;
-import com.dalio.cloud.generator.enumeration.SuperClassEnum;
-import com.dalio.cloud.generator.enumeration.TplEnum;
 
 import java.io.Serializable;
 

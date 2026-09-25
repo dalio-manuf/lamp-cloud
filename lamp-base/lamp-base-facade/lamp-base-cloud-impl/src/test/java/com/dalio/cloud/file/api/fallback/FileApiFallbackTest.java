@@ -1,12 +1,12 @@
 package com.dalio.cloud.file.api.fallback;
 
+import com.dalio.basic.base.R;
+import com.dalio.cloud.file.enumeration.FileStorageType;
+import com.dalio.cloud.file.vo.result.FileResultVO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
-import com.dalio.basic.base.R;
-import com.dalio.cloud.file.enumeration.FileStorageType;
-import com.dalio.cloud.file.vo.result.FileResultVO;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

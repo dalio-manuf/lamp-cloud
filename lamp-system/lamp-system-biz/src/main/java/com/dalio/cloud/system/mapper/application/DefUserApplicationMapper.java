@@ -1,9 +1,9 @@
 package com.dalio.cloud.system.mapper.application;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
-import org.springframework.stereotype.Repository;
 import com.dalio.basic.base.mapper.SuperMapper;
 import com.dalio.cloud.system.entity.application.DefUserApplication;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>

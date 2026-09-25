@@ -1,9 +1,6 @@
 package com.dalio.cloud.oauth.biz;
 
 import cn.hutool.core.bean.BeanUtil;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.context.ContextUtil;
 import com.dalio.cloud.base.entity.user.BaseEmployee;
 import com.dalio.cloud.base.service.user.BaseEmployeeService;
@@ -17,6 +14,9 @@ import com.dalio.cloud.system.entity.tenant.DefUser;
 import com.dalio.cloud.system.service.application.DefApplicationService;
 import com.dalio.cloud.system.service.tenant.DefUserService;
 import com.dalio.cloud.system.vo.result.application.DefApplicationResultVO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
  * 用户大业务

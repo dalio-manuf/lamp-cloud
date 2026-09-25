@@ -11,24 +11,21 @@ import cn.dev33.satoken.spring.pathmatch.SaPathPatternParserUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
+import com.dalio.basic.context.ContextConstants;
+import com.dalio.basic.context.ContextUtil;
+import com.dalio.cloud.common.properties.IgnoreProperties;
+import com.dalio.cloud.system.facade.DefResourceFacade;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.web.method.HandlerMethod;
-import com.dalio.basic.context.ContextConstants;
-import com.dalio.basic.context.ContextUtil;
-import com.dalio.cloud.common.properties.IgnoreProperties;
-import com.dalio.cloud.system.facade.DefResourceFacade;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_COMPANY_ID;
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_DEPT_ID;
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_EMPLOYEE_ID;
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_TOP_COMPANY_ID;
+import static com.dalio.basic.context.ContextConstants.*;
 
 /**
  * 配合sa-token，实现 登录校验、uri校验

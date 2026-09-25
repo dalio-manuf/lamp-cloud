@@ -1,8 +1,6 @@
 package com.dalio.cloud.loginuser.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import com.dalio.basic.base.R;
 import com.dalio.cloud.base.entity.user.BaseEmployee;
 import com.dalio.cloud.base.entity.user.BaseOrg;
@@ -20,6 +18,8 @@ import com.dalio.cloud.oauth.biz.ResourceBiz;
 import com.dalio.cloud.system.entity.tenant.DefUser;
 import com.dalio.cloud.system.service.tenant.DefUserService;
 import com.dalio.cloud.userinfo.service.UserResolverService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 

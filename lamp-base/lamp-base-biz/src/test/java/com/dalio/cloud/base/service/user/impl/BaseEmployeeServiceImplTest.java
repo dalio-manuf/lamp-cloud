@@ -2,12 +2,6 @@ package com.dalio.cloud.base.service.user.impl;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import org.apache.ibatis.builder.MapperBuilderAssistant;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 import com.dalio.basic.cache.repository.CacheOps;
 import com.dalio.basic.exception.ArgumentException;
 import com.dalio.cloud.base.entity.user.BaseEmployee;
@@ -17,6 +11,12 @@ import com.dalio.cloud.base.manager.user.BaseEmployeeManager;
 import com.dalio.cloud.base.manager.user.BaseEmployeeOrgRelManager;
 import com.dalio.cloud.base.manager.user.BaseEmployeeRoleRelManager;
 import com.dalio.cloud.base.vo.save.user.BaseEmployeeRoleRelSaveVO;
+import org.apache.ibatis.builder.MapperBuilderAssistant;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Arrays;
 import java.util.Collections;

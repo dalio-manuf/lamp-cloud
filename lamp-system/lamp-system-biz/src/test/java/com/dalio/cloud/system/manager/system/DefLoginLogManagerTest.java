@@ -1,19 +1,19 @@
 package com.dalio.cloud.system.manager.system;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.dalio.cloud.system.entity.system.DefLoginLog;
+import com.dalio.cloud.system.manager.system.impl.DefLoginLogManagerImpl;
+import com.dalio.cloud.system.mapper.system.DefLoginLogMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;
-import com.dalio.cloud.system.entity.system.DefLoginLog;
-import com.dalio.cloud.system.manager.system.impl.DefLoginLogManagerImpl;
-import com.dalio.cloud.system.mapper.system.DefLoginLogMapper;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 

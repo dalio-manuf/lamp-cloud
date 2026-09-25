@@ -1,12 +1,12 @@
 package com.dalio.cloud.file.storage;
 
+import com.dalio.cloud.file.properties.FileServerProperties;
 import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 import io.minio.MinioClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import com.dalio.cloud.file.properties.FileServerProperties;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 

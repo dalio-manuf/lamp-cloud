@@ -6,14 +6,7 @@ import com.dalio.cloud.generator.rules.DbColumnType;
 
 import static com.dalio.cloud.generator.converts.TypeConverts.contains;
 import static com.dalio.cloud.generator.converts.TypeConverts.containsAny;
-import static com.dalio.cloud.generator.rules.DbColumnType.BIG_DECIMAL;
-import static com.dalio.cloud.generator.rules.DbColumnType.BOOLEAN;
-import static com.dalio.cloud.generator.rules.DbColumnType.BYTE_ARRAY;
-import static com.dalio.cloud.generator.rules.DbColumnType.DOUBLE;
-import static com.dalio.cloud.generator.rules.DbColumnType.FLOAT;
-import static com.dalio.cloud.generator.rules.DbColumnType.INTEGER;
-import static com.dalio.cloud.generator.rules.DbColumnType.LONG;
-import static com.dalio.cloud.generator.rules.DbColumnType.STRING;
+import static com.dalio.cloud.generator.rules.DbColumnType.*;
 
 
 /**

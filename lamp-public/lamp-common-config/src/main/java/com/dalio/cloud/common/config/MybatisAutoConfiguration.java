@@ -1,15 +1,15 @@
 package com.dalio.cloud.common.config;
 
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
+import com.dalio.basic.database.config.BaseMybatisConfiguration;
+import com.dalio.basic.database.properties.DatabaseProperties;
+import com.dalio.cloud.datascope.interceptor.DataScopeInnerInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Repository;
-import com.dalio.basic.database.config.BaseMybatisConfiguration;
-import com.dalio.basic.database.properties.DatabaseProperties;
-import com.dalio.cloud.datascope.interceptor.DataScopeInnerInterceptor;
 
 import java.util.List;
 

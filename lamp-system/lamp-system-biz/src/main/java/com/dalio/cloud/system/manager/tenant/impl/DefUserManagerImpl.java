@@ -5,9 +5,6 @@ import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.dalio.basic.base.manager.impl.SuperCacheManagerImpl;
 import com.dalio.basic.cache.redis2.CacheResult;
 import com.dalio.basic.database.mybatis.conditions.Wraps;
@@ -15,26 +12,19 @@ import com.dalio.basic.model.cache.CacheKey;
 import com.dalio.basic.model.cache.CacheKeyBuilder;
 import com.dalio.basic.utils.ArgumentAssert;
 import com.dalio.basic.utils.CollHelper;
-import com.dalio.cloud.common.cache.tenant.base.DefUserCacheKeyBuilder;
-import com.dalio.cloud.common.cache.tenant.base.DefUserEmailCacheKeyBuilder;
-import com.dalio.cloud.common.cache.tenant.base.DefUserIdCardCacheKeyBuilder;
-import com.dalio.cloud.common.cache.tenant.base.DefUserMobileCacheKeyBuilder;
-import com.dalio.cloud.common.cache.tenant.base.DefUserUserNameCacheKeyBuilder;
+import com.dalio.cloud.common.cache.tenant.base.*;
 import com.dalio.cloud.system.entity.tenant.DefUser;
 import com.dalio.cloud.system.manager.tenant.DefUserManager;
 import com.dalio.cloud.system.mapper.tenant.DefUserMapper;
 import com.dalio.cloud.system.vo.query.tenant.DefUserPageQuery;
 import com.dalio.cloud.system.vo.result.tenant.DefUserResultVO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 应用管理

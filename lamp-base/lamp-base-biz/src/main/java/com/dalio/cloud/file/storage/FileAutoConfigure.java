@@ -1,5 +1,6 @@
 package com.dalio.cloud.file.storage;
 
+import com.dalio.cloud.file.properties.FileServerProperties;
 import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
@@ -10,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.dalio.cloud.file.properties.FileServerProperties;
 
 
 /**

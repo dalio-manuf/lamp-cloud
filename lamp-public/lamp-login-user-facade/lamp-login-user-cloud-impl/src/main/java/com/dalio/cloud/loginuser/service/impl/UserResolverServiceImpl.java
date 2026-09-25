@@ -1,7 +1,5 @@
 package com.dalio.cloud.loginuser.service.impl;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import com.dalio.basic.base.R;
 import com.dalio.cloud.loginuser.api.BaseApi;
 import com.dalio.cloud.loginuser.api.OauthApi;
@@ -12,6 +10,8 @@ import com.dalio.cloud.model.entity.base.SysPosition;
 import com.dalio.cloud.model.entity.system.SysUser;
 import com.dalio.cloud.model.vo.result.UserQuery;
 import com.dalio.cloud.userinfo.service.UserResolverService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 

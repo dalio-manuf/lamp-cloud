@@ -1,8 +1,8 @@
 package com.dalio.cloud.generator.config;
 
+import com.dalio.cloud.generator.enumeration.FileOverrideStrategyEnum;
 import lombok.Getter;
 import lombok.Setter;
-import com.dalio.cloud.generator.enumeration.FileOverrideStrategyEnum;
 
 /**
  * @author admin

@@ -1,10 +1,10 @@
 package com.dalio.cloud.oauth.facade.impl;
 
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.R;
 import com.dalio.cloud.oauth.api.CaptchaApi;
 import com.dalio.cloud.oauth.facade.CaptchaFacade;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 
 /**
  *

@@ -1,12 +1,12 @@
 package com.dalio.cloud.test.vo.save;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import lombok.ToString;
 import com.dalio.basic.annotation.echo.Echo;
 import com.dalio.basic.interfaces.echo.EchoVO;
 import com.dalio.cloud.model.enumeration.Sex;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

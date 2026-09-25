@@ -1,8 +1,5 @@
 package com.dalio.cloud.oauth.granter;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import com.dalio.basic.base.R;
 import com.dalio.basic.exception.BizException;
 import com.dalio.basic.utils.SpringUtils;
@@ -13,6 +10,9 @@ import com.dalio.cloud.oauth.service.CaptchaService;
 import com.dalio.cloud.oauth.vo.param.LoginParamVO;
 import com.dalio.cloud.oauth.vo.result.LoginResultVO;
 import com.dalio.cloud.system.enumeration.system.LoginStatusEnum;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import static com.dalio.cloud.oauth.granter.CaptchaTokenGranter.GRANT_TYPE;
 

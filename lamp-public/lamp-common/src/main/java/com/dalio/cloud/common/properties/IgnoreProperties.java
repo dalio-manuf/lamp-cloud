@@ -3,13 +3,13 @@ package com.dalio.cloud.common.properties;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
+import com.dalio.basic.constant.Constants;
+import com.dalio.cloud.model.enumeration.HttpMethod;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.server.PathContainer;
 import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
-import com.dalio.basic.constant.Constants;
-import com.dalio.cloud.model.enumeration.HttpMethod;
 
 import java.util.Map;
 import java.util.Set;

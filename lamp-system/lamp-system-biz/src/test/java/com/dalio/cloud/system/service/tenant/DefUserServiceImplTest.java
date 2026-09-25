@@ -1,10 +1,6 @@
 package com.dalio.cloud.system.service.tenant;
 
 import cn.hutool.crypto.SecureUtil;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 import com.dalio.basic.base.R;
 import com.dalio.basic.cache.redis2.CacheResult;
 import com.dalio.basic.cache.repository.CacheOps;
@@ -19,6 +15,10 @@ import com.dalio.cloud.system.service.tenant.impl.DefUserServiceImpl;
 import com.dalio.cloud.system.vo.query.tenant.ForgetPasswordDto;
 import com.dalio.cloud.system.vo.update.tenant.DefUserPasswordResetVO;
 import com.dalio.cloud.system.vo.update.tenant.DefUserPasswordUpdateVO;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 import java.util.Map;

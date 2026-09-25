@@ -1,9 +1,9 @@
 package com.dalio.cloud;
 
+import com.dalio.cloud.common.ServerApplication;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
-import com.dalio.cloud.common.ServerApplication;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

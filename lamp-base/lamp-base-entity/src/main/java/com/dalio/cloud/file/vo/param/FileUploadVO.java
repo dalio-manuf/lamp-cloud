@@ -1,10 +1,10 @@
 package com.dalio.cloud.file.vo.param;
 
 
+import com.dalio.cloud.file.enumeration.FileStorageType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import com.dalio.cloud.file.enumeration.FileStorageType;
 
 import java.io.Serializable;
 

@@ -1,17 +1,17 @@
 package com.dalio.cloud.oauth.event.listener;
 
 import cn.hutool.core.bean.BeanUtil;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
 import com.dalio.cloud.oauth.event.LoginEvent;
 import com.dalio.cloud.oauth.event.model.LoginStatusDTO;
 import com.dalio.cloud.system.enumeration.system.LoginStatusEnum;
 import com.dalio.cloud.system.service.system.DefLoginLogService;
 import com.dalio.cloud.system.service.tenant.DefUserService;
 import com.dalio.cloud.system.vo.save.system.DefLoginLogSaveVO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 
 /**
  * 登录事件监听，用于记录登录日志

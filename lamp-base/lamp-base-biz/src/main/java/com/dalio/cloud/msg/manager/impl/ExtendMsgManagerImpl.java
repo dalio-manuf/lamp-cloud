@@ -1,12 +1,12 @@
 package com.dalio.cloud.msg.manager.impl;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.manager.impl.SuperManagerImpl;
 import com.dalio.cloud.msg.entity.ExtendMsg;
 import com.dalio.cloud.msg.manager.ExtendMsgManager;
 import com.dalio.cloud.msg.mapper.ExtendMsgMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>

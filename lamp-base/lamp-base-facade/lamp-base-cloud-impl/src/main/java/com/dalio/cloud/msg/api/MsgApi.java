@@ -1,14 +1,14 @@
 package com.dalio.cloud.msg.api;
 
 
-import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import com.dalio.basic.base.R;
 import com.dalio.basic.constant.Constants;
 import com.dalio.cloud.msg.api.fallback.MsgApiFallback;
 import com.dalio.cloud.msg.vo.update.ExtendMsgSendVO;
+import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * 消息接口

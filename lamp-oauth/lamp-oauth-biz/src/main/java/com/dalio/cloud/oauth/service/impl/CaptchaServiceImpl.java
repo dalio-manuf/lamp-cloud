@@ -2,19 +2,6 @@ package com.dalio.cloud.oauth.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
-import com.wf.captcha.ArithmeticCaptcha;
-import com.wf.captcha.ChineseCaptcha;
-import com.wf.captcha.ChineseGifCaptcha;
-import com.wf.captcha.GifCaptcha;
-import com.wf.captcha.SpecCaptcha;
-import com.wf.captcha.base.Captcha;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.R;
 import com.dalio.basic.cache.redis2.CacheResult;
 import com.dalio.basic.cache.repository.CacheOps;
@@ -30,6 +17,15 @@ import com.dalio.cloud.oauth.properties.CaptchaProperties;
 import com.dalio.cloud.oauth.service.CaptchaService;
 import com.dalio.cloud.system.entity.tenant.DefUser;
 import com.dalio.cloud.system.service.tenant.DefUserService;
+import com.wf.captcha.*;
+import com.wf.captcha.base.Captcha;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 

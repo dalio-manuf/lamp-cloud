@@ -6,11 +6,6 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 import com.dalio.basic.base.R;
 import com.dalio.basic.base.request.PageParams;
 import com.dalio.basic.context.ContextUtil;
@@ -32,6 +27,11 @@ import com.dalio.cloud.system.vo.result.system.OnlineUsersResultVO;
 import com.dalio.cloud.system.vo.result.tenant.DefUserExcelVO;
 import com.dalio.cloud.system.vo.result.tenant.DefUserResultVO;
 import com.dalio.cloud.system.vo.update.tenant.DefUserPasswordResetVO;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -39,15 +39,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 /**
  * DefDatasourceConfigController, SystemEchoController, TenantAnyoneController 与 DefUserController 单元测试

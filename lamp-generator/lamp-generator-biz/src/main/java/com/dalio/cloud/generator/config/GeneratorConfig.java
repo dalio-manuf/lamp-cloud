@@ -1,13 +1,13 @@
 package com.dalio.cloud.generator.config;
 
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import com.dalio.basic.constant.Constants;
 import com.dalio.cloud.generator.enumeration.GenTypeEnum;
 import com.dalio.cloud.generator.enumeration.ProjectTypeEnum;
 import com.dalio.cloud.generator.enumeration.SuperClassEnum;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 import java.util.ArrayList;
 import java.util.HashMap;

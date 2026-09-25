@@ -1,14 +1,14 @@
 package com.dalio.cloud.msg.controller;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.test.util.ReflectionTestUtils;
 import com.dalio.basic.base.R;
 import com.dalio.basic.interfaces.echo.EchoService;
 import com.dalio.cloud.msg.service.DefInterfacePropertyService;
 import com.dalio.cloud.msg.service.DefInterfaceService;
 import com.dalio.cloud.msg.service.DefMsgTemplateService;
 import com.dalio.cloud.msg.vo.save.DefInterfacePropertyBatchSaveVO;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;

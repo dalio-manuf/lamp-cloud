@@ -1,10 +1,6 @@
 package com.dalio.cloud.file.strategy.impl.fastdfs;
 
 
-import com.github.tobato.fastdfs.domain.fdfs.StorePath;
-import com.github.tobato.fastdfs.service.FastFileStorageClient;
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 import com.dalio.basic.utils.CollHelper;
 import com.dalio.basic.utils.StrPool;
 import com.dalio.cloud.file.domain.FileDeleteBO;
@@ -14,6 +10,10 @@ import com.dalio.cloud.file.enumeration.FileStorageType;
 import com.dalio.cloud.file.mapper.FileMapper;
 import com.dalio.cloud.file.properties.FileServerProperties;
 import com.dalio.cloud.file.strategy.impl.AbstractFileStrategy;
+import com.github.tobato.fastdfs.domain.fdfs.StorePath;
+import com.github.tobato.fastdfs.service.FastFileStorageClient;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.LinkedHashMap;
 import java.util.List;

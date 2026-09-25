@@ -1,20 +1,12 @@
 package com.dalio.cloud.enumeration;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import com.dalio.cloud.base.enumeration.system.LogType;
 import com.dalio.cloud.file.enumeration.FileStorageType;
-import com.dalio.cloud.msg.enumeration.MsgInterfaceLoggingStatusEnum;
-import com.dalio.cloud.msg.enumeration.MsgTemplateTypeEnum;
-import com.dalio.cloud.msg.enumeration.NoticeRemindModeEnum;
-import com.dalio.cloud.msg.enumeration.SourceType;
-import com.dalio.cloud.msg.enumeration.TaskStatus;
+import com.dalio.cloud.msg.enumeration.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * 基础实体模块枚举单元测试

@@ -2,16 +2,11 @@ package com.dalio.cloud.test.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 import com.dalio.basic.base.entity.TreeEntity;
 import com.dalio.cloud.test.enumeration.DefGenTestTreeType2Enum;
 import com.dalio.cloud.test.enumeration.ProductType;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

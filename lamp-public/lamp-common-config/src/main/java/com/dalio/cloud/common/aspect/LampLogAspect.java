@@ -1,15 +1,15 @@
 package com.dalio.cloud.common.aspect;
 
 
+import com.dalio.basic.context.ContextUtil;
+import com.dalio.basic.utils.StrPool;
+import com.dalio.cloud.common.properties.SystemProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import com.dalio.basic.context.ContextUtil;
-import com.dalio.basic.utils.StrPool;
-import com.dalio.cloud.common.properties.SystemProperties;
 
 /**
  * 操作日志使用spring event异步入库

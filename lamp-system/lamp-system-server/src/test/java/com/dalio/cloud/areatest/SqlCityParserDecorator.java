@@ -2,9 +2,9 @@ package com.dalio.cloud.areatest;
 
 
 import cn.hutool.core.collection.CollUtil;
-import org.springframework.stereotype.Component;
 import com.dalio.cloud.system.entity.system.DefArea;
 import com.dalio.cloud.system.manager.system.DefAreaManager;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 

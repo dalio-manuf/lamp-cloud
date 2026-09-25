@@ -1,9 +1,9 @@
 package com.dalio.cloud.msg.api.fallback;
 
-import org.springframework.stereotype.Component;
 import com.dalio.basic.base.R;
 import com.dalio.cloud.msg.api.MsgApi;
 import com.dalio.cloud.msg.vo.update.ExtendMsgSendVO;
+import org.springframework.stereotype.Component;
 
 /**
  * 熔断

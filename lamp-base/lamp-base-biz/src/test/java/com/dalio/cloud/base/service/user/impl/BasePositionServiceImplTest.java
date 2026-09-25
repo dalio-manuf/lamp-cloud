@@ -2,17 +2,17 @@ package com.dalio.cloud.base.service.user.impl;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
+import com.dalio.basic.exception.ArgumentException;
+import com.dalio.cloud.base.entity.user.BasePosition;
+import com.dalio.cloud.base.manager.user.BasePositionManager;
+import com.dalio.cloud.base.vo.save.user.BasePositionSaveVO;
+import com.dalio.cloud.base.vo.update.user.BasePositionUpdateVO;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;
-import com.dalio.basic.exception.ArgumentException;
-import com.dalio.cloud.base.entity.user.BasePosition;
-import com.dalio.cloud.base.manager.user.BasePositionManager;
-import com.dalio.cloud.base.vo.save.user.BasePositionSaveVO;
-import com.dalio.cloud.base.vo.update.user.BasePositionUpdateVO;
 
 import java.util.Map;
 import java.util.Set;

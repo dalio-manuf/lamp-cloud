@@ -1,8 +1,8 @@
 package com.dalio.cloud.msg.strategy.domain.mail;
 
+import com.dalio.cloud.msg.strategy.domain.BaseProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.dalio.cloud.msg.strategy.domain.BaseProperty;
 
 /**
  * @author admin

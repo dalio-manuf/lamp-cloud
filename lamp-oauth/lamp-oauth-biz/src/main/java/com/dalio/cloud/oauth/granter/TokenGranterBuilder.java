@@ -1,8 +1,8 @@
 package com.dalio.cloud.oauth.granter;
 
-import org.springframework.stereotype.Component;
 import com.dalio.basic.exception.BizException;
 import com.dalio.cloud.oauth.enumeration.GrantType;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

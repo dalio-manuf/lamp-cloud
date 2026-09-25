@@ -3,7 +3,6 @@ package com.dalio.cloud.file.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.common.collect.Multimap;
 import com.dalio.basic.base.entity.SuperEntity;
 import com.dalio.basic.interfaces.echo.EchoVO;
 import com.dalio.cloud.file.entity.Appendix;
@@ -11,6 +10,8 @@ import com.dalio.cloud.file.mapper.AppendixMapper;
 import com.dalio.cloud.file.service.AppendixService;
 import com.dalio.cloud.model.vo.result.AppendixResultVO;
 import com.dalio.cloud.model.vo.save.AppendixSaveVO;
+import com.google.common.collect.Multimap;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,29 +19,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import org.springframework.test.util.ReflectionTestUtils;
-import org.junit.jupiter.api.BeforeEach;
 
 @ExtendWith(MockitoExtension.class)
 public class AppendixServiceImplTest {

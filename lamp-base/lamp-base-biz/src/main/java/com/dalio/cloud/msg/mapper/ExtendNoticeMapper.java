@@ -1,8 +1,8 @@
 package com.dalio.cloud.msg.mapper;
 
-import org.springframework.stereotype.Repository;
 import com.dalio.basic.base.mapper.SuperMapper;
 import com.dalio.cloud.msg.entity.ExtendNotice;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>

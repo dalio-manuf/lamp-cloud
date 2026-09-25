@@ -1,5 +1,6 @@
 package com.dalio.cloud.entity;
 
+import com.dalio.cloud.system.entity.system.DefDict;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -10,16 +11,10 @@ import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import com.dalio.cloud.system.entity.system.DefDict;
 
 /**
  * lamp-system-entity 实体与 VO 自动化反射测试

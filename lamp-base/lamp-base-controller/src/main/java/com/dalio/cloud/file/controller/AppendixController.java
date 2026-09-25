@@ -1,5 +1,11 @@
 package com.dalio.cloud.file.controller;
 
+import com.dalio.basic.annotation.log.WebLog;
+import com.dalio.basic.base.R;
+import com.dalio.cloud.file.service.AppendixService;
+import com.dalio.cloud.file.service.FileService;
+import com.dalio.cloud.file.vo.result.FileResultVO;
+import com.dalio.cloud.model.vo.result.AppendixResultVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -9,12 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.dalio.basic.annotation.log.WebLog;
-import com.dalio.basic.base.R;
-import com.dalio.cloud.file.service.AppendixService;
-import com.dalio.cloud.file.service.FileService;
-import com.dalio.cloud.file.vo.result.FileResultVO;
-import com.dalio.cloud.model.vo.result.AppendixResultVO;
 
 import java.util.List;
 

@@ -1,12 +1,12 @@
 package com.dalio.cloud.system.manager.application.impl;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.manager.impl.SuperManagerImpl;
 import com.dalio.cloud.system.entity.application.DefUserApplication;
 import com.dalio.cloud.system.manager.application.DefUserApplicationManager;
 import com.dalio.cloud.system.mapper.application.DefUserApplicationMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>

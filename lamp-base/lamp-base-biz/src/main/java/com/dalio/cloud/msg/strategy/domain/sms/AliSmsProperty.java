@@ -1,10 +1,10 @@
 package com.dalio.cloud.msg.strategy.domain.sms;
 
 import cn.hutool.core.util.StrUtil;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import com.dalio.basic.utils.ArgumentAssert;
 import com.dalio.cloud.msg.strategy.domain.BaseProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * https://help.aliyun.com/document_detail/419273.htm?spm=a2c4g.11186623.0.0.3437bb6eTMh5Il

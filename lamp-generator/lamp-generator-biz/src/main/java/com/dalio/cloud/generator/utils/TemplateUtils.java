@@ -1,11 +1,11 @@
 package com.dalio.cloud.generator.utils;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import com.dalio.cloud.generator.enumeration.PopupTypeEnum;
 import com.dalio.cloud.generator.enumeration.TemplateEnum;
 import com.dalio.cloud.generator.enumeration.TplEnum;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

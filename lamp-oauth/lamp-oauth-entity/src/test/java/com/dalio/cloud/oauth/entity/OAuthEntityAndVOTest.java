@@ -1,20 +1,16 @@
 package com.dalio.cloud.oauth.entity;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import com.dalio.cloud.base.entity.user.BaseOrg;
 import com.dalio.cloud.base.vo.result.user.VueRouter;
 import com.dalio.cloud.model.vo.result.Option;
 import com.dalio.cloud.oauth.enumeration.GrantType;
-import com.dalio.cloud.oauth.vo.param.CodeQueryVO;
-import com.dalio.cloud.oauth.vo.param.LoginParamVO;
-import com.dalio.cloud.oauth.vo.param.RegisterByEmailVO;
-import com.dalio.cloud.oauth.vo.param.RegisterByMobileVO;
-import com.dalio.cloud.oauth.vo.param.RegisterVO;
+import com.dalio.cloud.oauth.vo.param.*;
 import com.dalio.cloud.oauth.vo.result.DefUserInfoResultVO;
 import com.dalio.cloud.oauth.vo.result.LoginResultVO;
 import com.dalio.cloud.oauth.vo.result.OrgResultVO;
 import com.dalio.cloud.oauth.vo.result.VisibleResourceVO;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -23,18 +19,9 @@ import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * lamp-oauth-entity 实体与 VO 自动化测试

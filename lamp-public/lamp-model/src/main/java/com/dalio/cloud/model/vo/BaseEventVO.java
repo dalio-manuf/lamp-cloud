@@ -1,9 +1,9 @@
 package com.dalio.cloud.model.vo;
 
 import cn.hutool.core.collection.CollUtil;
+import com.dalio.basic.context.ContextUtil;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import com.dalio.basic.context.ContextUtil;
 
 import java.util.HashMap;
 import java.util.Map;

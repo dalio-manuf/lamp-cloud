@@ -1,11 +1,11 @@
 package com.dalio.cloud.generator.utils;
 
-import freemarker.template.Template;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import com.dalio.cloud.generator.enumeration.PopupTypeEnum;
 import com.dalio.cloud.generator.enumeration.TemplateEnum;
 import com.dalio.cloud.generator.enumeration.TplEnum;
+import freemarker.template.Template;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;

@@ -6,8 +6,6 @@ import cn.hutool.core.map.MapBuilder;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baidu.fsg.uid.UidGenerator;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.manager.impl.SuperManagerImpl;
 import com.dalio.basic.cache.redis2.CacheResult;
 import com.dalio.basic.cache.repository.CachePlusOps;
@@ -26,15 +24,11 @@ import com.dalio.cloud.system.entity.system.DefDict;
 import com.dalio.cloud.system.manager.system.DefDictManager;
 import com.dalio.cloud.system.mapper.system.DefDictMapper;
 import com.dalio.cloud.system.vo.result.system.DefDictItemResultVO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.groupingBy;

@@ -1,17 +1,5 @@
 package com.dalio.cloud.file.controller;
 
-import io.swagger.v3.oas.annotations.Hidden;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import com.dalio.basic.annotation.log.WebLog;
 import com.dalio.basic.base.R;
 import com.dalio.basic.context.ContextUtil;
@@ -25,6 +13,13 @@ import com.dalio.cloud.file.service.FileService;
 import com.dalio.cloud.file.strategy.FileContext;
 import com.dalio.cloud.file.utils.FileTypeUtil;
 import com.dalio.cloud.file.vo.param.FileUploadVO;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Paths;
 

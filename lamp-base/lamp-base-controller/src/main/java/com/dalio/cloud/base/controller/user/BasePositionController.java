@@ -1,6 +1,17 @@
 package com.dalio.cloud.base.controller.user;
 
 import cn.hutool.core.collection.CollUtil;
+import com.dalio.basic.base.R;
+import com.dalio.basic.base.controller.SuperController;
+import com.dalio.basic.base.request.PageParams;
+import com.dalio.basic.database.mybatis.conditions.query.QueryWrap;
+import com.dalio.basic.interfaces.echo.EchoService;
+import com.dalio.cloud.base.entity.user.BasePosition;
+import com.dalio.cloud.base.service.user.BasePositionService;
+import com.dalio.cloud.base.vo.query.user.BasePositionPageQuery;
+import com.dalio.cloud.base.vo.result.user.BasePositionResultVO;
+import com.dalio.cloud.base.vo.save.user.BasePositionSaveVO;
+import com.dalio.cloud.base.vo.update.user.BasePositionUpdateVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -14,17 +25,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.dalio.basic.base.R;
-import com.dalio.basic.base.controller.SuperController;
-import com.dalio.basic.base.request.PageParams;
-import com.dalio.basic.database.mybatis.conditions.query.QueryWrap;
-import com.dalio.basic.interfaces.echo.EchoService;
-import com.dalio.cloud.base.entity.user.BasePosition;
-import com.dalio.cloud.base.service.user.BasePositionService;
-import com.dalio.cloud.base.vo.query.user.BasePositionPageQuery;
-import com.dalio.cloud.base.vo.result.user.BasePositionResultVO;
-import com.dalio.cloud.base.vo.save.user.BasePositionSaveVO;
-import com.dalio.cloud.base.vo.update.user.BasePositionUpdateVO;
 
 
 /**

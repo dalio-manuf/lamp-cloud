@@ -1,6 +1,10 @@
 package com.dalio.cloud.common.config;
 
 import cn.hutool.core.util.StrUtil;
+import com.dalio.basic.model.cache.CacheKeyBuilder;
+import com.dalio.cloud.common.aspect.LampLogAspect;
+import com.dalio.cloud.common.properties.IgnoreProperties;
+import com.dalio.cloud.common.properties.SystemProperties;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,10 +14,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.dalio.basic.model.cache.CacheKeyBuilder;
-import com.dalio.cloud.common.aspect.LampLogAspect;
-import com.dalio.cloud.common.properties.IgnoreProperties;
-import com.dalio.cloud.common.properties.SystemProperties;
 
 /**
  * @author admin

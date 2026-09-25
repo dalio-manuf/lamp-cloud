@@ -1,9 +1,9 @@
 package com.dalio.cloud.msg.api.fallback;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import com.dalio.basic.base.R;
 import com.dalio.cloud.msg.vo.update.ExtendMsgSendVO;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

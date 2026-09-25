@@ -1,8 +1,8 @@
 package com.dalio.cloud.base.config.datascope.impl;
 
+import com.dalio.cloud.datascope.model.DataFieldProperty;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import com.dalio.cloud.datascope.model.DataFieldProperty;
 
 import java.util.ArrayList;
 import java.util.List;

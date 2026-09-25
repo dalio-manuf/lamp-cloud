@@ -1,12 +1,12 @@
 package com.dalio.cloud.system.enumeration;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import com.dalio.cloud.msg.enumeration.InterfaceExecModeEnum;
 import com.dalio.cloud.system.enumeration.system.ClientTypeEnum;
 import com.dalio.cloud.system.enumeration.system.LoginStatusEnum;
 import com.dalio.cloud.system.enumeration.tenant.ApplicationGrantTypeEnum;
 import com.dalio.cloud.system.enumeration.tenant.ResourceOpenWithEnum;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,10 +1,10 @@
 package com.dalio.cloud.oauth.facade.impl;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import com.dalio.cloud.base.service.user.BasePositionService;
 import com.dalio.cloud.model.constant.EchoApi;
 import com.dalio.cloud.oauth.facade.PositionFacade;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.Map;

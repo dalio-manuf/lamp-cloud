@@ -1,14 +1,14 @@
 package com.dalio.cloud.base.service.user.impl;
 
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.dalio.basic.base.service.impl.SuperServiceImpl;
 import com.dalio.cloud.base.entity.user.BaseOrgRoleRel;
 import com.dalio.cloud.base.manager.user.BaseOrgRoleRelManager;
 import com.dalio.cloud.base.service.user.BaseOrgRoleRelService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**

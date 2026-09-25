@@ -2,10 +2,10 @@ package com.dalio.cloud.file.manager;
 
 
 import cn.hutool.crypto.digest.DigestUtil;
+import com.dalio.cloud.file.dto.chunk.FileUploadDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import com.dalio.cloud.file.dto.chunk.FileUploadDTO;
 
 import java.io.IOException;
 

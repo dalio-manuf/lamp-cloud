@@ -2,7 +2,6 @@ package com.dalio.cloud.test.controller;
 
 import com.dalio.basic.interfaces.echo.EchoService;
 import com.dalio.cloud.model.entity.system.SysUser;
-import com.dalio.cloud.test.entity.DefGenTestSimple;
 import com.dalio.cloud.test.entity.DefGenTestTree;
 import com.dalio.cloud.test.service.DefGenTestSimpleService;
 import com.dalio.cloud.test.service.DefGenTestTreeService;

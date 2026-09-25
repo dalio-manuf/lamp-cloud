@@ -1,9 +1,9 @@
 package com.dalio.cloud.generator.mapper;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
-import org.springframework.stereotype.Repository;
 import com.dalio.basic.base.mapper.SuperMapper;
 import com.dalio.cloud.generator.entity.DefGenTableColumn;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>

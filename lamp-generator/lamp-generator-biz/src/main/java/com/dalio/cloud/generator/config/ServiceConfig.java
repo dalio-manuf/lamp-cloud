@@ -1,8 +1,8 @@
 package com.dalio.cloud.generator.config;
 
+import com.dalio.cloud.generator.enumeration.SuperClassEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.dalio.cloud.generator.enumeration.SuperClassEnum;
 
 import java.util.HashSet;
 import java.util.Set;

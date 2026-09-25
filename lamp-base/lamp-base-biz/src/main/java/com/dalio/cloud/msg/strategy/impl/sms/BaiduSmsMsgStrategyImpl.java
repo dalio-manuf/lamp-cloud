@@ -7,8 +7,6 @@ import com.baidubce.services.sms.SmsClient;
 import com.baidubce.services.sms.SmsClientConfiguration;
 import com.baidubce.services.sms.model.SendMessageV3Request;
 import com.baidubce.services.sms.model.SendMessageV3Response;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.utils.StrPool;
 import com.dalio.cloud.msg.entity.DefMsgTemplate;
 import com.dalio.cloud.msg.entity.ExtendMsg;
@@ -17,6 +15,8 @@ import com.dalio.cloud.msg.strategy.MsgStrategy;
 import com.dalio.cloud.msg.strategy.domain.MsgParam;
 import com.dalio.cloud.msg.strategy.domain.MsgResult;
 import com.dalio.cloud.msg.strategy.domain.sms.BaiduSmsProperty;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;

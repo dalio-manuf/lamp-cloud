@@ -1,5 +1,9 @@
 package com.dalio.cloud.gateway.config;
 
+import com.dalio.basic.constant.Constants;
+import com.dalio.cloud.gateway.filter.GrayscaleReactiveLoadBalancerClientFilter;
+import com.dalio.cloud.gateway.rule.GrayVersionLoadBalancer;
+import com.dalio.cloud.gateway.rule.GrayscaleLoadBalancer;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -10,10 +14,6 @@ import org.springframework.cloud.gateway.config.GatewayReactiveLoadBalancerClien
 import org.springframework.cloud.gateway.filter.ReactiveLoadBalancerClientFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.dalio.basic.constant.Constants;
-import com.dalio.cloud.gateway.filter.GrayscaleReactiveLoadBalancerClientFilter;
-import com.dalio.cloud.gateway.rule.GrayVersionLoadBalancer;
-import com.dalio.cloud.gateway.rule.GrayscaleLoadBalancer;
 
 /**
  * 灰度负载模式自动装配

@@ -2,12 +2,6 @@ package com.dalio.cloud.system.manager.application;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import org.apache.ibatis.builder.MapperBuilderAssistant;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 import com.dalio.basic.cache.repository.CacheOps;
 import com.dalio.basic.exception.ArgumentException;
 import com.dalio.cloud.model.enumeration.system.ResourceTypeEnum;
@@ -18,6 +12,12 @@ import com.dalio.cloud.system.manager.application.impl.DefResourceApiManagerImpl
 import com.dalio.cloud.system.manager.application.impl.DefResourceManagerImpl;
 import com.dalio.cloud.system.mapper.application.DefResourceApiMapper;
 import com.dalio.cloud.system.mapper.application.DefResourceMapper;
+import org.apache.ibatis.builder.MapperBuilderAssistant;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Collections;
 import java.util.List;

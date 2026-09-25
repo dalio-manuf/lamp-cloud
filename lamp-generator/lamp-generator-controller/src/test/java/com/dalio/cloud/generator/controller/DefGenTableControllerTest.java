@@ -1,11 +1,8 @@
 package com.dalio.cloud.generator.controller;
 
 import com.dalio.basic.base.request.DownloadVO;
-import com.dalio.basic.base.request.PageParams;
 import com.dalio.basic.interfaces.echo.EchoService;
-import com.dalio.cloud.generator.enumeration.TemplateEnum;
 import com.dalio.cloud.generator.service.DefGenTableService;
-import com.dalio.cloud.generator.vo.query.DefGenTablePageQuery;
 import com.dalio.cloud.generator.vo.result.DefGenTableResultVO;
 import com.dalio.cloud.generator.vo.save.DefGenTableImportVO;
 import com.dalio.cloud.generator.vo.save.DefGenVO;
@@ -18,7 +15,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Collections;
 import java.util.HashMap;
 
 import static org.mockito.ArgumentMatchers.any;

@@ -2,13 +2,6 @@ package com.dalio.cloud.file.strategy;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.MockedConstruction;
-import org.mockito.Mockito;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockMultipartFile;
 import com.dalio.cloud.file.domain.FileDeleteBO;
 import com.dalio.cloud.file.domain.FileGetUrlBO;
 import com.dalio.cloud.file.dto.chunk.FileChunksMergeDTO;
@@ -18,6 +11,13 @@ import com.dalio.cloud.file.mapper.FileMapper;
 import com.dalio.cloud.file.properties.FileServerProperties;
 import com.dalio.cloud.file.strategy.impl.ali.AliFileStrategyImpl;
 import com.dalio.cloud.file.vo.param.FileUploadVO;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.MockedConstruction;
+import org.mockito.Mockito;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockMultipartFile;
 
 import java.net.URL;
 import java.util.*;

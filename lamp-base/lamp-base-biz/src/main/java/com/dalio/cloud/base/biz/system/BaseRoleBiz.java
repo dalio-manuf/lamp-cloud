@@ -1,12 +1,12 @@
 package com.dalio.cloud.base.biz.system;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import com.dalio.cloud.base.entity.system.BaseRole;
 import com.dalio.cloud.base.service.system.BaseRoleService;
 import com.dalio.cloud.model.enumeration.base.RoleCategoryEnum;
 import com.dalio.cloud.model.enumeration.system.DataTypeEnum;
 import com.dalio.cloud.system.service.application.DefResourceService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Collections;

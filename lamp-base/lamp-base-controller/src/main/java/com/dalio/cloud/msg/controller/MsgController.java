@@ -1,5 +1,12 @@
 package com.dalio.cloud.msg.controller;
 
+import com.dalio.basic.annotation.log.WebLog;
+import com.dalio.basic.annotation.user.LoginUser;
+import com.dalio.basic.base.R;
+import com.dalio.basic.base.entity.SuperEntity;
+import com.dalio.cloud.model.entity.system.SysUser;
+import com.dalio.cloud.msg.biz.MsgBiz;
+import com.dalio.cloud.msg.vo.update.ExtendMsgSendVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -10,13 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.dalio.basic.annotation.log.WebLog;
-import com.dalio.basic.annotation.user.LoginUser;
-import com.dalio.basic.base.R;
-import com.dalio.basic.base.entity.SuperEntity;
-import com.dalio.cloud.model.entity.system.SysUser;
-import com.dalio.cloud.msg.biz.MsgBiz;
-import com.dalio.cloud.msg.vo.update.ExtendMsgSendVO;
 
 /**
  * <p>

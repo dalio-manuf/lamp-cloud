@@ -1,12 +1,12 @@
 package com.dalio.cloud.generator.enumeration;
 
 import com.baomidou.mybatisplus.annotation.SqlCondition;
+import com.dalio.basic.interfaces.BaseEnum;
+import com.dalio.cloud.model.constant.Condition;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import com.dalio.basic.interfaces.BaseEnum;
-import com.dalio.cloud.model.constant.Condition;
 
 import java.util.stream.Stream;
 

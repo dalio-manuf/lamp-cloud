@@ -8,12 +8,7 @@ import com.dalio.cloud.system.entity.tenant.DefUser;
 import com.dalio.cloud.system.vo.query.tenant.DefUserPageQuery;
 import com.dalio.cloud.system.vo.query.tenant.ForgetPasswordDto;
 import com.dalio.cloud.system.vo.result.tenant.DefUserResultVO;
-import com.dalio.cloud.system.vo.update.tenant.DefUserAvatarUpdateVO;
-import com.dalio.cloud.system.vo.update.tenant.DefUserBaseInfoUpdateVO;
-import com.dalio.cloud.system.vo.update.tenant.DefUserEmailUpdateVO;
-import com.dalio.cloud.system.vo.update.tenant.DefUserMobileUpdateVO;
-import com.dalio.cloud.system.vo.update.tenant.DefUserPasswordResetVO;
-import com.dalio.cloud.system.vo.update.tenant.DefUserPasswordUpdateVO;
+import com.dalio.cloud.system.vo.update.tenant.*;
 
 import java.io.Serializable;
 import java.util.Collection;

@@ -1,5 +1,9 @@
 package com.dalio.cloud.base.config;
 
+import com.dalio.cloud.base.interceptor.AuthenticationSaInterceptor;
+import com.dalio.cloud.base.interceptor.TokenContextFilter;
+import com.dalio.cloud.common.properties.IgnoreProperties;
+import com.dalio.cloud.system.facade.DefResourceFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -10,10 +14,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import com.dalio.cloud.base.interceptor.AuthenticationSaInterceptor;
-import com.dalio.cloud.base.interceptor.TokenContextFilter;
-import com.dalio.cloud.common.properties.IgnoreProperties;
-import com.dalio.cloud.system.facade.DefResourceFacade;
 
 /**
  * 基础服务-Web配置

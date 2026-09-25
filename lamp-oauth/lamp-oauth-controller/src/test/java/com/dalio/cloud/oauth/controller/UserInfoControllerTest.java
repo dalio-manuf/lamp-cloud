@@ -1,9 +1,5 @@
 package com.dalio.cloud.oauth.controller;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import com.dalio.basic.base.R;
 import com.dalio.basic.context.ContextConstants;
 import com.dalio.basic.context.ContextUtil;
@@ -14,19 +10,16 @@ import com.dalio.cloud.oauth.service.UserInfoService;
 import com.dalio.cloud.oauth.vo.result.DefUserInfoResultVO;
 import com.dalio.cloud.oauth.vo.result.OrgResultVO;
 import com.dalio.cloud.system.service.tenant.DefUserService;
-import com.dalio.cloud.system.vo.update.tenant.DefUserAvatarUpdateVO;
-import com.dalio.cloud.system.vo.update.tenant.DefUserBaseInfoUpdateVO;
-import com.dalio.cloud.system.vo.update.tenant.DefUserEmailUpdateVO;
-import com.dalio.cloud.system.vo.update.tenant.DefUserMobileUpdateVO;
-import com.dalio.cloud.system.vo.update.tenant.DefUserPasswordUpdateVO;
+import com.dalio.cloud.system.vo.update.tenant.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

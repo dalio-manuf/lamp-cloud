@@ -1,11 +1,5 @@
 package com.dalio.cloud.file.controller;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.dalio.basic.base.controller.DeleteController;
 import com.dalio.basic.base.controller.QueryController;
 import com.dalio.basic.base.controller.SuperSimpleController;
@@ -13,6 +7,12 @@ import com.dalio.basic.base.request.PageParams;
 import com.dalio.basic.interfaces.echo.EchoService;
 import com.dalio.cloud.file.entity.File;
 import com.dalio.cloud.file.service.FileService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>

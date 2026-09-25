@@ -1,10 +1,10 @@
 package com.dalio.cloud.base.mapper;
 
-import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Repository;
 import com.dalio.basic.annotation.database.TenantLine;
 import com.dalio.basic.base.mapper.SuperMapper;
 import com.dalio.cloud.base.entity.user.BaseEmployee;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 
 /**

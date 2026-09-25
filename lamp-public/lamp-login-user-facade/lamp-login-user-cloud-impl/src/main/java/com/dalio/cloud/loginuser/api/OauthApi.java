@@ -1,10 +1,10 @@
 package com.dalio.cloud.loginuser.api;
 
+import com.dalio.basic.base.R;
+import com.dalio.basic.constant.Constants;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.dalio.basic.base.R;
-import com.dalio.basic.constant.Constants;
 
 import java.util.List;
 

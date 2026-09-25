@@ -3,12 +3,6 @@ package com.dalio.cloud.system.manager.system;
 import com.baidu.fsg.uid.UidGenerator;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import org.apache.ibatis.builder.MapperBuilderAssistant;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 import com.dalio.basic.cache.redis2.CacheResult;
 import com.dalio.basic.cache.repository.CachePlusOps;
 import com.dalio.basic.echo.properties.EchoProperties;
@@ -17,13 +11,20 @@ import com.dalio.cloud.system.entity.system.DefDict;
 import com.dalio.cloud.system.manager.system.impl.DefDictManagerImpl;
 import com.dalio.cloud.system.mapper.system.DefDictMapper;
 import com.dalio.cloud.system.vo.result.system.DefDictItemResultVO;
+import org.apache.ibatis.builder.MapperBuilderAssistant;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.Serializable;
 import java.util.*;
 import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
 class DefDictManagerImplTest {

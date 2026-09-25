@@ -1,8 +1,8 @@
 package com.dalio.cloud.test.mapper;
 
-import org.springframework.stereotype.Repository;
 import com.dalio.basic.base.mapper.SuperMapper;
 import com.dalio.cloud.test.entity.DefGenTestSimple;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>

@@ -1,10 +1,10 @@
 package com.dalio.cloud.oauth.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import com.dalio.cloud.oauth.service.ParamService;
 import com.dalio.cloud.system.manager.system.DefParameterManager;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.Collections;

@@ -1,11 +1,6 @@
 package com.dalio.cloud.oauth.controller;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import com.dalio.basic.base.R;
-import com.dalio.basic.context.ContextConstants;
 import com.dalio.basic.context.ContextUtil;
 import com.dalio.cloud.base.service.system.BaseRoleService;
 import com.dalio.cloud.common.properties.IgnoreProperties;
@@ -14,13 +9,15 @@ import com.dalio.cloud.oauth.biz.ResourceBiz;
 import com.dalio.cloud.oauth.biz.StpInterfaceBiz;
 import com.dalio.cloud.oauth.vo.result.VisibleResourceVO;
 import com.dalio.cloud.system.enumeration.system.ClientTypeEnum;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

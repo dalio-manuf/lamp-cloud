@@ -1,15 +1,15 @@
 package com.dalio.cloud.file.strategy.impl.fastdfs;
 
-import com.github.tobato.fastdfs.domain.fdfs.StorePath;
-import com.github.tobato.fastdfs.service.AppendFileStorageClient;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import com.dalio.basic.base.R;
 import com.dalio.cloud.file.dto.chunk.FileChunksMergeDTO;
 import com.dalio.cloud.file.entity.File;
 import com.dalio.cloud.file.mapper.FileMapper;
 import com.dalio.cloud.file.properties.FileServerProperties;
 import com.dalio.cloud.file.strategy.impl.AbstractFileChunkStrategy;
+import com.github.tobato.fastdfs.domain.fdfs.StorePath;
+import com.github.tobato.fastdfs.service.AppendFileStorageClient;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;

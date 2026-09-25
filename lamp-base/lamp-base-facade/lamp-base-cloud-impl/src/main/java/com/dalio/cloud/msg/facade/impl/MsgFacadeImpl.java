@@ -1,13 +1,13 @@
 package com.dalio.cloud.msg.facade.impl;
 
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.R;
 import com.dalio.cloud.msg.api.MsgApi;
 import com.dalio.cloud.msg.facade.MsgFacade;
 import com.dalio.cloud.msg.vo.update.ExtendMsgSendVO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 
 /**
  * 消息接口

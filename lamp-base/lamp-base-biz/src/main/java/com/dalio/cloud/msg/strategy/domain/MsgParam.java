@@ -1,14 +1,14 @@
 package com.dalio.cloud.msg.strategy.domain;
 
+import com.dalio.cloud.file.entity.Appendix;
+import com.dalio.cloud.msg.entity.DefMsgTemplate;
+import com.dalio.cloud.msg.entity.ExtendMsg;
+import com.dalio.cloud.msg.entity.ExtendMsgRecipient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
-import com.dalio.cloud.file.entity.Appendix;
-import com.dalio.cloud.msg.entity.DefMsgTemplate;
-import com.dalio.cloud.msg.entity.ExtendMsg;
-import com.dalio.cloud.msg.entity.ExtendMsgRecipient;
 
 import java.util.List;
 import java.util.Map;

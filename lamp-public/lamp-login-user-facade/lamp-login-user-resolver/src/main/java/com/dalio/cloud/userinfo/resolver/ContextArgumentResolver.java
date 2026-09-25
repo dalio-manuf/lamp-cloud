@@ -1,13 +1,6 @@
 package com.dalio.cloud.userinfo.resolver;
 
 import cn.hutool.core.util.BooleanUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.MethodParameter;
-import org.springframework.lang.NonNull;
-import org.springframework.web.bind.support.WebDataBinderFactory;
-import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.method.support.ModelAndViewContainer;
 import com.dalio.basic.annotation.user.LoginUser;
 import com.dalio.basic.base.R;
 import com.dalio.basic.context.ContextUtil;
@@ -15,6 +8,13 @@ import com.dalio.basic.utils.SpringUtils;
 import com.dalio.cloud.model.entity.system.SysUser;
 import com.dalio.cloud.model.vo.result.UserQuery;
 import com.dalio.cloud.userinfo.service.UserResolverService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.MethodParameter;
+import org.springframework.lang.NonNull;
+import org.springframework.web.bind.support.WebDataBinderFactory;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
  * Token转化SysUser

@@ -2,11 +2,6 @@ package com.dalio.cloud.msg.strategy.impl.mail;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.HtmlEmail;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.exception.BizException;
 import com.dalio.cloud.msg.entity.DefMsgTemplate;
 import com.dalio.cloud.msg.entity.ExtendMsg;
@@ -15,6 +10,11 @@ import com.dalio.cloud.msg.strategy.MsgStrategy;
 import com.dalio.cloud.msg.strategy.domain.MsgParam;
 import com.dalio.cloud.msg.strategy.domain.MsgResult;
 import com.dalio.cloud.msg.strategy.domain.mail.TencentMailProperty;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,7 +1,7 @@
 package com.dalio.cloud.oauth.event;
 
-import org.springframework.context.ApplicationEvent;
 import com.dalio.cloud.oauth.event.model.LoginStatusDTO;
+import org.springframework.context.ApplicationEvent;
 
 /**
  * 登录事件

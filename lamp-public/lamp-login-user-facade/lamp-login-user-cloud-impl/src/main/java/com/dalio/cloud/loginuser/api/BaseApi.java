@@ -1,14 +1,14 @@
 package com.dalio.cloud.loginuser.api;
 
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import com.dalio.basic.base.R;
 import com.dalio.basic.constant.Constants;
 import com.dalio.cloud.model.entity.base.SysEmployee;
 import com.dalio.cloud.model.entity.base.SysOrg;
 import com.dalio.cloud.model.entity.base.SysPosition;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 

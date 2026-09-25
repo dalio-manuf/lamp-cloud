@@ -1,13 +1,13 @@
 package com.dalio.cloud.oauth.controller;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import com.dalio.basic.base.R;
 import com.dalio.cloud.oauth.service.DictService;
 import com.dalio.cloud.oauth.service.ParamService;
 import com.dalio.cloud.system.vo.result.system.DefDictItemResultVO;
 import com.dalio.cloud.system.vo.result.system.DefDictResultVO;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

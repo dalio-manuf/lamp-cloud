@@ -2,7 +2,6 @@ package com.dalio.cloud.generator.utils;
 
 import com.dalio.cloud.generator.config.GeneratorConfig;
 import com.dalio.cloud.generator.entity.DefGenTable;
-import com.dalio.cloud.generator.enumeration.TemplateEnum;
 import com.dalio.cloud.generator.enumeration.TplEnum;
 import com.dalio.cloud.generator.utils.inner.PackageUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PackageUtilsTest {
 

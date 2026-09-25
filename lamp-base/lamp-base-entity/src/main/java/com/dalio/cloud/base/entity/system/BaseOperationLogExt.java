@@ -2,13 +2,9 @@ package com.dalio.cloud.base.entity.system;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 import com.dalio.basic.base.entity.Entity;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import static com.dalio.cloud.model.constant.Condition.LIKE;
 

@@ -3,11 +3,7 @@ package com.dalio.cloud.generator.utils;
 import cn.hutool.db.meta.Column;
 import cn.hutool.db.meta.Table;
 import com.baomidou.mybatisplus.annotation.DbType;
-import com.dalio.cloud.generator.config.EntityConfig;
-import com.dalio.cloud.generator.config.GeneratorConfig;
-import com.dalio.cloud.generator.config.MapperConfig;
-import com.dalio.cloud.generator.config.ServiceConfig;
-import com.dalio.cloud.generator.config.WebProConfig;
+import com.dalio.cloud.generator.config.*;
 import com.dalio.cloud.generator.entity.DefGenTable;
 import com.dalio.cloud.generator.entity.DefGenTableColumn;
 import org.junit.jupiter.api.DisplayName;
@@ -16,10 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GenUtilsTest {
 

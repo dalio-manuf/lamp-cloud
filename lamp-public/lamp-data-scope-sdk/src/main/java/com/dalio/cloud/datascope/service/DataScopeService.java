@@ -1,13 +1,13 @@
 package com.dalio.cloud.datascope.service;
 
 import cn.hutool.core.collection.CollUtil;
+import com.dalio.cloud.datascope.entity.DefResourceDataScope;
+import com.dalio.cloud.datascope.mapper.DataScopeMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import com.dalio.cloud.datascope.entity.DefResourceDataScope;
-import com.dalio.cloud.datascope.mapper.DataScopeMapper;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

@@ -1,13 +1,13 @@
 package com.dalio.cloud;
 
+import com.dalio.cloud.common.ServerApplication;
+import com.dalio.cloud.common.config.ActuatorSecurityConfig;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import com.dalio.cloud.common.ServerApplication;
-import com.dalio.cloud.common.config.ActuatorSecurityConfig;
 
 import java.net.UnknownHostException;
 

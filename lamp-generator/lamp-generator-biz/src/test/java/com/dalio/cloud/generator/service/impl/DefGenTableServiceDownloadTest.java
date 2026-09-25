@@ -1,41 +1,24 @@
 package com.dalio.cloud.generator.service.impl;
 
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.ZipUtil;
-import cn.hutool.db.meta.Column;
-import cn.hutool.db.meta.Table;
 import com.dalio.cloud.generator.config.GeneratorConfig;
 import com.dalio.cloud.generator.entity.DefGenTable;
 import com.dalio.cloud.generator.entity.DefGenTableColumn;
 import com.dalio.cloud.generator.manager.DefGenTableColumnManager;
 import com.dalio.cloud.generator.manager.DefGenTableManager;
-import com.dalio.cloud.generator.vo.save.DefGenVO;
-import com.dalio.basic.database.properties.DatabaseProperties;
-import com.baidu.fsg.uid.UidGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.util.ReflectionTestUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

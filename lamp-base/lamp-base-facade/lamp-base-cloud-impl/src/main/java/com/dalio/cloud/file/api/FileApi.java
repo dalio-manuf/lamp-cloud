@@ -1,17 +1,17 @@
 package com.dalio.cloud.file.api;
 
 
+import com.dalio.basic.base.R;
+import com.dalio.basic.constant.Constants;
+import com.dalio.cloud.file.api.fallback.FileApiFallback;
+import com.dalio.cloud.file.enumeration.FileStorageType;
+import com.dalio.cloud.file.vo.result.FileResultVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
-import com.dalio.basic.base.R;
-import com.dalio.basic.constant.Constants;
-import com.dalio.cloud.file.api.fallback.FileApiFallback;
-import com.dalio.cloud.file.enumeration.FileStorageType;
-import com.dalio.cloud.file.vo.result.FileResultVO;
 
 /**
  * 文件接口

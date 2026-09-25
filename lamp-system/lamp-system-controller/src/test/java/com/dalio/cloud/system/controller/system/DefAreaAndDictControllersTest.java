@@ -1,10 +1,5 @@
 package com.dalio.cloud.system.controller.system;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.test.util.ReflectionTestUtils;
 import com.dalio.basic.base.R;
 import com.dalio.basic.base.request.PageParams;
 import com.dalio.basic.database.mybatis.conditions.query.QueryWrap;
@@ -12,32 +7,24 @@ import com.dalio.basic.interfaces.echo.EchoService;
 import com.dalio.cloud.system.entity.system.DefArea;
 import com.dalio.cloud.system.entity.system.DefDict;
 import com.dalio.cloud.system.entity.system.DefParameter;
-import com.dalio.cloud.system.service.system.DefAreaService;
-import com.dalio.cloud.system.service.system.DefClientService;
-import com.dalio.cloud.system.service.system.DefDictItemService;
-import com.dalio.cloud.system.service.system.DefDictService;
-import com.dalio.cloud.system.service.system.DefLoginLogService;
-import com.dalio.cloud.system.service.system.DefParameterService;
+import com.dalio.cloud.system.service.system.*;
 import com.dalio.cloud.system.vo.query.system.DefAreaPageQuery;
 import com.dalio.cloud.system.vo.query.system.DefDictItemPageQuery;
 import com.dalio.cloud.system.vo.query.system.DefDictPageQuery;
 import com.dalio.cloud.system.vo.query.system.DefParameterPageQuery;
 import com.dalio.cloud.system.vo.result.system.DefDictResultVO;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * DefAreaController, DefClientController, DefDictController,

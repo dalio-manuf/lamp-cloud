@@ -1,11 +1,11 @@
 package com.dalio.cloud.oauth.properties;
 
+import com.dalio.basic.constant.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import com.dalio.basic.constant.Constants;
 
 /**
  * @author admin

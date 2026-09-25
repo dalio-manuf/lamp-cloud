@@ -3,6 +3,11 @@ package com.dalio.cloud.base.interceptor;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
+import com.dalio.basic.context.ContextConstants;
+import com.dalio.basic.context.ContextUtil;
+import com.dalio.basic.utils.StrPool;
+import com.dalio.cloud.common.properties.IgnoreProperties;
+import com.dalio.cloud.common.utils.Base64Util;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -10,15 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
-import com.dalio.basic.context.ContextConstants;
-import com.dalio.basic.context.ContextUtil;
-import com.dalio.basic.utils.StrPool;
-import com.dalio.cloud.common.properties.IgnoreProperties;
-import com.dalio.cloud.common.utils.Base64Util;
 
-import static com.dalio.basic.context.ContextConstants.APPLICATION_ID_HEADER;
-import static com.dalio.basic.context.ContextConstants.APPLICATION_ID_KEY;
-import static com.dalio.basic.context.ContextConstants.CLIENT_KEY;
+import static com.dalio.basic.context.ContextConstants.*;
 
 /**
  * 用户信息解析器 一定要在AuthenticationFilter之前执行

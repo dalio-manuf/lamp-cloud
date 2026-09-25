@@ -6,10 +6,7 @@ import com.dalio.cloud.generator.rules.DbColumnType;
 
 import static com.dalio.cloud.generator.converts.TypeConverts.contains;
 import static com.dalio.cloud.generator.converts.TypeConverts.containsAny;
-import static com.dalio.cloud.generator.rules.DbColumnType.BLOB;
-import static com.dalio.cloud.generator.rules.DbColumnType.BYTE_ARRAY;
-import static com.dalio.cloud.generator.rules.DbColumnType.FLOAT;
-import static com.dalio.cloud.generator.rules.DbColumnType.STRING;
+import static com.dalio.cloud.generator.rules.DbColumnType.*;
 
 /**
  * Oracle 数据库生成对应实体类时字段类型转换，跟据 Oracle 中的数据类型，返回对应的 Java 类型

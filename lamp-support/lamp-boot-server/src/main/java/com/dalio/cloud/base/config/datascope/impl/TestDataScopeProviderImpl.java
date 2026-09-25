@@ -1,10 +1,10 @@
 package com.dalio.cloud.base.config.datascope.impl;
 
+import com.dalio.cloud.datascope.model.DataFieldProperty;
+import com.dalio.cloud.datascope.provider.DataScopeProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import com.dalio.cloud.datascope.model.DataFieldProperty;
-import com.dalio.cloud.datascope.provider.DataScopeProvider;
 
 import java.util.List;
 

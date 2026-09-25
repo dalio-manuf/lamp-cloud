@@ -1,14 +1,10 @@
 package com.dalio.cloud.system.controller.system;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import com.dalio.basic.base.R;
 import com.dalio.cloud.system.controller.system.domain.Server;
-import com.dalio.cloud.system.controller.system.domain.server.Cpu;
-import com.dalio.cloud.system.controller.system.domain.server.Jvm;
-import com.dalio.cloud.system.controller.system.domain.server.Mem;
-import com.dalio.cloud.system.controller.system.domain.server.Sys;
-import com.dalio.cloud.system.controller.system.domain.server.SysFile;
+import com.dalio.cloud.system.controller.system.domain.server.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 

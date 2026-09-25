@@ -1,10 +1,10 @@
 package com.dalio.cloud.model.enumeration.base;
 
+import com.dalio.basic.interfaces.BaseEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import com.dalio.basic.interfaces.BaseEnum;
 
 /**
  * 激活状态

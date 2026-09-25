@@ -2,10 +2,6 @@ package com.dalio.cloud.base.service.user.impl;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.dalio.basic.base.service.impl.SuperServiceImpl;
 import com.dalio.basic.database.mybatis.conditions.Wraps;
 import com.dalio.basic.database.mybatis.conditions.query.LbQueryWrap;
@@ -15,6 +11,10 @@ import com.dalio.cloud.base.manager.user.BasePositionManager;
 import com.dalio.cloud.base.service.user.BasePositionService;
 import com.dalio.cloud.base.vo.save.user.BasePositionSaveVO;
 import com.dalio.cloud.base.vo.update.user.BasePositionUpdateVO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Map;

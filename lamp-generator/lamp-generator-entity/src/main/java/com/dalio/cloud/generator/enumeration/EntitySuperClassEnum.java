@@ -1,12 +1,12 @@
 package com.dalio.cloud.generator.enumeration;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import com.dalio.basic.base.entity.Entity;
 import com.dalio.basic.base.entity.SuperEntity;
 import com.dalio.basic.base.entity.TreeEntity;
 import com.dalio.basic.interfaces.BaseEnum;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.stream.Stream;
 

@@ -2,9 +2,6 @@ package com.dalio.cloud.generator.utils;
 
 import com.baidu.fsg.uid.UidGenerator;
 import com.baomidou.mybatisplus.annotation.DbType;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import com.dalio.basic.context.ContextUtil;
 import com.dalio.basic.database.properties.DatabaseProperties;
 import com.dalio.basic.database.properties.MultiTenantType;
@@ -14,6 +11,9 @@ import com.dalio.cloud.generator.entity.DefGenTable;
 import com.dalio.cloud.generator.entity.DefGenTableColumn;
 import com.dalio.cloud.generator.enumeration.EntitySuperClassEnum;
 import com.dalio.cloud.generator.rules.DbColumnType;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;

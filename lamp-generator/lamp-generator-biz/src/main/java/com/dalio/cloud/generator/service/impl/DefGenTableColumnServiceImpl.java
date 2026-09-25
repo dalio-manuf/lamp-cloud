@@ -6,10 +6,6 @@ import cn.hutool.db.meta.Column;
 import cn.hutool.db.meta.MetaUtil;
 import cn.hutool.db.meta.Table;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.dalio.basic.base.request.PageParams;
 import com.dalio.basic.base.service.impl.SuperServiceImpl;
 import com.dalio.basic.database.mybatis.conditions.Wraps;
@@ -25,6 +21,10 @@ import com.dalio.cloud.generator.service.DefGenTableColumnService;
 import com.dalio.cloud.generator.utils.GenUtils;
 import com.dalio.cloud.generator.vo.query.DefGenTableColumnPageQuery;
 import com.dalio.cloud.generator.vo.result.DefGenTableColumnResultVO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 

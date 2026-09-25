@@ -1,10 +1,10 @@
 package com.dalio.cloud.datascope.utils;
 
-import lombok.extern.slf4j.Slf4j;
 import com.dalio.basic.utils.StrPool;
 import com.dalio.cloud.common.annotation.DataField;
 import com.dalio.cloud.common.annotation.DataScope;
 import com.dalio.cloud.datascope.model.DataFieldProperty;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;

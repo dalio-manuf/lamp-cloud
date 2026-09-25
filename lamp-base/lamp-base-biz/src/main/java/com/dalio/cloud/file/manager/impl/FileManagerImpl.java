@@ -1,11 +1,11 @@
 package com.dalio.cloud.file.manager.impl;
 
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.manager.impl.SuperManagerImpl;
 import com.dalio.cloud.file.entity.File;
 import com.dalio.cloud.file.manager.FileManager;
 import com.dalio.cloud.file.mapper.FileMapper;
 import com.dalio.cloud.file.vo.result.FileResultVO;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

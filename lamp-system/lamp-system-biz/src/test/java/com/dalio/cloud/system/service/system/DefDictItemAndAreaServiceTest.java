@@ -2,12 +2,6 @@ package com.dalio.cloud.system.service.system;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import org.apache.ibatis.builder.MapperBuilderAssistant;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 import com.dalio.basic.cache.repository.CachePlusOps;
 import com.dalio.basic.exception.ArgumentException;
 import com.dalio.cloud.system.entity.system.DefArea;
@@ -16,13 +10,20 @@ import com.dalio.cloud.system.manager.system.DefAreaManager;
 import com.dalio.cloud.system.manager.system.DefDictManager;
 import com.dalio.cloud.system.service.system.impl.DefAreaServiceImpl;
 import com.dalio.cloud.system.service.system.impl.DefDictItemServiceImpl;
+import org.apache.ibatis.builder.MapperBuilderAssistant;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
 /**

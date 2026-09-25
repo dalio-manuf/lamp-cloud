@@ -8,6 +8,13 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
+import com.dalio.basic.base.R;
+import com.dalio.basic.context.ContextConstants;
+import com.dalio.basic.context.ContextUtil;
+import com.dalio.basic.exception.BizException;
+import com.dalio.basic.exception.UnauthorizedException;
+import com.dalio.cloud.common.properties.IgnoreProperties;
+import com.dalio.cloud.common.utils.Base64Util;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -23,29 +30,10 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
-import com.dalio.basic.base.R;
-import com.dalio.basic.context.ContextConstants;
-import com.dalio.basic.context.ContextUtil;
-import com.dalio.basic.exception.BizException;
-import com.dalio.basic.exception.UnauthorizedException;
-import com.dalio.cloud.common.properties.IgnoreProperties;
-import com.dalio.cloud.common.utils.Base64Util;
 
 import java.nio.charset.StandardCharsets;
 
-import static com.dalio.basic.context.ContextConstants.APPLICATION_ID_HEADER;
-import static com.dalio.basic.context.ContextConstants.APPLICATION_ID_KEY;
-import static com.dalio.basic.context.ContextConstants.CLIENT_ID_HEADER;
-import static com.dalio.basic.context.ContextConstants.CLIENT_KEY;
-import static com.dalio.basic.context.ContextConstants.CURRENT_COMPANY_ID_HEADER;
-import static com.dalio.basic.context.ContextConstants.CURRENT_DEPT_ID_HEADER;
-import static com.dalio.basic.context.ContextConstants.CURRENT_TOP_COMPANY_ID_HEADER;
-import static com.dalio.basic.context.ContextConstants.EMPLOYEE_ID_HEADER;
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_COMPANY_ID;
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_DEPT_ID;
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_EMPLOYEE_ID;
-import static com.dalio.basic.context.ContextConstants.JWT_KEY_TOP_COMPANY_ID;
-import static com.dalio.basic.context.ContextConstants.USER_ID_HEADER;
+import static com.dalio.basic.context.ContextConstants.*;
 
 /**
  * 租户与鉴权上下文过滤器

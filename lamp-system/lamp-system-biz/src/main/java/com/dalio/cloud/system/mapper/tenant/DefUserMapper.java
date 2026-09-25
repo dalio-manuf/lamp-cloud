@@ -2,12 +2,12 @@ package com.dalio.cloud.system.mapper.tenant;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 import com.dalio.basic.base.mapper.SuperMapper;
 import com.dalio.cloud.system.entity.tenant.DefUser;
 import com.dalio.cloud.system.vo.query.tenant.DefUserPageQuery;
 import com.dalio.cloud.system.vo.result.tenant.DefUserResultVO;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 

@@ -1,10 +1,10 @@
 package com.dalio.cloud.satoken.config;
 
+import com.dalio.cloud.common.properties.SystemProperties;
+import com.dalio.cloud.satoken.interceptor.NotAllowWriteInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import com.dalio.cloud.common.properties.SystemProperties;
-import com.dalio.cloud.satoken.interceptor.NotAllowWriteInterceptor;
 
 /**
  * 永远执行的配置

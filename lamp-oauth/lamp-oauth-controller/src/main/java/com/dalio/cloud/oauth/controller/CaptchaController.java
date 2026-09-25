@@ -1,5 +1,9 @@
 package com.dalio.cloud.oauth.controller;
 
+import com.dalio.basic.annotation.response.IgnoreResponseBodyAdvice;
+import com.dalio.basic.base.R;
+import com.dalio.cloud.oauth.granter.CaptchaTokenGranter;
+import com.dalio.cloud.oauth.service.CaptchaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -13,10 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.dalio.basic.annotation.response.IgnoreResponseBodyAdvice;
-import com.dalio.basic.base.R;
-import com.dalio.cloud.oauth.granter.CaptchaTokenGranter;
-import com.dalio.cloud.oauth.service.CaptchaService;
 
 import java.io.IOException;
 

@@ -2,10 +2,10 @@ package com.dalio.cloud.generator.config;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import com.dalio.cloud.generator.enumeration.EntitySuperClassEnum;
 import com.dalio.cloud.generator.rules.NamingStrategy;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;

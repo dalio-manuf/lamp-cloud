@@ -1,5 +1,10 @@
 package com.dalio.cloud.oauth.controller;
 
+import com.dalio.basic.base.R;
+import com.dalio.cloud.oauth.service.DictService;
+import com.dalio.cloud.oauth.service.ParamService;
+import com.dalio.cloud.system.vo.result.system.DefDictItemResultVO;
+import com.dalio.cloud.system.vo.result.system.DefDictResultVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -7,11 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.dalio.basic.base.R;
-import com.dalio.cloud.oauth.service.DictService;
-import com.dalio.cloud.oauth.service.ParamService;
-import com.dalio.cloud.system.vo.result.system.DefDictItemResultVO;
-import com.dalio.cloud.system.vo.result.system.DefDictResultVO;
 
 import java.util.List;
 import java.util.Map;

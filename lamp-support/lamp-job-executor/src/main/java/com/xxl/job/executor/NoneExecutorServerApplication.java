@@ -1,10 +1,10 @@
 package com.xxl.job.executor;
 
+import com.dalio.basic.validator.annotation.EnableFormValidator;
+import com.dalio.cloud.common.ServerApplication;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import com.dalio.basic.validator.annotation.EnableFormValidator;
-import com.dalio.cloud.common.ServerApplication;
 
 import java.net.UnknownHostException;
 

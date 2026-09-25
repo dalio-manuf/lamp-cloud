@@ -1,14 +1,14 @@
 package com.dalio.cloud.system.api;
 
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import com.dalio.basic.base.R;
 import com.dalio.basic.constant.Constants;
 import com.dalio.cloud.model.entity.system.SysUser;
 import com.dalio.cloud.model.vo.result.UserQuery;
 import com.dalio.cloud.system.api.hystrix.DefUserApiFallback;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.Serializable;
 import java.util.List;

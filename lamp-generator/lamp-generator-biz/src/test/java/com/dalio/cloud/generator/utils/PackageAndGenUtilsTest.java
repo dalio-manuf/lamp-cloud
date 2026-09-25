@@ -4,22 +4,16 @@ import cn.hutool.db.meta.Column;
 import cn.hutool.db.meta.Table;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import com.dalio.cloud.generator.config.EntityConfig;
-import com.dalio.cloud.generator.config.GeneratorConfig;
-import com.dalio.cloud.generator.config.MapperConfig;
-import com.dalio.cloud.generator.config.PackageInfoConfig;
-import com.dalio.cloud.generator.config.ServiceConfig;
-import com.dalio.cloud.generator.config.WebProConfig;
+import com.dalio.cloud.generator.config.*;
 import com.dalio.cloud.generator.entity.DefGenTable;
 import com.dalio.cloud.generator.entity.DefGenTableColumn;
 import com.dalio.cloud.generator.enumeration.EntitySuperClassEnum;
 import com.dalio.cloud.generator.enumeration.SuperClassEnum;
 import com.dalio.cloud.generator.rules.DbColumnType;
 import com.dalio.cloud.generator.utils.inner.PackageUtils;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

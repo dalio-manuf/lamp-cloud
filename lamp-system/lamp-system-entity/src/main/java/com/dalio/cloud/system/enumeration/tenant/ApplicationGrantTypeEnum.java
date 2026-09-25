@@ -1,8 +1,8 @@
 package com.dalio.cloud.system.enumeration.tenant;
 
+import com.dalio.basic.interfaces.BaseEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
-import com.dalio.basic.interfaces.BaseEnum;
 
 /**
  * 应用授权枚举

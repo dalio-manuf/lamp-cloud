@@ -1,10 +1,10 @@
 package com.dalio.cloud.system.api.hystrix;
 
-import org.springframework.stereotype.Component;
 import com.dalio.basic.base.R;
 import com.dalio.cloud.model.entity.system.SysUser;
 import com.dalio.cloud.model.vo.result.UserQuery;
 import com.dalio.cloud.system.api.DefUserApi;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.List;

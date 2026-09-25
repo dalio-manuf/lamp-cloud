@@ -1,8 +1,8 @@
 package com.dalio.cloud.generator.config;
 
+import com.dalio.cloud.generator.enumeration.TplEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.dalio.cloud.generator.enumeration.TplEnum;
 
 /**
  * web pro 配置

@@ -1,12 +1,12 @@
 package com.dalio.cloud.system.manager.tenant.impl;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.manager.impl.SuperManagerImpl;
 import com.dalio.basic.database.mybatis.conditions.Wraps;
 import com.dalio.cloud.system.entity.tenant.DefDatasourceConfig;
 import com.dalio.cloud.system.manager.tenant.DefDatasourceConfigManager;
 import com.dalio.cloud.system.mapper.tenant.DefDatasourceConfigMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 /**
  * 应用管理

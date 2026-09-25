@@ -2,9 +2,6 @@ package com.dalio.cloud.base.manager.user.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import com.dalio.basic.base.manager.impl.SuperCacheManagerImpl;
 import com.dalio.basic.database.mybatis.conditions.Wraps;
 import com.dalio.basic.model.cache.CacheKeyBuilder;
@@ -15,6 +12,9 @@ import com.dalio.cloud.base.mapper.user.BaseEmployeeMapper;
 import com.dalio.cloud.base.vo.query.user.BaseEmployeePageQuery;
 import com.dalio.cloud.base.vo.result.user.BaseEmployeeResultVO;
 import com.dalio.cloud.common.cache.base.user.EmployeeCacheKeyBuilder;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

@@ -1,15 +1,10 @@
 package com.dalio.cloud.system.vo.update.application;
 
+import com.dalio.basic.base.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
-import com.dalio.basic.base.entity.SuperEntity;
 
 import java.io.Serializable;
 
